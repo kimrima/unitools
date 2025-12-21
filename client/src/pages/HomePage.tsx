@@ -108,12 +108,12 @@ export default function HomePage() {
               })}
             </div>
             
-            <div className="flex flex-wrap justify-center gap-4 md:gap-8 mt-8 md:mt-12 text-slate-400 dark:text-muted-foreground font-medium text-xs md:text-sm">
-              <span><strong className="text-slate-900 dark:text-foreground">1M+</strong> {t('Common.hero.activeUsers', { defaultValue: 'Active Users' })}</span>
+            <div className="flex flex-wrap justify-center gap-4 md:gap-8 mt-8 md:mt-12 text-slate-500 dark:text-muted-foreground font-medium text-xs md:text-sm">
+              <span>{t('Common.hero.featurePrivacy', { defaultValue: '100% Client-Side Processing' })}</span>
               <span className="hidden md:block w-px h-4 bg-slate-300 dark:bg-border" />
-              <span><strong className="text-slate-900 dark:text-foreground">10M+</strong> {t('Common.hero.filesProcessed', { defaultValue: 'Files Processed' })}</span>
+              <span>{t('Common.hero.featureFree', { defaultValue: 'Completely Free' })}</span>
               <span className="hidden md:block w-px h-4 bg-slate-300 dark:bg-border" />
-              <span><strong className="text-slate-900 dark:text-foreground">200+</strong> {t('Common.home.onlineTools', { defaultValue: 'Online Tools' })}</span>
+              <span>{t('Common.hero.featureNoSignup', { defaultValue: 'No Sign-up Required' })}</span>
             </div>
           </div>
         </section>
@@ -155,7 +155,7 @@ export default function HomePage() {
 
             <div className="text-center mt-10">
               <Button variant="outline" size="lg" asChild>
-                <Link href={localizedPath('/all-tools')}>
+                <Link href={localizedPath('/category/pdf')}>
                   {t('Common.home.viewAllTools', { defaultValue: 'View All Tools' })}
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Link>
@@ -202,7 +202,7 @@ export default function HomePage() {
                 className="rounded-full px-8 bg-white dark:bg-card border-2 hover:bg-slate-50 dark:hover:bg-muted text-slate-600 dark:text-foreground font-bold"
                 asChild
               >
-                <Link href={localizedPath('/all-tools')}>
+                <Link href={localizedPath('/category/imageConvert')}>
                   {t('Common.home.showMoreTools', { defaultValue: 'Show More Tools' })}
                   <ArrowRight className="ml-2 w-4 h-4" />
                 </Link>
