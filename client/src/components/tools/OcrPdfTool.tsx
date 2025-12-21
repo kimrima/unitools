@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
+import { PDFDocument } from 'pdf-lib';
 import * as pdfjs from 'pdfjs-dist';
 import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 import { createWorker, Worker } from 'tesseract.js';
@@ -9,8 +9,10 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { FileText, Download, Loader2, CheckCircle, Scan, Trash2 } from 'lucide-react';
+import { FileText, Download, Loader2, CheckCircle, Scan, Trash2, Copy } from 'lucide-react';
 import { FileUploadZone } from '@/components/tool-ui';
+import { Textarea } from '@/components/ui/textarea';
+import { useToast } from '@/hooks/use-toast';
 
 pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
@@ -28,12 +30,14 @@ const LANGUAGES = [
 
 export default function OcrPdfTool() {
   const { t } = useTranslation();
+  const { toast } = useToast();
   const [file, setFile] = useState<File | null>(null);
   const [status, setStatus] = useState<ToolStatus>('idle');
   const [progress, setProgress] = useState(0);
   const [progressText, setProgressText] = useState('');
   const [error, setError] = useState<{ code: string } | null>(null);
   const [resultBlob, setResultBlob] = useState<Blob | null>(null);
+  const [extractedText, setExtractedText] = useState('');
   const [language, setLanguage] = useState('eng');
   const workerRef = useRef<Worker | null>(null);
 
@@ -83,8 +87,8 @@ export default function OcrPdfTool() {
       const totalPages = pdf.numPages;
       
       const newPdfDoc = await PDFDocument.create();
-      const font = await newPdfDoc.embedFont(StandardFonts.Helvetica);
       const scale = 2;
+      const allExtractedText: string[] = [];
 
       for (let i = 1; i <= totalPages; i++) {
         setProgressText(t('Tools.ocr-pdf.processingPage', { current: i, total: totalPages }));
@@ -112,6 +116,10 @@ export default function OcrPdfTool() {
         setProgressText(t('Tools.ocr-pdf.recognizing', { current: i, total: totalPages }));
         
         const { data: { text } } = await worker.recognize(imageData);
+        
+        if (text.trim()) {
+          allExtractedText.push(`--- Page ${i} ---\n${text.trim()}`);
+        }
 
         const pngResponse = await fetch(imageData);
         const pngBytes = new Uint8Array(await pngResponse.arrayBuffer());
@@ -128,21 +136,10 @@ export default function OcrPdfTool() {
           height: pageHeight,
         });
 
-        if (text.trim()) {
-          const textSize = 1;
-          newPage.drawText(text, {
-            x: 5,
-            y: pageHeight - 15,
-            size: textSize,
-            font,
-            color: rgb(1, 1, 1),
-            opacity: 0.01,
-            maxWidth: pageWidth - 10,
-          });
-        }
-
         setProgress(25 + (60 * i / totalPages));
       }
+      
+      const extractedTextContent = allExtractedText.join('\n\n');
 
       await worker.terminate();
       workerRef.current = null;
@@ -151,6 +148,7 @@ export default function OcrPdfTool() {
       const pdfBytes = await newPdfDoc.save();
       const blob = new Blob([pdfBytes], { type: 'application/pdf' });
       setResultBlob(blob);
+      setExtractedText(extractedTextContent);
       setStatus('success');
       setProgress(100);
     } catch (err) {
@@ -268,6 +266,37 @@ export default function OcrPdfTool() {
               </p>
             </div>
           </div>
+          
+          {extractedText && (
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <Label>{t('Tools.ocr-pdf.extractedText', { defaultValue: 'Extracted Text' })}</Label>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={async () => {
+                    await navigator.clipboard.writeText(extractedText);
+                    toast({
+                      title: t('Common.messages.complete'),
+                      description: t('Common.actions.copy'),
+                    });
+                  }}
+                  data-testid="button-copy-text"
+                >
+                  <Copy className="w-4 h-4 mr-1" />
+                  {t('Common.copy', { defaultValue: 'Copy' })}
+                </Button>
+              </div>
+              <Textarea
+                value={extractedText}
+                readOnly
+                rows={8}
+                className="font-mono text-sm"
+                data-testid="textarea-extracted-text"
+              />
+            </div>
+          )}
+          
           <div className="flex gap-2">
             <Button onClick={handleDownload} className="flex-1" data-testid="button-download">
               <Download className="w-4 h-4 mr-2" />
@@ -278,6 +307,7 @@ export default function OcrPdfTool() {
               onClick={() => {
                 setFile(null);
                 setResultBlob(null);
+                setExtractedText('');
                 setStatus('idle');
               }}
               data-testid="button-new"
