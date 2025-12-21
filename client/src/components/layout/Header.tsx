@@ -21,18 +21,19 @@ import {
   ChevronDown,
   Menu,
   X,
+  Search,
 } from 'lucide-react';
 import { useState } from 'react';
 
 const categories = [
-  { id: 'pdf', icon: FileText },
-  { id: 'imageConvert', icon: Image },
-  { id: 'imageEdit', icon: ImagePlus },
-  { id: 'videoAudio', icon: Film },
-  { id: 'text', icon: Type },
-  { id: 'social', icon: Share2 },
-  { id: 'developer', icon: Code },
-  { id: 'calculator', icon: Calculator },
+  { id: 'pdf', icon: FileText, label: 'PDF Tools' },
+  { id: 'imageEdit', icon: Image, label: 'Image Tools' },
+  { id: 'imageConvert', icon: ImagePlus, label: 'Image Converter' },
+  { id: 'videoAudio', icon: Film, label: 'Video Tools' },
+  { id: 'text', icon: Type, label: 'Text' },
+  { id: 'social', icon: Share2, label: 'Social Media' },
+  { id: 'developer', icon: Code, label: 'Dev & Security' },
+  { id: 'calculator', icon: Calculator, label: 'Calculators' },
 ];
 
 const languages = [
@@ -57,36 +58,30 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
+    <header className="sticky top-0 z-50 bg-card border-b shadow-sm">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="flex items-center justify-between h-16 gap-4">
+        <div className="flex items-center justify-between h-14 gap-4">
           <Link href={localizedPath('/')} className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-sm">U</span>
-            </div>
-            <span className="font-bold text-xl hidden sm:block" data-testid="text-logo">
-              {t('Common.siteName')}
+            <span className="font-bold text-xl" data-testid="text-logo">
+              <span className="text-foreground">Uni</span>
+              <span className="text-primary">Tools</span>
             </span>
           </Link>
 
           <nav className="hidden lg:flex items-center gap-1">
-            {categories.map((cat) => {
-              const Icon = cat.icon;
-              return (
-                <Link
-                  key={cat.id}
-                  href={localizedPath(`/category/${cat.id}`)}
-                  className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors rounded-md hover:bg-muted"
-                  data-testid={`link-category-${cat.id}`}
-                >
-                  <Icon className="w-4 h-4" />
-                  <span className="hidden xl:inline">{t(`Common.nav.${cat.id}`)}</span>
-                </Link>
-              );
-            })}
+            {categories.map((cat) => (
+              <Link
+                key={cat.id}
+                href={localizedPath(`/category/${cat.id}`)}
+                className="px-3 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                data-testid={`link-category-${cat.id}`}
+              >
+                {t(`Common.nav.${cat.id}`)}
+              </Link>
+            ))}
           </nav>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="sm" className="gap-1.5" data-testid="button-language">
@@ -107,6 +102,13 @@ export default function Header() {
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
+
+            <Link href={localizedPath('/all-tools')}>
+              <Button size="sm" data-testid="button-search-header">
+                <Search className="w-4 h-4 mr-2" />
+                {t('Common.nav.search', { defaultValue: 'Search' })}
+              </Button>
+            </Link>
 
             <Button
               variant="ghost"
