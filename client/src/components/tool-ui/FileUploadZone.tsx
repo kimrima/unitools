@@ -34,17 +34,51 @@ export function FileUploadZone({
     setIsDragging(false);
   }, []);
 
+  const filterFilesByAccept = useCallback((fileList: FileList): FileList => {
+    if (accept === '*/*' || accept === '*') {
+      return fileList;
+    }
+    
+    const acceptedTypes = accept.split(',').map(t => t.trim().toLowerCase());
+    const filteredFiles: File[] = [];
+    
+    for (let i = 0; i < fileList.length; i++) {
+      const file = fileList[i];
+      const fileType = file.type.toLowerCase();
+      const fileExtension = '.' + file.name.split('.').pop()?.toLowerCase();
+      
+      const isAccepted = acceptedTypes.some(acceptType => {
+        if (acceptType.endsWith('/*')) {
+          const category = acceptType.slice(0, -2);
+          return fileType.startsWith(category);
+        }
+        if (acceptType.startsWith('.')) {
+          return fileExtension === acceptType;
+        }
+        return fileType === acceptType;
+      });
+      
+      if (isAccepted) {
+        filteredFiles.push(file);
+      }
+    }
+    
+    const dataTransfer = new DataTransfer();
+    filteredFiles.forEach(file => dataTransfer.items.add(file));
+    return dataTransfer.files;
+  }, [accept]);
+
   const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
     setIsDragging(false);
     if (disabled) return;
     
-    const files = e.dataTransfer.files;
+    const files = filterFilesByAccept(e.dataTransfer.files);
     if (files.length > 0) {
       onFileSelect(files);
     }
-  }, [disabled, onFileSelect]);
+  }, [disabled, onFileSelect, filterFilesByAccept]);
 
   const handleClick = useCallback(() => {
     if (!disabled) fileInputRef.current?.click();

@@ -9,14 +9,16 @@ import { Slider } from '@/components/ui/slider';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { StagedLoadingOverlay } from '@/components/StagedLoadingOverlay';
-import { Image, Upload, Download, CheckCircle, Link2 } from 'lucide-react';
-import { ShareActions } from '@/components/ShareActions';
+import { Image, Download, Link2, RefreshCw, Share2 } from 'lucide-react';
+import { FileUploadZone, ResultSuccessHeader, FileResultCard, PrivacyNote, RelatedTools } from '@/components/tool-ui';
+import { useToast } from '@/hooks/use-toast';
 
 const PRESET_SCALES = [25, 50, 75, 100, 125, 150, 200];
 
 export default function ResizeImageTool() {
   const { t } = useTranslation();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { toast } = useToast();
   const [scale, setScale] = useState<number>(100);
   const [maintainAspect, setMaintainAspect] = useState(true);
   const [originalDimensions, setOriginalDimensions] = useState({ width: 0, height: 0 });
@@ -74,17 +76,6 @@ export default function ResizeImageTool() {
     }
   }, [addFiles]);
 
-  const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    const droppedFiles = Array.from(e.dataTransfer.files).filter(
-      (file) => file.type.startsWith('image/')
-    );
-    if (droppedFiles.length > 0) {
-      addFiles(droppedFiles);
-      setShowResults(false);
-    }
-  }, [addFiles]);
-
   const handleResize = useCallback(async () => {
     if (!files[0]?.previewUrl || targetWidth <= 0 || targetHeight <= 0) return;
 
@@ -114,6 +105,21 @@ export default function ResizeImageTool() {
     downloadResult(`unitools_resized_${targetWidth}x${targetHeight}.${ext}`);
   }, [files, targetWidth, targetHeight, downloadResult]);
 
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: t('Tools.resize-image.title'),
+          text: t('Common.messages.shareText', { defaultValue: 'Check out this free tool!' }),
+          url: window.location.href,
+        });
+      } catch { }
+    } else {
+      await navigator.clipboard.writeText(window.location.href);
+      toast({ title: t('Common.messages.copied', { defaultValue: 'Link copied!' }) });
+    }
+  };
+
   const reset = useCallback(() => {
     resetHandler();
     stagedProcessing.reset();
@@ -121,12 +127,65 @@ export default function ResizeImageTool() {
     setScale(100);
   }, [resetHandler, stagedProcessing]);
 
+  const formatFileSize = (bytes: number): string => {
+    const k = 1024;
+    if (bytes < k) return `${bytes} B`;
+    if (bytes < k * k) return `${(bytes / k).toFixed(1)} KB`;
+    return `${(bytes / (k * k)).toFixed(1)} MB`;
+  };
+
+  if (stagedProcessing.isProcessing) {
+    return (
+      <div className="space-y-6">
+        <StagedLoadingOverlay
+          stage={stagedProcessing.stage}
+          progress={stagedProcessing.progress}
+          stageProgress={stagedProcessing.stageProgress}
+          message={stagedProcessing.message}
+          error={stagedProcessing.error}
+          onCancel={stagedProcessing.abort}
+        />
+      </div>
+    );
+  }
+
+  if (showResults && resultBlob) {
+    return (
+      <div className="space-y-6">
+        <ResultSuccessHeader
+          stats={[
+            { label: t('Common.messages.originalSize', { defaultValue: 'Original' }), value: `${originalDimensions.width}x${originalDimensions.height}` },
+            { label: t('Common.messages.newSize', { defaultValue: 'New Size' }), value: `${targetWidth}x${targetHeight}` },
+            { label: t('Common.messages.scale', { defaultValue: 'Scale' }), value: `${scale}%` },
+            { label: t('Common.messages.fileSize', { defaultValue: 'File Size' }), value: formatFileSize(resultBlob.size) },
+          ]}
+        />
+        
+        <FileResultCard
+          fileName={`resized_${targetWidth}x${targetHeight}.${files[0]?.file.type.includes('png') ? 'png' : 'jpg'}`}
+          fileSize={formatFileSize(resultBlob.size)}
+          fileType="image"
+          previewUrl={previewUrl || undefined}
+          onDownload={handleDownload}
+          onShare={handleShare}
+        />
+
+        <div className="flex gap-3">
+          <Button variant="outline" size="lg" onClick={reset} className="flex-1 rounded-xl" data-testid="button-new-file">
+            <RefreshCw className="w-4 h-4 mr-2" />
+            {t('Common.actions.processAnother', { defaultValue: 'Process Another' })}
+          </Button>
+        </div>
+        
+        <PrivacyNote variant="success" />
+        
+        <RelatedTools currentToolId="resize-image" category="image-edit" />
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
-      <div className="text-sm text-muted-foreground" data-testid="text-instructions">
-        {t('Tools.resize-image.description')}
-      </div>
-
       <input
         ref={fileInputRef}
         type="file"
@@ -136,60 +195,49 @@ export default function ResizeImageTool() {
         data-testid="input-file-image"
       />
 
-      {!stagedProcessing.isProcessing && !showResults && files.length === 0 && (
-        <div
-          onDrop={handleDrop}
-          onDragOver={(e) => e.preventDefault()}
-          onClick={() => fileInputRef.current?.click()}
-          className="border-2 border-dashed border-muted-foreground/25 rounded-xl min-h-64 flex flex-col items-center justify-center gap-4 p-8 cursor-pointer hover:border-primary/50 transition-colors"
-          data-testid="dropzone"
-        >
-          <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
-            <Image className="w-8 h-8 text-primary" />
-          </div>
-          <div className="text-center">
-            <p className="font-medium text-lg">{t('Common.workflow.dropFilesHere')}</p>
-            <p className="text-sm text-muted-foreground mt-1">{t('Common.workflow.orClickToBrowse')}</p>
-          </div>
-          <Button variant="outline" data-testid="button-select-file">
-            <Upload className="w-4 h-4 mr-2" />
-            {t('Common.workflow.selectFiles')}
-          </Button>
-        </div>
+      {files.length === 0 && (
+        <>
+          <FileUploadZone
+            onFileSelect={(fileList) => addFiles(fileList)}
+            accept="image/*"
+            multiple={false}
+          />
+          <PrivacyNote />
+        </>
       )}
 
-      {!stagedProcessing.isProcessing && !showResults && files.length > 0 && (
-        <div className="space-y-4">
-          <Card className="p-4">
-            <div className="flex flex-col md:flex-row gap-4">
+      {files.length > 0 && (
+        <div className="space-y-6">
+          <Card className="p-6 overflow-visible">
+            <div className="flex flex-col md:flex-row gap-6">
               {files[0].previewUrl && (
                 <div className="flex-1">
                   <img 
                     src={files[0].previewUrl} 
                     alt="Original"
-                    className="w-full max-h-64 object-contain bg-muted rounded"
+                    className="w-full max-h-64 object-contain bg-muted rounded-xl"
                   />
                 </div>
               )}
               <div className="flex-1 flex flex-col justify-center">
-                <div className="text-center p-4 bg-muted rounded">
-                  <p className="text-sm text-muted-foreground mb-2">
+                <div className="text-center p-6 bg-muted/50 rounded-xl border">
+                  <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground mb-2">
                     {t('Tools.resize-image.original', { defaultValue: 'Original' })}
                   </p>
-                  <p className="font-medium">{originalDimensions.width} x {originalDimensions.height} px</p>
+                  <p className="font-medium text-lg">{originalDimensions.width} x {originalDimensions.height} px</p>
                   <div className="my-4 text-2xl text-muted-foreground">→</div>
-                  <p className="text-sm text-muted-foreground mb-2">
+                  <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground mb-2">
                     {t('Tools.resize-image.result', { defaultValue: 'Result' })}
                   </p>
-                  <p className="font-medium text-primary">{targetWidth} x {targetHeight} px</p>
+                  <p className="font-medium text-lg text-primary">{targetWidth} x {targetHeight} px</p>
                 </div>
               </div>
             </div>
           </Card>
 
-          <Card className="p-4 space-y-6">
-            <div className="flex items-center justify-between">
-              <Label>{t('Tools.resize-image.maintainAspect', { defaultValue: 'Maintain aspect ratio' })}</Label>
+          <Card className="p-6 space-y-6 overflow-visible">
+            <div className="flex items-center justify-between gap-3">
+              <Label className="font-medium">{t('Tools.resize-image.maintainAspect', { defaultValue: 'Maintain aspect ratio' })}</Label>
               <div className="flex items-center gap-2">
                 <Link2 className={`w-4 h-4 ${maintainAspect ? 'text-primary' : 'text-muted-foreground'}`} />
                 <Switch
@@ -201,9 +249,9 @@ export default function ResizeImageTool() {
             </div>
 
             <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <Label>{t('Tools.resize-image.scale', { defaultValue: 'Scale' })}</Label>
-                <span className="text-lg font-semibold text-primary">{scale}%</span>
+              <div className="flex items-center justify-between gap-3">
+                <Label className="font-medium">{t('Tools.resize-image.scale', { defaultValue: 'Scale' })}</Label>
+                <span className="text-xl font-bold text-primary">{scale}%</span>
               </div>
               
               <Slider
@@ -222,6 +270,7 @@ export default function ResizeImageTool() {
                     key={preset}
                     variant={scale === preset ? 'default' : 'outline'}
                     size="sm"
+                    className="rounded-lg"
                     onClick={() => setScale(preset)}
                     data-testid={`button-preset-${preset}`}
                   >
@@ -233,65 +282,19 @@ export default function ResizeImageTool() {
           </Card>
 
           <div className="flex gap-3">
-            <Button onClick={handleResize} className="flex-1" data-testid="button-resize">
-              <Image className="w-4 h-4 mr-2" />
+            <Button onClick={handleResize} size="lg" className="flex-1 rounded-xl" data-testid="button-resize">
+              <Image className="w-5 h-5 mr-2" />
               {t('Tools.resize-image.title')}
             </Button>
-            <Button variant="outline" onClick={reset} data-testid="button-reset">
+            <Button variant="outline" size="lg" onClick={reset} className="rounded-xl" data-testid="button-reset">
               {t('Common.workflow.startOver')}
             </Button>
           </div>
         </div>
       )}
 
-      {stagedProcessing.isProcessing && (
-        <StagedLoadingOverlay
-          stage={stagedProcessing.stage}
-          progress={stagedProcessing.progress}
-          stageProgress={stagedProcessing.stageProgress}
-          message={stagedProcessing.message}
-          error={stagedProcessing.error}
-          onCancel={stagedProcessing.abort}
-        />
-      )}
-
-      {showResults && resultBlob && (
-        <div className="space-y-4">
-          <Card className="p-4">
-            <div className="flex flex-col items-center gap-4">
-              <div className="flex items-center gap-2 text-green-600">
-                <CheckCircle className="w-5 h-5" />
-                <span className="font-medium">{t('Common.workflow.processingComplete')}</span>
-              </div>
-              {previewUrl && (
-                <div className="w-full flex justify-center p-4 bg-muted rounded">
-                  <img 
-                    src={previewUrl} 
-                    alt="Result" 
-                    className="max-w-full h-auto object-contain"
-                  />
-                </div>
-              )}
-              <p className="text-sm text-muted-foreground">
-                {originalDimensions.width} x {originalDimensions.height} → {targetWidth} x {targetHeight} px
-              </p>
-              <div className="flex gap-3">
-                <Button onClick={handleDownload} data-testid="button-download">
-                  <Download className="w-4 h-4 mr-2" />
-                  {t('Common.workflow.download')}
-                </Button>
-                <Button variant="outline" onClick={reset} data-testid="button-start-over">
-                  {t('Common.workflow.startOver')}
-                </Button>
-              </div>
-            </div>
-          </Card>
-          <ShareActions />
-        </div>
-      )}
-
       {error && (
-        <div className="text-center text-destructive py-4">
+        <div className="p-4 bg-destructive/10 text-destructive rounded-xl" data-testid="section-error">
           {t(`Common.errors.${error.code}`, { defaultValue: t('Common.messages.error') })}
         </div>
       )}

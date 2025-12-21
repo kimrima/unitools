@@ -6,22 +6,23 @@ import { mergePdfFiles, PdfMergeError } from '@/lib/engines/pdfMerge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { StagedLoadingOverlay } from '@/components/StagedLoadingOverlay';
-import { FileText, Upload, X, Download, GripVertical, CheckCircle } from 'lucide-react';
+import { FileText, X, Download, GripVertical, RefreshCw, Share2 } from 'lucide-react';
+import { FileUploadZone, ResultSuccessHeader, FileResultCard, PrivacyNote, RelatedTools } from '@/components/tool-ui';
+import { useToast } from '@/hooks/use-toast';
 
 export default function MergePdfTool() {
   const { t } = useTranslation();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { toast } = useToast();
   const [showResults, setShowResults] = useState(false);
   
   const {
     files,
-    status,
     error,
     resultBlob,
     addFiles,
     removeFile,
     clearFiles,
-    setStatus,
     setError,
     setResult,
     downloadResult,
@@ -57,26 +58,6 @@ export default function MergePdfTool() {
     return t('Common.messages.error');
   }, [t]);
 
-  const handleFileSelect = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      addFiles(e.target.files);
-    }
-  }, [addFiles]);
-
-  const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    const droppedFiles = Array.from(e.dataTransfer.files).filter(
-      (file) => file.type === 'application/pdf'
-    );
-    if (droppedFiles.length > 0) {
-      addFiles(droppedFiles);
-    }
-  }, [addFiles]);
-
-  const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-  }, []);
-
   const reset = useCallback(() => {
     resetHandler();
     stagedProcessing.reset();
@@ -109,13 +90,27 @@ export default function MergePdfTool() {
       } else {
         setError({ code: 'NO_FILES_PROVIDED' } as FileHandlerError);
       }
-      setStatus('error');
     }
-  }, [files, setError, setResult, setStatus, stagedProcessing]);
+  }, [files, setError, setResult, stagedProcessing]);
 
   const handleDownload = useCallback(() => {
     downloadResult('merged.pdf');
   }, [downloadResult]);
+
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: t('Tools.merge-pdf.title'),
+          text: t('Common.messages.shareText', { defaultValue: 'Check out this free tool!' }),
+          url: window.location.href,
+        });
+      } catch { }
+    } else {
+      await navigator.clipboard.writeText(window.location.href);
+      toast({ title: t('Common.messages.copied', { defaultValue: 'Link copied!' }) });
+    }
+  };
 
   const formatFileSize = useCallback((bytes: number): string => {
     const k = 1024;
@@ -124,84 +119,11 @@ export default function MergePdfTool() {
     return `${(bytes / (k * k)).toFixed(1)} ${t('Common.units.mb')}`;
   }, [t]);
 
-  return (
-    <div className="space-y-6">
-      <div className="text-sm text-muted-foreground" data-testid="text-instructions">
-        {t('Tools.merge-pdf.instructions')}
-      </div>
+  const totalSize = files.reduce((sum, f) => sum + f.file.size, 0);
 
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept=".pdf"
-        multiple
-        onChange={handleFileSelect}
-        className="hidden"
-        data-testid="input-file-pdf"
-      />
-
-      {!stagedProcessing.isProcessing && !showResults && (
-        <div
-          onDrop={handleDrop}
-          onDragOver={handleDragOver}
-          onClick={() => fileInputRef.current?.click()}
-          className="border-2 border-dashed border-muted-foreground/25 rounded-lg min-h-40 flex flex-col items-center justify-center gap-4 hover:border-muted-foreground/50 transition-colors cursor-pointer p-6"
-          data-testid="dropzone-pdf"
-        >
-          <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center">
-            <Upload className="w-6 h-6 text-muted-foreground" />
-          </div>
-          <div className="text-center">
-            <p className="font-medium">{t('Common.messages.dragDrop')}</p>
-            <p className="text-sm text-muted-foreground mt-1">
-              {t('Common.messages.noServerUpload')}
-            </p>
-          </div>
-        </div>
-      )}
-
-      {files.length > 0 && !stagedProcessing.isProcessing && !showResults && (
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between gap-2 mb-4">
-              <span className="text-sm font-medium" data-testid="text-files-count">
-                {files.length} {t('Common.messages.filesSelected')}
-              </span>
-              <Button variant="ghost" size="sm" onClick={clearFiles} data-testid="button-clear">
-                {t('Common.actions.clear')}
-              </Button>
-            </div>
-
-            <ul className="space-y-2">
-              {files.map((file, index) => (
-                <li
-                  key={file.id}
-                  className="flex items-center gap-3 p-2 bg-muted/50 rounded-md"
-                  data-testid={`list-item-file-${index}`}
-                >
-                  <GripVertical className="w-4 h-4 text-muted-foreground cursor-grab" />
-                  <FileText className="w-5 h-5 text-muted-foreground" />
-                  <span className="flex-1 text-sm truncate">{file.file.name}</span>
-                  <span className="text-xs text-muted-foreground">
-                    {formatFileSize(file.file.size)}
-                  </span>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => removeFile(file.id)}
-                    className="h-7 w-7"
-                    data-testid={`button-remove-file-${index}`}
-                  >
-                    <X className="w-4 h-4" />
-                  </Button>
-                </li>
-              ))}
-            </ul>
-          </CardContent>
-        </Card>
-      )}
-
-      {stagedProcessing.isProcessing && (
+  if (stagedProcessing.isProcessing) {
+    return (
+      <div className="space-y-6">
         <StagedLoadingOverlay
           stage={stagedProcessing.stage}
           progress={stagedProcessing.progress}
@@ -210,59 +132,136 @@ export default function MergePdfTool() {
           error={stagedProcessing.error}
           onCancel={stagedProcessing.abort}
         />
+      </div>
+    );
+  }
+
+  if (showResults && resultBlob) {
+    return (
+      <div className="space-y-6">
+        <ResultSuccessHeader
+          subtitle={t('Tools.merge-pdf.successMessage', { count: files.length, defaultValue: `${files.length} files merged successfully` })}
+          stats={[
+            { label: t('Common.messages.files', { defaultValue: 'Files' }), value: files.length },
+            { label: t('Common.messages.totalSize', { defaultValue: 'Total Size' }), value: formatFileSize(totalSize) },
+            { label: t('Common.messages.outputSize', { defaultValue: 'Output' }), value: formatFileSize(resultBlob.size) },
+          ]}
+        />
+        
+        <FileResultCard
+          fileName="merged.pdf"
+          fileSize={formatFileSize(resultBlob.size)}
+          fileType="pdf"
+          onDownload={handleDownload}
+          onShare={handleShare}
+        />
+
+        <div className="flex gap-3">
+          <Button variant="outline" size="lg" onClick={reset} className="flex-1 rounded-xl" data-testid="button-new-file">
+            <RefreshCw className="w-4 h-4 mr-2" />
+            {t('Common.actions.processAnother', { defaultValue: 'Process Another' })}
+          </Button>
+        </div>
+        
+        <PrivacyNote variant="success" />
+        
+        <RelatedTools currentToolId="merge-pdf" category="pdf" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept=".pdf"
+        multiple
+        onChange={(e) => e.target.files && addFiles(e.target.files)}
+        className="hidden"
+        data-testid="input-file-pdf"
+      />
+
+      {files.length === 0 && (
+        <>
+          <FileUploadZone
+            onFileSelect={(fileList) => addFiles(fileList)}
+            accept="application/pdf"
+            multiple={true}
+          />
+          <PrivacyNote />
+        </>
       )}
 
-      {showResults && resultBlob && (
-        <div className="space-y-6">
-          <Card className="bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-800">
-            <CardContent className="p-6">
-              <div className="flex flex-col items-center gap-4" data-testid="section-success">
-                <div className="w-16 h-16 rounded-full bg-green-500/10 flex items-center justify-center">
-                  <CheckCircle className="w-8 h-8 text-green-500" />
-                </div>
-                <div className="text-center">
-                  <p className="font-medium text-lg text-green-700 dark:text-green-300">
-                    {t('Common.messages.complete')}
-                  </p>
-                  <p className="text-sm text-green-600 dark:text-green-400">
-                    {files.length} {t('Tools.merge-pdf.pagesMerged', { defaultValue: 'files merged successfully' })}
-                  </p>
-                </div>
-                <Button size="lg" onClick={handleDownload} data-testid="button-download">
-                  <Download className="w-5 h-5 mr-2" />
-                  {t('Common.actions.download')}
-                </Button>
+      {files.length > 0 && (
+        <Card className="overflow-visible">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between gap-3 mb-4">
+              <span className="text-sm font-bold uppercase tracking-wide text-muted-foreground" data-testid="text-files-count">
+                {files.length} {t('Common.messages.filesSelected')}
+              </span>
+              <Button variant="ghost" size="sm" onClick={clearFiles} className="rounded-lg" data-testid="button-clear">
+                {t('Common.actions.clear')}
+              </Button>
+            </div>
+
+            <ul className="space-y-2">
+              {files.map((file, index) => (
+                <li
+                  key={file.id}
+                  className="flex items-center gap-3 p-3 bg-muted/50 rounded-xl border"
+                  data-testid={`list-item-file-${index}`}
+                >
+                  <GripVertical className="w-4 h-4 text-muted-foreground cursor-grab" />
+                  <div className="w-12 h-12 bg-red-100 dark:bg-red-900/30 rounded-lg flex items-center justify-center">
+                    <FileText className="w-5 h-5 text-red-600 dark:text-red-400" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <span className="text-sm font-medium truncate block">{file.file.name}</span>
+                    <span className="text-xs text-muted-foreground">
+                      {formatFileSize(file.file.size)}
+                    </span>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => removeFile(file.id)}
+                    data-testid={`button-remove-file-${index}`}
+                  >
+                    <X className="w-4 h-4" />
+                  </Button>
+                </li>
+              ))}
+            </ul>
+            
+            {files.length < 2 && (
+              <div className="mt-4 p-3 bg-amber-50 dark:bg-amber-950/30 text-amber-800 dark:text-amber-200 rounded-xl text-sm">
+                {t('Tools.merge-pdf.needMoreFiles', { defaultValue: 'Add at least 2 PDF files to merge' })}
               </div>
-            </CardContent>
-          </Card>
-        </div>
+            )}
+            
+            <div className="flex gap-3 mt-6">
+              <Button
+                onClick={handleMerge}
+                disabled={files.length < 2}
+                size="lg"
+                className="flex-1 rounded-xl"
+                data-testid="button-merge"
+              >
+                <FileText className="w-5 h-5 mr-2" />
+                {t('Common.actions.merge')}
+              </Button>
+              <Button variant="outline" size="lg" onClick={reset} className="rounded-xl" data-testid="button-reset">
+                {t('Common.actions.reset')}
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
       )}
 
       {error && (
-        <div className="p-4 bg-destructive/10 text-destructive rounded-lg" data-testid="section-error">
+        <div className="p-4 bg-destructive/10 text-destructive rounded-xl" data-testid="section-error">
           {translateError(error)}
-        </div>
-      )}
-
-      {!stagedProcessing.isProcessing && !showResults && (
-        <div className="flex gap-4 flex-wrap">
-          <Button
-            onClick={handleMerge}
-            disabled={files.length < 2}
-            className="flex-1"
-            data-testid="button-merge"
-          >
-            <FileText className="w-4 h-4 mr-2" />
-            {t('Common.actions.merge')}
-          </Button>
-        </div>
-      )}
-      
-      {showResults && (
-        <div className="flex justify-center">
-          <Button variant="outline" onClick={reset} data-testid="button-reset">
-            {t('Common.actions.reset')}
-          </Button>
         </div>
       )}
     </div>
