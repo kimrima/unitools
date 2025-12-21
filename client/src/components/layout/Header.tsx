@@ -76,34 +76,39 @@ export default function Header() {
 
           <nav className="hidden lg:flex items-center gap-0">
             {categories.map((cat) => {
-              const categoryTools = getToolsByCategory(cat.id).filter(tool => tool.implemented).slice(0, 8);
+              const categoryTools = getToolsByCategory(cat.id).filter(tool => tool.implemented);
               const Icon = cat.icon;
               
               return (
                 <HoverCard key={cat.id} openDelay={0} closeDelay={100}>
                   <HoverCardTrigger asChild>
-                    <button
+                    <Link
+                      href={localizedPath(`/category/${cat.id}`)}
                       className="px-3 py-2 text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1"
                       data-testid={`link-category-${cat.id}`}
                     >
                       {t(`Common.nav.${cat.id}`)}
                       <ChevronDown className="w-3 h-3" />
-                    </button>
+                    </Link>
                   </HoverCardTrigger>
-                  <HoverCardContent align="start" className="w-[380px] p-4" sideOffset={8}>
-                    <div className="flex items-center gap-2 mb-3 pb-3 border-b">
-                      <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-                        <Icon className="w-4 h-4 text-primary" />
+                  <HoverCardContent align="start" className="w-56 p-2" sideOffset={8}>
+                    <Link
+                      href={localizedPath(`/category/${cat.id}`)}
+                      className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-accent transition-colors"
+                    >
+                      <div className="w-6 h-6 rounded-md bg-primary/10 flex items-center justify-center">
+                        <Icon className="w-3.5 h-3.5 text-primary" />
                       </div>
                       <span className="font-bold text-sm">{t(`Categories.${cat.id}.name`)}</span>
-                    </div>
+                    </Link>
+                    <div className="border-t my-2" />
                     {categoryTools.length > 0 ? (
-                      <ul className="grid grid-cols-2 gap-1">
+                      <ul className="max-h-64 overflow-y-auto space-y-0.5">
                         {categoryTools.map((tool) => (
                           <li key={tool.id}>
                             <Link
                               href={localizedPath(`/${tool.id}`)}
-                              className="block px-3 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
+                              className="block px-3 py-2 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
                               data-testid={`dropdown-tool-${tool.id}`}
                             >
                               {t(`Tools.${tool.id}.title`)}
@@ -116,13 +121,6 @@ export default function Header() {
                         {t('Common.messages.comingSoon', { defaultValue: 'More tools coming soon!' })}
                       </div>
                     )}
-                    <Link
-                      href={localizedPath(`/category/${cat.id}`)}
-                      className="block mt-3 pt-3 border-t text-center text-sm font-bold text-primary hover:underline"
-                      data-testid={`link-view-all-${cat.id}`}
-                    >
-                      {t('Common.home.viewAll', { defaultValue: 'View All' })} →
-                    </Link>
                   </HoverCardContent>
                 </HoverCard>
               );
