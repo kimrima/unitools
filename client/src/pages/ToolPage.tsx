@@ -27,6 +27,14 @@ const OrganizePdfTool = lazy(() => import('@/components/tools/OrganizePdfTool'))
 const ProtectPdfTool = lazy(() => import('@/components/tools/ProtectPdfTool'));
 const UnlockPdfTool = lazy(() => import('@/components/tools/UnlockPdfTool'));
 const PdfToImageTool = lazy(() => import('@/components/tools/PdfToImageTool'));
+const SignPdfTool = lazy(() => import('@/components/tools/SignPdfTool'));
+const PdfToTextTool = lazy(() => import('@/components/tools/PdfToTextTool'));
+const CropPdfTool = lazy(() => import('@/components/tools/CropPdfTool'));
+const GrayscalePdfTool = lazy(() => import('@/components/tools/GrayscalePdfTool'));
+const ResizePdfTool = lazy(() => import('@/components/tools/ResizePdfTool'));
+const NupPdfTool = lazy(() => import('@/components/tools/NupPdfTool'));
+const OcrPdfTool = lazy(() => import('@/components/tools/OcrPdfTool'));
+const CreateGifTool = lazy(() => import('@/components/tools/CreateGifTool'));
 const CompressImageTool = lazy(() => import('@/components/tools/CompressImageTool'));
 const ConvertImageTool = lazy(() => import('@/components/tools/ConvertImageTool'));
 const ResizeImageTool = lazy(() => import('@/components/tools/ResizeImageTool'));
@@ -134,6 +142,14 @@ const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element
   'unlock-pdf': UnlockPdfTool,
   'pdf-to-jpg': PdfToImageTool,
   'pdf-to-png': PdfToImageTool,
+  'sign-pdf': SignPdfTool,
+  'pdf-to-text': PdfToTextTool,
+  'crop-pdf': CropPdfTool,
+  'grayscale-pdf': GrayscalePdfTool,
+  'resize-pdf': ResizePdfTool,
+  'n-up-pdf': NupPdfTool,
+  'ocr-pdf': OcrPdfTool,
+  'create-gif': CreateGifTool,
   'compress-image': CompressImageTool,
   'convert-image': ConvertImageTool,
   'resize-image': ResizeImageTool,

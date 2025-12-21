@@ -1,0 +1,308 @@
+import { useState, useRef, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
+import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
+import * as pdfjs from 'pdfjs-dist';
+import Tesseract from 'tesseract.js';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import { Progress } from '@/components/ui/progress';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { FileText, Upload, Download, Loader2, CheckCircle, Scan, Trash2 } from 'lucide-react';
+
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+
+type ToolStatus = 'idle' | 'processing' | 'success' | 'error';
+
+const LANGUAGES = [
+  { code: 'eng', name: 'English' },
+  { code: 'kor', name: 'Korean' },
+  { code: 'jpn', name: 'Japanese' },
+  { code: 'chi_sim', name: 'Chinese (Simplified)' },
+  { code: 'spa', name: 'Spanish' },
+  { code: 'fra', name: 'French' },
+  { code: 'deu', name: 'German' },
+];
+
+export default function OcrPdfTool() {
+  const { t } = useTranslation();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [file, setFile] = useState<File | null>(null);
+  const [status, setStatus] = useState<ToolStatus>('idle');
+  const [progress, setProgress] = useState(0);
+  const [progressText, setProgressText] = useState('');
+  const [error, setError] = useState<{ code: string } | null>(null);
+  const [resultBlob, setResultBlob] = useState<Blob | null>(null);
+  const [language, setLanguage] = useState('eng');
+
+  const handleFileSelect = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0];
+    if (selectedFile && selectedFile.type === 'application/pdf') {
+      setFile(selectedFile);
+      setStatus('idle');
+      setError(null);
+      setResultBlob(null);
+    }
+  }, []);
+
+  const handleDrop = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    const droppedFile = e.dataTransfer.files[0];
+    if (droppedFile && droppedFile.type === 'application/pdf') {
+      setFile(droppedFile);
+      setStatus('idle');
+      setError(null);
+      setResultBlob(null);
+    }
+  }, []);
+
+  const handleOcr = async () => {
+    if (!file) return;
+
+    setStatus('processing');
+    setProgress(5);
+    setProgressText(t('Tools.ocr-pdf.loadingPdf'));
+    setError(null);
+
+    try {
+      const arrayBuffer = await file.arrayBuffer();
+      const pdfData = new Uint8Array(arrayBuffer);
+      
+      const pdf = await pdfjs.getDocument({ data: pdfData }).promise;
+      const totalPages = pdf.numPages;
+      
+      const newPdfDoc = await PDFDocument.create();
+      const font = await newPdfDoc.embedFont(StandardFonts.Helvetica);
+      const scale = 2;
+
+      for (let i = 1; i <= totalPages; i++) {
+        setProgressText(t('Tools.ocr-pdf.processingPage', { current: i, total: totalPages }));
+        
+        const page = await pdf.getPage(i);
+        const viewport = page.getViewport({ scale });
+        
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        if (!ctx) throw new Error('Canvas context not available');
+        
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+
+        await page.render({
+          canvasContext: ctx,
+          viewport,
+          canvas,
+        } as any).promise;
+
+        setProgress(5 + (20 * i / totalPages));
+        
+        const imageData = canvas.toDataURL('image/png');
+        
+        setProgressText(t('Tools.ocr-pdf.recognizing', { current: i, total: totalPages }));
+        
+        const { data: { text } } = await Tesseract.recognize(
+          imageData,
+          language,
+          {
+            logger: (m) => {
+              if (m.status === 'recognizing text') {
+                setProgress(25 + (60 * ((i - 1 + m.progress) / totalPages)));
+              }
+            }
+          }
+        );
+
+        const pngResponse = await fetch(imageData);
+        const pngBytes = new Uint8Array(await pngResponse.arrayBuffer());
+        const pngImage = await newPdfDoc.embedPng(pngBytes);
+        
+        const pageWidth = viewport.width / scale;
+        const pageHeight = viewport.height / scale;
+        const newPage = newPdfDoc.addPage([pageWidth, pageHeight]);
+        
+        newPage.drawImage(pngImage, {
+          x: 0,
+          y: 0,
+          width: pageWidth,
+          height: pageHeight,
+        });
+
+        if (text.trim()) {
+          const textSize = 1;
+          newPage.drawText(text, {
+            x: 5,
+            y: pageHeight - 15,
+            size: textSize,
+            font,
+            color: rgb(1, 1, 1),
+            opacity: 0.01,
+            maxWidth: pageWidth - 10,
+          });
+        }
+
+        setProgress(25 + (60 * i / totalPages));
+      }
+
+      setProgressText(t('Tools.ocr-pdf.saving'));
+      const pdfBytes = await newPdfDoc.save();
+      const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+      setResultBlob(blob);
+      setStatus('success');
+      setProgress(100);
+    } catch (err) {
+      console.error('OCR error:', err);
+      setError({ code: 'OCR_FAILED' });
+      setStatus('error');
+    }
+  };
+
+  const handleDownload = () => {
+    if (!resultBlob || !file) return;
+    const url = URL.createObjectURL(resultBlob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = file.name.replace('.pdf', '_ocr.pdf');
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  return (
+    <div className="space-y-6">
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept=".pdf"
+        onChange={handleFileSelect}
+        className="hidden"
+        data-testid="input-file-upload"
+      />
+
+      {!file && (
+        <Card
+          className="border-2 border-dashed p-8 text-center cursor-pointer hover-elevate"
+          onClick={() => fileInputRef.current?.click()}
+          onDrop={handleDrop}
+          onDragOver={(e) => e.preventDefault()}
+          data-testid="dropzone-pdf"
+        >
+          <div className="flex flex-col items-center gap-4">
+            <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
+              <Upload className="w-8 h-8 text-primary" />
+            </div>
+            <div>
+              <p className="font-medium">{t('Common.dropzone.title')}</p>
+              <p className="text-sm text-muted-foreground">{t('Common.dropzone.subtitle')}</p>
+            </div>
+            <Button variant="outline" data-testid="button-browse-files">
+              {t('Common.dropzone.button')}
+            </Button>
+          </div>
+        </Card>
+      )}
+
+      {file && status !== 'success' && (
+        <Card className="p-6 space-y-6">
+          <div className="flex items-center gap-3">
+            <FileText className="w-8 h-8 text-primary" />
+            <div className="flex-1 min-w-0">
+              <p className="font-medium truncate">{file.name}</p>
+              <p className="text-sm text-muted-foreground">
+                {(file.size / 1024 / 1024).toFixed(2)} MB
+              </p>
+            </div>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => {
+                setFile(null);
+                setResultBlob(null);
+              }}
+              data-testid="button-remove-file"
+            >
+              <Trash2 className="w-4 h-4" />
+            </Button>
+          </div>
+
+          <div className="space-y-2">
+            <Label>{t('Tools.ocr-pdf.language')}</Label>
+            <Select value={language} onValueChange={setLanguage}>
+              <SelectTrigger data-testid="select-language">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {LANGUAGES.map(lang => (
+                  <SelectItem key={lang.code} value={lang.code}>{lang.name}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          {status === 'processing' && (
+            <div className="space-y-2">
+              <Progress value={progress} />
+              <p className="text-sm text-center text-muted-foreground">
+                {progressText}
+              </p>
+            </div>
+          )}
+
+          {error && (
+            <p className="text-sm text-destructive">{t(`Errors.${error.code}`)}</p>
+          )}
+
+          <Button
+            className="w-full"
+            onClick={handleOcr}
+            disabled={status === 'processing'}
+            data-testid="button-ocr"
+          >
+            {status === 'processing' ? (
+              <>
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                {t('Common.processing')}
+              </>
+            ) : (
+              <>
+                <Scan className="w-4 h-4 mr-2" />
+                {t('Tools.ocr-pdf.ocrButton')}
+              </>
+            )}
+          </Button>
+        </Card>
+      )}
+
+      {status === 'success' && resultBlob && (
+        <Card className="p-6 space-y-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center">
+              <CheckCircle className="w-5 h-5 text-green-500" />
+            </div>
+            <div>
+              <p className="font-medium">{t('Common.success')}</p>
+              <p className="text-sm text-muted-foreground">
+                {t('Tools.ocr-pdf.successMessage')}
+              </p>
+            </div>
+          </div>
+          <div className="flex gap-2">
+            <Button onClick={handleDownload} className="flex-1" data-testid="button-download">
+              <Download className="w-4 h-4 mr-2" />
+              {t('Common.download')}
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => {
+                setFile(null);
+                setResultBlob(null);
+                setStatus('idle');
+              }}
+              data-testid="button-new"
+            >
+              {t('Common.processAnother')}
+            </Button>
+          </div>
+        </Card>
+      )}
+    </div>
+  );
+}
