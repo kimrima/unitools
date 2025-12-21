@@ -1001,9 +1001,16 @@
     },
     "web-text-extract": {
       "title": "Web Page Text Extractor",
-      "description": "Extract main text content from a web page URL.",
-      "shortDesc": "Extract web text",
-      "instructions": "Enter a URL to extract the main text content."
+      "description": "Extract text from HTML code.",
+      "shortDesc": "Extract HTML text",
+      "instructions": "Copy and paste HTML code from View Page Source (Ctrl+U) to extract text.",
+      "htmlLabel": "HTML Code",
+      "htmlPlaceholder": "Paste HTML code here (Ctrl+U in browser to view source)...",
+      "extractButton": "Extract Text",
+      "successMessage": "Text extracted successfully.",
+      "copiedMessage": "Text copied to clipboard.",
+      "resultLabel": "Extracted Text",
+      "noTextFound": "No text content found in the provided HTML."
     },
     "json-formatter": {
       "title": "JSON Formatter",
