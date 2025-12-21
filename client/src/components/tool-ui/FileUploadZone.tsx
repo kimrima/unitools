@@ -91,11 +91,78 @@ export function FileUploadZone({
   }, [onFileSelect]);
 
   const getAcceptLabel = () => {
-    if (accept.includes('image/')) return 'JPG, PNG, WebP, GIF, SVG';
-    if (accept.includes('pdf')) return 'PDF';
-    if (accept.includes('video/')) return 'MP4, MOV, AVI';
-    if (accept.includes('audio/')) return 'MP3, WAV, OGG';
-    return t('Common.messages.allFormats', { defaultValue: 'All common formats' });
+    if (accept === '*/*' || accept === '*') {
+      return t('Common.messages.allFormats', { defaultValue: 'All formats' });
+    }
+    
+    const formatMap: Record<string, string> = {
+      'image/jpeg': 'JPG',
+      'image/jpg': 'JPG',
+      'image/png': 'PNG',
+      'image/webp': 'WebP',
+      'image/gif': 'GIF',
+      'image/svg+xml': 'SVG',
+      'image/bmp': 'BMP',
+      'image/heic': 'HEIC',
+      'image/heif': 'HEIF',
+      'application/pdf': 'PDF',
+      'video/mp4': 'MP4',
+      'video/webm': 'WebM',
+      'video/quicktime': 'MOV',
+      'video/x-msvideo': 'AVI',
+      'video/x-matroska': 'MKV',
+      'audio/mpeg': 'MP3',
+      'audio/wav': 'WAV',
+      'audio/ogg': 'OGG',
+      'audio/flac': 'FLAC',
+      'audio/aac': 'AAC',
+      '.jpg': 'JPG',
+      '.jpeg': 'JPG',
+      '.png': 'PNG',
+      '.webp': 'WebP',
+      '.gif': 'GIF',
+      '.svg': 'SVG',
+      '.bmp': 'BMP',
+      '.heic': 'HEIC',
+      '.heif': 'HEIF',
+      '.pdf': 'PDF',
+      '.mp4': 'MP4',
+      '.webm': 'WebM',
+      '.mov': 'MOV',
+      '.avi': 'AVI',
+      '.mkv': 'MKV',
+      '.mp3': 'MP3',
+      '.wav': 'WAV',
+      '.ogg': 'OGG',
+      '.flac': 'FLAC',
+      '.aac': 'AAC',
+    };
+    
+    const acceptTypes = accept.split(',').map(t => t.trim().toLowerCase());
+    const labels: string[] = [];
+    
+    for (const type of acceptTypes) {
+      if (type === 'image/*') {
+        return 'JPG, PNG, WebP, GIF, SVG';
+      }
+      if (type === 'video/*') {
+        return 'MP4, WebM, MOV, AVI';
+      }
+      if (type === 'audio/*') {
+        return 'MP3, WAV, OGG, FLAC';
+      }
+      if (formatMap[type]) {
+        if (!labels.includes(formatMap[type])) {
+          labels.push(formatMap[type]);
+        }
+      }
+    }
+    
+    if (labels.length > 0) {
+      return labels.join(', ');
+    }
+    
+    return t('Common.messages.allFormats', { defaultValue: 'All formats' });
   };
 
   return (
