@@ -19,8 +19,8 @@ export default function Footer() {
 
   return (
     <footer className="bg-[hsl(222,47%,11%)] text-gray-300 mt-auto">
-      <div className="max-w-7xl mx-auto px-4 py-12">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12 pb-8 border-b border-gray-700">
+      <div className="max-w-7xl mx-auto px-4 py-8 sm:py-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 mb-8 sm:mb-12 pb-6 sm:pb-8 border-b border-gray-700">
           <div>
             <Link href={localizedPath('/')} className="flex items-center gap-2 mb-4">
               <span className="font-bold text-xl text-white">
@@ -78,9 +78,9 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mb-8">
-          <h4 className="font-semibold text-white text-sm mb-6">{t('Common.footer.quickLinks', { defaultValue: 'Quick Links' })}</h4>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-6">
+        <div className="mb-6 sm:mb-8 hidden sm:block">
+          <h4 className="font-semibold text-white text-sm mb-4 sm:mb-6">{t('Common.footer.quickLinks', { defaultValue: 'Quick Links' })}</h4>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-4 sm:gap-6">
             {categoryIds.map((category) => {
               const tools = getImplementedToolsByCategory(category);
               if (tools.length === 0) return null;

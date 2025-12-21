@@ -2515,10 +2515,36 @@ export function getImplementedTools(): Tool[] {
   return allTools.filter((tool) => tool.implemented);
 }
 
-export function getPopularTools(limit: number = 6): Tool[] {
-  return [...allTools]
+export function getPopularTools(limit: number = 8): Tool[] {
+  const popularToolIds = [
+    'merge-pdf',
+    'compress-pdf',
+    'resize-image',
+    'compress-image',
+    'heic-to-jpg',
+    'image-ocr',
+    'qr-code-generator',
+    'compress-video',
+    'pdf-to-jpg',
+    'jpg-to-png',
+    'crop-image',
+    'video-to-gif',
+  ];
+  
+  const handpickedTools = popularToolIds
+    .map(id => allTools.find(t => t.id === id && t.implemented))
+    .filter((t): t is Tool => t !== undefined);
+  
+  if (handpickedTools.length >= limit) {
+    return handpickedTools.slice(0, limit);
+  }
+  
+  const remainingTools = allTools
+    .filter(t => t.implemented && !popularToolIds.includes(t.id))
     .sort((a, b) => b.usageCount - a.usageCount)
-    .slice(0, limit);
+    .slice(0, limit - handpickedTools.length);
+  
+  return [...handpickedTools, ...remainingTools].slice(0, limit);
 }
 
 export function getRelatedTools(toolId: string): Tool[] {
