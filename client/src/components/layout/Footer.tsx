@@ -85,14 +85,17 @@ export default function Footer() {
             <span className="font-semibold">{t('Common.siteName')}</span>
           </div>
 
-          <div className="flex items-center gap-6 text-sm text-muted-foreground">
-            <Link href={localizedPath('/privacy')} className="hover:text-foreground transition-colors">
+          <div className="flex items-center gap-6 text-sm text-muted-foreground flex-wrap">
+            <Link href={localizedPath('/about')} className="hover:text-foreground transition-colors" data-testid="link-footer-about">
+              {t('Common.footer.about')}
+            </Link>
+            <Link href={localizedPath('/privacy')} className="hover:text-foreground transition-colors" data-testid="link-footer-privacy">
               {t('Common.footer.privacy')}
             </Link>
-            <Link href={localizedPath('/terms')} className="hover:text-foreground transition-colors">
+            <Link href={localizedPath('/terms')} className="hover:text-foreground transition-colors" data-testid="link-footer-terms">
               {t('Common.footer.terms')}
             </Link>
-            <Link href={localizedPath('/contact')} className="hover:text-foreground transition-colors">
+            <Link href={localizedPath('/contact')} className="hover:text-foreground transition-colors" data-testid="link-footer-contact">
               {t('Common.footer.contact')}
             </Link>
           </div>

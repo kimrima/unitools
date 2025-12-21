@@ -118,6 +118,7 @@
       "gb": "GB"
     },
     "footer": {
+      "about": "About",
       "privacy": "Privacy Policy",
       "terms": "Terms of Service",
       "contact": "Contact Us",
@@ -224,6 +225,147 @@
     "calculator": {
       "name": "Calculators",
       "description": "Various calculators for everyday calculations"
+    },
+    "misc": {
+      "name": "Fun & Misc",
+      "description": "Fun tools, randomizers, and useful utilities"
+    }
+  },
+  "Legal": {
+    "about": {
+      "title": "About UniTools",
+      "intro": "UniTools is a comprehensive online utility platform offering 200+ browser-based tools for everyday digital tasks. Our mission is to provide fast, secure, and free tools that respect your privacy.",
+      "mission": {
+        "title": "Our Mission",
+        "desc": "To consolidate all essential digital tools into one platform, eliminating the need to visit multiple websites for simple tasks."
+      },
+      "privacy": {
+        "title": "Privacy First",
+        "desc": "All file processing happens directly in your browser. Your files never leave your device and are never uploaded to our servers."
+      },
+      "speed": {
+        "title": "Lightning Fast",
+        "desc": "Client-side processing means instant results with no upload or download wait times."
+      },
+      "global": {
+        "title": "Global Access",
+        "desc": "Available worldwide with multi-language support and optimized for users from any country."
+      },
+      "whyUs": {
+        "title": "Why Choose UniTools?",
+        "item1": "100% Free - No hidden costs, subscriptions, or premium features",
+        "item2": "No Registration Required - Use any tool instantly without creating an account",
+        "item3": "Privacy Guaranteed - Files are processed locally and never stored on servers",
+        "item4": "Works Offline - Many tools work even without internet connection"
+      },
+      "tools": {
+        "title": "200+ Tools at Your Fingertips",
+        "desc": "From PDF manipulation to image editing, video conversion to developer utilities, calculators to fun generators - UniTools has everything you need in one place."
+      }
+    },
+    "privacy": {
+      "title": "Privacy Policy",
+      "lastUpdated": "Last Updated",
+      "highlight": {
+        "title": "Your Privacy is Our Priority",
+        "desc": "All file processing occurs entirely within your browser using client-side technology. Your files, data, and personal information are NEVER uploaded to or stored on our servers."
+      },
+      "noServer": {
+        "title": "100% Client-Side Processing",
+        "desc": "UniTools uses WebAssembly and browser-based technologies to process all files locally on your device. This means:",
+        "item1": "Your files never leave your computer or mobile device",
+        "item2": "No data is transmitted to our servers during file processing",
+        "item3": "Your work remains completely private and secure"
+      },
+      "dataCollection": {
+        "title": "What We Collect",
+        "desc": "We collect minimal data necessary to improve our service and understand usage patterns.",
+        "analytics": {
+          "title": "Analytics Data",
+          "desc": "We use privacy-respecting analytics to understand which tools are most popular and how users navigate our site. This data is anonymous and cannot be traced back to individual users."
+        },
+        "cookies": {
+          "title": "Cookies",
+          "desc": "We use essential cookies to remember your language preference and theme settings. These cookies do not track your identity or browsing behavior."
+        }
+      },
+      "thirdParty": {
+        "title": "Third-Party Services",
+        "desc": "We display advertisements through Google AdSense to keep our service free. Google may use cookies to serve personalized ads based on your browsing history. You can opt out of personalized advertising through Google's Ad Settings."
+      },
+      "changes": {
+        "title": "Policy Changes",
+        "desc": "We may update this privacy policy from time to time. Any changes will be reflected on this page with an updated revision date."
+      },
+      "contact": {
+        "title": "Contact Us",
+        "desc": "If you have any questions about our privacy practices, please contact us through our Contact page."
+      }
+    },
+    "terms": {
+      "title": "Terms of Service",
+      "acceptance": {
+        "title": "Acceptance of Terms",
+        "desc": "By accessing and using UniTools, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our service."
+      },
+      "description": {
+        "title": "Service Description",
+        "desc": "UniTools provides free online tools for file conversion, editing, and various utility functions. All processing is performed client-side in your browser."
+      },
+      "use": {
+        "title": "Acceptable Use",
+        "desc": "You agree to use UniTools only for lawful purposes and in accordance with these terms. You agree NOT to:",
+        "item1": "Use our service for any illegal or unauthorized purpose",
+        "item2": "Attempt to probe, scan, or test the vulnerability of our systems",
+        "item3": "Interfere with or disrupt our service or servers",
+        "item4": "Use automated systems to access our service without permission"
+      },
+      "ip": {
+        "title": "Intellectual Property",
+        "desc": "The UniTools name, logo, and all content on this website are protected by copyright and trademark laws. You may not use our branding without express written permission."
+      },
+      "disclaimer": {
+        "title": "Disclaimer of Warranties",
+        "desc": "UniTools is provided 'as is' without any warranties, express or implied. We do not guarantee that our service will be uninterrupted, error-free, or free of harmful components."
+      },
+      "liability": {
+        "title": "Limitation of Liability",
+        "desc": "UniTools shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use of or inability to use our service."
+      },
+      "changes": {
+        "title": "Changes to Terms",
+        "desc": "We reserve the right to modify these terms at any time. Continued use of UniTools after any changes constitutes acceptance of the new terms."
+      },
+      "governing": {
+        "title": "Governing Law",
+        "desc": "These terms shall be governed by and construed in accordance with applicable international laws and regulations."
+      }
+    },
+    "contact": {
+      "title": "Contact Us",
+      "subtitle": "Have questions, suggestions, or feedback? We'd love to hear from you!",
+      "form": {
+        "title": "Send us a Message",
+        "name": "Your Name",
+        "email": "Email Address",
+        "subject": "Subject",
+        "message": "Message",
+        "submit": "Send Message"
+      },
+      "info": {
+        "email": {
+          "title": "Email"
+        },
+        "response": {
+          "title": "Response Time",
+          "desc": "We typically respond within 24-48 hours"
+        }
+      },
+      "success": {
+        "title": "Message Sent!",
+        "desc": "Thank you for contacting us. We'll get back to you as soon as possible."
+      },
+      "sendAnother": "Send Another Message"
     }
   },
   "Tools": {
