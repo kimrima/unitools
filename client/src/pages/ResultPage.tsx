@@ -4,19 +4,32 @@ import { useLocation, useParams, Link } from 'wouter';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Download, RefreshCw, CheckCircle, ArrowLeft, Share2, ExternalLink } from 'lucide-react';
+import { Download, RefreshCw, CheckCircle, ArrowLeft, Share2, ExternalLink, FileDown } from 'lucide-react';
 import { AdSlot } from '@/components/AdSlot';
 import { allTools, type Tool } from '@/data/tools';
 import { useToast } from '@/hooks/use-toast';
 
-interface ResultData {
+interface SingleResult {
+  blobData: string;
+  fileName: string;
+  originalSize: number;
+  outputSize: number;
+  mimeType: string;
+}
+
+interface StoredResultData {
+  results: SingleResult[];
+  toolId: string;
+  timestamp: number;
+}
+
+interface ProcessedResult {
   blob: Blob;
   fileName: string;
   originalSize: number;
   outputSize: number;
   mimeType: string;
-  toolId: string;
-  timestamp: number;
+  previewUrl?: string;
 }
 
 export default function ResultPage() {
@@ -27,28 +40,36 @@ export default function ResultPage() {
   const locale = params.locale || i18n.language;
   const toolId = params.toolId || '';
   
-  const [resultData, setResultData] = useState<ResultData | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [results, setResults] = useState<ProcessedResult[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   
   const tool = allTools.find((t: Tool) => t.id === toolId);
   const relatedTools = tool?.relatedTools?.slice(0, 4).map((id: string) => allTools.find((t: Tool) => t.id === id)).filter(Boolean) as Tool[] || [];
+  
+  const totalOriginalSize = results.reduce((sum, r) => sum + r.originalSize, 0);
+  const totalOutputSize = results.reduce((sum, r) => sum + r.outputSize, 0);
   
   useEffect(() => {
     const stored = sessionStorage.getItem('unitools_result');
     if (stored) {
       try {
-        const data = JSON.parse(stored);
-        const blobData = data.blobData;
-        const blob = new Blob([Uint8Array.from(atob(blobData), c => c.charCodeAt(0))], { type: data.mimeType });
-        
-        setResultData({
-          ...data,
-          blob,
+        const data: StoredResultData = JSON.parse(stored);
+        const processed: ProcessedResult[] = data.results.map(r => {
+          const blob = new Blob(
+            [Uint8Array.from(atob(r.blobData), c => c.charCodeAt(0))],
+            { type: r.mimeType }
+          );
+          return {
+            blob,
+            fileName: r.fileName,
+            originalSize: r.originalSize,
+            outputSize: r.outputSize,
+            mimeType: r.mimeType,
+            previewUrl: r.mimeType.startsWith('image/') ? URL.createObjectURL(blob) : undefined,
+          };
         });
-        
-        if (data.mimeType.startsWith('image/') || data.mimeType === 'application/pdf') {
-          setPreviewUrl(URL.createObjectURL(blob));
-        }
+        setResults(processed);
+        setIsLoading(false);
       } catch {
         setLocation(`/${locale}/${toolId}`);
       }
@@ -57,16 +78,17 @@ export default function ResultPage() {
     }
     
     return () => {
-      if (previewUrl) URL.revokeObjectURL(previewUrl);
+      results.forEach(r => {
+        if (r.previewUrl) URL.revokeObjectURL(r.previewUrl);
+      });
     };
   }, [locale, toolId, setLocation]);
   
-  const handleDownload = () => {
-    if (!resultData) return;
-    const url = URL.createObjectURL(resultData.blob);
+  const handleDownload = (result: ProcessedResult) => {
+    const url = URL.createObjectURL(result.blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = resultData.fileName;
+    a.download = result.fileName;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -74,7 +96,13 @@ export default function ResultPage() {
     
     toast({
       title: t('Common.messages.downloadStarted', { defaultValue: 'Download started' }),
-      description: resultData.fileName,
+      description: result.fileName,
+    });
+  };
+  
+  const handleDownloadAll = () => {
+    results.forEach((result, index) => {
+      setTimeout(() => handleDownload(result), index * 300);
     });
   };
   
@@ -106,7 +134,7 @@ export default function ResultPage() {
     setLocation(`/${locale}/${toolId}`);
   };
   
-  if (!resultData) {
+  if (isLoading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="animate-spin w-8 h-8 border-2 border-primary border-t-transparent rounded-full" />
@@ -135,7 +163,9 @@ export default function ResultPage() {
                   {t('Common.messages.processingComplete', { defaultValue: 'Processing Complete!' })}
                 </CardTitle>
                 <p className="text-sm text-green-600 dark:text-green-400">
-                  {t('Common.messages.readyToDownload', { defaultValue: 'Your file is ready to download' })}
+                  {results.length === 1 
+                    ? t('Common.messages.readyToDownload', { defaultValue: 'Your file is ready to download' })
+                    : t('Common.messages.filesReadyToDownload', { count: results.length, defaultValue: `${results.length} files ready to download` })}
                 </p>
               </div>
             </div>
@@ -143,54 +173,92 @@ export default function ResultPage() {
           <CardContent>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4 p-4 bg-background/50 rounded-lg">
               <div className="text-center">
+                <p className="text-xs text-muted-foreground">{t('Common.messages.files', { defaultValue: 'Files' })}</p>
+                <p className="font-medium">{results.length}</p>
+              </div>
+              <div className="text-center">
                 <p className="text-xs text-muted-foreground">{t('Common.messages.originalSize', { defaultValue: 'Original' })}</p>
-                <p className="font-medium">{formatSize(resultData.originalSize)}</p>
+                <p className="font-medium">{formatSize(totalOriginalSize)}</p>
               </div>
               <div className="text-center">
                 <p className="text-xs text-muted-foreground">{t('Common.messages.newSize', { defaultValue: 'New Size' })}</p>
-                <p className="font-medium">{formatSize(resultData.outputSize)}</p>
+                <p className="font-medium">{formatSize(totalOutputSize)}</p>
               </div>
               <div className="text-center">
                 <p className="text-xs text-muted-foreground">{t('Common.messages.saved', { defaultValue: 'Saved' })}</p>
                 <p className="font-medium text-green-600">
-                  {resultData.originalSize > resultData.outputSize 
-                    ? `-${Math.round((1 - resultData.outputSize / resultData.originalSize) * 100)}%`
+                  {totalOriginalSize > totalOutputSize 
+                    ? `-${Math.round((1 - totalOutputSize / totalOriginalSize) * 100)}%`
                     : 'N/A'}
                 </p>
-              </div>
-              <div className="text-center">
-                <p className="text-xs text-muted-foreground">{t('Common.messages.format', { defaultValue: 'Format' })}</p>
-                <p className="font-medium uppercase">{resultData.fileName.split('.').pop()}</p>
               </div>
             </div>
           </CardContent>
         </Card>
         
-        {previewUrl && (
+        {results.length === 1 && results[0].previewUrl && (
           <Card className="mb-6">
             <CardHeader>
               <CardTitle className="text-base">{t('Common.messages.preview', { defaultValue: 'Preview' })}</CardTitle>
             </CardHeader>
             <CardContent>
-              {resultData.mimeType.startsWith('image/') ? (
-                <img src={previewUrl} alt="Result preview" className="max-h-64 mx-auto rounded-lg object-contain" />
-              ) : (
-                <div className="h-64 bg-muted rounded-lg flex items-center justify-center text-muted-foreground">
-                  {t('Common.messages.previewNotAvailable', { defaultValue: 'Preview not available' })}
-                </div>
-              )}
+              <img src={results[0].previewUrl} alt="Result preview" className="max-h-64 mx-auto rounded-lg object-contain" />
+            </CardContent>
+          </Card>
+        )}
+        
+        {results.length > 1 && (
+          <Card className="mb-6">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-base">{t('Common.messages.processedFiles', { defaultValue: 'Processed Files' })}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ul className="space-y-2">
+                {results.map((result, index) => (
+                  <li
+                    key={index}
+                    className="flex items-center gap-3 p-3 bg-muted/50 rounded-md"
+                    data-testid={`result-item-${index}`}
+                  >
+                    {result.previewUrl && (
+                      <img src={result.previewUrl} alt="" className="w-10 h-10 object-cover rounded" />
+                    )}
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium truncate">{result.fileName}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {formatSize(result.originalSize)} → {formatSize(result.outputSize)}
+                      </p>
+                    </div>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => handleDownload(result)}
+                      data-testid={`button-download-${index}`}
+                    >
+                      <Download className="w-4 h-4" />
+                    </Button>
+                  </li>
+                ))}
+              </ul>
             </CardContent>
           </Card>
         )}
         
         <div className="flex flex-col sm:flex-row gap-3 mb-8">
-          <Button onClick={handleDownload} size="lg" className="flex-1" data-testid="button-download-result">
-            <Download className="w-5 h-5 mr-2" />
-            {t('Common.actions.download', { defaultValue: 'Download' })} ({resultData.fileName})
-          </Button>
+          {results.length === 1 ? (
+            <Button onClick={() => handleDownload(results[0])} size="lg" className="flex-1" data-testid="button-download-result">
+              <Download className="w-5 h-5 mr-2" />
+              {t('Common.actions.download', { defaultValue: 'Download' })} ({results[0].fileName})
+            </Button>
+          ) : (
+            <Button onClick={handleDownloadAll} size="lg" className="flex-1" data-testid="button-download-all">
+              <FileDown className="w-5 h-5 mr-2" />
+              {t('Common.actions.downloadAll', { defaultValue: 'Download All' })} ({results.length})
+            </Button>
+          )}
           <Button variant="outline" size="lg" onClick={handleNewFile} data-testid="button-new-file">
             <RefreshCw className="w-4 h-4 mr-2" />
-            {t('Common.actions.processAnother', { defaultValue: 'Process Another File' })}
+            {t('Common.actions.processAnother', { defaultValue: 'Process Another' })}
           </Button>
           <Button variant="outline" size="lg" onClick={handleShare} data-testid="button-share">
             <Share2 className="w-4 h-4 mr-2" />

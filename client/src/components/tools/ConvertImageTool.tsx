@@ -178,23 +178,39 @@ export default function ConvertImageTool({ toolId = 'convert-image' }: ConvertIm
     e.preventDefault();
   }, []);
 
-  const saveResultToSession = useCallback((result: ConvertResult) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      const base64 = (reader.result as string).split(',')[1];
-      const resultData = {
-        blobData: base64,
-        fileName: `unitools_${result.originalFile.name.substring(0, result.originalFile.name.lastIndexOf('.'))}.${getFormatExtension(result.newFormat).slice(1)}`,
-        originalSize: result.originalSize,
-        outputSize: result.convertedSize,
-        mimeType: result.convertedBlob.type,
-        toolId,
-        timestamp: Date.now(),
-      };
-      sessionStorage.setItem('unitools_result', JSON.stringify(resultData));
-      setLocation(`/${locale}/${toolId}/result`);
+  const saveResultsToSession = useCallback(async (results: ConvertResult[]) => {
+    const processedResults = await Promise.all(
+      results.map(async (result) => {
+        return new Promise<{
+          blobData: string;
+          fileName: string;
+          originalSize: number;
+          outputSize: number;
+          mimeType: string;
+        }>((resolve) => {
+          const reader = new FileReader();
+          reader.onload = () => {
+            const base64 = (reader.result as string).split(',')[1];
+            resolve({
+              blobData: base64,
+              fileName: `unitools_${result.originalFile.name.substring(0, result.originalFile.name.lastIndexOf('.'))}.${getFormatExtension(result.newFormat).slice(1)}`,
+              originalSize: result.originalSize,
+              outputSize: result.convertedSize,
+              mimeType: result.convertedBlob.type,
+            });
+          };
+          reader.readAsDataURL(result.convertedBlob);
+        });
+      })
+    );
+    
+    const resultData = {
+      results: processedResults,
+      toolId,
+      timestamp: Date.now(),
     };
-    reader.readAsDataURL(result.convertedBlob);
+    sessionStorage.setItem('unitools_result', JSON.stringify(resultData));
+    setLocation(`/${locale}/${toolId}/result`);
   }, [locale, toolId, setLocation]);
 
   const handleConvert = useCallback(async () => {
@@ -216,11 +232,8 @@ export default function ConvertImageTool({ toolId = 'convert-image' }: ConvertIm
           return results;
         },
         (results) => {
-          if (results.length === 1) {
-            saveResultToSession(results[0]);
-          } else if (results.length > 1) {
-            const firstResult = results[0];
-            saveResultToSession(firstResult);
+          if (results.length > 0) {
+            saveResultsToSession(results);
           }
         }
       );
