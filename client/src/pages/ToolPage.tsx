@@ -45,6 +45,15 @@ const ConvertAudioTool = lazy(() => import('@/components/tools/ConvertAudioTool'
 const VoiceRecorderTool = lazy(() => import('@/components/tools/VoiceRecorderTool'));
 const ScreenRecorderTool = lazy(() => import('@/components/tools/ScreenRecorderTool'));
 const VideoMetadataTool = lazy(() => import('@/components/tools/VideoMetadataTool'));
+const CharacterCountTool = lazy(() => import('@/components/tools/CharacterCountTool'));
+const CaseConverterTool = lazy(() => import('@/components/tools/CaseConverterTool'));
+const ImageOcrTool = lazy(() => import('@/components/tools/ImageOcrTool'));
+const TextProcessingTool = lazy(() => import('@/components/tools/TextProcessingTool'));
+const JsonFormatterTool = lazy(() => import('@/components/tools/JsonFormatterTool'));
+const Base64Tool = lazy(() => import('@/components/tools/Base64Tool'));
+const UrlEncodeTool = lazy(() => import('@/components/tools/UrlEncodeTool'));
+const LoremIpsumTool = lazy(() => import('@/components/tools/LoremIpsumTool'));
+const DiffCheckerTool = lazy(() => import('@/components/tools/DiffCheckerTool'));
 
 const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element>> = {
   'merge-pdf': MergePdfTool,
@@ -110,6 +119,36 @@ const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element
   'video-metadata': VideoMetadataTool,
   'voice-recorder': VoiceRecorderTool,
   'screen-recorder': ScreenRecorderTool,
+  'image-ocr': ImageOcrTool,
+  'pdf-text-extract': ImageOcrTool,
+  'character-count': CharacterCountTool,
+  'case-converter': CaseConverterTool,
+  'line-break-remover': TextProcessingTool,
+  'remove-duplicates': TextProcessingTool,
+  'text-sort': TextProcessingTool,
+  'find-replace': TextProcessingTool,
+  'blank-line-remover': TextProcessingTool,
+  'prefix-suffix': TextProcessingTool,
+  'csv-to-json': JsonFormatterTool,
+  'json-to-csv': JsonFormatterTool,
+  'excel-to-pdf': JsonFormatterTool,
+  'xml-to-json': JsonFormatterTool,
+  'yaml-to-json': JsonFormatterTool,
+  'text-to-list': TextProcessingTool,
+  'dummy-generator': LoremIpsumTool,
+  'lorem-ipsum': LoremIpsumTool,
+  'markdown-preview': CharacterCountTool,
+  'regex-tester': TextProcessingTool,
+  'url-encode': UrlEncodeTool,
+  'base64-text': Base64Tool,
+  'html-entity': UrlEncodeTool,
+  'diff-checker': DiffCheckerTool,
+  'word-frequency': CharacterCountTool,
+  'text-shuffle': TextProcessingTool,
+  'binary-converter': Base64Tool,
+  'morse-code': Base64Tool,
+  'web-text-extract': ImageOcrTool,
+  'json-formatter': JsonFormatterTool,
 };
 
 function ToolLoading() {

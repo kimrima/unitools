@@ -6,6 +6,15 @@ UniTools is a comprehensive online utility platform offering 200+ browser-based 
 
 The project follows a monorepo structure with a React frontend and Express backend, featuring internationalization support for Korean and English locales.
 
+## Current Implementation Progress
+
+- **Total Tools Implemented**: 124 out of 200+ (62%)
+- **PDF Tools**: 14 tools (merge, split, compress, rotate, watermark, etc.)
+- **Image Convert Tools**: 15 tools (format conversion, bulk convert, etc.)
+- **Image Edit Tools**: 15 tools (resize, crop, rotate, flip, filters, etc.)
+- **Video/Audio Tools**: 20 tools (trim, convert, compress, record, etc.)
+- **Text/Data Tools**: 30 tools (OCR, character count, case converter, JSON formatter, etc.)
+
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.

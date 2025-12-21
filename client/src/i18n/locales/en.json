@@ -541,10 +541,291 @@
       "shortDesc": "Record screen",
       "instructions": "Click start to record your screen. You can include microphone audio."
     },
+    "image-ocr": {
+      "title": "Image Text Extraction (OCR)",
+      "description": "Extract text from images using OCR technology. Supports Korean, English, Japanese, and Chinese.",
+      "shortDesc": "Extract text from images",
+      "instructions": "Upload an image to extract text. Select the language for better accuracy.",
+      "imageLabel": "Image",
+      "textLabel": "Extracted Text",
+      "textPlaceholder": "Extracted text will appear here...",
+      "extractText": "Extract Text",
+      "extractComplete": "Text extraction complete!",
+      "initializing": "Initializing OCR engine...",
+      "recognizing": "Recognizing text...",
+      "loadingLanguage": "Loading language data..."
+    },
+    "pdf-text-extract": {
+      "title": "PDF Text Extraction",
+      "description": "Extract all text content from PDF documents.",
+      "shortDesc": "Extract PDF text",
+      "instructions": "Upload a PDF file to extract its text content."
+    },
+    "character-count": {
+      "title": "Character Counter",
+      "description": "Count characters, words, sentences, and paragraphs in real-time.",
+      "shortDesc": "Count characters and words",
+      "instructions": "Paste or type text to see character and word statistics.",
+      "inputLabel": "Input Text",
+      "statsLabel": "Statistics",
+      "placeholder": "Paste or type your text here...",
+      "characters": "Characters",
+      "charactersNoSpaces": "Characters (no spaces)",
+      "words": "Words",
+      "lines": "Lines",
+      "paragraphs": "Paragraphs",
+      "sentences": "Sentences",
+      "bytes": "Bytes",
+      "statsCopied": "Statistics copied to clipboard"
+    },
+    "case-converter": {
+      "title": "Case Converter",
+      "description": "Convert text between uppercase, lowercase, title case, and more.",
+      "shortDesc": "Change text case",
+      "instructions": "Enter text and choose a case conversion option.",
+      "inputLabel": "Input Text",
+      "outputLabel": "Output Text",
+      "placeholder": "Enter text to convert...",
+      "uppercase": "UPPERCASE",
+      "lowercase": "lowercase",
+      "titlecase": "Title Case",
+      "sentencecase": "Sentence case",
+      "camelcase": "camelCase",
+      "pascalcase": "PascalCase",
+      "snakecase": "snake_case",
+      "kebabcase": "kebab-case"
+    },
+    "line-break-remover": {
+      "title": "Line Break Remover",
+      "description": "Remove unnecessary line breaks and merge text into a single line.",
+      "shortDesc": "Remove line breaks",
+      "instructions": "Paste text with unwanted line breaks to merge into one line.",
+      "inputLabel": "Input Text",
+      "outputLabel": "Output Text",
+      "placeholder": "Paste text with line breaks..."
+    },
+    "remove-duplicates": {
+      "title": "Remove Duplicate Lines",
+      "description": "Remove duplicate lines from your text, keeping only unique entries.",
+      "shortDesc": "Remove duplicates",
+      "instructions": "Paste text with duplicate lines to remove them.",
+      "inputLabel": "Input Text",
+      "outputLabel": "Unique Lines",
+      "placeholder": "Paste text with duplicate lines..."
+    },
+    "text-sort": {
+      "title": "Text Sorter",
+      "description": "Sort text lines alphabetically, reverse, or by length.",
+      "shortDesc": "Sort text lines",
+      "instructions": "Paste lines of text and choose a sorting order.",
+      "inputLabel": "Input Text",
+      "outputLabel": "Sorted Text",
+      "placeholder": "Enter lines to sort...",
+      "orderLabel": "Sort Order",
+      "ascending": "A to Z",
+      "descending": "Z to A",
+      "byLength": "By Length"
+    },
+    "find-replace": {
+      "title": "Find and Replace",
+      "description": "Find specific text and replace it with something else.",
+      "shortDesc": "Find and replace text",
+      "instructions": "Enter the text to find and what to replace it with.",
+      "inputLabel": "Input Text",
+      "outputLabel": "Result",
+      "placeholder": "Enter text to search in...",
+      "findLabel": "Find",
+      "findPlaceholder": "Text to find",
+      "replaceLabel": "Replace with",
+      "replacePlaceholder": "Replacement text"
+    },
+    "blank-line-remover": {
+      "title": "Blank Line Remover",
+      "description": "Remove empty lines from your text.",
+      "shortDesc": "Remove blank lines",
+      "instructions": "Paste text to remove all blank lines.",
+      "inputLabel": "Input Text",
+      "outputLabel": "Output Text",
+      "placeholder": "Paste text with blank lines..."
+    },
+    "prefix-suffix": {
+      "title": "Add Prefix/Suffix",
+      "description": "Add text before or after each line.",
+      "shortDesc": "Add prefix or suffix",
+      "instructions": "Enter prefix and/or suffix to add to each line.",
+      "inputLabel": "Input Text",
+      "outputLabel": "Output Text",
+      "placeholder": "Enter lines of text...",
+      "prefixLabel": "Prefix",
+      "prefixPlaceholder": "Add before",
+      "suffixLabel": "Suffix",
+      "suffixPlaceholder": "Add after"
+    },
+    "csv-to-json": {
+      "title": "CSV to JSON",
+      "description": "Convert CSV data to JSON format for developers.",
+      "shortDesc": "Convert CSV to JSON",
+      "instructions": "Paste CSV data to convert to JSON."
+    },
+    "json-to-csv": {
+      "title": "JSON to CSV",
+      "description": "Convert JSON data to CSV format for Excel.",
+      "shortDesc": "Convert JSON to CSV",
+      "instructions": "Paste JSON array to convert to CSV."
+    },
+    "xml-to-json": {
+      "title": "XML to JSON",
+      "description": "Convert XML data to JSON format.",
+      "shortDesc": "Convert XML to JSON",
+      "instructions": "Paste XML data to convert to JSON."
+    },
+    "yaml-to-json": {
+      "title": "YAML to JSON",
+      "description": "Convert YAML configuration to JSON format.",
+      "shortDesc": "Convert YAML to JSON",
+      "instructions": "Paste YAML data to convert to JSON."
+    },
+    "text-to-list": {
+      "title": "Text to List",
+      "description": "Convert comma-separated or delimited text into a numbered list.",
+      "shortDesc": "Convert to list",
+      "instructions": "Enter delimited text to convert to a numbered list.",
+      "inputLabel": "Input Text",
+      "outputLabel": "Numbered List",
+      "placeholder": "Enter delimited text...",
+      "delimiterLabel": "Delimiter",
+      "comma": "Comma (,)",
+      "semicolon": "Semicolon (;)",
+      "pipe": "Pipe (|)",
+      "tab": "Tab",
+      "space": "Space"
+    },
+    "dummy-generator": {
+      "title": "Dummy Data Generator",
+      "description": "Generate fake names, emails, and phone numbers for testing.",
+      "shortDesc": "Generate test data",
+      "instructions": "Select the type and amount of dummy data to generate."
+    },
+    "lorem-ipsum": {
+      "title": "Lorem Ipsum Generator",
+      "description": "Generate placeholder text for design mockups.",
+      "shortDesc": "Generate placeholder text",
+      "instructions": "Select the number of paragraphs, sentences, or words to generate.",
+      "countLabel": "Count",
+      "paragraphs": "Paragraphs",
+      "sentences": "Sentences",
+      "words": "Words",
+      "generate": "Generate",
+      "outputLabel": "Generated Text",
+      "placeholder": "Click Generate to create placeholder text..."
+    },
+    "markdown-preview": {
+      "title": "Markdown Preview",
+      "description": "Preview Markdown text as rendered HTML in real-time.",
+      "shortDesc": "Preview Markdown",
+      "instructions": "Write Markdown on the left to see the rendered preview on the right."
+    },
+    "regex-tester": {
+      "title": "Regex Tester",
+      "description": "Test and validate regular expression patterns.",
+      "shortDesc": "Test regex patterns",
+      "instructions": "Enter a regex pattern and test string to see matches.",
+      "inputLabel": "Test String",
+      "outputLabel": "Matches",
+      "placeholder": "Enter text to test against the pattern..."
+    },
+    "url-encode": {
+      "title": "URL Encoder/Decoder",
+      "description": "Encode or decode URL special characters.",
+      "shortDesc": "URL encode/decode",
+      "instructions": "Enter text to encode for URLs or decode URL-encoded text.",
+      "encode": "Encode",
+      "decode": "Decode",
+      "textLabel": "Plain Text",
+      "encodedLabel": "URL Encoded",
+      "textPlaceholder": "Enter text to encode...",
+      "encodedPlaceholder": "Enter URL-encoded text..."
+    },
+    "base64-text": {
+      "title": "Base64 Text Converter",
+      "description": "Encode text to Base64 or decode Base64 to text.",
+      "shortDesc": "Base64 encode/decode",
+      "instructions": "Enter text to encode to Base64 or decode Base64 to text.",
+      "encode": "Encode",
+      "decode": "Decode",
+      "textLabel": "Plain Text",
+      "base64Label": "Base64",
+      "textPlaceholder": "Enter text to encode...",
+      "base64Placeholder": "Enter Base64 to decode...",
+      "invalidBase64": "Invalid Base64 string"
+    },
+    "html-entity": {
+      "title": "HTML Entity Converter",
+      "description": "Convert special characters to HTML entities and vice versa.",
+      "shortDesc": "HTML entities",
+      "instructions": "Enter text to convert special characters to HTML entities."
+    },
+    "diff-checker": {
+      "title": "Text Diff Checker",
+      "description": "Compare two texts and highlight the differences.",
+      "shortDesc": "Compare texts",
+      "instructions": "Paste two texts to compare and see differences highlighted.",
+      "text1Label": "Original Text",
+      "text2Label": "Modified Text",
+      "text1Placeholder": "Paste original text...",
+      "text2Placeholder": "Paste modified text...",
+      "added": "Added",
+      "removed": "Removed",
+      "unchanged": "Unchanged"
+    },
+    "word-frequency": {
+      "title": "Word Frequency Analyzer",
+      "description": "Analyze which words are used most frequently in your text.",
+      "shortDesc": "Analyze word frequency",
+      "instructions": "Paste text to see word frequency statistics."
+    },
+    "text-shuffle": {
+      "title": "Text Shuffler",
+      "description": "Randomly shuffle the order of lines or words.",
+      "shortDesc": "Shuffle text",
+      "instructions": "Enter lines of text to shuffle randomly.",
+      "inputLabel": "Input Text",
+      "outputLabel": "Shuffled Text",
+      "placeholder": "Enter lines to shuffle..."
+    },
+    "binary-converter": {
+      "title": "Binary Converter",
+      "description": "Convert text to binary (0s and 1s) and vice versa.",
+      "shortDesc": "Text to binary",
+      "instructions": "Enter text to convert to binary or binary to decode to text."
+    },
+    "morse-code": {
+      "title": "Morse Code Converter",
+      "description": "Convert text to Morse code and Morse code to text.",
+      "shortDesc": "Morse code",
+      "instructions": "Enter text to convert to Morse code."
+    },
+    "web-text-extract": {
+      "title": "Web Page Text Extractor",
+      "description": "Extract main text content from a web page URL.",
+      "shortDesc": "Extract web text",
+      "instructions": "Enter a URL to extract the main text content."
+    },
     "json-formatter": {
       "title": "JSON Formatter",
       "description": "Format and validate JSON data beautifully.",
-      "shortDesc": "Format and validate JSON"
+      "shortDesc": "Format and validate JSON",
+      "instructions": "Paste JSON to format or validate.",
+      "inputLabel": "Input JSON",
+      "outputLabel": "Formatted JSON",
+      "placeholder": "Paste your JSON here...",
+      "indent2": "2 Spaces",
+      "indent4": "4 Spaces",
+      "indent8": "8 Spaces",
+      "format": "Format",
+      "minify": "Minify",
+      "valid": "Valid JSON",
+      "invalid": "Invalid JSON"
     },
     "base64-encode": {
       "title": "Base64 Encoder",
