@@ -139,6 +139,7 @@ export default function Footer() {
           </p>
           <div className="flex items-center gap-4 text-xs text-gray-500">
             <span>{t('Common.footer.madeWith', { defaultValue: 'Made with love for productivity' })}</span>
+            <a href="/admin" className="text-gray-600 hover:text-gray-400 transition-colors" data-testid="link-admin">자리관</a>
           </div>
         </div>
       </div>
