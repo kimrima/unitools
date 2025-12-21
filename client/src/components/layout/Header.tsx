@@ -67,7 +67,11 @@ export default function Header() {
     <header className="sticky top-0 z-50 bg-card border-b shadow-sm">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-14 gap-4">
-          <Link href={localizedPath('/')} className="flex items-center gap-2">
+          <Link 
+            href={localizedPath('/')} 
+            className="flex items-center gap-2"
+            onClick={() => window.scrollTo({ top: 0, behavior: 'auto' })}
+          >
             <span className="font-extrabold text-xl" data-testid="text-logo">
               <span className="text-foreground">Uni</span>
               <span className="text-primary">Tools</span>
