@@ -160,7 +160,6 @@ export default function CompressPdfTool() {
           message={stagedProcessing.message}
           error={stagedProcessing.error}
           onCancel={stagedProcessing.abort}
-          showAds={true}
         />
       )}
 

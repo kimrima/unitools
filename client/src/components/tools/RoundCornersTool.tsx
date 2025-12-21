@@ -210,7 +210,6 @@ export default function RoundCornersTool() {
           message={stagedProcessing.message}
           error={stagedProcessing.error}
           onCancel={stagedProcessing.abort}
-          showAds={true}
         />
       )}
 

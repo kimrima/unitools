@@ -284,7 +284,6 @@ export default function CompressImageTool() {
           message={stagedProcessing.message}
           error={stagedProcessing.error}
           onCancel={stagedProcessing.abort}
-          showAds={true}
         />
       )}
 

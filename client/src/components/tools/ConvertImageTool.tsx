@@ -310,7 +310,6 @@ export default function ConvertImageTool({ toolId = 'convert-image' }: ConvertIm
           message={stagedProcessing.message}
           error={stagedProcessing.error}
           onCancel={stagedProcessing.abort}
-          showAds={true}
         />
       </div>
     );
@@ -452,7 +451,7 @@ export default function ConvertImageTool({ toolId = 'convert-image' }: ConvertIm
                   <Card className="p-3 hover-elevate cursor-pointer h-full">
                     <div className="flex flex-col items-center text-center gap-2">
                       <Badge variant="secondary" className="text-xs">
-                        {t(`Categories.${relatedTool.category}`)}
+                        {t(`Categories.${relatedTool.category}.name`)}
                       </Badge>
                       <span className="text-sm font-medium line-clamp-2">
                         {t(`Tools.${relatedTool.id}.title`)}

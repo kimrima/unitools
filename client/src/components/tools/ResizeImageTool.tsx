@@ -252,7 +252,6 @@ export default function ResizeImageTool() {
           message={stagedProcessing.message}
           error={stagedProcessing.error}
           onCancel={stagedProcessing.abort}
-          showAds={true}
         />
       )}
 

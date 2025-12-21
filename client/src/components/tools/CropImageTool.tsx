@@ -436,7 +436,6 @@ export default function CropImageTool() {
           message={stagedProcessing.message}
           error={stagedProcessing.error}
           onCancel={stagedProcessing.abort}
-          showAds={true}
         />
       )}
 
