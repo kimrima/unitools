@@ -21,14 +21,31 @@
       "process": "Process",
       "reset": "Reset",
       "copy": "Copy",
-      "paste": "Paste"
+      "paste": "Paste",
+      "selectFiles": "Select Files",
+      "addMore": "Add More",
+      "remove": "Remove",
+      "clear": "Clear All",
+      "merge": "Merge",
+      "compress": "Compress"
     },
     "messages": {
       "processing": "Processing...",
       "complete": "Complete!",
       "error": "An error occurred.",
       "dragDrop": "Drag and drop files here or click to select",
-      "noServerUpload": "Files are not uploaded to any server. All processing happens directly in your browser."
+      "noServerUpload": "Files are not uploaded to any server. All processing happens directly in your browser.",
+      "readyToDownload": "Ready to download!",
+      "processingFile": "Processing file...",
+      "mergingPdfs": "Merging PDF files...",
+      "compressingImage": "Compressing image...",
+      "filesSelected": "files selected",
+      "noFilesSelected": "No files selected",
+      "originalSize": "Original Size",
+      "compressedSize": "Compressed Size",
+      "savedPercent": "Saved",
+      "quality": "Quality",
+      "maxWidth": "Max Width/Height"
     },
     "footer": {
       "privacy": "Privacy Policy",
@@ -85,7 +102,8 @@
     "merge-pdf": {
       "title": "Merge PDF",
       "description": "Combine multiple PDF files into one.",
-      "shortDesc": "Merge multiple PDFs into one"
+      "shortDesc": "Merge multiple PDFs into one",
+      "instructions": "Select the PDF files you want to merge. You can drag to reorder them."
     },
     "split-pdf": {
       "title": "Split PDF",
@@ -125,7 +143,8 @@
     "compress-image": {
       "title": "Compress Image",
       "description": "Reduce image file size for web optimization.",
-      "shortDesc": "Reduce image file size"
+      "shortDesc": "Reduce image file size",
+      "instructions": "Select image files to compress. You can adjust quality and max dimensions."
     },
     "json-formatter": {
       "title": "JSON Formatter",
