@@ -9,7 +9,6 @@ import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { StagedLoadingOverlay } from '@/components/StagedLoadingOverlay';
 import { Upload, Download, CheckCircle, Square } from 'lucide-react';
-import { AdSlot } from '@/components/AdSlot';
 import { ShareActions } from '@/components/ShareActions';
 
 const RADIUS_PRESETS = [0, 10, 20, 30, 50, 75, 100];
@@ -247,7 +246,6 @@ export default function RoundCornersTool() {
             </div>
           </Card>
           <ShareActions />
-          <AdSlot position="results" />
         </div>
       )}
 

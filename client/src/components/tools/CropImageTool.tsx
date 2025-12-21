@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { StagedLoadingOverlay } from '@/components/StagedLoadingOverlay';
 import { Upload, Download, CheckCircle, Crop, RotateCcw } from 'lucide-react';
-import { AdSlot } from '@/components/AdSlot';
 import { ShareActions } from '@/components/ShareActions';
 
 interface CropArea {
@@ -471,7 +470,6 @@ export default function CropImageTool() {
             </div>
           </Card>
           <ShareActions />
-          <AdSlot position="results" />
         </div>
       )}
 

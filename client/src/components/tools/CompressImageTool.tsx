@@ -9,7 +9,6 @@ import { Slider } from '@/components/ui/slider';
 import { Label } from '@/components/ui/label';
 import { StagedLoadingOverlay } from '@/components/StagedLoadingOverlay';
 import { Image, Upload, X, Download, Check, CheckCircle } from 'lucide-react';
-import { AdSlot } from '@/components/AdSlot';
 
 export default function CompressImageTool() {
   const { t } = useTranslation();
@@ -357,8 +356,6 @@ export default function CompressImageTool() {
               {t('Common.workflow.startOver')}
             </Button>
           </div>
-          
-          <AdSlot position="results" />
         </div>
       )}
 

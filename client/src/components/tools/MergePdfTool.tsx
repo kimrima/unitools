@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { StagedLoadingOverlay } from '@/components/StagedLoadingOverlay';
 import { FileText, Upload, X, Download, GripVertical, CheckCircle } from 'lucide-react';
-import { AdSlot } from '@/components/AdSlot';
 
 export default function MergePdfTool() {
   const { t } = useTranslation();
@@ -237,7 +236,6 @@ export default function MergePdfTool() {
               </div>
             </CardContent>
           </Card>
-          <AdSlot position="results" />
         </div>
       )}
 

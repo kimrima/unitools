@@ -11,7 +11,6 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Image, Upload, X, RefreshCw, Download, CheckCircle, Share2, ExternalLink, FileDown } from 'lucide-react';
 import { StagedLoadingOverlay } from '@/components/StagedLoadingOverlay';
-import { AdSlot } from '@/components/AdSlot';
 import { allTools, type Tool } from '@/data/tools';
 import { useToast } from '@/hooks/use-toast';
 
@@ -434,10 +433,6 @@ export default function ConvertImageTool({ toolId = 'convert-image' }: ConvertIm
           </Button>
         </div>
         
-        <div className="flex justify-center">
-          <AdSlot position="results" />
-        </div>
-        
         <Card className="bg-muted/30">
           <CardContent className="p-4">
             <p className="text-sm text-muted-foreground text-center">
@@ -470,10 +465,6 @@ export default function ConvertImageTool({ toolId = 'convert-image' }: ConvertIm
             </div>
           </div>
         )}
-        
-        <div className="flex justify-center">
-          <AdSlot position="footer" />
-        </div>
       </div>
     );
   }

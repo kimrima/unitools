@@ -10,7 +10,6 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { StagedLoadingOverlay } from '@/components/StagedLoadingOverlay';
 import { Image, Upload, Download, CheckCircle, Link2 } from 'lucide-react';
-import { AdSlot } from '@/components/AdSlot';
 import { ShareActions } from '@/components/ShareActions';
 
 const PRESET_SCALES = [25, 50, 75, 100, 125, 150, 200];
@@ -289,7 +288,6 @@ export default function ResizeImageTool() {
             </div>
           </Card>
           <ShareActions />
-          <AdSlot position="results" />
         </div>
       )}
 

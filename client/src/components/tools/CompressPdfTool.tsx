@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { StagedLoadingOverlay } from '@/components/StagedLoadingOverlay';
 import { FileText, Upload, Download, CheckCircle } from 'lucide-react';
-import { AdSlot } from '@/components/AdSlot';
 
 export default function CompressPdfTool() {
   const { t } = useTranslation();
@@ -193,7 +192,6 @@ export default function CompressPdfTool() {
               </Button>
             </div>
           </div>
-          <AdSlot position="results" />
         </div>
       )}
 

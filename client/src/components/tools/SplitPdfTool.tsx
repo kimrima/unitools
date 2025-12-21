@@ -8,7 +8,6 @@ import { Card, CardContent } from '@/components/ui/card';
 import { StagedLoadingOverlay } from '@/components/StagedLoadingOverlay';
 import { FileText, Upload, Download, CheckCircle } from 'lucide-react';
 import { downloadBlob } from '@/hooks/useToolEngine';
-import { AdSlot } from '@/components/AdSlot';
 
 export default function SplitPdfTool() {
   const { t } = useTranslation();
@@ -265,8 +264,6 @@ export default function SplitPdfTool() {
               {t('Common.workflow.startOver')}
             </Button>
           </div>
-          
-          <AdSlot position="results" />
         </div>
       )}
 
