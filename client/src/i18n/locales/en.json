@@ -1,0 +1,156 @@
+{
+  "Common": {
+    "siteName": "UniTools",
+    "siteTitle": "UniTools - All-in-One Online Tools",
+    "siteDescription": "200+ free online tools. All processing happens directly in your browser.",
+    "nav": {
+      "home": "Home",
+      "pdf": "PDF Tools",
+      "imageConvert": "Image Convert",
+      "imageEdit": "Image Edit",
+      "videoAudio": "Video/Audio",
+      "text": "Text Tools",
+      "social": "Social Media",
+      "developer": "Developer Tools",
+      "calculator": "Calculators"
+    },
+    "actions": {
+      "upload": "Upload File",
+      "download": "Download",
+      "convert": "Convert",
+      "process": "Process",
+      "reset": "Reset",
+      "copy": "Copy",
+      "paste": "Paste"
+    },
+    "messages": {
+      "processing": "Processing...",
+      "complete": "Complete!",
+      "error": "An error occurred.",
+      "dragDrop": "Drag and drop files here or click to select",
+      "noServerUpload": "Files are not uploaded to any server. All processing happens directly in your browser."
+    },
+    "footer": {
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service",
+      "contact": "Contact Us",
+      "allRightsReserved": "All rights reserved"
+    }
+  },
+  "Categories": {
+    "pdf": {
+      "name": "PDF Tools",
+      "description": "Convert, merge, split and more PDF tools"
+    },
+    "imageConvert": {
+      "name": "Image Convert",
+      "description": "Convert between various image formats"
+    },
+    "imageEdit": {
+      "name": "Image Edit",
+      "description": "Resize, crop, apply filters and more"
+    },
+    "videoAudio": {
+      "name": "Video/Audio",
+      "description": "Video and audio file conversion and editing"
+    },
+    "text": {
+      "name": "Text Tools",
+      "description": "Text conversion, formatting and analysis tools"
+    },
+    "social": {
+      "name": "Social Media",
+      "description": "Download and optimize social media content"
+    },
+    "developer": {
+      "name": "Developer Tools",
+      "description": "Code formatters, encoders, hash generators and more"
+    },
+    "calculator": {
+      "name": "Calculators",
+      "description": "Various calculators for everyday calculations"
+    }
+  },
+  "Tools": {
+    "pdf-to-jpg": {
+      "title": "PDF to JPG",
+      "description": "Convert PDF files to high-quality JPG images instantly.",
+      "shortDesc": "Convert PDF to JPG images"
+    },
+    "jpg-to-pdf": {
+      "title": "JPG to PDF",
+      "description": "Combine multiple JPG images into a single PDF file.",
+      "shortDesc": "Convert JPG images to PDF"
+    },
+    "merge-pdf": {
+      "title": "Merge PDF",
+      "description": "Combine multiple PDF files into one.",
+      "shortDesc": "Merge multiple PDFs into one"
+    },
+    "split-pdf": {
+      "title": "Split PDF",
+      "description": "Split a PDF file into multiple files.",
+      "shortDesc": "Split PDF into multiple files"
+    },
+    "compress-pdf": {
+      "title": "Compress PDF",
+      "description": "Reduce PDF file size for easier sharing.",
+      "shortDesc": "Reduce PDF file size"
+    },
+    "png-to-jpg": {
+      "title": "PNG to JPG",
+      "description": "Convert PNG images to JPG format.",
+      "shortDesc": "Convert PNG to JPG"
+    },
+    "jpg-to-png": {
+      "title": "JPG to PNG",
+      "description": "Convert JPG images to PNG format.",
+      "shortDesc": "Convert JPG to PNG"
+    },
+    "webp-to-jpg": {
+      "title": "WebP to JPG",
+      "description": "Convert WebP images to JPG format.",
+      "shortDesc": "Convert WebP to JPG"
+    },
+    "resize-image": {
+      "title": "Resize Image",
+      "description": "Adjust the width and height of your images to any size.",
+      "shortDesc": "Change image dimensions"
+    },
+    "crop-image": {
+      "title": "Crop Image",
+      "description": "Cut out the desired area from your images.",
+      "shortDesc": "Crop image area"
+    },
+    "compress-image": {
+      "title": "Compress Image",
+      "description": "Reduce image file size for web optimization.",
+      "shortDesc": "Reduce image file size"
+    },
+    "json-formatter": {
+      "title": "JSON Formatter",
+      "description": "Format and validate JSON data beautifully.",
+      "shortDesc": "Format and validate JSON"
+    },
+    "base64-encode": {
+      "title": "Base64 Encoder",
+      "description": "Encode text or files to Base64.",
+      "shortDesc": "Base64 encoding"
+    },
+    "hash-generator": {
+      "title": "Hash Generator",
+      "description": "Generate various hashes like MD5, SHA-1, SHA-256.",
+      "shortDesc": "Generate hash values"
+    },
+    "unit-converter": {
+      "title": "Unit Converter",
+      "description": "Convert various units like length, weight, temperature.",
+      "shortDesc": "Convert units"
+    },
+    "percentage-calculator": {
+      "title": "Percentage Calculator",
+      "description": "Calculate percentages quickly and easily.",
+      "shortDesc": "Calculate percentages"
+    }
+  }
+}

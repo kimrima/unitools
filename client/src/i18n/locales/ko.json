@@ -1,0 +1,156 @@
+{
+  "Common": {
+    "siteName": "UniTools",
+    "siteTitle": "UniTools - 통합 온라인 도구",
+    "siteDescription": "200개 이상의 무료 온라인 도구. 모든 처리는 브라우저에서 직접 수행됩니다.",
+    "nav": {
+      "home": "홈",
+      "pdf": "PDF 도구",
+      "imageConvert": "이미지 변환",
+      "imageEdit": "이미지 편집",
+      "videoAudio": "비디오/오디오",
+      "text": "텍스트 가공",
+      "social": "소셜 미디어",
+      "developer": "개발자 도구",
+      "calculator": "계산기"
+    },
+    "actions": {
+      "upload": "파일 업로드",
+      "download": "다운로드",
+      "convert": "변환하기",
+      "process": "처리하기",
+      "reset": "초기화",
+      "copy": "복사",
+      "paste": "붙여넣기"
+    },
+    "messages": {
+      "processing": "처리 중...",
+      "complete": "완료!",
+      "error": "오류가 발생했습니다.",
+      "dragDrop": "파일을 여기에 끌어다 놓거나 클릭하여 선택하세요",
+      "noServerUpload": "파일은 서버에 업로드되지 않습니다. 모든 처리는 브라우저에서 직접 수행됩니다."
+    },
+    "footer": {
+      "privacy": "개인정보 보호",
+      "terms": "이용약관",
+      "contact": "문의하기",
+      "allRightsReserved": "모든 권리 보유"
+    }
+  },
+  "Categories": {
+    "pdf": {
+      "name": "PDF 도구",
+      "description": "PDF 변환, 병합, 분할 등 다양한 PDF 관련 도구"
+    },
+    "imageConvert": {
+      "name": "이미지 변환",
+      "description": "다양한 이미지 포맷 간 변환 도구"
+    },
+    "imageEdit": {
+      "name": "이미지 편집",
+      "description": "이미지 크기 조정, 자르기, 필터 적용 등"
+    },
+    "videoAudio": {
+      "name": "비디오/오디오",
+      "description": "비디오 및 오디오 파일 변환과 편집"
+    },
+    "text": {
+      "name": "텍스트 가공",
+      "description": "텍스트 변환, 포맷팅, 분석 도구"
+    },
+    "social": {
+      "name": "소셜 미디어",
+      "description": "소셜 미디어 콘텐츠 다운로드 및 최적화"
+    },
+    "developer": {
+      "name": "개발자 도구",
+      "description": "코드 포맷터, 인코더, 해시 생성기 등"
+    },
+    "calculator": {
+      "name": "계산기",
+      "description": "일상적인 계산을 위한 다양한 계산기"
+    }
+  },
+  "Tools": {
+    "pdf-to-jpg": {
+      "title": "PDF를 JPG로 변환",
+      "description": "PDF 파일을 고화질 JPG 이미지로 즉시 변환하세요.",
+      "shortDesc": "PDF를 JPG 이미지로 변환"
+    },
+    "jpg-to-pdf": {
+      "title": "JPG를 PDF로 변환",
+      "description": "여러 JPG 이미지를 하나의 PDF 파일로 합치세요.",
+      "shortDesc": "JPG 이미지를 PDF로 변환"
+    },
+    "merge-pdf": {
+      "title": "PDF 병합",
+      "description": "여러 PDF 파일을 하나로 합치세요.",
+      "shortDesc": "여러 PDF를 하나로 병합"
+    },
+    "split-pdf": {
+      "title": "PDF 분할",
+      "description": "PDF 파일을 여러 개의 파일로 나누세요.",
+      "shortDesc": "PDF를 여러 파일로 분할"
+    },
+    "compress-pdf": {
+      "title": "PDF 압축",
+      "description": "PDF 파일 크기를 줄여 공유하기 쉽게 만드세요.",
+      "shortDesc": "PDF 파일 크기 줄이기"
+    },
+    "png-to-jpg": {
+      "title": "PNG를 JPG로 변환",
+      "description": "PNG 이미지를 JPG 포맷으로 변환하세요.",
+      "shortDesc": "PNG를 JPG로 변환"
+    },
+    "jpg-to-png": {
+      "title": "JPG를 PNG로 변환",
+      "description": "JPG 이미지를 PNG 포맷으로 변환하세요.",
+      "shortDesc": "JPG를 PNG로 변환"
+    },
+    "webp-to-jpg": {
+      "title": "WebP를 JPG로 변환",
+      "description": "WebP 이미지를 JPG 포맷으로 변환하세요.",
+      "shortDesc": "WebP를 JPG로 변환"
+    },
+    "resize-image": {
+      "title": "이미지 크기 조정",
+      "description": "이미지의 너비와 높이를 원하는 크기로 조정하세요.",
+      "shortDesc": "이미지 크기 변경"
+    },
+    "crop-image": {
+      "title": "이미지 자르기",
+      "description": "이미지에서 원하는 영역만 잘라내세요.",
+      "shortDesc": "이미지 영역 자르기"
+    },
+    "compress-image": {
+      "title": "이미지 압축",
+      "description": "이미지 파일 크기를 줄여 웹에 최적화하세요.",
+      "shortDesc": "이미지 파일 크기 줄이기"
+    },
+    "json-formatter": {
+      "title": "JSON 포맷터",
+      "description": "JSON 데이터를 보기 좋게 정리하고 검증하세요.",
+      "shortDesc": "JSON 정리 및 검증"
+    },
+    "base64-encode": {
+      "title": "Base64 인코더",
+      "description": "텍스트나 파일을 Base64로 인코딩하세요.",
+      "shortDesc": "Base64 인코딩"
+    },
+    "hash-generator": {
+      "title": "해시 생성기",
+      "description": "MD5, SHA-1, SHA-256 등 다양한 해시를 생성하세요.",
+      "shortDesc": "해시 값 생성"
+    },
+    "unit-converter": {
+      "title": "단위 변환기",
+      "description": "길이, 무게, 온도 등 다양한 단위를 변환하세요.",
+      "shortDesc": "단위 변환"
+    },
+    "percentage-calculator": {
+      "title": "퍼센트 계산기",
+      "description": "퍼센트 계산을 쉽고 빠르게 수행하세요.",
+      "shortDesc": "퍼센트 계산"
+    }
+  }
+}
