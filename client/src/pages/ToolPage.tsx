@@ -1,7 +1,7 @@
 import { Suspense, lazy } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRoute, Link } from 'wouter';
-import { useLocale, useLocalizedPath } from '@/components/LocaleProvider';
+import { useLocalizedPath } from '@/components/LocaleProvider';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -33,7 +33,7 @@ function ToolLoading() {
 }
 
 function GenericToolPlaceholder({ toolId }: { toolId: string }) {
-  const locale = useLocale();
+  const { t } = useTranslation();
   
   return (
     <div className="space-y-6">
@@ -43,13 +43,10 @@ function GenericToolPlaceholder({ toolId }: { toolId: string }) {
         </div>
         <div className="text-center">
           <p className="font-semibold text-lg">
-            {locale === 'ko' ? '이 도구는 준비 중입니다' : 'Coming Soon'}
+            {t('Common.tool.comingSoonTitle')}
           </p>
           <p className="text-muted-foreground mt-2 max-w-md">
-            {locale === 'ko' 
-              ? `"${toolId}" 기능은 현재 개발 중입니다. 곧 사용하실 수 있습니다!`
-              : `The "${toolId}" feature is currently under development. Check back soon!`
-            }
+            {t('Common.tool.comingSoonDesc', { toolId })}
           </p>
         </div>
       </div>
@@ -60,7 +57,6 @@ function GenericToolPlaceholder({ toolId }: { toolId: string }) {
 export default function ToolPage() {
   const { t } = useTranslation();
   const [, params] = useRoute('/:locale/:toolId');
-  const locale = useLocale();
   const localizedPath = useLocalizedPath();
   
   const toolId = params?.toolId || '';
@@ -84,20 +80,17 @@ export default function ToolPage() {
                 <AlertCircle className="w-8 h-8 text-destructive" />
               </div>
               <CardTitle className="text-xl" data-testid="text-tool-not-found">
-                {locale === 'ko' ? '도구를 찾을 수 없습니다' : 'Tool Not Found'}
+                {t('Common.tool.notFound')}
               </CardTitle>
               <CardDescription data-testid="text-tool-not-found-desc">
-                {locale === 'ko' 
-                  ? `"${toolId}" 도구가 존재하지 않습니다.`
-                  : `The tool "${toolId}" does not exist.`
-                }
+                {t('Common.tool.notFoundDesc', { toolId })}
               </CardDescription>
             </CardHeader>
             <CardContent className="flex justify-center">
               <Link href={localizedPath('/')}>
                 <Button data-testid="button-go-home">
                   <Home className="w-4 h-4 mr-2" />
-                  {locale === 'ko' ? '홈으로 돌아가기' : 'Go Home'}
+                  {t('Common.tool.goHome')}
                 </Button>
               </Link>
             </CardContent>
@@ -149,7 +142,7 @@ export default function ToolPage() {
                   {toolTitle}
                 </h1>
                 {tool && !tool.implemented && (
-                  <Badge variant="outline">{locale === 'ko' ? '개발 중' : 'Coming Soon'}</Badge>
+                  <Badge variant="outline">{t('Common.tool.comingSoon')}</Badge>
                 )}
               </div>
               <p className="text-muted-foreground text-lg" data-testid="text-tool-description">
@@ -175,10 +168,7 @@ export default function ToolPage() {
 
         <div className="mt-8 text-center">
           <p className="text-sm text-muted-foreground">
-            {locale === 'ko' 
-              ? '파일은 브라우저에서 직접 처리되며 서버로 전송되지 않습니다.'
-              : 'Files are processed directly in your browser and never uploaded to any server.'
-            }
+            {t('Common.tool.privacyNote')}
           </p>
         </div>
       </main>

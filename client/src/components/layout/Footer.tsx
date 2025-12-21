@@ -27,9 +27,9 @@ export default function Footer() {
                 <Shield className="w-5 h-5 text-primary" />
               </div>
               <div>
-                <h4 className="font-semibold text-sm">{t('Common.messages.noServerUpload').split('.')[0]}</h4>
+                <h4 className="font-semibold text-sm">{t('Common.footer.trustClientSide')}</h4>
                 <p className="text-sm text-muted-foreground mt-1">
-                  {t('Common.messages.noServerUpload').split('.')[1] || 'Your files stay on your device'}
+                  {t('Common.footer.trustClientSideDesc')}
                 </p>
               </div>
             </div>
@@ -38,8 +38,8 @@ export default function Footer() {
                 <Zap className="w-5 h-5 text-primary" />
               </div>
               <div>
-                <h4 className="font-semibold text-sm">200+ Tools</h4>
-                <p className="text-sm text-muted-foreground mt-1">All free, no registration required</p>
+                <h4 className="font-semibold text-sm">{t('Common.footer.trustFreeTools')}</h4>
+                <p className="text-sm text-muted-foreground mt-1">{t('Common.footer.trustFreeToolsDesc')}</p>
               </div>
             </div>
             <div className="flex items-start gap-3">
@@ -47,8 +47,8 @@ export default function Footer() {
                 <Globe className="w-5 h-5 text-primary" />
               </div>
               <div>
-                <h4 className="font-semibold text-sm">Multi-language Support</h4>
-                <p className="text-sm text-muted-foreground mt-1">Available in Korean, English & more</p>
+                <h4 className="font-semibold text-sm">{t('Common.footer.trustMultiLang')}</h4>
+                <p className="text-sm text-muted-foreground mt-1">{t('Common.footer.trustMultiLangDesc')}</p>
               </div>
             </div>
           </div>
@@ -58,7 +58,7 @@ export default function Footer() {
           {Object.entries(categoryTools).map(([category, tools]) => (
             <div key={category}>
               <h3 className="font-semibold text-sm mb-3" data-testid={`text-footer-category-${category}`}>
-                {t(`Common.nav.${category}`)}
+                {t(`Categories.${category}.name`)}
               </h3>
               <ul className="space-y-2">
                 {tools.map((toolId) => (

@@ -4,7 +4,7 @@ import { Link } from 'wouter';
 import { useLocalizedPath } from '@/components/LocaleProvider';
 import { Input } from '@/components/ui/input';
 import { Search, X } from 'lucide-react';
-import { allTools, type Tool } from '@/data/tools';
+import { allTools } from '@/data/tools';
 
 interface SearchBarProps {
   variant?: 'hero' | 'compact';
@@ -57,7 +57,7 @@ export default function SearchBar({ variant = 'compact', autoFocus = false }: Se
         <Input
           ref={inputRef}
           type="text"
-          placeholder={t('Common.messages.dragDrop').split(' ')[0] + '... (e.g., PDF, Image, Video)'}
+          placeholder={t('Common.search.placeholder')}
           value={query}
           onChange={(e) => {
             setQuery(e.target.value);
@@ -110,7 +110,7 @@ export default function SearchBar({ variant = 'compact', autoFocus = false }: Se
       {isOpen && query && filteredTools.length === 0 && (
         <div className="absolute top-full left-0 right-0 mt-2 bg-popover border rounded-lg shadow-lg p-4 z-50" data-testid="search-no-results">
           <p className="text-sm text-muted-foreground text-center">
-            No tools found for "{query}"
+            {t('Common.search.noResults', { query })}
           </p>
         </div>
       )}

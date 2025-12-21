@@ -93,7 +93,67 @@
       "privacy": "Privacy Policy",
       "terms": "Terms of Service",
       "contact": "Contact Us",
-      "allRightsReserved": "All rights reserved"
+      "allRightsReserved": "All rights reserved",
+      "trustClientSide": "100% Client-Side",
+      "trustClientSideDesc": "Your files stay on your device",
+      "trustFreeTools": "200+ Tools",
+      "trustFreeToolsDesc": "All free, no registration required",
+      "trustMultiLang": "Multi-language Support",
+      "trustMultiLangDesc": "Available in Korean, English & more"
+    },
+    "hero": {
+      "badge": "200+ Free Tools",
+      "titlePart1": "All Your Tools,",
+      "titlePart2": "One Place",
+      "trustFree": "Free",
+      "trustNoUpload": "No Server Upload",
+      "trustMultiLang": "Multi-language"
+    },
+    "home": {
+      "categoriesTitle": "Tools by Category",
+      "categoriesSubtitle": "8 categories, 200+ tools",
+      "popularTitle": "Popular Tools",
+      "viewAllTools": "View All Tools",
+      "whyChoose": "Why Choose UniTools",
+      "clientSideTitle": "100% Client-Side",
+      "clientSideDesc": "Files never leave your device. All processing happens in your browser for complete privacy.",
+      "fastFreeTitle": "Fast & Free",
+      "fastFreeDesc": "Instant processing with no upload wait. All tools are completely free to use.",
+      "multiLangTitle": "Multi-Language",
+      "multiLangDesc": "Available in Korean, English, and more languages coming soon.",
+      "getStarted": "Get Started Now",
+      "getStartedDesc": "Use all tools for free without registration.",
+      "tools": "tools"
+    },
+    "tool": {
+      "comingSoon": "Coming Soon",
+      "comingSoonTitle": "Coming Soon",
+      "comingSoonDesc": "The \"{{toolId}}\" feature is currently under development. Check back soon!",
+      "notFound": "Tool Not Found",
+      "notFoundDesc": "The tool \"{{toolId}}\" does not exist.",
+      "goHome": "Go Home",
+      "privacyNote": "Files are processed directly in your browser and never uploaded to any server."
+    },
+    "search": {
+      "placeholder": "Search tools (e.g., PDF, Image, Video)...",
+      "noResults": "No tools found for \"{{query}}\""
+    },
+    "workflow": {
+      "upload": "Upload",
+      "options": "Options",
+      "processing": "Processing",
+      "complete": "Complete",
+      "dropFilesHere": "Drop files here",
+      "orClickToBrowse": "or click to browse",
+      "maxFilesInfo": "Up to {{maxFiles}} files, {{maxSize}} each",
+      "filesSelected": "{{count}} file(s) selected",
+      "percentComplete": "{{percent}}% complete",
+      "processingComplete": "Processing Complete!",
+      "download": "Download",
+      "startOver": "Start Over",
+      "adSlot": "Ad Slot",
+      "selectFiles": "Select Files",
+      "inDevelopment": "Under Development"
     }
   },
   "Categories": {

@@ -93,7 +93,67 @@
       "privacy": "개인정보 보호",
       "terms": "이용약관",
       "contact": "문의하기",
-      "allRightsReserved": "모든 권리 보유"
+      "allRightsReserved": "모든 권리 보유",
+      "trustClientSide": "100% 클라이언트 처리",
+      "trustClientSideDesc": "파일이 서버로 전송되지 않습니다",
+      "trustFreeTools": "200개 이상 도구",
+      "trustFreeToolsDesc": "모두 무료, 가입 불필요",
+      "trustMultiLang": "다국어 지원",
+      "trustMultiLangDesc": "한국어, 영어 및 더 많은 언어"
+    },
+    "hero": {
+      "badge": "200개 이상 무료 도구",
+      "titlePart1": "모든 온라인 도구를",
+      "titlePart2": "한 곳에서",
+      "trustFree": "무료",
+      "trustNoUpload": "서버 업로드 없음",
+      "trustMultiLang": "다국어"
+    },
+    "home": {
+      "categoriesTitle": "카테고리별 도구",
+      "categoriesSubtitle": "8개 카테고리, 200개 이상 도구",
+      "popularTitle": "인기 도구",
+      "viewAllTools": "모든 도구 보기",
+      "whyChoose": "UniTools를 선택하는 이유",
+      "clientSideTitle": "100% 클라이언트 처리",
+      "clientSideDesc": "파일이 서버로 전송되지 않습니다. 모든 처리는 브라우저에서 직접 수행되어 개인정보가 안전합니다.",
+      "fastFreeTitle": "빠르고 무료",
+      "fastFreeDesc": "업로드/다운로드 대기 시간 없이 즉시 처리됩니다. 모든 도구를 무료로 사용하세요.",
+      "multiLangTitle": "다국어 지원",
+      "multiLangDesc": "한국어, 영어 등 다양한 언어로 사용할 수 있습니다. 더 많은 언어가 추가될 예정입니다.",
+      "getStarted": "지금 바로 시작하세요",
+      "getStartedDesc": "회원가입 없이 모든 도구를 무료로 사용할 수 있습니다.",
+      "tools": "개"
+    },
+    "tool": {
+      "comingSoon": "개발 중",
+      "comingSoonTitle": "준비 중입니다",
+      "comingSoonDesc": "\"{{toolId}}\" 기능은 현재 개발 중입니다. 곧 사용하실 수 있습니다!",
+      "notFound": "도구를 찾을 수 없습니다",
+      "notFoundDesc": "\"{{toolId}}\" 도구가 존재하지 않습니다.",
+      "goHome": "홈으로 돌아가기",
+      "privacyNote": "파일은 브라우저에서 직접 처리되며 서버로 전송되지 않습니다."
+    },
+    "search": {
+      "placeholder": "도구 검색 (예: PDF, 이미지, 비디오)...",
+      "noResults": "\"{{query}}\"에 해당하는 도구를 찾을 수 없습니다"
+    },
+    "workflow": {
+      "upload": "파일 선택",
+      "options": "설정",
+      "processing": "처리 중",
+      "complete": "완료",
+      "dropFilesHere": "파일을 여기에 끌어다 놓으세요",
+      "orClickToBrowse": "또는 클릭하여 파일 선택",
+      "maxFilesInfo": "최대 {{maxFiles}}개 파일, 각 {{maxSize}}",
+      "filesSelected": "{{count}}개 파일 선택됨",
+      "percentComplete": "{{percent}}% 완료",
+      "processingComplete": "처리 완료!",
+      "download": "다운로드",
+      "startOver": "다시 하기",
+      "adSlot": "광고 영역",
+      "selectFiles": "파일 선택",
+      "inDevelopment": "개발 중"
     }
   },
   "Categories": {

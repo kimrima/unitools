@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next';
-import { useLocale } from '@/components/LocaleProvider';
 import { Progress } from '@/components/ui/progress';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -15,24 +14,16 @@ interface ToolTemplateProps {
 }
 
 const steps = [
-  { id: 'upload', icon: Upload, labelKey: 'upload' },
-  { id: 'options', icon: Settings, labelKey: 'options' },
-  { id: 'processing', icon: Loader2, labelKey: 'processing' },
-  { id: 'complete', icon: CheckCircle, labelKey: 'complete' },
+  { id: 'upload', icon: Upload, labelKey: 'workflow.upload' },
+  { id: 'options', icon: Settings, labelKey: 'workflow.options' },
+  { id: 'processing', icon: Loader2, labelKey: 'workflow.processing' },
+  { id: 'complete', icon: CheckCircle, labelKey: 'workflow.complete' },
 ] as const;
 
 export function ToolTemplate({ step, progress = 0, children }: ToolTemplateProps) {
   const { t } = useTranslation();
-  const locale = useLocale();
 
   const currentStepIndex = steps.findIndex((s) => s.id === step);
-
-  const stepLabels: Record<string, { ko: string; en: string }> = {
-    upload: { ko: '파일 선택', en: 'Upload' },
-    options: { ko: '설정', en: 'Options' },
-    processing: { ko: '처리 중', en: 'Processing' },
-    complete: { ko: '완료', en: 'Complete' },
-  };
 
   return (
     <div className="space-y-6">
@@ -69,7 +60,7 @@ export function ToolTemplate({ step, progress = 0, children }: ToolTemplateProps
                     isPending && 'text-muted-foreground'
                   )}
                 >
-                  {stepLabels[s.id][locale as 'ko' | 'en'] || stepLabels[s.id].en}
+                  {t(`Common.${s.labelKey}`)}
                 </span>
               </div>
 
@@ -90,7 +81,7 @@ export function ToolTemplate({ step, progress = 0, children }: ToolTemplateProps
         <div className="space-y-2">
           <Progress value={progress} className="h-2" data-testid="progress-bar" />
           <p className="text-center text-sm text-muted-foreground">
-            {progress}% {locale === 'ko' ? '완료' : 'complete'}
+            {t('Common.workflow.percentComplete', { percent: progress })}
           </p>
         </div>
       )}
@@ -101,12 +92,12 @@ export function ToolTemplate({ step, progress = 0, children }: ToolTemplateProps
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Card className="p-4 border-dashed border-2 flex items-center justify-center min-h-24">
             <p className="text-sm text-muted-foreground text-center">
-              {locale === 'ko' ? '광고 영역' : 'Ad Slot'}
+              {t('Common.workflow.adSlot')}
             </p>
           </Card>
           <Card className="p-4 border-dashed border-2 flex items-center justify-center min-h-24">
             <p className="text-sm text-muted-foreground text-center">
-              {locale === 'ko' ? '광고 영역' : 'Ad Slot'}
+              {t('Common.workflow.adSlot')}
             </p>
           </Card>
         </div>
@@ -136,7 +127,7 @@ export function Dropzone({
   onRemoveFile,
   fileType = 'any',
 }: DropzoneProps) {
-  const locale = useLocale();
+  const { t } = useTranslation();
 
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
@@ -179,15 +170,13 @@ export function Dropzone({
         {getIcon()}
         <div className="text-center">
           <p className="font-medium text-lg">
-            {locale === 'ko' ? '파일을 여기에 끌어다 놓으세요' : 'Drop files here'}
+            {t('Common.workflow.dropFilesHere')}
           </p>
           <p className="text-sm text-muted-foreground mt-1">
-            {locale === 'ko' ? '또는 클릭하여 파일 선택' : 'or click to browse'}
+            {t('Common.workflow.orClickToBrowse')}
           </p>
           <p className="text-xs text-muted-foreground mt-2">
-            {locale === 'ko'
-              ? `최대 ${maxFiles}개 파일, 각 ${formatSize(maxSize)}`
-              : `Up to ${maxFiles} files, ${formatSize(maxSize)} each`}
+            {t('Common.workflow.maxFilesInfo', { maxFiles, maxSize: formatSize(maxSize) })}
           </p>
         </div>
         <input
@@ -201,16 +190,14 @@ export function Dropzone({
         />
         <Button type="button" variant="outline" className="relative z-10" data-testid="button-select-files">
           <Upload className="w-4 h-4 mr-2" />
-          {locale === 'ko' ? '파일 선택' : 'Select Files'}
+          {t('Common.workflow.selectFiles')}
         </Button>
       </div>
 
       {files.length > 0 && (
         <div className="space-y-2" data-testid="file-list">
           <p className="text-sm font-medium">
-            {locale === 'ko'
-              ? `${files.length}개 파일 선택됨`
-              : `${files.length} file${files.length > 1 ? 's' : ''} selected`}
+            {t('Common.workflow.filesSelected', { count: files.length })}
           </p>
           <div className="space-y-2 max-h-48 overflow-auto">
             {files.map((file, index) => (
@@ -272,7 +259,7 @@ export function DownloadResult({
   onReset,
   downloadUrl,
 }: DownloadResultProps) {
-  const locale = useLocale();
+  const { t } = useTranslation();
 
   const formatSize = (bytes: number) => {
     if (bytes < 1024) return `${bytes} B`;
@@ -290,7 +277,7 @@ export function DownloadResult({
 
       <div className="text-center">
         <h3 className="text-xl font-semibold mb-2">
-          {locale === 'ko' ? '처리 완료!' : 'Processing Complete!'}
+          {t('Common.workflow.processingComplete')}
         </h3>
         <p className="text-muted-foreground">{fileName}</p>
 
@@ -310,23 +297,23 @@ export function DownloadResult({
           <a href={downloadUrl} download={fileName}>
             <Button size="lg" className="gap-2" data-testid="button-download">
               <Download className="w-5 h-5" />
-              {locale === 'ko' ? '다운로드' : 'Download'}
+              {t('Common.workflow.download')}
             </Button>
           </a>
         ) : (
           <Button size="lg" className="gap-2" onClick={onDownload} data-testid="button-download">
             <Download className="w-5 h-5" />
-            {locale === 'ko' ? '다운로드' : 'Download'}
+            {t('Common.workflow.download')}
           </Button>
         )}
         <Button variant="outline" size="lg" onClick={onReset} data-testid="button-reset">
-          {locale === 'ko' ? '다시 하기' : 'Start Over'}
+          {t('Common.workflow.startOver')}
         </Button>
       </div>
 
       <Card className="w-full max-w-md p-4 border-dashed border-2 flex items-center justify-center min-h-16 mt-4">
         <p className="text-sm text-muted-foreground text-center">
-          {locale === 'ko' ? '광고 영역' : 'Ad Slot'}
+          {t('Common.workflow.adSlot')}
         </p>
       </Card>
     </div>

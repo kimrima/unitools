@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { Link } from 'wouter';
-import { useLocale, useLocalizedPath } from '@/components/LocaleProvider';
+import { useLocalizedPath } from '@/components/LocaleProvider';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -18,7 +18,6 @@ import {
 
 export default function HomePage() {
   const { t } = useTranslation();
-  const locale = useLocale();
   const localizedPath = useLocalizedPath();
   const popularTools = getPopularTools();
 
@@ -34,21 +33,12 @@ export default function HomePage() {
           <div className="relative max-w-4xl mx-auto text-center">
             <Badge variant="secondary" className="mb-6" data-testid="badge-tools-count">
               <Zap className="w-3 h-3 mr-1" />
-              200+ Free Tools
+              {t('Common.hero.badge')}
             </Badge>
             
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6" data-testid="text-hero-title">
-              {locale === 'ko' ? (
-                <>
-                  <span className="text-primary">모든 온라인 도구</span>를<br />
-                  한 곳에서
-                </>
-              ) : (
-                <>
-                  All Your Tools,<br />
-                  <span className="text-primary">One Place</span>
-                </>
-              )}
+              {t('Common.hero.titlePart1')}<br />
+              <span className="text-primary">{t('Common.hero.titlePart2')}</span>
             </h1>
             
             <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto" data-testid="text-hero-description">
@@ -62,15 +52,15 @@ export default function HomePage() {
             <div className="flex items-center justify-center gap-6 text-sm text-muted-foreground">
               <div className="flex items-center gap-1.5">
                 <CheckCircle className="w-4 h-4 text-green-500" />
-                <span>{locale === 'ko' ? '무료' : 'Free'}</span>
+                <span>{t('Common.hero.trustFree')}</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <Shield className="w-4 h-4 text-blue-500" />
-                <span>{locale === 'ko' ? '서버 업로드 없음' : 'No Server Upload'}</span>
+                <span>{t('Common.hero.trustNoUpload')}</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <Globe className="w-4 h-4 text-purple-500" />
-                <span>{locale === 'ko' ? '다국어' : 'Multi-language'}</span>
+                <span>{t('Common.hero.trustMultiLang')}</span>
               </div>
             </div>
           </div>
@@ -79,10 +69,10 @@ export default function HomePage() {
         <section className="max-w-7xl mx-auto px-4 py-12 md:py-16">
           <div className="flex items-center justify-between mb-8 gap-4 flex-wrap">
             <h2 className="text-2xl md:text-3xl font-semibold" data-testid="text-categories-heading">
-              {locale === 'ko' ? '카테고리별 도구' : 'Tools by Category'}
+              {t('Common.home.categoriesTitle')}
             </h2>
             <p className="text-muted-foreground">
-              {locale === 'ko' ? '8개 카테고리, 200+ 도구' : '8 categories, 200+ tools'}
+              {t('Common.home.categoriesSubtitle')}
             </p>
           </div>
           
@@ -103,7 +93,7 @@ export default function HomePage() {
                           <Icon className="w-6 h-6 text-primary" />
                         </div>
                         <Badge variant="outline" className="text-xs">
-                          {category.toolCount} {locale === 'ko' ? '개' : 'tools'}
+                          {category.toolCount} {t('Common.home.tools')}
                         </Badge>
                       </div>
                       <CardTitle className="text-lg mt-3">
@@ -133,11 +123,11 @@ export default function HomePage() {
           <div className="max-w-7xl mx-auto">
             <div className="flex items-center justify-between mb-8 gap-4 flex-wrap">
               <h2 className="text-2xl md:text-3xl font-semibold" data-testid="text-popular-heading">
-                {locale === 'ko' ? '인기 도구' : 'Popular Tools'}
+                {t('Common.home.popularTitle')}
               </h2>
               <Button variant="ghost" asChild>
                 <Link href={localizedPath('/all-tools')}>
-                  {locale === 'ko' ? '모든 도구 보기' : 'View All Tools'}
+                  {t('Common.home.viewAllTools')}
                   <ArrowRight className="w-4 h-4 ml-1" />
                 </Link>
               </Button>
@@ -181,7 +171,7 @@ export default function HomePage() {
         <section className="py-12 md:py-16 px-4">
           <div className="max-w-5xl mx-auto">
             <h2 className="text-2xl md:text-3xl font-semibold text-center mb-12">
-              {locale === 'ko' ? 'UniTools를 선택하는 이유' : 'Why Choose UniTools'}
+              {t('Common.home.whyChoose')}
             </h2>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -190,13 +180,10 @@ export default function HomePage() {
                   <Shield className="w-8 h-8 text-blue-500" />
                 </div>
                 <h3 className="font-semibold text-lg mb-2">
-                  {locale === 'ko' ? '100% 클라이언트 처리' : '100% Client-Side'}
+                  {t('Common.home.clientSideTitle')}
                 </h3>
                 <p className="text-muted-foreground">
-                  {locale === 'ko' 
-                    ? '파일이 서버로 전송되지 않습니다. 모든 처리는 브라우저에서 직접 수행되어 개인정보가 안전합니다.'
-                    : 'Files never leave your device. All processing happens in your browser for complete privacy.'
-                  }
+                  {t('Common.home.clientSideDesc')}
                 </p>
               </div>
               
@@ -205,13 +192,10 @@ export default function HomePage() {
                   <Zap className="w-8 h-8 text-green-500" />
                 </div>
                 <h3 className="font-semibold text-lg mb-2">
-                  {locale === 'ko' ? '빠르고 무료' : 'Fast & Free'}
+                  {t('Common.home.fastFreeTitle')}
                 </h3>
                 <p className="text-muted-foreground">
-                  {locale === 'ko' 
-                    ? '업로드/다운로드 대기 시간 없이 즉시 처리됩니다. 모든 도구를 무료로 사용하세요.'
-                    : 'Instant processing with no upload wait. All tools are completely free to use.'
-                  }
+                  {t('Common.home.fastFreeDesc')}
                 </p>
               </div>
               
@@ -220,13 +204,10 @@ export default function HomePage() {
                   <Globe className="w-8 h-8 text-purple-500" />
                 </div>
                 <h3 className="font-semibold text-lg mb-2">
-                  {locale === 'ko' ? '다국어 지원' : 'Multi-Language'}
+                  {t('Common.home.multiLangTitle')}
                 </h3>
                 <p className="text-muted-foreground">
-                  {locale === 'ko' 
-                    ? '한국어, 영어 등 다양한 언어로 사용할 수 있습니다. 더 많은 언어가 추가될 예정입니다.'
-                    : 'Available in Korean, English, and more languages coming soon.'
-                  }
+                  {t('Common.home.multiLangDesc')}
                 </p>
               </div>
             </div>
@@ -239,13 +220,10 @@ export default function HomePage() {
               <span className="text-4xl font-bold text-primary">U</span>
             </div>
             <h2 className="text-2xl md:text-3xl font-semibold mb-4">
-              {locale === 'ko' ? '지금 바로 시작하세요' : 'Get Started Now'}
+              {t('Common.home.getStarted')}
             </h2>
             <p className="text-lg text-muted-foreground mb-8">
-              {locale === 'ko' 
-                ? '회원가입 없이 모든 도구를 무료로 사용할 수 있습니다.'
-                : 'Use all tools for free without registration.'
-              }
+              {t('Common.home.getStartedDesc')}
             </p>
             <div className="flex justify-center">
               <SearchBar variant="compact" />
