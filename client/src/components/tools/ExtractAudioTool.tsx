@@ -28,7 +28,7 @@ export default function ExtractAudioTool() {
     setError,
     setProgress,
     reset: resetHandler,
-  } = useFileHandler({ accept: 'video/*', multiple: false });
+  } = useFileHandler({ accept: 'video/*', multiple: false, maxSizeBytes: 300 * 1024 * 1024 });
 
   const formatFileSize = useCallback((bytes: number): string => {
     const data = getFileSizeData(bytes);

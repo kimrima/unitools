@@ -29,7 +29,7 @@ export default function VideoMetadataTool() {
     addFiles,
     clearFiles,
     reset: resetHandler,
-  } = useFileHandler({ accept: 'video/*', multiple: false });
+  } = useFileHandler({ accept: 'video/*', multiple: false, maxSizeBytes: 500 * 1024 * 1024 });
 
   const formatFileSize = useCallback((bytes: number): string => {
     const data = getFileSizeData(bytes);
