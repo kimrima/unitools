@@ -44,7 +44,7 @@ export default function HomePage() {
   const { t, i18n } = useTranslation();
   const localizedPath = useLocalizedPath();
   const popularTools = getPopularTools();
-  const isKorean = i18n.language === 'ko';
+  const isKorean = i18n.language?.startsWith('ko') ?? false;
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-background flex flex-col">
@@ -55,14 +55,14 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-dot-pattern opacity-40" />
           
           <div className="max-w-4xl mx-auto text-center relative z-10">
-            <h1 className={`text-4xl sm:text-5xl md:text-7xl font-black text-slate-900 dark:text-foreground tracking-tight mb-4 md:mb-6 leading-tight ${isKorean ? 'font-extrabold' : ''}`} style={isKorean ? { fontWeight: 900 } : undefined} data-testid="text-hero-title">
+            <h1 className={`text-4xl sm:text-5xl md:text-7xl text-slate-900 dark:text-foreground tracking-tight mb-4 md:mb-6 leading-tight ${isKorean ? 'font-[900]' : 'font-black'}`} data-testid="text-hero-title">
               {t('Common.hero.titlePart1', { defaultValue: '모든 작업을' })}{' '}
               <br className="hidden md:block" />
               <span className="relative inline-block">
-                <span className="relative z-10 text-primary" style={isKorean ? { fontWeight: 900 } : undefined}>{t('Common.hero.titlePart2', { defaultValue: '간편하게' })}</span>
+                <span className={`relative z-10 text-primary ${isKorean ? 'font-[900]' : 'font-black'}`}>{t('Common.hero.titlePart2', { defaultValue: '간편하게' })}</span>
                 <span className="absolute bottom-1 md:bottom-2 left-0 right-0 h-3 md:h-4 bg-primary/20 -rotate-1 -z-10 rounded-full" />
               </span>{' '}
-              <span style={isKorean ? { fontWeight: 900 } : undefined}>{t('Common.hero.titlePart3', { defaultValue: '만드는 무료 도구' })}</span>
+              <span className={isKorean ? 'font-[900]' : 'font-black'}>{t('Common.hero.titlePart3', { defaultValue: '만드는 무료 도구' })}</span>
             </h1>
             
             <p className="text-base md:text-xl text-slate-500 dark:text-muted-foreground max-w-2xl mx-auto mb-6 md:mb-10 font-medium px-4" data-testid="text-hero-description">

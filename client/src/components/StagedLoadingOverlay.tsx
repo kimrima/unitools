@@ -118,9 +118,11 @@ export function StagedLoadingOverlay({
             {t('Common.actions.cancel', { defaultValue: 'Cancel' })}
           </Button>
         )}
-        
-        <p className="text-xs text-muted-foreground text-center max-w-sm">
-          {t('Common.messages.processingTip', { defaultValue: 'Your files are being processed securely in your browser.' })}
+      </div>
+      
+      <div className="mt-6 p-4 bg-muted/50 rounded-xl border border-border/50">
+        <p className="text-sm text-muted-foreground text-center">
+          {t('Common.messages.processingTip', { defaultValue: 'Your files are being processed securely in your browser. No data is uploaded to any server.' })}
         </p>
       </div>
     </div>
