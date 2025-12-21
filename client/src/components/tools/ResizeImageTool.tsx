@@ -34,13 +34,24 @@ export default function ResizeImageTool() {
   } = useFileHandler({ accept: 'image/*', multiple: false });
 
   const stagedProcessing = useStagedProcessing({
-    minDuration: 4000,
+    minDuration: 3000,
     stages: [
-      { name: 'analyzing', duration: 1200, message: t('Common.stages.analyzingFiles', { defaultValue: 'Analyzing files...' }) },
-      { name: 'processing', duration: 1800, message: t('Common.stages.resizingImage', { defaultValue: 'Resizing image...' }) },
-      { name: 'optimizing', duration: 1000, message: t('Common.stages.optimizingOutput', { defaultValue: 'Optimizing output...' }) },
+      { name: 'analyzing', duration: 800, message: t('Common.stages.analyzingFiles', { defaultValue: 'Analyzing files...' }) },
+      { name: 'processing', duration: 1400, message: t('Common.stages.resizingImage', { defaultValue: 'Resizing image...' }) },
+      { name: 'optimizing', duration: 800, message: t('Common.stages.optimizingOutput', { defaultValue: 'Optimizing output...' }) },
     ],
   });
+
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (resultBlob) {
+      const url = URL.createObjectURL(resultBlob);
+      setPreviewUrl(url);
+      return () => URL.revokeObjectURL(url);
+    }
+    return undefined;
+  }, [resultBlob]);
 
   const targetWidth = Math.round(originalDimensions.width * scale / 100);
   const targetHeight = Math.round(originalDimensions.height * scale / 100);
@@ -247,26 +258,33 @@ export default function ResizeImageTool() {
 
       {showResults && resultBlob && (
         <div className="space-y-6">
-          <div className="flex flex-col items-center gap-6 py-8">
-            <div className="w-20 h-20 rounded-full bg-green-500/10 flex items-center justify-center">
-              <CheckCircle className="w-10 h-10 text-green-500" />
-            </div>
-            <div className="text-center">
-              <h3 className="text-xl font-semibold mb-2">{t('Common.workflow.processingComplete')}</h3>
-              <p className="text-muted-foreground">
+          <Card className="p-4">
+            <div className="flex flex-col items-center gap-4">
+              <div className="flex items-center gap-2 text-green-600">
+                <CheckCircle className="w-5 h-5" />
+                <span className="font-medium">{t('Common.workflow.processingComplete')}</span>
+              </div>
+              {previewUrl && (
+                <img 
+                  src={previewUrl} 
+                  alt="Result" 
+                  className="max-w-full max-h-80 object-contain bg-muted rounded"
+                />
+              )}
+              <p className="text-sm text-muted-foreground">
                 {originalDimensions.width} x {originalDimensions.height} → {targetWidth} x {targetHeight} px
               </p>
+              <div className="flex gap-3">
+                <Button onClick={handleDownload} data-testid="button-download">
+                  <Download className="w-4 h-4 mr-2" />
+                  {t('Common.workflow.download')}
+                </Button>
+                <Button variant="outline" onClick={reset} data-testid="button-start-over">
+                  {t('Common.workflow.startOver')}
+                </Button>
+              </div>
             </div>
-            <div className="flex gap-3">
-              <Button size="lg" onClick={handleDownload} data-testid="button-download">
-                <Download className="w-5 h-5 mr-2" />
-                {t('Common.workflow.download')}
-              </Button>
-              <Button variant="outline" size="lg" onClick={reset} data-testid="button-start-over">
-                {t('Common.workflow.startOver')}
-              </Button>
-            </div>
-          </div>
+          </Card>
           <AdSlot position="results" />
         </div>
       )}

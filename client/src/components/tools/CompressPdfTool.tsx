@@ -26,11 +26,11 @@ export default function CompressPdfTool() {
   } = useFileHandler({ accept: '.pdf', multiple: false });
   
   const stagedProcessing = useStagedProcessing({
-    minDuration: 4000,
+    minDuration: 3000,
     stages: [
-      { name: 'analyzing', duration: 1200, message: t('Common.stages.readingPdf', { defaultValue: 'Reading PDF structure...' }) },
-      { name: 'processing', duration: 1800, message: t('Common.stages.compressingPdf', { defaultValue: 'Compressing PDF...' }) },
-      { name: 'optimizing', duration: 1000, message: t('Common.stages.finalizingDocument', { defaultValue: 'Finalizing document...' }) },
+      { name: 'analyzing', duration: 800, message: t('Common.stages.readingPdf', { defaultValue: 'Reading PDF structure...' }) },
+      { name: 'processing', duration: 1400, message: t('Common.stages.compressingPdf', { defaultValue: 'Compressing PDF...' }) },
+      { name: 'optimizing', duration: 800, message: t('Common.stages.finalizingDocument', { defaultValue: 'Finalizing document...' }) },
     ],
   });
 

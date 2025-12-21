@@ -31,11 +31,11 @@ export default function CompressImageTool() {
   } = useFileHandler({ accept: 'image/*', multiple: true });
 
   const stagedProcessing = useStagedProcessing({
-    minDuration: 4000,
+    minDuration: 3000,
     stages: [
-      { name: 'analyzing', duration: 1200, message: t('Common.stages.analyzingFiles', { defaultValue: 'Analyzing files...' }) },
-      { name: 'processing', duration: 1800, message: t('Common.stages.processingImage', { defaultValue: 'Processing image...' }) },
-      { name: 'optimizing', duration: 1000, message: t('Common.stages.optimizingOutput', { defaultValue: 'Optimizing output...' }) },
+      { name: 'analyzing', duration: 800, message: t('Common.stages.analyzingFiles', { defaultValue: 'Analyzing files...' }) },
+      { name: 'processing', duration: 1400, message: t('Common.stages.processingImage', { defaultValue: 'Processing image...' }) },
+      { name: 'optimizing', duration: 800, message: t('Common.stages.optimizingOutput', { defaultValue: 'Optimizing output...' }) },
     ],
   });
 
