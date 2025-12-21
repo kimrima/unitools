@@ -4,6 +4,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { LocaleProvider } from "@/components/LocaleProvider";
+import { useScrollToTop } from "@/hooks/useScrollToTop";
 import NotFound from "@/pages/not-found";
 import HomePage from "@/pages/HomePage";
 import ToolPage from "@/pages/ToolPage";
@@ -24,6 +25,8 @@ function ToolPageWrapper() {
 }
 
 function Router() {
+  useScrollToTop();
+  
   return (
     <Switch>
       <Route path="/자리관" component={AdminLogin} />
