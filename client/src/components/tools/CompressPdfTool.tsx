@@ -1,30 +1,44 @@
-import { useCallback, useRef } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFileHandler } from '@/hooks/useFileHandler';
+import { useStagedProcessing } from '@/hooks/useStagedProcessing';
 import { compressPdf } from '@/lib/engines/pdfCompress';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
-import { FileText, Upload, Download, Loader2, CheckCircle } from 'lucide-react';
+import { StagedLoadingOverlay } from '@/components/StagedLoadingOverlay';
+import { FileText, Upload, Download, CheckCircle } from 'lucide-react';
+import { AdSlot } from '@/components/AdSlot';
 
 export default function CompressPdfTool() {
   const { t } = useTranslation();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [showResults, setShowResults] = useState(false);
   
   const {
     files,
-    status,
     error,
-    progress,
     resultBlob,
     addFiles,
-    setStatus,
     setError,
     setResult,
-    setProgress,
     downloadResult,
-    reset,
+    reset: resetHandler,
   } = useFileHandler({ accept: '.pdf', multiple: false });
+  
+  const stagedProcessing = useStagedProcessing({
+    minDuration: 4000,
+    stages: [
+      { name: 'analyzing', duration: 1200, message: t('Common.stages.readingPdf', { defaultValue: 'Reading PDF structure...' }) },
+      { name: 'processing', duration: 1800, message: t('Common.stages.compressingPdf', { defaultValue: 'Compressing PDF...' }) },
+      { name: 'optimizing', duration: 1000, message: t('Common.stages.finalizingDocument', { defaultValue: 'Finalizing document...' }) },
+    ],
+  });
+
+  const reset = useCallback(() => {
+    resetHandler();
+    stagedProcessing.reset();
+    setShowResults(false);
+  }, [resetHandler, stagedProcessing]);
 
   const handleFileSelect = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -45,21 +59,20 @@ export default function CompressPdfTool() {
   const handleCompress = useCallback(async () => {
     if (files.length === 0 || !files[0].arrayBuffer) return;
 
-    setStatus('processing');
-    setProgress(0);
     setError(null);
+    setShowResults(false);
 
     try {
-      const compressedBlob = await compressPdf(files[0].arrayBuffer, (prog) => {
-        setProgress(prog.percentage);
+      await stagedProcessing.runStagedProcessing(async () => {
+        const compressedBlob = await compressPdf(files[0].arrayBuffer!);
+        setResult(compressedBlob);
+        return compressedBlob;
       });
-
-      setResult(compressedBlob);
+      setShowResults(true);
     } catch {
       setError({ code: 'COMPRESSION_FAILED' });
-      setStatus('error');
     }
-  }, [files, setStatus, setProgress, setError, setResult]);
+  }, [files, setError, setResult, stagedProcessing]);
 
   const handleDownload = useCallback(() => {
     const originalName = files[0]?.file.name || 'document.pdf';
@@ -93,7 +106,7 @@ export default function CompressPdfTool() {
         data-testid="input-file-pdf"
       />
 
-      {status === 'idle' && files.length === 0 && (
+      {!stagedProcessing.isProcessing && !showResults && files.length === 0 && (
         <div
           onDrop={handleDrop}
           onDragOver={(e) => e.preventDefault()}
@@ -115,7 +128,7 @@ export default function CompressPdfTool() {
         </div>
       )}
 
-      {status === 'idle' && files.length > 0 && (
+      {!stagedProcessing.isProcessing && !showResults && files.length > 0 && (
         <div className="space-y-4">
           <Card className="p-4">
             <div className="flex items-center gap-3">
@@ -140,45 +153,47 @@ export default function CompressPdfTool() {
         </div>
       )}
 
-      {status === 'processing' && (
-        <div className="space-y-6 py-8">
-          <div className="flex flex-col items-center gap-4">
-            <Loader2 className="w-12 h-12 animate-spin text-primary" />
-            <p className="font-medium">{t('Common.workflow.processing')}</p>
-          </div>
-          <Progress value={progress} className="h-2" data-testid="progress-bar" />
-          <p className="text-center text-sm text-muted-foreground">
-            {t('Common.workflow.percentComplete', { percent: progress })}
-          </p>
-        </div>
+      {stagedProcessing.isProcessing && (
+        <StagedLoadingOverlay
+          stage={stagedProcessing.stage}
+          progress={stagedProcessing.progress}
+          stageProgress={stagedProcessing.stageProgress}
+          message={stagedProcessing.message}
+          error={stagedProcessing.error}
+          onCancel={stagedProcessing.abort}
+          showAds={true}
+        />
       )}
 
-      {status === 'success' && resultBlob && (
-        <div className="flex flex-col items-center gap-6 py-8">
-          <div className="w-20 h-20 rounded-full bg-green-500/10 flex items-center justify-center">
-            <CheckCircle className="w-10 h-10 text-green-500" />
-          </div>
-          <div className="text-center">
-            <h3 className="text-xl font-semibold mb-2">{t('Common.workflow.processingComplete')}</h3>
-            <div className="flex items-center justify-center gap-3 text-sm">
-              <span className="text-muted-foreground line-through">{formatFileSize(originalSize)}</span>
-              <span className="text-green-500 font-medium">{formatFileSize(compressedSize)}</span>
-              {savings > 0 && (
-                <span className="bg-green-500/10 text-green-500 px-2 py-0.5 rounded text-xs font-medium">
-                  -{savings}%
-                </span>
-              )}
+      {showResults && resultBlob && (
+        <div className="space-y-6">
+          <div className="flex flex-col items-center gap-6 py-8">
+            <div className="w-20 h-20 rounded-full bg-green-500/10 flex items-center justify-center">
+              <CheckCircle className="w-10 h-10 text-green-500" />
+            </div>
+            <div className="text-center">
+              <h3 className="text-xl font-semibold mb-2">{t('Common.workflow.processingComplete')}</h3>
+              <div className="flex items-center justify-center gap-3 text-sm">
+                <span className="text-muted-foreground line-through">{formatFileSize(originalSize)}</span>
+                <span className="text-green-500 font-medium">{formatFileSize(compressedSize)}</span>
+                {savings > 0 && (
+                  <span className="bg-green-500/10 text-green-500 px-2 py-0.5 rounded text-xs font-medium">
+                    -{savings}%
+                  </span>
+                )}
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <Button size="lg" onClick={handleDownload} data-testid="button-download">
+                <Download className="w-5 h-5 mr-2" />
+                {t('Common.workflow.download')}
+              </Button>
+              <Button variant="outline" size="lg" onClick={reset} data-testid="button-start-over">
+                {t('Common.workflow.startOver')}
+              </Button>
             </div>
           </div>
-          <div className="flex gap-3">
-            <Button size="lg" onClick={handleDownload} data-testid="button-download">
-              <Download className="w-5 h-5 mr-2" />
-              {t('Common.workflow.download')}
-            </Button>
-            <Button variant="outline" size="lg" onClick={reset} data-testid="button-start-over">
-              {t('Common.workflow.startOver')}
-            </Button>
-          </div>
+          <AdSlot position="result" />
         </div>
       )}
 

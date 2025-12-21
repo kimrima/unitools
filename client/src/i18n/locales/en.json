@@ -193,6 +193,27 @@
       "selectFiles": "Select Files",
       "inDevelopment": "Under Development"
     },
+    "stages": {
+      "analyzing": "Analyzing",
+      "processing": "Processing",
+      "optimizing": "Optimizing",
+      "analyzingFiles": "Analyzing files...",
+      "convertingFormat": "Converting format...",
+      "optimizingOutput": "Optimizing output...",
+      "readingPdf": "Reading PDF structure...",
+      "mergingPages": "Merging pages...",
+      "finalizingDocument": "Finalizing document...",
+      "compressingPdf": "Compressing PDF...",
+      "splittingPdf": "Splitting PDF...",
+      "processingImage": "Processing image...",
+      "applyingFilter": "Applying filter...",
+      "resizingImage": "Resizing image...",
+      "croppingImage": "Cropping image...",
+      "loadingEngine": "Loading processing engine...",
+      "processingVideo": "Processing video...",
+      "processingAudio": "Processing audio...",
+      "preparingOutput": "Preparing output..."
+    },
     "seo": {
       "howToUse": "How to Use",
       "features": "Key Features",

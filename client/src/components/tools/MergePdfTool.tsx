@@ -1,21 +1,23 @@
-import { useCallback, useRef } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFileHandler, type FileHandlerError } from '@/hooks/useFileHandler';
+import { useStagedProcessing } from '@/hooks/useStagedProcessing';
 import { mergePdfFiles, PdfMergeError } from '@/lib/engines/pdfMerge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
-import { FileText, Upload, X, Download, GripVertical, Loader2 } from 'lucide-react';
+import { StagedLoadingOverlay } from '@/components/StagedLoadingOverlay';
+import { FileText, Upload, X, Download, GripVertical, CheckCircle } from 'lucide-react';
+import { AdSlot } from '@/components/AdSlot';
 
 export default function MergePdfTool() {
   const { t } = useTranslation();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [showResults, setShowResults] = useState(false);
   
   const {
     files,
     status,
     error,
-    progress,
     resultBlob,
     addFiles,
     removeFile,
@@ -23,10 +25,18 @@ export default function MergePdfTool() {
     setStatus,
     setError,
     setResult,
-    setProgress,
     downloadResult,
-    reset,
+    reset: resetHandler,
   } = useFileHandler({ accept: '.pdf', multiple: true });
+  
+  const stagedProcessing = useStagedProcessing({
+    minDuration: 4000,
+    stages: [
+      { name: 'analyzing', duration: 1200, message: t('Common.stages.readingPdf', { defaultValue: 'Reading PDF structure...' }) },
+      { name: 'processing', duration: 1800, message: t('Common.stages.mergingPages', { defaultValue: 'Merging pages...' }) },
+      { name: 'optimizing', duration: 1000, message: t('Common.stages.finalizingDocument', { defaultValue: 'Finalizing document...' }) },
+    ],
+  });
 
   const translateError = useCallback((err: FileHandlerError | PdfMergeError | null): string => {
     if (!err) return '';
@@ -68,26 +78,32 @@ export default function MergePdfTool() {
     e.preventDefault();
   }, []);
 
+  const reset = useCallback(() => {
+    resetHandler();
+    stagedProcessing.reset();
+    setShowResults(false);
+  }, [resetHandler, stagedProcessing]);
+  
   const handleMerge = useCallback(async () => {
     if (files.length < 2) {
       setError({ code: 'NEED_MORE_FILES' as const } as FileHandlerError);
       return;
     }
 
-    setStatus('processing');
-    setProgress(0);
     setError(null);
+    setShowResults(false);
 
     try {
-      const pdfBuffers = files
-        .map((f) => f.arrayBuffer)
-        .filter((buffer): buffer is ArrayBuffer => buffer !== null);
+      await stagedProcessing.runStagedProcessing(async () => {
+        const pdfBuffers = files
+          .map((f) => f.arrayBuffer)
+          .filter((buffer): buffer is ArrayBuffer => buffer !== null);
 
-      const mergedBlob = await mergePdfFiles(pdfBuffers, (prog) => {
-        setProgress(prog.percentage);
+        const mergedBlob = await mergePdfFiles(pdfBuffers);
+        setResult(mergedBlob);
+        return mergedBlob;
       });
-
-      setResult(mergedBlob);
+      setShowResults(true);
     } catch (err) {
       if (err instanceof PdfMergeError) {
         setError({ code: err.code } as FileHandlerError);
@@ -96,7 +112,7 @@ export default function MergePdfTool() {
       }
       setStatus('error');
     }
-  }, [files, setStatus, setProgress, setError, setResult]);
+  }, [files, setError, setResult, setStatus, stagedProcessing]);
 
   const handleDownload = useCallback(() => {
     downloadResult('merged.pdf');
@@ -125,25 +141,27 @@ export default function MergePdfTool() {
         data-testid="input-file-pdf"
       />
 
-      <div
-        onDrop={handleDrop}
-        onDragOver={handleDragOver}
-        onClick={() => fileInputRef.current?.click()}
-        className="border-2 border-dashed border-muted-foreground/25 rounded-lg min-h-40 flex flex-col items-center justify-center gap-4 hover:border-muted-foreground/50 transition-colors cursor-pointer p-6"
-        data-testid="dropzone-pdf"
-      >
-        <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center">
-          <Upload className="w-6 h-6 text-muted-foreground" />
+      {!stagedProcessing.isProcessing && !showResults && (
+        <div
+          onDrop={handleDrop}
+          onDragOver={handleDragOver}
+          onClick={() => fileInputRef.current?.click()}
+          className="border-2 border-dashed border-muted-foreground/25 rounded-lg min-h-40 flex flex-col items-center justify-center gap-4 hover:border-muted-foreground/50 transition-colors cursor-pointer p-6"
+          data-testid="dropzone-pdf"
+        >
+          <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center">
+            <Upload className="w-6 h-6 text-muted-foreground" />
+          </div>
+          <div className="text-center">
+            <p className="font-medium">{t('Common.messages.dragDrop')}</p>
+            <p className="text-sm text-muted-foreground mt-1">
+              {t('Common.messages.noServerUpload')}
+            </p>
+          </div>
         </div>
-        <div className="text-center">
-          <p className="font-medium">{t('Common.messages.dragDrop')}</p>
-          <p className="text-sm text-muted-foreground mt-1">
-            {t('Common.messages.noServerUpload')}
-          </p>
-        </div>
-      </div>
+      )}
 
-      {files.length > 0 && (
+      {files.length > 0 && !stagedProcessing.isProcessing && !showResults && (
         <Card>
           <CardContent className="p-4">
             <div className="flex items-center justify-between gap-2 mb-4">
@@ -184,35 +202,43 @@ export default function MergePdfTool() {
         </Card>
       )}
 
-      {status === 'processing' && (
-        <div className="space-y-2" data-testid="section-processing">
-          <div className="flex items-center gap-2 text-sm">
-            <Loader2 className="w-4 h-4 animate-spin" />
-            <span>{t('Common.messages.mergingPdfs')}</span>
-          </div>
-          <Progress value={progress} className="h-2" data-testid="progress-bar" />
-        </div>
+      {stagedProcessing.isProcessing && (
+        <StagedLoadingOverlay
+          stage={stagedProcessing.stage}
+          progress={stagedProcessing.progress}
+          stageProgress={stagedProcessing.stageProgress}
+          message={stagedProcessing.message}
+          error={stagedProcessing.error}
+          onCancel={stagedProcessing.abort}
+          showAds={true}
+        />
       )}
 
-      {status === 'success' && resultBlob && (
-        <Card className="bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-800">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between gap-2" data-testid="section-success">
-              <div>
-                <p className="font-medium text-green-700 dark:text-green-300">
-                  {t('Common.messages.complete')}
-                </p>
-                <p className="text-sm text-green-600 dark:text-green-400">
-                  {t('Common.messages.readyToDownload')}
-                </p>
+      {showResults && resultBlob && (
+        <div className="space-y-6">
+          <Card className="bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-800">
+            <CardContent className="p-6">
+              <div className="flex flex-col items-center gap-4" data-testid="section-success">
+                <div className="w-16 h-16 rounded-full bg-green-500/10 flex items-center justify-center">
+                  <CheckCircle className="w-8 h-8 text-green-500" />
+                </div>
+                <div className="text-center">
+                  <p className="font-medium text-lg text-green-700 dark:text-green-300">
+                    {t('Common.messages.complete')}
+                  </p>
+                  <p className="text-sm text-green-600 dark:text-green-400">
+                    {files.length} {t('Tools.merge-pdf.pagesMerged', { defaultValue: 'files merged successfully' })}
+                  </p>
+                </div>
+                <Button size="lg" onClick={handleDownload} data-testid="button-download">
+                  <Download className="w-5 h-5 mr-2" />
+                  {t('Common.actions.download')}
+                </Button>
               </div>
-              <Button onClick={handleDownload} data-testid="button-download">
-                <Download className="w-4 h-4 mr-2" />
-                {t('Common.actions.download')}
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+          <AdSlot position="result" />
+        </div>
       )}
 
       {error && (
@@ -221,32 +247,27 @@ export default function MergePdfTool() {
         </div>
       )}
 
-      <div className="flex gap-4 flex-wrap">
-        <Button
-          onClick={handleMerge}
-          disabled={files.length < 2 || status === 'processing'}
-          className="flex-1"
-          data-testid="button-merge"
-        >
-          {status === 'processing' ? (
-            <>
-              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              {t('Common.messages.processing')}
-            </>
-          ) : (
-            <>
-              <FileText className="w-4 h-4 mr-2" />
-              {t('Common.actions.merge')}
-            </>
-          )}
-        </Button>
-        
-        {(status === 'success' || status === 'error') && (
+      {!stagedProcessing.isProcessing && !showResults && (
+        <div className="flex gap-4 flex-wrap">
+          <Button
+            onClick={handleMerge}
+            disabled={files.length < 2}
+            className="flex-1"
+            data-testid="button-merge"
+          >
+            <FileText className="w-4 h-4 mr-2" />
+            {t('Common.actions.merge')}
+          </Button>
+        </div>
+      )}
+      
+      {showResults && (
+        <div className="flex justify-center">
           <Button variant="outline" onClick={reset} data-testid="button-reset">
             {t('Common.actions.reset')}
           </Button>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }

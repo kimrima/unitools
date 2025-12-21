@@ -193,6 +193,27 @@
       "selectFiles": "파일 선택",
       "inDevelopment": "개발 중"
     },
+    "stages": {
+      "analyzing": "분석 중",
+      "processing": "처리 중",
+      "optimizing": "최적화 중",
+      "analyzingFiles": "파일 분석 중...",
+      "convertingFormat": "형식 변환 중...",
+      "optimizingOutput": "출력 최적화 중...",
+      "readingPdf": "PDF 구조 읽는 중...",
+      "mergingPages": "페이지 병합 중...",
+      "finalizingDocument": "문서 마무리 중...",
+      "compressingPdf": "PDF 압축 중...",
+      "splittingPdf": "PDF 분할 중...",
+      "processingImage": "이미지 처리 중...",
+      "applyingFilter": "필터 적용 중...",
+      "resizingImage": "이미지 크기 조정 중...",
+      "croppingImage": "이미지 자르기 중...",
+      "loadingEngine": "처리 엔진 로딩 중...",
+      "processingVideo": "비디오 처리 중...",
+      "processingAudio": "오디오 처리 중...",
+      "preparingOutput": "결과 준비 중..."
+    },
     "seo": {
       "howToUse": "사용 방법",
       "features": "주요 기능",
