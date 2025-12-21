@@ -442,6 +442,9 @@ export default function ToolPage() {
     'convert-image', 'png-to-jpg', 'jpg-to-png', 'webp-to-jpg', 'webp-to-png',
     'png-to-webp', 'jpg-to-webp', 'webp-converter', 'bulk-convert',
     'gif-to-png', 'svg-to-png', 'bulk-convert-image',
+    'grayscale-filter', 'image-brightness', 'image-opacity',
+    'convert-audio', 'boost-audio', 'reverse-audio', 'audio-bitrate',
+    'json-formatter', 'csv-to-json', 'json-to-csv', 'xml-to-json', 'yaml-to-json',
   ]);
   const needsToolId = toolsNeedingId.has(toolId);
 

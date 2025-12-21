@@ -1,24 +1,55 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useRef, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'wouter';
 import { useFileHandler, type FileHandlerError } from '@/hooks/useFileHandler';
-import { convertAudio, FFmpegError, isFFmpegSupported, type ConvertAudioResult } from '@/lib/engines/ffmpegEngine';
+import { convertAudio, boostAudio, reverseAudio, changeAudioBitrate, FFmpegError, isFFmpegSupported, type ConvertAudioResult, type BoostAudioResult, type ReverseAudioResult, type AudioBitrateResult } from '@/lib/engines/ffmpegEngine';
 import { getFileSizeData } from '@/lib/engines/imageCompress';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Label } from '@/components/ui/label';
+import { Slider } from '@/components/ui/slider';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Music, Upload, Download, Loader2, RefreshCw, AlertTriangle } from 'lucide-react';
+import { Music, Upload, Download, Loader2, RefreshCw, AlertTriangle, Volume2, RotateCcw, Gauge } from 'lucide-react';
 import { downloadBlob } from '@/hooks/useToolEngine';
 
-export default function ConvertAudioTool() {
+type ToolMode = 'convert-audio' | 'boost-audio' | 'reverse-audio' | 'audio-bitrate';
+type AudioResult = ConvertAudioResult | BoostAudioResult | ReverseAudioResult | AudioBitrateResult;
+
+interface ConvertAudioToolProps {
+  toolId?: string;
+}
+
+export default function ConvertAudioTool({ toolId: propToolId }: ConvertAudioToolProps) {
   const { t } = useTranslation();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [location] = useLocation();
+  
+  const toolId = useMemo(() => {
+    if (propToolId) return propToolId as ToolMode;
+    const parts = location.split('/');
+    return (parts[parts.length - 1] || 'convert-audio') as ToolMode;
+  }, [propToolId, location]);
   
   const [outputFormat, setOutputFormat] = useState<'mp3' | 'wav' | 'ogg'>('mp3');
-  const [result, setResult] = useState<ConvertAudioResult | null>(null);
+  const [boostLevel, setBoostLevel] = useState(200);
+  const [bitrate, setBitrate] = useState<'64k' | '128k' | '192k' | '256k' | '320k'>('192k');
+  const [result, setResult] = useState<AudioResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
+  
+  const toolConfig = useMemo(() => {
+    switch (toolId) {
+      case 'boost-audio':
+        return { icon: Volume2, titleKey: 'boost-audio', actionKey: 'boost' };
+      case 'reverse-audio':
+        return { icon: RotateCcw, titleKey: 'reverse-audio', actionKey: 'reverse' };
+      case 'audio-bitrate':
+        return { icon: Gauge, titleKey: 'audio-bitrate', actionKey: 'change' };
+      default:
+        return { icon: Music, titleKey: 'convert-audio', actionKey: 'convert' };
+    }
+  }, [toolId]);
   
   const {
     files,
@@ -65,7 +96,7 @@ export default function ConvertAudioTool() {
 
   const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => e.preventDefault(), []);
 
-  const handleConvert = useCallback(async () => {
+  const handleProcess = useCallback(async () => {
     if (files.length === 0) {
       setError({ code: 'NO_FILES_PROVIDED' });
       return;
@@ -77,8 +108,23 @@ export default function ConvertAudioTool() {
     setIsLoading(true);
 
     try {
-      const convertResult = await convertAudio(files[0].file, { outputFormat }, (prog) => setProgress(prog));
-      setResult(convertResult);
+      let processResult: AudioResult;
+      
+      switch (toolId) {
+        case 'boost-audio':
+          processResult = await boostAudio(files[0].file, { volume: boostLevel / 100 }, (prog) => setProgress(prog));
+          break;
+        case 'reverse-audio':
+          processResult = await reverseAudio(files[0].file, (prog) => setProgress(prog));
+          break;
+        case 'audio-bitrate':
+          processResult = await changeAudioBitrate(files[0].file, { bitrate }, (prog) => setProgress(prog));
+          break;
+        default:
+          processResult = await convertAudio(files[0].file, { outputFormat }, (prog) => setProgress(prog));
+      }
+      
+      setResult(processResult);
       setStatus('success');
     } catch (err) {
       setError({ code: err instanceof FFmpegError ? err.code : 'PROCESSING_FAILED' });
@@ -86,13 +132,30 @@ export default function ConvertAudioTool() {
     } finally {
       setIsLoading(false);
     }
-  }, [files, outputFormat, setStatus, setProgress, setError]);
+  }, [files, toolId, outputFormat, boostLevel, bitrate, setStatus, setProgress, setError]);
 
   const handleDownload = useCallback(() => {
     if (!result) return;
     const baseName = result.originalFile.name.substring(0, result.originalFile.name.lastIndexOf('.'));
-    downloadBlob(result.outputBlob, `unitools_${baseName}.${outputFormat}`);
-  }, [result, outputFormat]);
+    let ext = 'mp3';
+    let prefix = 'converted';
+    
+    if ('newFormat' in result && result.newFormat) {
+      ext = result.newFormat;
+      prefix = 'converted';
+    } else if (toolId === 'boost-audio') {
+      ext = result.originalFile.name.split('.').pop() || 'mp3';
+      prefix = 'boosted';
+    } else if (toolId === 'reverse-audio') {
+      ext = result.originalFile.name.split('.').pop() || 'mp3';
+      prefix = 'reversed';
+    } else if (toolId === 'audio-bitrate') {
+      ext = result.originalFile.name.split('.').pop() || 'mp3';
+      prefix = `${bitrate}`;
+    }
+    
+    downloadBlob(result.outputBlob, `unitools_${prefix}_${baseName}.${ext}`);
+  }, [result, toolId, bitrate]);
 
   const reset = useCallback(() => {
     resetHandler();
@@ -118,23 +181,62 @@ export default function ConvertAudioTool() {
 
   return (
     <div className="space-y-6">
-      <div className="text-sm text-muted-foreground" data-testid="text-instructions">{t('Tools.convert-audio.instructions')}</div>
+      <div className="text-sm text-muted-foreground" data-testid="text-instructions">{t(`Tools.${toolConfig.titleKey}.description`, { defaultValue: t('Tools.convert-audio.instructions') })}</div>
 
       <Card>
         <CardContent className="p-4 space-y-4">
-          <div className="space-y-2">
-            <Label>{t('Common.messages.outputFormat')}</Label>
-            <Select value={outputFormat} onValueChange={(v) => setOutputFormat(v as 'mp3' | 'wav' | 'ogg')}>
-              <SelectTrigger data-testid="select-format">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="mp3">MP3</SelectItem>
-                <SelectItem value="wav">WAV</SelectItem>
-                <SelectItem value="ogg">OGG</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+          {toolId === 'convert-audio' && (
+            <div className="space-y-2">
+              <Label>{t('Common.messages.outputFormat')}</Label>
+              <Select value={outputFormat} onValueChange={(v) => setOutputFormat(v as 'mp3' | 'wav' | 'ogg')}>
+                <SelectTrigger data-testid="select-format">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="mp3">MP3</SelectItem>
+                  <SelectItem value="wav">WAV</SelectItem>
+                  <SelectItem value="ogg">OGG</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          )}
+          
+          {toolId === 'boost-audio' && (
+            <div className="space-y-2">
+              <Label>{t('Common.messages.volume', { defaultValue: 'Volume Level' })}: {boostLevel}%</Label>
+              <Slider
+                value={[boostLevel]}
+                onValueChange={([v]) => setBoostLevel(v)}
+                min={100}
+                max={400}
+                step={10}
+                className="w-full"
+              />
+              <p className="text-xs text-muted-foreground">{t('Common.messages.volumeHint', { defaultValue: '100% = original, 200% = 2x louder' })}</p>
+            </div>
+          )}
+          
+          {toolId === 'audio-bitrate' && (
+            <div className="space-y-2">
+              <Label>{t('Common.messages.bitrate', { defaultValue: 'Bitrate' })}</Label>
+              <Select value={bitrate} onValueChange={(v) => setBitrate(v as '64k' | '128k' | '192k' | '256k' | '320k')}>
+                <SelectTrigger data-testid="select-bitrate">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="64k">64 kbps</SelectItem>
+                  <SelectItem value="128k">128 kbps</SelectItem>
+                  <SelectItem value="192k">192 kbps</SelectItem>
+                  <SelectItem value="256k">256 kbps</SelectItem>
+                  <SelectItem value="320k">320 kbps</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          )}
+          
+          {toolId === 'reverse-audio' && (
+            <p className="text-sm text-muted-foreground">{t('Tools.reverse-audio.hint', { defaultValue: 'Your audio will be reversed' })}</p>
+          )}
         </CardContent>
       </Card>
 
@@ -197,8 +299,12 @@ export default function ConvertAudioTool() {
       {error && <div className="p-4 bg-destructive/10 text-destructive rounded-lg" data-testid="section-error">{translateError(error)}</div>}
 
       <div className="flex gap-4 flex-wrap">
-        <Button onClick={handleConvert} disabled={files.length === 0 || status === 'processing'} className="flex-1" data-testid="button-convert">
-          {status === 'processing' ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" />{t('Common.messages.processing')}</> : <><RefreshCw className="w-4 h-4 mr-2" />{t('Common.actions.convert')}</>}
+        <Button onClick={handleProcess} disabled={files.length === 0 || status === 'processing'} className="flex-1" data-testid="button-process">
+          {status === 'processing' ? (
+            <><Loader2 className="w-4 h-4 mr-2 animate-spin" />{t('Common.messages.processing')}</>
+          ) : (
+            <><toolConfig.icon className="w-4 h-4 mr-2" />{t(`Common.actions.${toolConfig.actionKey}`, { defaultValue: t('Common.actions.convert') })}</>
+          )}
         </Button>
         {(status === 'success' || status === 'error') && <Button variant="outline" onClick={reset} data-testid="button-reset">{t('Common.actions.reset')}</Button>}
       </div>
