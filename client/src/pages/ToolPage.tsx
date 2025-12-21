@@ -175,7 +175,6 @@ const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element
   'dummy-generator': LoremIpsumTool,
   'lorem-ipsum': LoremIpsumTool,
   'markdown-preview': CharacterCountTool,
-  'regex-tester': TextProcessingTool,
   'url-encode': UrlEncodeTool,
   'base64-text': Base64Tool,
   'html-entity': UrlEncodeTool,
