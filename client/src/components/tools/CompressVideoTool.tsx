@@ -8,7 +8,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Video, Upload, Download, Loader2, Minimize2, AlertTriangle } from 'lucide-react';
+import { Video, Upload, Download, Loader2, Minimize2, AlertTriangle, Info } from 'lucide-react';
 import { downloadBlob } from '@/hooks/useToolEngine';
 
 export default function CompressVideoTool() {
@@ -157,6 +157,22 @@ export default function CompressVideoTool() {
       <div className="text-sm text-muted-foreground" data-testid="text-instructions">
         {t('Tools.compress-video.instructions')}
       </div>
+
+      <Card className="border-blue-200 bg-blue-50/50 dark:bg-blue-950/20 dark:border-blue-800">
+        <CardContent className="p-4">
+          <div className="flex items-start gap-3">
+            <Info className="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
+            <div className="text-sm">
+              <p className="font-medium text-blue-800 dark:text-blue-200">
+                {t('Common.messages.videoFileSizeLimit')}
+              </p>
+              <p className="text-blue-700 dark:text-blue-300 mt-1">
+                {t('Common.messages.fileSizeLimitNotice')} {t('Common.messages.recommendedVideoLength')}
+              </p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
       <Card>
         <CardContent className="p-4 space-y-4">

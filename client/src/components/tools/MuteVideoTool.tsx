@@ -123,6 +123,18 @@ export default function MuteVideoTool() {
     <div className="space-y-6">
       <div className="text-sm text-muted-foreground" data-testid="text-instructions">{t('Tools.mute-video.instructions')}</div>
 
+      <Card className="border-blue-200 bg-blue-50/50 dark:bg-blue-950/20 dark:border-blue-800">
+        <CardContent className="p-4">
+          <div className="flex items-start gap-3">
+            <Video className="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
+            <div className="text-sm">
+              <p className="font-medium text-blue-800 dark:text-blue-200">{t('Common.messages.videoFileSizeLimit')}</p>
+              <p className="text-blue-700 dark:text-blue-300 mt-1">{t('Common.messages.fileSizeLimitNotice')} {t('Common.messages.recommendedVideoLength')}</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
       <input ref={fileInputRef} type="file" accept="video/*" onChange={handleFileSelect} className="hidden" data-testid="input-file-video" />
 
       <div onDrop={handleDrop} onDragOver={handleDragOver} onClick={() => fileInputRef.current?.click()} className="border-2 border-dashed border-muted-foreground/25 rounded-lg min-h-40 flex flex-col items-center justify-center gap-4 hover:border-muted-foreground/50 transition-colors cursor-pointer p-6" data-testid="dropzone-video">

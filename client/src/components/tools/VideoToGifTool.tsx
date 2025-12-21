@@ -156,6 +156,22 @@ export default function VideoToGifTool() {
         {t('Tools.video-to-gif.instructions')}
       </div>
 
+      <Card className="border-blue-200 bg-blue-50/50 dark:bg-blue-950/20 dark:border-blue-800">
+        <CardContent className="p-4">
+          <div className="flex items-start gap-3">
+            <Film className="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
+            <div className="text-sm">
+              <p className="font-medium text-blue-800 dark:text-blue-200">
+                {t('Common.messages.videoFileSizeLimit')}
+              </p>
+              <p className="text-blue-700 dark:text-blue-300 mt-1">
+                {t('Common.messages.fileSizeLimitNotice')} {t('Common.messages.recommendedVideoLength')}
+              </p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
       <Card>
         <CardContent className="p-4 space-y-4">
           <div className="grid grid-cols-2 gap-4">
