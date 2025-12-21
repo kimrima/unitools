@@ -38,6 +38,9 @@ const categories = [
 const languages = [
   { code: 'en', label: 'English' },
   { code: 'ko', label: '한국어' },
+  { code: 'es', label: 'Español' },
+  { code: 'ja', label: '日本語' },
+  { code: 'fr', label: 'Français' },
 ];
 
 export default function Header() {
