@@ -62,7 +62,7 @@ export default function ConvertAudioTool({ toolId: propToolId }: ConvertAudioToo
     setError,
     setProgress,
     reset: resetHandler,
-  } = useFileHandler({ accept: 'audio/*', multiple: false, maxSizeBytes: 200 * 1024 * 1024 });
+  } = useFileHandler({ accept: 'audio/*', multiple: false, maxSizeBytes: 300 * 1024 * 1024 });
 
   const formatFileSize = useCallback((bytes: number): string => {
     const data = getFileSizeData(bytes);

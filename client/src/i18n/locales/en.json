@@ -90,14 +90,14 @@
       "fileSize": "File Size",
       "resolution": "Resolution",
       "aspectRatio": "Aspect Ratio",
-      "videoFileSizeLimit": "Max file size: 300MB",
-      "audioFileSizeLimit": "Max file size: 200MB",
+      "videoFileSizeLimit": "Max file size: 500MB",
+      "audioFileSizeLimit": "Max file size: 300MB",
       "fileSizeLimitNotice": "File size is limited due to browser-based processing.",
       "largeFileRecommendation": "For larger files, use desktop software (VLC, Handbrake, etc.).",
       "recommendedVideoLength": "Recommended: Videos under 30 minutes"
     },
     "errors": {
-      "FILE_TOO_LARGE": "File is too large (max 300MB)",
+      "FILE_TOO_LARGE": "File is too large (max 500MB)",
       "NO_FILES_SELECTED": "Please select files",
       "NO_FILES_PROVIDED": "No files provided",
       "NO_FILE_PROVIDED": "No file provided",
