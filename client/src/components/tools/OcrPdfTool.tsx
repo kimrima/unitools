@@ -1,8 +1,8 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import * as pdfjs from 'pdfjs-dist';
-import Tesseract from 'tesseract.js';
+import { createWorker, Worker } from 'tesseract.js';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -34,6 +34,15 @@ export default function OcrPdfTool() {
   const [error, setError] = useState<{ code: string } | null>(null);
   const [resultBlob, setResultBlob] = useState<Blob | null>(null);
   const [language, setLanguage] = useState('eng');
+  const workerRef = useRef<Worker | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (workerRef.current) {
+        workerRef.current.terminate();
+      }
+    };
+  }, []);
 
   const handleFilesFromDropzone = useCallback((fileList: FileList) => {
     const selectedFile = fileList[0];
@@ -54,9 +63,21 @@ export default function OcrPdfTool() {
     setError(null);
 
     try {
+      setProgressText(t('Tools.ocr-pdf.initializingOcr', { defaultValue: 'Initializing OCR engine...' }));
+      
+      const worker = await createWorker(language, 1, {
+        logger: (m) => {
+          if (m.status === 'recognizing text') {
+            setProgress(25 + (60 * m.progress));
+          }
+        }
+      });
+      workerRef.current = worker;
+
       const arrayBuffer = await file.arrayBuffer();
       const pdfData = new Uint8Array(arrayBuffer);
       
+      setProgressText(t('Tools.ocr-pdf.loadingPdf'));
       const pdf = await pdfjs.getDocument({ data: pdfData }).promise;
       const totalPages = pdf.numPages;
       
@@ -89,17 +110,7 @@ export default function OcrPdfTool() {
         
         setProgressText(t('Tools.ocr-pdf.recognizing', { current: i, total: totalPages }));
         
-        const { data: { text } } = await Tesseract.recognize(
-          imageData,
-          language,
-          {
-            logger: (m) => {
-              if (m.status === 'recognizing text') {
-                setProgress(25 + (60 * ((i - 1 + m.progress) / totalPages)));
-              }
-            }
-          }
-        );
+        const { data: { text } } = await worker.recognize(imageData);
 
         const pngResponse = await fetch(imageData);
         const pngBytes = new Uint8Array(await pngResponse.arrayBuffer());
@@ -132,6 +143,9 @@ export default function OcrPdfTool() {
         setProgress(25 + (60 * i / totalPages));
       }
 
+      await worker.terminate();
+      workerRef.current = null;
+
       setProgressText(t('Tools.ocr-pdf.saving'));
       const pdfBytes = await newPdfDoc.save();
       const blob = new Blob([pdfBytes], { type: 'application/pdf' });
@@ -140,6 +154,10 @@ export default function OcrPdfTool() {
       setProgress(100);
     } catch (err) {
       console.error('OCR error:', err);
+      if (workerRef.current) {
+        await workerRef.current.terminate();
+        workerRef.current = null;
+      }
       setError({ code: 'OCR_FAILED' });
       setStatus('error');
     }

@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { FileUploadZone } from '@/components/tool-ui';
 import { Copy, Trash2, ScanText } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import Tesseract from 'tesseract.js';
+import { createWorker, Worker } from 'tesseract.js';
 
 const LANGUAGES = [
   { code: 'eng', label: 'English' },
@@ -29,6 +29,15 @@ export default function ImageOcrTool() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [progress, setProgress] = useState(0);
   const [progressMessage, setProgressMessage] = useState('');
+  const workerRef = useRef<Worker | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (workerRef.current) {
+        workerRef.current.terminate();
+      }
+    };
+  }, []);
 
   const handleFilesFromDropzone = useCallback((files: FileList) => {
     const file = files[0];
@@ -58,7 +67,7 @@ export default function ImageOcrTool() {
     setProgressMessage(t('Tools.image-ocr.initializing'));
     
     try {
-      const result = await Tesseract.recognize(image, language, {
+      const worker = await createWorker(language, 1, {
         logger: (m) => {
           if (m.status === 'recognizing text') {
             setProgress(Math.round(m.progress * 100));
@@ -68,6 +77,11 @@ export default function ImageOcrTool() {
           }
         },
       });
+      workerRef.current = worker;
+      
+      const result = await worker.recognize(image);
+      await worker.terminate();
+      workerRef.current = null;
       
       setText(result.data.text);
       toast({
@@ -76,6 +90,10 @@ export default function ImageOcrTool() {
       });
     } catch (error) {
       console.error('OCR error:', error);
+      if (workerRef.current) {
+        await workerRef.current.terminate();
+        workerRef.current = null;
+      }
       toast({
         title: t('Common.errors.PROCESSING_FAILED'),
         variant: 'destructive',
