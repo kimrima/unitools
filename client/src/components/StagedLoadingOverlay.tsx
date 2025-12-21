@@ -4,7 +4,6 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Loader2, FileSearch, Cog, Sparkles, Check, X } from 'lucide-react';
 import type { ProcessingStage } from '@/hooks/useStagedProcessing';
-import { AdSlot } from '@/components/AdSlot';
 
 interface StagedLoadingOverlayProps {
   stage: ProcessingStage;
@@ -13,7 +12,6 @@ interface StagedLoadingOverlayProps {
   message?: string;
   error?: string | null;
   onCancel?: () => void;
-  showAds?: boolean;
 }
 
 const stageIcons: Record<ProcessingStage, typeof Loader2> = {
@@ -43,7 +41,6 @@ export function StagedLoadingOverlay({
   message,
   error,
   onCancel,
-  showAds = true,
 }: StagedLoadingOverlayProps) {
   const { t } = useTranslation();
   const Icon = stageIcons[stage] || Loader2;
@@ -114,12 +111,6 @@ export function StagedLoadingOverlay({
           </div>
         </CardContent>
       </Card>
-      
-      {showAds && stage !== 'complete' && stage !== 'error' && (
-        <div className="flex justify-center">
-          <AdSlot position="loading" />
-        </div>
-      )}
       
       <Card className="bg-muted/30">
         <CardContent className="p-4">
