@@ -14,6 +14,16 @@ import { allTools } from '@/data/tools';
 
 const MergePdfTool = lazy(() => import('@/components/tools/MergePdfTool'));
 const SplitPdfTool = lazy(() => import('@/components/tools/SplitPdfTool'));
+const CompressPdfTool = lazy(() => import('@/components/tools/CompressPdfTool'));
+const RotatePdfTool = lazy(() => import('@/components/tools/RotatePdfTool'));
+const JpgToPdfTool = lazy(() => import('@/components/tools/JpgToPdfTool'));
+const WatermarkPdfTool = lazy(() => import('@/components/tools/WatermarkPdfTool'));
+const DeletePdfPagesTool = lazy(() => import('@/components/tools/DeletePdfPagesTool'));
+const AddPageNumbersTool = lazy(() => import('@/components/tools/AddPageNumbersTool'));
+const ExtractPdfPagesTool = lazy(() => import('@/components/tools/ExtractPdfPagesTool'));
+const OrganizePdfTool = lazy(() => import('@/components/tools/OrganizePdfTool'));
+const ProtectPdfTool = lazy(() => import('@/components/tools/ProtectPdfTool'));
+const UnlockPdfTool = lazy(() => import('@/components/tools/UnlockPdfTool'));
 const CompressImageTool = lazy(() => import('@/components/tools/CompressImageTool'));
 const ConvertImageTool = lazy(() => import('@/components/tools/ConvertImageTool'));
 const VideoToGifTool = lazy(() => import('@/components/tools/VideoToGifTool'));
@@ -21,6 +31,17 @@ const VideoToGifTool = lazy(() => import('@/components/tools/VideoToGifTool'));
 const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element>> = {
   'merge-pdf': MergePdfTool,
   'split-pdf': SplitPdfTool,
+  'compress-pdf': CompressPdfTool,
+  'rotate-pdf': RotatePdfTool,
+  'jpg-to-pdf': JpgToPdfTool,
+  'png-to-pdf': JpgToPdfTool,
+  'watermark-pdf': WatermarkPdfTool,
+  'delete-pdf-pages': DeletePdfPagesTool,
+  'add-page-numbers': AddPageNumbersTool,
+  'extract-pdf-pages': ExtractPdfPagesTool,
+  'organize-pdf': OrganizePdfTool,
+  'protect-pdf': ProtectPdfTool,
+  'unlock-pdf': UnlockPdfTool,
   'compress-image': CompressImageTool,
   'convert-image': ConvertImageTool,
   'video-to-gif': VideoToGifTool,

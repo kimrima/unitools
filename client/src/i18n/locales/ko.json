@@ -393,6 +393,41 @@
       "title": "PDF 최적화",
       "description": "웹용으로 PDF를 최적화하거나 품질을 유지하면서 파일 크기를 줄이세요.",
       "shortDesc": "웹용 PDF 최적화"
+    },
+    "pdf-to-text": {
+      "title": "PDF에서 텍스트 추출",
+      "description": "PDF 파일에서 텍스트만 추출하여 텍스트 파일로 저장하세요.",
+      "shortDesc": "PDF 텍스트 추출"
+    },
+    "html-to-pdf": {
+      "title": "HTML을 PDF로 변환",
+      "description": "웹페이지나 HTML 코드를 PDF 문서로 변환하세요.",
+      "shortDesc": "HTML을 PDF로"
+    },
+    "add-page-numbers": {
+      "title": "페이지 번호 추가",
+      "description": "PDF의 모든 페이지에 자동으로 페이지 번호를 추가하세요.",
+      "shortDesc": "PDF 페이지 번호 매기기"
+    },
+    "crop-pdf": {
+      "title": "PDF 여백 자르기",
+      "description": "PDF 페이지의 여백과 흰 공간을 제거하세요.",
+      "shortDesc": "PDF 여백 제거"
+    },
+    "grayscale-pdf": {
+      "title": "PDF 흑백 변환",
+      "description": "컬러 PDF를 흑백으로 변환하여 인쇄 비용을 절약하세요.",
+      "shortDesc": "PDF 흑백으로 변환"
+    },
+    "resize-pdf": {
+      "title": "PDF 크기 변경",
+      "description": "PDF 페이지 크기를 A4, Letter, A3 등 다른 규격으로 변경하세요.",
+      "shortDesc": "PDF 페이지 크기 변경"
+    },
+    "n-up-pdf": {
+      "title": "PDF 모아찍기",
+      "description": "한 장에 여러 PDF 페이지를 배치하세요 (2페이지, 4페이지 모아찍기).",
+      "shortDesc": "여러 페이지 한 장에"
     }
   }
 }

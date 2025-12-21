@@ -10,6 +10,8 @@ const pdfTools = [
   'excel-to-pdf', 'pdf-to-ppt', 'ppt-to-pdf', 'rotate-pdf', 'delete-pdf-pages',
   'extract-pdf-pages', 'organize-pdf', 'protect-pdf', 'unlock-pdf', 'sign-pdf',
   'watermark-pdf', 'edit-pdf', 'ocr-pdf', 'repair-pdf', 'optimize-pdf',
+  'pdf-to-text', 'html-to-pdf', 'add-page-numbers', 'crop-pdf', 'grayscale-pdf',
+  'resize-pdf', 'n-up-pdf',
 ];
 
 const imageConvertTools = ['png-to-jpg', 'jpg-to-png', 'webp-to-jpg', 'convert-image'];

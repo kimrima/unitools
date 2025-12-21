@@ -393,6 +393,41 @@
       "title": "Optimize PDF",
       "description": "Optimize PDF for web or reduce file size while maintaining quality.",
       "shortDesc": "Optimize PDF for web"
+    },
+    "pdf-to-text": {
+      "title": "PDF to Text",
+      "description": "Extract text content from PDF files and save as plain text.",
+      "shortDesc": "Extract text from PDF"
+    },
+    "html-to-pdf": {
+      "title": "HTML to PDF",
+      "description": "Convert web pages or HTML code to PDF documents.",
+      "shortDesc": "Convert HTML to PDF"
+    },
+    "add-page-numbers": {
+      "title": "Add Page Numbers",
+      "description": "Automatically add page numbers to all pages of your PDF.",
+      "shortDesc": "Number PDF pages"
+    },
+    "crop-pdf": {
+      "title": "Crop PDF",
+      "description": "Remove margins and white space from PDF pages.",
+      "shortDesc": "Trim PDF margins"
+    },
+    "grayscale-pdf": {
+      "title": "Grayscale PDF",
+      "description": "Convert color PDF to black and white to save on printing costs.",
+      "shortDesc": "Convert PDF to grayscale"
+    },
+    "resize-pdf": {
+      "title": "Resize PDF",
+      "description": "Change PDF page size from A4 to Letter, A3, or other formats.",
+      "shortDesc": "Change PDF page size"
+    },
+    "n-up-pdf": {
+      "title": "N-up PDF",
+      "description": "Print multiple PDF pages on a single sheet (2-up, 4-up layout).",
+      "shortDesc": "Multiple pages per sheet"
     }
   }
 }
