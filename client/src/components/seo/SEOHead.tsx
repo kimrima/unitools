@@ -68,7 +68,7 @@ function updateHreflangTags(toolId?: string, categoryId?: string, pageType?: str
   const existingHreflang = document.querySelectorAll('link[rel="alternate"][hreflang]');
   existingHreflang.forEach((el) => el.remove());
 
-  const supportedLocales = ['en', 'ko'];
+  const supportedLocales = ['en', 'ko', 'ja', 'es', 'fr'];
   const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
   
   let path = '';

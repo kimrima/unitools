@@ -5,29 +5,44 @@ import { randomBytes, createHash } from "crypto";
 
 const supportedLocales = ['en', 'ko', 'ja', 'es', 'fr'];
 
-const pdfTools = [
-  'merge-pdf', 'split-pdf', 'compress-pdf', 'pdf-to-jpg', 'jpg-to-pdf',
-  'pdf-to-png', 'png-to-pdf', 'pdf-to-word', 'word-to-pdf', 'pdf-to-excel',
-  'excel-to-pdf', 'pdf-to-ppt', 'ppt-to-pdf', 'rotate-pdf', 'delete-pdf-pages',
-  'extract-pdf-pages', 'organize-pdf', 'sign-pdf',
-  'watermark-pdf', 'edit-pdf', 'ocr-pdf', 'repair-pdf', 'optimize-pdf',
-  'pdf-to-text', 'html-to-pdf', 'add-page-numbers', 'crop-pdf', 'grayscale-pdf',
-  'resize-pdf', 'n-up-pdf',
-];
-
-const imageConvertTools = ['png-to-jpg', 'jpg-to-png', 'webp-to-jpg', 'convert-image'];
-const imageEditTools = ['resize-image', 'crop-image', 'compress-image'];
-const videoAudioTools = ['video-to-gif'];
-const developerTools = ['json-formatter', 'base64-encode', 'hash-generator'];
-const calculatorTools = ['unit-converter', 'percentage-calculator'];
-
 const allToolIds = [
-  ...pdfTools,
-  ...imageConvertTools,
-  ...imageEditTools,
-  ...videoAudioTools,
-  ...developerTools,
-  ...calculatorTools,
+  'merge-pdf', 'split-pdf', 'compress-pdf', 'pdf-to-jpg', 'jpg-to-pdf', 'pdf-to-png', 'png-to-pdf',
+  'pdf-to-word', 'word-to-pdf', 'pdf-to-excel', 'excel-to-pdf', 'pdf-to-ppt', 'ppt-to-pdf',
+  'rotate-pdf', 'delete-pdf-pages', 'extract-pdf-pages', 'organize-pdf', 'sign-pdf',
+  'watermark-pdf', 'edit-pdf', 'ocr-pdf', 'repair-pdf', 'optimize-pdf', 'pdf-to-text',
+  'html-to-pdf', 'add-page-numbers', 'crop-pdf', 'grayscale-pdf', 'resize-pdf', 'n-up-pdf',
+  'jpg-to-png', 'png-to-jpg', 'heic-to-jpg', 'webp-converter', 'svg-to-png', 'convert-image',
+  'bulk-convert-image', 'webp-to-jpg', 'webp-to-png', 'gif-to-png',
+  'compress-image', 'resize-image', 'crop-image', 'rotate-image', 'flip-image', 'image-upscaler',
+  'canvas-size', 'remove-background', 'image-mosaic', 'image-watermark', 'image-brightness',
+  'grayscale-filter', 'image-text', 'remove-exif', 'round-corners', 'image-shadow', 'color-picker',
+  'image-joiner', 'create-gif', 'image-border', 'image-opacity', 'image-ratio', 'favicon-generator',
+  'video-to-gif', 'trim-video', 'mute-video', 'extract-audio', 'video-speed', 'video-capture',
+  'convert-video', 'resize-video', 'compress-video', 'flip-video', 'trim-audio', 'join-audio',
+  'convert-audio', 'boost-audio', 'reverse-audio', 'audio-bitrate', 'audio-visualizer',
+  'video-metadata', 'voice-recorder', 'screen-recorder',
+  'image-ocr', 'pdf-text-extract', 'character-count', 'case-converter', 'line-break-remover',
+  'remove-duplicates', 'text-sort', 'find-replace', 'blank-line-remover', 'prefix-suffix',
+  'csv-to-json', 'json-to-csv', 'xml-to-json', 'yaml-to-json', 'text-to-list', 'dummy-generator',
+  'lorem-ipsum', 'markdown-preview', 'regex-tester', 'url-encode', 'base64-text', 'html-entity',
+  'diff-checker', 'word-frequency', 'text-shuffle', 'binary-converter', 'web-text-extract',
+  'instagram-line-break', 'hashtag-generator', 'instagram-font', 'tiktok-safe-zone', 'instagram-grid',
+  'youtube-thumbnail', 'youtube-tags', 'youtube-channel-id', 'video-title-length', 'qr-code-generator',
+  'barcode-generator', 'url-shortener', 'utm-builder', 'ad-banner-guide', 'logo-generator',
+  'email-signature', 'random-picker', 'fake-profile', 'kaomoji-collection', 'timezone-converter',
+  'sha256-hash', 'md5-hash', 'aes-encryption', 'base64-encode', 'bcrypt-generator', 'html-minifier',
+  'css-minifier', 'js-minifier', 'sql-formatter', 'json-formatter', 'jwt-decoder', 'uuid-generator',
+  'password-generator', 'cron-generator', 'epoch-converter', 'ipv4-to-ipv6', 'what-is-my-ip',
+  'user-agent', 'http-header-analyzer', 'redirect-checker', 'speed-test', 'color-converter',
+  'color-contrast', 'screen-resolution',
+  'percentage-calculator', 'sales-tax-calculator', 'compound-interest', 'currency-converter',
+  'discount-calculator', 'tip-calculator', 'salary-converter', 'metric-imperial', 'temperature-converter',
+  'speed-converter', 'area-converter', 'volume-converter', 'age-calculator', 'date-calculator',
+  'days-counter', 'bmi-calculator', 'bmr-calculator', 'pregnancy-calculator', 'sleep-calculator',
+  'gpa-calculator', 'scientific-calculator', 'probability-calculator',
+  'fancy-text', 'morse-code', 'binary-text', 'zalgo-text', 'random-choice', 'wheel-of-fortune',
+  'dice-roller', 'coin-flipper', 'random-number', 'random-name', 'drawing-pad', 'white-noise',
+  'metronome', 'morse-flasher',
 ];
 
 const categories = ['pdf', 'imageConvert', 'imageEdit', 'videoAudio', 'text', 'social', 'developer', 'calculator', 'misc'];
