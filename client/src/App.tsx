@@ -13,6 +13,8 @@ import AboutPage from "@/pages/AboutPage";
 import PrivacyPage from "@/pages/PrivacyPage";
 import TermsPage from "@/pages/TermsPage";
 import ContactPage from "@/pages/ContactPage";
+import AdminLogin from "@/pages/admin/AdminLogin";
+import AdminDashboard from "@/pages/admin/AdminDashboard";
 
 import "./i18n/config";
 
@@ -24,6 +26,8 @@ function ToolPageWrapper() {
 function Router() {
   return (
     <Switch>
+      <Route path="/admin" component={AdminLogin} />
+      <Route path="/admin/dashboard" component={AdminDashboard} />
       <Route path="/" component={HomePage} />
       <Route path="/:locale" component={HomePage} />
       <Route path="/:locale/all-tools" component={AllToolsPage} />
