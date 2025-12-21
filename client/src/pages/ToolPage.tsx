@@ -129,6 +129,9 @@ const SpeedTestTool = lazy(() => import('@/components/tools/SpeedTestTool'));
 const CoinFlipperTool = lazy(() => import('@/components/tools/CoinFlipperTool'));
 const DiceRollerTool = lazy(() => import('@/components/tools/DiceRollerTool'));
 const CalculatorTool = lazy(() => import('@/components/tools/CalculatorTool'));
+const WhiteNoiseTool = lazy(() => import('@/components/tools/WhiteNoiseTool'));
+const RandomNameTool = lazy(() => import('@/components/tools/RandomNameTool'));
+const MetronomeTool = lazy(() => import('@/components/tools/MetronomeTool'));
 
 const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element>> = {
   'merge-pdf': MergePdfTool,
@@ -308,6 +311,12 @@ const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element
   'screen-resolution': WhatIsMyIpTool,
   'user-agent': WhatIsMyIpTool,
   'color-contrast': ColorConverterTool,
+  'white-noise': WhiteNoiseTool,
+  'random-name': RandomNameTool,
+  'metronome': MetronomeTool,
+  'morse-flasher': Base64Tool,
+  'drawing-pad': ColorPickerTool,
+  'redirect-checker': WhatIsMyIpTool,
 };
 
 function ToolLoading() {

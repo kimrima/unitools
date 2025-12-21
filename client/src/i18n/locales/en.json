@@ -2017,7 +2017,8 @@
     "metronome": {
       "title": "Online Metronome",
       "description": "Adjustable tempo metronome for music practice.",
-      "shortDesc": "Music tempo keeper"
+      "shortDesc": "Music tempo keeper",
+      "beatsPerMeasure": "Beats per Measure"
     },
     "morse-flasher": {
       "title": "Morse Flasher",
@@ -2032,7 +2033,14 @@
     "random-name": {
       "title": "Random Name Generator",
       "description": "Generate random names for characters, projects, or games.",
-      "shortDesc": "Random name creator"
+      "shortDesc": "Random name creator",
+      "nameType": "Name Type",
+      "english": "English Names",
+      "korean": "Korean Names",
+      "fantasy": "Fantasy Names",
+      "count": "Number of Names",
+      "generate": "Generate Names",
+      "results": "Generated Names"
     },
     "redirect-checker": {
       "title": "URL Redirect Checker",
@@ -2067,7 +2075,13 @@
     "white-noise": {
       "title": "White Noise Generator",
       "description": "Generate soothing white noise for focus or relaxation.",
-      "shortDesc": "Relaxing sound generator"
+      "shortDesc": "Relaxing sound generator",
+      "white": "White Noise",
+      "pink": "Pink Noise",
+      "brown": "Brown Noise",
+      "volume": "Volume",
+      "playing": "Playing...",
+      "stopped": "Click to Play"
     },
     "zalgo-text": {
       "title": "Zalgo Text Generator",

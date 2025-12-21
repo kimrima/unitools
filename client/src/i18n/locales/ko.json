@@ -2017,7 +2017,8 @@
     "metronome": {
       "title": "온라인 메트로놈",
       "description": "음악 연습을 위한 조절 가능한 템포 메트로놈입니다.",
-      "shortDesc": "음악 템포 유지기"
+      "shortDesc": "음악 템포 유지기",
+      "beatsPerMeasure": "박자 수"
     },
     "morse-flasher": {
       "title": "모스 부호 플래셔",
@@ -2032,7 +2033,14 @@
     "random-name": {
       "title": "랜덤 이름 생성기",
       "description": "캐릭터, 프로젝트 또는 게임용 무작위 이름을 생성하세요.",
-      "shortDesc": "무작위 이름 생성"
+      "shortDesc": "무작위 이름 생성",
+      "nameType": "이름 유형",
+      "english": "영문 이름",
+      "korean": "한국어 이름",
+      "fantasy": "판타지 이름",
+      "count": "이름 개수",
+      "generate": "이름 생성",
+      "results": "생성된 이름"
     },
     "redirect-checker": {
       "title": "URL 리다이렉트 검사기",
@@ -2067,7 +2075,13 @@
     "white-noise": {
       "title": "백색 소음 생성기",
       "description": "집중이나 휴식을 위한 편안한 백색 소음을 생성하세요.",
-      "shortDesc": "휴식용 소리 생성기"
+      "shortDesc": "휴식용 소리 생성기",
+      "white": "백색 소음",
+      "pink": "핑크 노이즈",
+      "brown": "브라운 노이즈",
+      "volume": "볼륨",
+      "playing": "재생 중...",
+      "stopped": "클릭하여 재생"
     },
     "zalgo-text": {
       "title": "잘고 텍스트 생성기",
