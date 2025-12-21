@@ -1,4 +1,4 @@
-import { Switch, Route } from "wouter";
+import { Switch, Route, useParams } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -12,9 +12,13 @@ import AboutPage from "@/pages/AboutPage";
 import PrivacyPage from "@/pages/PrivacyPage";
 import TermsPage from "@/pages/TermsPage";
 import ContactPage from "@/pages/ContactPage";
-import ResultPage from "@/pages/ResultPage";
 
 import "./i18n/config";
+
+function ToolPageWrapper() {
+  const params = useParams<{ locale: string; toolId: string }>();
+  return <ToolPage key={`${params.locale}-${params.toolId}`} />;
+}
 
 function Router() {
   return (
@@ -26,8 +30,7 @@ function Router() {
       <Route path="/:locale/terms" component={TermsPage} />
       <Route path="/:locale/contact" component={ContactPage} />
       <Route path="/:locale/category/:categoryId" component={CategoryPage} />
-      <Route path="/:locale/:toolId/result" component={ResultPage} />
-      <Route path="/:locale/:toolId" component={ToolPage} />
+      <Route path="/:locale/:toolId" component={ToolPageWrapper} />
       <Route component={NotFound} />
     </Switch>
   );
