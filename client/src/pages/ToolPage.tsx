@@ -1,4 +1,4 @@
-import { Suspense, lazy } from 'react';
+import { Suspense, lazy, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRoute, Link } from 'wouter';
 import { useLocalizedPath } from '@/components/LocaleProvider';
@@ -9,8 +9,10 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { SEOHead } from '@/components/seo/SEOHead';
 import { ToolStats, ToolSEOContent } from '@/components/seo/ToolContent';
-import { ArrowLeft, AlertCircle, Loader2, ChevronRight, Home } from 'lucide-react';
+import { ArrowLeft, AlertCircle, Loader2, ChevronRight, Home, ThumbsUp, Check } from 'lucide-react';
 import { allTools } from '@/data/tools';
+import { useRecentTools } from '@/hooks/useRecentTools';
+import { useFeatureVote } from '@/hooks/useFeatureVote';
 
 const MergePdfTool = lazy(() => import('@/components/tools/MergePdfTool'));
 const SplitPdfTool = lazy(() => import('@/components/tools/SplitPdfTool'));
@@ -282,6 +284,15 @@ function ToolLoading() {
 
 function GenericToolPlaceholder({ toolId }: { toolId: string }) {
   const { t } = useTranslation();
+  const { voteForFeature, hasVoted, getVoteCount } = useFeatureVote();
+  const voted = hasVoted(toolId);
+  const voteCount = getVoteCount(toolId);
+
+  const handleVote = () => {
+    if (!voted) {
+      voteForFeature(toolId);
+    }
+  };
   
   return (
     <div className="space-y-6">
@@ -297,6 +308,30 @@ function GenericToolPlaceholder({ toolId }: { toolId: string }) {
             {t('Common.tool.comingSoonDesc', { toolId })}
           </p>
         </div>
+        <Button 
+          variant={voted ? "secondary" : "default"}
+          onClick={handleVote}
+          disabled={voted}
+          className="mt-4"
+          data-testid="button-vote-feature"
+        >
+          {voted ? (
+            <>
+              <Check className="w-4 h-4 mr-2" />
+              {t('Common.tool.voted')}
+            </>
+          ) : (
+            <>
+              <ThumbsUp className="w-4 h-4 mr-2" />
+              {t('Common.tool.voteForFeature')}
+            </>
+          )}
+        </Button>
+        {voteCount > 0 && (
+          <p className="text-sm text-muted-foreground">
+            {t('Common.tool.voteCount', { count: voteCount })}
+          </p>
+        )}
       </div>
     </div>
   );
@@ -306,8 +341,15 @@ export default function ToolPage() {
   const { t } = useTranslation();
   const [, params] = useRoute('/:locale/:toolId');
   const localizedPath = useLocalizedPath();
+  const { addRecentTool } = useRecentTools();
   
   const toolId = params?.toolId || '';
+  
+  useEffect(() => {
+    if (toolId) {
+      addRecentTool(toolId);
+    }
+  }, [toolId, addRecentTool]);
   
   const toolTitle = t(`Tools.${toolId}.title`, { defaultValue: '' });
   const toolDescription = t(`Tools.${toolId}.description`, { defaultValue: '' });

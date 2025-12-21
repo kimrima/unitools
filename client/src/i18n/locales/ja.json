@@ -1,0 +1,126 @@
+{
+  "Common": {
+    "siteName": "UniTools",
+    "siteTitle": "UniTools - オールインワン オンラインツール",
+    "siteDescription": "200以上の無料オンラインツール。すべての処理はブラウザで直接行われます。",
+    "nav": {
+      "home": "ホーム",
+      "pdf": "PDFツール",
+      "imageConvert": "画像変換",
+      "imageEdit": "画像編集",
+      "videoAudio": "動画/音声",
+      "text": "テキストツール",
+      "social": "ソーシャルメディア",
+      "developer": "開発者ツール",
+      "calculator": "電卓"
+    },
+    "actions": {
+      "upload": "ファイルをアップロード",
+      "download": "ダウンロード",
+      "convert": "変換",
+      "process": "処理",
+      "reset": "リセット",
+      "copy": "コピー",
+      "paste": "貼り付け",
+      "selectFiles": "ファイルを選択",
+      "addMore": "追加",
+      "remove": "削除",
+      "clear": "すべてクリア"
+    },
+    "messages": {
+      "processing": "処理中...",
+      "complete": "完了!",
+      "error": "エラーが発生しました。",
+      "dragDrop": "ここにファイルをドラッグ&ドロップするか、クリックして選択",
+      "noServerUpload": "ファイルはサーバーにアップロードされません。すべての処理はブラウザで直接行われます。"
+    },
+    "footer": {
+      "about": "概要",
+      "privacy": "プライバシーポリシー",
+      "terms": "利用規約",
+      "contact": "お問い合わせ",
+      "allRightsReserved": "全著作権所有",
+      "trustClientSide": "100%クライアントサイド",
+      "trustClientSideDesc": "ファイルはデバイスに保存されます",
+      "trustFreeTools": "200以上のツール",
+      "trustFreeToolsDesc": "すべて無料、登録不要",
+      "trustMultiLang": "多言語サポート",
+      "trustMultiLangDesc": "複数の言語で利用可能"
+    },
+    "hero": {
+      "badge": "200以上の無料ツール",
+      "titlePart1": "すべてのツールを、",
+      "titlePart2": "一箇所で",
+      "trustFree": "無料",
+      "trustNoUpload": "サーバーアップロードなし",
+      "trustMultiLang": "多言語"
+    },
+    "home": {
+      "categoriesTitle": "カテゴリー別ツール",
+      "categoriesSubtitle": "8カテゴリー、200以上のツール",
+      "popularTitle": "人気ツール",
+      "recentTools": "最近使用したツール",
+      "viewAllTools": "すべてのツールを見る",
+      "whyChoose": "UniToolsを選ぶ理由",
+      "clientSideTitle": "100%クライアントサイド",
+      "clientSideDesc": "ファイルはデバイスから離れません。すべての処理はブラウザで行われ、完全なプライバシーが保護されます。",
+      "fastFreeTitle": "高速で無料",
+      "fastFreeDesc": "アップロード待ち時間なしで即座に処理。すべてのツールは完全に無料です。",
+      "multiLangTitle": "多言語",
+      "multiLangDesc": "複数の言語で利用可能です。",
+      "getStarted": "今すぐ始める",
+      "getStartedDesc": "登録なしですべてのツールを無料で使用できます。",
+      "tools": "ツール"
+    },
+    "tool": {
+      "comingSoon": "近日公開",
+      "comingSoonTitle": "近日公開",
+      "comingSoonDesc": "「{{toolId}}」機能は現在開発中です。まもなく利用可能になります!",
+      "notFound": "ツールが見つかりません",
+      "notFoundDesc": "「{{toolId}}」というツールは存在しません。",
+      "goHome": "ホームに戻る",
+      "privacyNote": "ファイルはブラウザで直接処理され、サーバーにアップロードされることはありません。",
+      "voteForFeature": "この機能に投票する",
+      "voted": "投票ありがとうございます!",
+      "voteCount": "{{count}}人がこの機能を望んでいます"
+    },
+    "search": {
+      "placeholder": "ツールを検索 (例: PDF、画像、動画)...",
+      "noResults": "「{{query}}」に該当するツールが見つかりません"
+    }
+  },
+  "Categories": {
+    "pdf": {
+      "name": "PDFツール",
+      "description": "PDFの変換、結合、分割など"
+    },
+    "imageConvert": {
+      "name": "画像変換",
+      "description": "様々な画像フォーマット間の変換"
+    },
+    "imageEdit": {
+      "name": "画像編集",
+      "description": "リサイズ、クロップ、フィルター適用など"
+    },
+    "videoAudio": {
+      "name": "動画/音声",
+      "description": "動画と音声ファイルの変換と編集"
+    },
+    "text": {
+      "name": "テキストツール",
+      "description": "テキスト変換、フォーマット、分析ツール"
+    },
+    "social": {
+      "name": "ソーシャルメディア",
+      "description": "ソーシャルメディアコンテンツのダウンロードと最適化"
+    },
+    "developer": {
+      "name": "開発者ツール",
+      "description": "コードフォーマッター、エンコーダー、ハッシュジェネレーターなど"
+    },
+    "calculator": {
+      "name": "電卓",
+      "description": "日常の計算のための様々な電卓"
+    }
+  }
+}

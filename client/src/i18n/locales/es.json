@@ -1,0 +1,126 @@
+{
+  "Common": {
+    "siteName": "UniTools",
+    "siteTitle": "UniTools - Herramientas en Linea Todo en Uno",
+    "siteDescription": "Mas de 200 herramientas gratuitas en linea. Todo el procesamiento ocurre directamente en tu navegador.",
+    "nav": {
+      "home": "Inicio",
+      "pdf": "Herramientas PDF",
+      "imageConvert": "Convertir Imagenes",
+      "imageEdit": "Editar Imagenes",
+      "videoAudio": "Video/Audio",
+      "text": "Herramientas de Texto",
+      "social": "Redes Sociales",
+      "developer": "Herramientas de Desarrollador",
+      "calculator": "Calculadoras"
+    },
+    "actions": {
+      "upload": "Subir Archivo",
+      "download": "Descargar",
+      "convert": "Convertir",
+      "process": "Procesar",
+      "reset": "Restablecer",
+      "copy": "Copiar",
+      "paste": "Pegar",
+      "selectFiles": "Seleccionar Archivos",
+      "addMore": "Agregar Mas",
+      "remove": "Eliminar",
+      "clear": "Limpiar Todo"
+    },
+    "messages": {
+      "processing": "Procesando...",
+      "complete": "Completado!",
+      "error": "Ocurrio un error.",
+      "dragDrop": "Arrastra y suelta archivos aqui o haz clic para seleccionar",
+      "noServerUpload": "Los archivos no se suben a ningun servidor. Todo el procesamiento ocurre directamente en tu navegador."
+    },
+    "footer": {
+      "about": "Acerca de",
+      "privacy": "Politica de Privacidad",
+      "terms": "Terminos de Servicio",
+      "contact": "Contacto",
+      "allRightsReserved": "Todos los derechos reservados",
+      "trustClientSide": "100% Del Lado del Cliente",
+      "trustClientSideDesc": "Tus archivos permanecen en tu dispositivo",
+      "trustFreeTools": "200+ Herramientas",
+      "trustFreeToolsDesc": "Todas gratis, sin registro requerido",
+      "trustMultiLang": "Soporte Multiidioma",
+      "trustMultiLangDesc": "Disponible en multiples idiomas"
+    },
+    "hero": {
+      "badge": "200+ Herramientas Gratis",
+      "titlePart1": "Todas Tus Herramientas,",
+      "titlePart2": "En Un Solo Lugar",
+      "trustFree": "Gratis",
+      "trustNoUpload": "Sin Subida al Servidor",
+      "trustMultiLang": "Multiidioma"
+    },
+    "home": {
+      "categoriesTitle": "Herramientas por Categoria",
+      "categoriesSubtitle": "8 categorias, 200+ herramientas",
+      "popularTitle": "Herramientas Populares",
+      "recentTools": "Usadas Recientemente",
+      "viewAllTools": "Ver Todas las Herramientas",
+      "whyChoose": "Por Que Elegir UniTools",
+      "clientSideTitle": "100% Del Lado del Cliente",
+      "clientSideDesc": "Los archivos nunca salen de tu dispositivo. Todo el procesamiento ocurre en tu navegador para privacidad completa.",
+      "fastFreeTitle": "Rapido y Gratis",
+      "fastFreeDesc": "Procesamiento instantaneo sin esperas de subida. Todas las herramientas son completamente gratis.",
+      "multiLangTitle": "Multiidioma",
+      "multiLangDesc": "Disponible en multiples idiomas.",
+      "getStarted": "Comienza Ahora",
+      "getStartedDesc": "Usa todas las herramientas gratis sin registro.",
+      "tools": "herramientas"
+    },
+    "tool": {
+      "comingSoon": "Proximamente",
+      "comingSoonTitle": "Proximamente",
+      "comingSoonDesc": "La funcion \"{{toolId}}\" esta actualmente en desarrollo. Vuelve pronto!",
+      "notFound": "Herramienta No Encontrada",
+      "notFoundDesc": "La herramienta \"{{toolId}}\" no existe.",
+      "goHome": "Ir al Inicio",
+      "privacyNote": "Los archivos se procesan directamente en tu navegador y nunca se suben a ningun servidor.",
+      "voteForFeature": "Votar por esta funcion",
+      "voted": "Gracias por votar!",
+      "voteCount": "{{count}} personas quieren esta funcion"
+    },
+    "search": {
+      "placeholder": "Buscar herramientas (ej., PDF, Imagen, Video)...",
+      "noResults": "No se encontraron herramientas para \"{{query}}\""
+    }
+  },
+  "Categories": {
+    "pdf": {
+      "name": "Herramientas PDF",
+      "description": "Convertir, fusionar, dividir y mas herramientas PDF"
+    },
+    "imageConvert": {
+      "name": "Convertir Imagenes",
+      "description": "Convertir entre varios formatos de imagen"
+    },
+    "imageEdit": {
+      "name": "Editar Imagenes",
+      "description": "Redimensionar, recortar, aplicar filtros y mas"
+    },
+    "videoAudio": {
+      "name": "Video/Audio",
+      "description": "Conversion y edicion de archivos de video y audio"
+    },
+    "text": {
+      "name": "Herramientas de Texto",
+      "description": "Herramientas de conversion, formato y analisis de texto"
+    },
+    "social": {
+      "name": "Redes Sociales",
+      "description": "Descargar y optimizar contenido de redes sociales"
+    },
+    "developer": {
+      "name": "Herramientas de Desarrollador",
+      "description": "Formateadores de codigo, codificadores, generadores de hash y mas"
+    },
+    "calculator": {
+      "name": "Calculadoras",
+      "description": "Varias calculadoras para calculos cotidianos"
+    }
+  }
+}

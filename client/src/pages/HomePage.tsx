@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import SearchBar from '@/components/layout/SearchBar';
+import RecentTools from '@/components/RecentTools';
 import { categories, getPopularTools, getToolsByCategory } from '@/data/tools';
 import { 
   ArrowRight,
@@ -65,6 +66,8 @@ export default function HomePage() {
             </div>
           </div>
         </section>
+
+        <RecentTools />
 
         <section className="max-w-7xl mx-auto px-4 py-12 md:py-16">
           <div className="flex items-center justify-between mb-8 gap-4 flex-wrap">

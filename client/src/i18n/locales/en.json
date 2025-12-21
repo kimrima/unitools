@@ -142,6 +142,7 @@
       "categoriesTitle": "Tools by Category",
       "categoriesSubtitle": "8 categories, 200+ tools",
       "popularTitle": "Popular Tools",
+      "recentTools": "Recently Used",
       "viewAllTools": "View All Tools",
       "whyChoose": "Why Choose UniTools",
       "clientSideTitle": "100% Client-Side",
@@ -161,7 +162,10 @@
       "notFound": "Tool Not Found",
       "notFoundDesc": "The tool \"{{toolId}}\" does not exist.",
       "goHome": "Go Home",
-      "privacyNote": "Files are processed directly in your browser and never uploaded to any server."
+      "privacyNote": "Files are processed directly in your browser and never uploaded to any server.",
+      "voteForFeature": "Vote for this feature",
+      "voted": "Thanks for voting!",
+      "voteCount": "{{count}} people want this feature"
     },
     "search": {
       "placeholder": "Search tools (e.g., PDF, Image, Video)...",

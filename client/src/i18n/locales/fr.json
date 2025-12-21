@@ -1,0 +1,126 @@
+{
+  "Common": {
+    "siteName": "UniTools",
+    "siteTitle": "UniTools - Outils en Ligne Tout-en-Un",
+    "siteDescription": "Plus de 200 outils en ligne gratuits. Tout le traitement se fait directement dans votre navigateur.",
+    "nav": {
+      "home": "Accueil",
+      "pdf": "Outils PDF",
+      "imageConvert": "Conversion d'Images",
+      "imageEdit": "Edition d'Images",
+      "videoAudio": "Video/Audio",
+      "text": "Outils de Texte",
+      "social": "Reseaux Sociaux",
+      "developer": "Outils Developpeur",
+      "calculator": "Calculatrices"
+    },
+    "actions": {
+      "upload": "Telecharger un Fichier",
+      "download": "Telecharger",
+      "convert": "Convertir",
+      "process": "Traiter",
+      "reset": "Reinitialiser",
+      "copy": "Copier",
+      "paste": "Coller",
+      "selectFiles": "Selectionner des Fichiers",
+      "addMore": "Ajouter Plus",
+      "remove": "Supprimer",
+      "clear": "Tout Effacer"
+    },
+    "messages": {
+      "processing": "Traitement en cours...",
+      "complete": "Termine!",
+      "error": "Une erreur s'est produite.",
+      "dragDrop": "Glissez et deposez des fichiers ici ou cliquez pour selectionner",
+      "noServerUpload": "Les fichiers ne sont pas telecharges sur un serveur. Tout le traitement se fait directement dans votre navigateur."
+    },
+    "footer": {
+      "about": "A Propos",
+      "privacy": "Politique de Confidentialite",
+      "terms": "Conditions d'Utilisation",
+      "contact": "Contact",
+      "allRightsReserved": "Tous droits reserves",
+      "trustClientSide": "100% Cote Client",
+      "trustClientSideDesc": "Vos fichiers restent sur votre appareil",
+      "trustFreeTools": "200+ Outils",
+      "trustFreeToolsDesc": "Tous gratuits, sans inscription requise",
+      "trustMultiLang": "Support Multilingue",
+      "trustMultiLangDesc": "Disponible en plusieurs langues"
+    },
+    "hero": {
+      "badge": "200+ Outils Gratuits",
+      "titlePart1": "Tous Vos Outils,",
+      "titlePart2": "En Un Seul Endroit",
+      "trustFree": "Gratuit",
+      "trustNoUpload": "Pas de Telechargement Serveur",
+      "trustMultiLang": "Multilingue"
+    },
+    "home": {
+      "categoriesTitle": "Outils par Categorie",
+      "categoriesSubtitle": "8 categories, 200+ outils",
+      "popularTitle": "Outils Populaires",
+      "recentTools": "Recemment Utilises",
+      "viewAllTools": "Voir Tous les Outils",
+      "whyChoose": "Pourquoi Choisir UniTools",
+      "clientSideTitle": "100% Cote Client",
+      "clientSideDesc": "Les fichiers ne quittent jamais votre appareil. Tout le traitement se fait dans votre navigateur pour une confidentialite complete.",
+      "fastFreeTitle": "Rapide et Gratuit",
+      "fastFreeDesc": "Traitement instantane sans attente de telechargement. Tous les outils sont entierement gratuits.",
+      "multiLangTitle": "Multilingue",
+      "multiLangDesc": "Disponible en plusieurs langues.",
+      "getStarted": "Commencez Maintenant",
+      "getStartedDesc": "Utilisez tous les outils gratuitement sans inscription.",
+      "tools": "outils"
+    },
+    "tool": {
+      "comingSoon": "Bientot Disponible",
+      "comingSoonTitle": "Bientot Disponible",
+      "comingSoonDesc": "La fonctionnalite \"{{toolId}}\" est actuellement en developpement. Revenez bientot!",
+      "notFound": "Outil Non Trouve",
+      "notFoundDesc": "L'outil \"{{toolId}}\" n'existe pas.",
+      "goHome": "Retour a l'Accueil",
+      "privacyNote": "Les fichiers sont traites directement dans votre navigateur et ne sont jamais telecharges sur un serveur.",
+      "voteForFeature": "Voter pour cette fonctionnalite",
+      "voted": "Merci pour votre vote!",
+      "voteCount": "{{count}} personnes veulent cette fonctionnalite"
+    },
+    "search": {
+      "placeholder": "Rechercher des outils (ex., PDF, Image, Video)...",
+      "noResults": "Aucun outil trouve pour \"{{query}}\""
+    }
+  },
+  "Categories": {
+    "pdf": {
+      "name": "Outils PDF",
+      "description": "Convertir, fusionner, diviser et plus d'outils PDF"
+    },
+    "imageConvert": {
+      "name": "Conversion d'Images",
+      "description": "Convertir entre differents formats d'image"
+    },
+    "imageEdit": {
+      "name": "Edition d'Images",
+      "description": "Redimensionner, recadrer, appliquer des filtres et plus"
+    },
+    "videoAudio": {
+      "name": "Video/Audio",
+      "description": "Conversion et edition de fichiers video et audio"
+    },
+    "text": {
+      "name": "Outils de Texte",
+      "description": "Outils de conversion, formatage et analyse de texte"
+    },
+    "social": {
+      "name": "Reseaux Sociaux",
+      "description": "Telecharger et optimiser le contenu des reseaux sociaux"
+    },
+    "developer": {
+      "name": "Outils Developpeur",
+      "description": "Formateurs de code, encodeurs, generateurs de hash et plus"
+    },
+    "calculator": {
+      "name": "Calculatrices",
+      "description": "Diverses calculatrices pour les calculs quotidiens"
+    }
+  }
+}

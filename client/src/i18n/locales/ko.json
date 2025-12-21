@@ -142,6 +142,7 @@
       "categoriesTitle": "카테고리별 도구",
       "categoriesSubtitle": "8개 카테고리, 200개 이상 도구",
       "popularTitle": "인기 도구",
+      "recentTools": "최근 사용한 도구",
       "viewAllTools": "모든 도구 보기",
       "whyChoose": "UniTools를 선택하는 이유",
       "clientSideTitle": "100% 클라이언트 처리",
@@ -161,7 +162,10 @@
       "notFound": "도구를 찾을 수 없습니다",
       "notFoundDesc": "\"{{toolId}}\" 도구가 존재하지 않습니다.",
       "goHome": "홈으로 돌아가기",
-      "privacyNote": "파일은 브라우저에서 직접 처리되며 서버로 전송되지 않습니다."
+      "privacyNote": "파일은 브라우저에서 직접 처리되며 서버로 전송되지 않습니다.",
+      "voteForFeature": "이 기능에 투표하기",
+      "voted": "투표해 주셔서 감사합니다!",
+      "voteCount": "{{count}}명이 이 기능을 원합니다"
     },
     "search": {
       "placeholder": "도구 검색 (예: PDF, 이미지, 비디오)...",
