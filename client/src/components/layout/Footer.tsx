@@ -4,12 +4,46 @@ import { useLocalizedPath } from '@/components/LocaleProvider';
 import { Shield, Zap, Globe } from 'lucide-react';
 
 const categoryTools: Record<string, string[]> = {
-  pdf: ['merge-pdf', 'split-pdf', 'compress-pdf', 'pdf-to-jpg', 'jpg-to-pdf'],
-  imageConvert: ['png-to-jpg', 'jpg-to-png', 'webp-to-jpg', 'convert-image'],
-  imageEdit: ['resize-image', 'crop-image', 'compress-image'],
-  videoAudio: ['video-to-gif'],
-  developer: ['json-formatter', 'base64-encode', 'hash-generator'],
-  calculator: ['unit-converter', 'percentage-calculator'],
+  pdf: [
+    'merge-pdf', 'split-pdf', 'compress-pdf', 'pdf-to-jpg', 'jpg-to-pdf',
+    'rotate-pdf', 'pdf-page-delete', 'pdf-page-extract', 'pdf-watermark',
+    'pdf-to-png', 'png-to-pdf', 'pdf-to-word', 'word-to-pdf', 'pdf-text-extract'
+  ],
+  imageConvert: [
+    'png-to-jpg', 'jpg-to-png', 'webp-to-jpg', 'jpg-to-webp', 'convert-image',
+    'heic-to-jpg', 'gif-to-png', 'bmp-to-jpg', 'svg-to-png', 'bulk-image-convert'
+  ],
+  imageEdit: [
+    'resize-image', 'crop-image', 'compress-image', 'rotate-image', 'flip-image',
+    'round-corners', 'add-border', 'image-to-base64', 'add-watermark',
+    'brightness-contrast', 'blur-image', 'sharpen-image', 'grayscale-image', 'sepia-image', 'invert-colors'
+  ],
+  videoAudio: [
+    'video-to-gif', 'trim-video', 'compress-video', 'video-to-mp3', 'mute-video',
+    'rotate-video', 'trim-audio', 'compress-audio', 'audio-format-convert',
+    'video-format-convert', 'screen-recorder', 'voice-recorder', 'webcam-recorder'
+  ],
+  textData: [
+    'ocr', 'pdf-text-extract', 'character-counter', 'word-counter', 'line-counter',
+    'uppercase-converter', 'lowercase-converter', 'text-reverse', 'text-sort',
+    'duplicate-remover', 'lorem-ipsum', 'markdown-preview', 'diff-checker'
+  ],
+  socialMedia: [
+    'instagram-line-break', 'hashtag-generator', 'instagram-font',
+    'youtube-thumbnail', 'youtube-channel-id', 'twitter-card-preview',
+    'qr-generator', 'barcode-generator'
+  ],
+  developer: [
+    'json-formatter', 'base64-encode', 'base64-decode', 'url-encode', 'url-decode',
+    'sha256-hash', 'md5-hash', 'uuid-generator', 'aes-encrypt', 'aes-decrypt',
+    'jwt-decoder', 'html-minify', 'css-minify', 'js-minify', 'regex-tester', 'color-converter'
+  ],
+  calculator: [
+    'unit-converter', 'percentage-calculator', 'sales-tax-calculator', 'tip-calculator',
+    'compound-interest', 'bmi-calculator', 'age-calculator', 'date-calculator',
+    'timezone-converter', 'epoch-converter', 'scientific-calculator', 'random-number',
+    'dice-roller', 'random-picker', 'password-generator'
+  ],
 };
 
 export default function Footer() {
@@ -54,18 +88,18 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 mb-8">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-6 mb-8">
           {Object.entries(categoryTools).map(([category, tools]) => (
             <div key={category}>
               <h3 className="font-semibold text-sm mb-3" data-testid={`text-footer-category-${category}`}>
                 {t(`Categories.${category}.name`)}
               </h3>
-              <ul className="space-y-2">
+              <ul className="space-y-1.5">
                 {tools.map((toolId) => (
                   <li key={toolId}>
                     <Link
                       href={localizedPath(`/${toolId}`)}
-                      className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                      className="text-xs text-muted-foreground hover:text-foreground transition-colors block truncate"
                       data-testid={`link-footer-tool-${toolId}`}
                     >
                       {t(`Tools.${toolId}.title`)}

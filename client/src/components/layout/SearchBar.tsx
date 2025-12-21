@@ -80,8 +80,8 @@ export default function SearchBar({ variant = 'compact', autoFocus = false }: Se
       </div>
 
       {isOpen && filteredTools.length > 0 && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-popover border rounded-lg shadow-lg overflow-hidden z-50" data-testid="search-results">
-          <ul className="py-2">
+        <div className="absolute top-full left-0 right-0 mt-2 bg-popover border rounded-lg shadow-lg z-[100]" data-testid="search-results">
+          <ul className="py-2 max-h-80 overflow-y-auto">
             {filteredTools.map((tool) => (
               <li key={tool.id}>
                 <Link
@@ -108,7 +108,7 @@ export default function SearchBar({ variant = 'compact', autoFocus = false }: Se
       )}
 
       {isOpen && query && filteredTools.length === 0 && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-popover border rounded-lg shadow-lg p-4 z-50" data-testid="search-no-results">
+        <div className="absolute top-full left-0 right-0 mt-2 bg-popover border rounded-lg shadow-lg p-4 z-[100]" data-testid="search-no-results">
           <p className="text-sm text-muted-foreground text-center">
             {t('Common.search.noResults', { query })}
           </p>
