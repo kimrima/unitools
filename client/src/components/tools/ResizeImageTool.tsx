@@ -1,69 +1,65 @@
 import { useCallback, useRef, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFileHandler } from '@/hooks/useFileHandler';
+import { useStagedProcessing } from '@/hooks/useStagedProcessing';
 import { resizeImage } from '@/lib/engines/imageEngine';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
+import { Slider } from '@/components/ui/slider';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
-import { Progress } from '@/components/ui/progress';
-import { Image, Upload, Download, Loader2, CheckCircle, Link2 } from 'lucide-react';
+import { StagedLoadingOverlay } from '@/components/StagedLoadingOverlay';
+import { Image, Upload, Download, CheckCircle, Link2 } from 'lucide-react';
+import { AdSlot } from '@/components/AdSlot';
+
+const PRESET_SCALES = [25, 50, 75, 100, 125, 150, 200];
 
 export default function ResizeImageTool() {
   const { t } = useTranslation();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [width, setWidth] = useState<number>(0);
-  const [height, setHeight] = useState<number>(0);
+  const [scale, setScale] = useState<number>(100);
   const [maintainAspect, setMaintainAspect] = useState(true);
   const [originalDimensions, setOriginalDimensions] = useState({ width: 0, height: 0 });
+  const [showResults, setShowResults] = useState(false);
   
   const {
     files,
-    status,
     error,
-    progress,
     resultBlob,
     addFiles,
-    setStatus,
     setError,
     setResult,
-    setProgress,
     downloadResult,
-    reset,
+    reset: resetHandler,
   } = useFileHandler({ accept: 'image/*', multiple: false });
+
+  const stagedProcessing = useStagedProcessing({
+    minDuration: 4000,
+    stages: [
+      { name: 'analyzing', duration: 1200, message: t('Common.stages.analyzingFiles', { defaultValue: 'Analyzing files...' }) },
+      { name: 'processing', duration: 1800, message: t('Common.stages.resizingImage', { defaultValue: 'Resizing image...' }) },
+      { name: 'optimizing', duration: 1000, message: t('Common.stages.optimizingOutput', { defaultValue: 'Optimizing output...' }) },
+    ],
+  });
+
+  const targetWidth = Math.round(originalDimensions.width * scale / 100);
+  const targetHeight = Math.round(originalDimensions.height * scale / 100);
 
   useEffect(() => {
     if (files.length > 0 && files[0].previewUrl) {
       const img = new window.Image();
       img.onload = () => {
         setOriginalDimensions({ width: img.width, height: img.height });
-        setWidth(img.width);
-        setHeight(img.height);
+        setScale(100);
       };
       img.src = files[0].previewUrl;
     }
   }, [files]);
 
-  const handleWidthChange = useCallback((newWidth: number) => {
-    setWidth(newWidth);
-    if (maintainAspect && originalDimensions.width > 0) {
-      const ratio = originalDimensions.height / originalDimensions.width;
-      setHeight(Math.round(newWidth * ratio));
-    }
-  }, [maintainAspect, originalDimensions]);
-
-  const handleHeightChange = useCallback((newHeight: number) => {
-    setHeight(newHeight);
-    if (maintainAspect && originalDimensions.height > 0) {
-      const ratio = originalDimensions.width / originalDimensions.height;
-      setWidth(Math.round(newHeight * ratio));
-    }
-  }, [maintainAspect, originalDimensions]);
-
   const handleFileSelect = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       addFiles(e.target.files);
+      setShowResults(false);
     }
   }, [addFiles]);
 
@@ -74,36 +70,45 @@ export default function ResizeImageTool() {
     );
     if (droppedFiles.length > 0) {
       addFiles(droppedFiles);
+      setShowResults(false);
     }
   }, [addFiles]);
 
   const handleResize = useCallback(async () => {
-    if (!files[0]?.previewUrl || width <= 0 || height <= 0) return;
+    if (!files[0]?.previewUrl || targetWidth <= 0 || targetHeight <= 0) return;
 
-    setStatus('processing');
-    setProgress(0);
     setError(null);
+    setShowResults(false);
 
     try {
-      const blob = await resizeImage(
-        files[0].previewUrl,
-        width,
-        height,
-        maintainAspect,
-        files[0].file.type.includes('png') ? 'png' : 'jpg',
-        (prog) => setProgress(prog.percentage)
-      );
-      setResult(blob);
+      await stagedProcessing.runStagedProcessing(async () => {
+        const blob = await resizeImage(
+          files[0].previewUrl!,
+          targetWidth,
+          targetHeight,
+          maintainAspect,
+          files[0].file.type.includes('png') ? 'png' : 'jpg'
+        );
+        setResult(blob);
+        return blob;
+      });
+      setShowResults(true);
     } catch {
       setError({ code: 'RESIZE_FAILED' });
-      setStatus('error');
     }
-  }, [files, width, height, maintainAspect, setStatus, setProgress, setError, setResult]);
+  }, [files, targetWidth, targetHeight, maintainAspect, setError, setResult, stagedProcessing]);
 
   const handleDownload = useCallback(() => {
     const ext = files[0]?.file.type.includes('png') ? 'png' : 'jpg';
-    downloadResult(`unitools_resized_${width}x${height}.${ext}`);
-  }, [files, width, height, downloadResult]);
+    downloadResult(`unitools_resized_${targetWidth}x${targetHeight}.${ext}`);
+  }, [files, targetWidth, targetHeight, downloadResult]);
+
+  const reset = useCallback(() => {
+    resetHandler();
+    stagedProcessing.reset();
+    setShowResults(false);
+    setScale(100);
+  }, [resetHandler, stagedProcessing]);
 
   return (
     <div className="space-y-6">
@@ -120,7 +125,7 @@ export default function ResizeImageTool() {
         data-testid="input-file-image"
       />
 
-      {status === 'idle' && files.length === 0 && (
+      {!stagedProcessing.isProcessing && !showResults && files.length === 0 && (
         <div
           onDrop={handleDrop}
           onDragOver={(e) => e.preventDefault()}
@@ -142,32 +147,36 @@ export default function ResizeImageTool() {
         </div>
       )}
 
-      {status === 'idle' && files.length > 0 && (
+      {!stagedProcessing.isProcessing && !showResults && files.length > 0 && (
         <div className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Card className="p-4">
-              <p className="text-sm font-medium mb-2">{t('Tools.resize-image.original', { defaultValue: 'Original' })}</p>
+          <Card className="p-4">
+            <div className="flex flex-col md:flex-row gap-4">
               {files[0].previewUrl && (
-                <img 
-                  src={files[0].previewUrl} 
-                  alt="Original"
-                  className="w-full h-48 object-contain bg-muted rounded"
-                />
+                <div className="flex-1">
+                  <img 
+                    src={files[0].previewUrl} 
+                    alt="Original"
+                    className="w-full max-h-64 object-contain bg-muted rounded"
+                  />
+                </div>
               )}
-              <p className="text-sm text-muted-foreground mt-2">
-                {originalDimensions.width} x {originalDimensions.height} px
-              </p>
-            </Card>
-            
-            <Card className="p-4">
-              <p className="text-sm font-medium mb-2">{t('Tools.resize-image.preview', { defaultValue: 'Preview' })}</p>
-              <div className="w-full h-48 bg-muted rounded flex items-center justify-center">
-                <p className="text-muted-foreground">{width} x {height} px</p>
+              <div className="flex-1 flex flex-col justify-center">
+                <div className="text-center p-4 bg-muted rounded">
+                  <p className="text-sm text-muted-foreground mb-2">
+                    {t('Tools.resize-image.original', { defaultValue: 'Original' })}
+                  </p>
+                  <p className="font-medium">{originalDimensions.width} x {originalDimensions.height} px</p>
+                  <div className="my-4 text-2xl text-muted-foreground">→</div>
+                  <p className="text-sm text-muted-foreground mb-2">
+                    {t('Tools.resize-image.result', { defaultValue: 'Result' })}
+                  </p>
+                  <p className="font-medium text-primary">{targetWidth} x {targetHeight} px</p>
+                </div>
               </div>
-            </Card>
-          </div>
+            </div>
+          </Card>
 
-          <Card className="p-4 space-y-4">
+          <Card className="p-4 space-y-6">
             <div className="flex items-center justify-between">
               <Label>{t('Tools.resize-image.maintainAspect', { defaultValue: 'Maintain aspect ratio' })}</Label>
               <div className="flex items-center gap-2">
@@ -180,34 +189,41 @@ export default function ResizeImageTool() {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="width">{t('Tools.resize-image.width', { defaultValue: 'Width (px)' })}</Label>
-                <Input
-                  id="width"
-                  type="number"
-                  value={width}
-                  onChange={(e) => handleWidthChange(Number(e.target.value))}
-                  min={1}
-                  data-testid="input-width"
-                />
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <Label>{t('Tools.resize-image.scale', { defaultValue: 'Scale' })}</Label>
+                <span className="text-lg font-semibold text-primary">{scale}%</span>
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="height">{t('Tools.resize-image.height', { defaultValue: 'Height (px)' })}</Label>
-                <Input
-                  id="height"
-                  type="number"
-                  value={height}
-                  onChange={(e) => handleHeightChange(Number(e.target.value))}
-                  min={1}
-                  data-testid="input-height"
-                />
+              
+              <Slider
+                value={[scale]}
+                onValueChange={(values) => setScale(values[0])}
+                min={10}
+                max={200}
+                step={5}
+                className="w-full"
+                data-testid="slider-scale"
+              />
+              
+              <div className="flex gap-2 flex-wrap justify-center">
+                {PRESET_SCALES.map((preset) => (
+                  <Button
+                    key={preset}
+                    variant={scale === preset ? 'default' : 'outline'}
+                    size="sm"
+                    onClick={() => setScale(preset)}
+                    data-testid={`button-preset-${preset}`}
+                  >
+                    {preset}%
+                  </Button>
+                ))}
               </div>
             </div>
           </Card>
 
           <div className="flex gap-3">
             <Button onClick={handleResize} className="flex-1" data-testid="button-resize">
+              <Image className="w-4 h-4 mr-2" />
               {t('Tools.resize-image.title')}
             </Button>
             <Button variant="outline" onClick={reset} data-testid="button-reset">
@@ -217,34 +233,41 @@ export default function ResizeImageTool() {
         </div>
       )}
 
-      {status === 'processing' && (
-        <div className="space-y-6 py-8">
-          <div className="flex flex-col items-center gap-4">
-            <Loader2 className="w-12 h-12 animate-spin text-primary" />
-            <p className="font-medium">{t('Common.workflow.processing')}</p>
-          </div>
-          <Progress value={progress} className="h-2" data-testid="progress-bar" />
-        </div>
+      {stagedProcessing.isProcessing && (
+        <StagedLoadingOverlay
+          stage={stagedProcessing.stage}
+          progress={stagedProcessing.progress}
+          stageProgress={stagedProcessing.stageProgress}
+          message={stagedProcessing.message}
+          error={stagedProcessing.error}
+          onCancel={stagedProcessing.abort}
+          showAds={true}
+        />
       )}
 
-      {status === 'success' && resultBlob && (
-        <div className="flex flex-col items-center gap-6 py-8">
-          <div className="w-20 h-20 rounded-full bg-green-500/10 flex items-center justify-center">
-            <CheckCircle className="w-10 h-10 text-green-500" />
+      {showResults && resultBlob && (
+        <div className="space-y-6">
+          <div className="flex flex-col items-center gap-6 py-8">
+            <div className="w-20 h-20 rounded-full bg-green-500/10 flex items-center justify-center">
+              <CheckCircle className="w-10 h-10 text-green-500" />
+            </div>
+            <div className="text-center">
+              <h3 className="text-xl font-semibold mb-2">{t('Common.workflow.processingComplete')}</h3>
+              <p className="text-muted-foreground">
+                {originalDimensions.width} x {originalDimensions.height} → {targetWidth} x {targetHeight} px
+              </p>
+            </div>
+            <div className="flex gap-3">
+              <Button size="lg" onClick={handleDownload} data-testid="button-download">
+                <Download className="w-5 h-5 mr-2" />
+                {t('Common.workflow.download')}
+              </Button>
+              <Button variant="outline" size="lg" onClick={reset} data-testid="button-start-over">
+                {t('Common.workflow.startOver')}
+              </Button>
+            </div>
           </div>
-          <div className="text-center">
-            <h3 className="text-xl font-semibold mb-2">{t('Common.workflow.processingComplete')}</h3>
-            <p className="text-muted-foreground">{width} x {height} px</p>
-          </div>
-          <div className="flex gap-3">
-            <Button size="lg" onClick={handleDownload} data-testid="button-download">
-              <Download className="w-5 h-5 mr-2" />
-              {t('Common.workflow.download')}
-            </Button>
-            <Button variant="outline" size="lg" onClick={reset} data-testid="button-start-over">
-              {t('Common.workflow.startOver')}
-            </Button>
-          </div>
+          <AdSlot position="results" />
         </div>
       )}
 

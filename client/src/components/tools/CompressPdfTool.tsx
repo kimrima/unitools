@@ -193,7 +193,7 @@ export default function CompressPdfTool() {
               </Button>
             </div>
           </div>
-          <AdSlot position="result" />
+          <AdSlot position="results" />
         </div>
       )}
 

@@ -1,55 +1,132 @@
-import { useCallback, useRef, useState, useEffect } from 'react';
+import { useCallback, useRef, useState, useEffect, MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFileHandler } from '@/hooks/useFileHandler';
+import { useStagedProcessing } from '@/hooks/useStagedProcessing';
 import { cropImage } from '@/lib/engines/imageEngine';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Progress } from '@/components/ui/progress';
-import { Image, Upload, Download, Loader2, CheckCircle, Crop } from 'lucide-react';
+import { StagedLoadingOverlay } from '@/components/StagedLoadingOverlay';
+import { Upload, Download, CheckCircle, Crop, RotateCcw } from 'lucide-react';
+import { AdSlot } from '@/components/AdSlot';
+
+interface CropArea {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
+const ASPECT_PRESETS = [
+  { label: 'Free', value: null },
+  { label: '1:1', value: 1 },
+  { label: '4:3', value: 4 / 3 },
+  { label: '16:9', value: 16 / 9 },
+  { label: '3:2', value: 3 / 2 },
+  { label: '9:16', value: 9 / 16 },
+];
 
 export default function CropImageTool() {
   const { t } = useTranslation();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [cropX, setCropX] = useState(0);
-  const [cropY, setCropY] = useState(0);
-  const [cropWidth, setCropWidth] = useState(0);
-  const [cropHeight, setCropHeight] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
   const [originalDimensions, setOriginalDimensions] = useState({ width: 0, height: 0 });
+  const [displayDimensions, setDisplayDimensions] = useState({ width: 0, height: 0 });
+  const [displayScale, setDisplayScale] = useState(1);
+  const [cropArea, setCropArea] = useState<CropArea>({ x: 0, y: 0, width: 0, height: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragOrigin, setDragOrigin] = useState({ x: 0, y: 0 });
+  const [initialCropArea, setInitialCropArea] = useState<CropArea>({ x: 0, y: 0, width: 0, height: 0 });
+  const [dragMode, setDragMode] = useState<'move' | 'resize' | null>(null);
+  const [resizeHandle, setResizeHandle] = useState<string | null>(null);
+  const [aspectRatio, setAspectRatio] = useState<number | null>(null);
+  const [showResults, setShowResults] = useState(false);
   
   const {
     files,
-    status,
     error,
-    progress,
     resultBlob,
     addFiles,
-    setStatus,
     setError,
     setResult,
-    setProgress,
     downloadResult,
-    reset,
+    reset: resetHandler,
   } = useFileHandler({ accept: 'image/*', multiple: false });
+
+  const stagedProcessing = useStagedProcessing({
+    minDuration: 4000,
+    stages: [
+      { name: 'analyzing', duration: 1200, message: t('Common.stages.analyzingFiles', { defaultValue: 'Analyzing files...' }) },
+      { name: 'processing', duration: 1800, message: t('Common.stages.croppingImage', { defaultValue: 'Cropping image...' }) },
+      { name: 'optimizing', duration: 1000, message: t('Common.stages.optimizingOutput', { defaultValue: 'Optimizing output...' }) },
+    ],
+  });
+
+  const realCropArea = {
+    x: Math.max(0, Math.round(cropArea.x / displayScale)),
+    y: Math.max(0, Math.round(cropArea.y / displayScale)),
+    width: Math.max(1, Math.round(cropArea.width / displayScale)),
+    height: Math.max(1, Math.round(cropArea.height / displayScale)),
+  };
+
+  const clampCropArea = useCallback((area: CropArea, maxWidth: number, maxHeight: number): CropArea => {
+    let { x, y, width, height } = area;
+    
+    width = Math.max(50, Math.min(maxWidth, width));
+    height = Math.max(50, Math.min(maxHeight, height));
+    x = Math.max(0, Math.min(maxWidth - width, x));
+    y = Math.max(0, Math.min(maxHeight - height, y));
+    
+    return { x, y, width, height };
+  }, []);
+
+  const initializeCropArea = useCallback((imgWidth: number, imgHeight: number) => {
+    const padding = Math.min(40, imgWidth * 0.1, imgHeight * 0.1);
+    setCropArea({
+      x: padding,
+      y: padding,
+      width: imgWidth - padding * 2,
+      height: imgHeight - padding * 2,
+    });
+  }, []);
 
   useEffect(() => {
     if (files.length > 0 && files[0].previewUrl) {
       const img = new window.Image();
       img.onload = () => {
         setOriginalDimensions({ width: img.width, height: img.height });
-        setCropWidth(img.width);
-        setCropHeight(img.height);
-        setCropX(0);
-        setCropY(0);
       };
       img.src = files[0].previewUrl;
     }
   }, [files]);
 
+  useEffect(() => {
+    if (imageRef.current && originalDimensions.width > 0) {
+      const updateDimensions = () => {
+        const img = imageRef.current;
+        if (img) {
+          const rect = img.getBoundingClientRect();
+          const scale = rect.width / originalDimensions.width;
+          setDisplayScale(scale);
+          setDisplayDimensions({ width: rect.width, height: rect.height });
+          initializeCropArea(rect.width, rect.height);
+        }
+      };
+      
+      const timer = setTimeout(updateDimensions, 100);
+      window.addEventListener('resize', updateDimensions);
+      
+      return () => {
+        clearTimeout(timer);
+        window.removeEventListener('resize', updateDimensions);
+      };
+    }
+  }, [originalDimensions, initializeCropArea]);
+
   const handleFileSelect = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       addFiles(e.target.files);
+      setShowResults(false);
     }
   }, [addFiles]);
 
@@ -60,37 +137,128 @@ export default function CropImageTool() {
     );
     if (droppedFiles.length > 0) {
       addFiles(droppedFiles);
+      setShowResults(false);
     }
   }, [addFiles]);
 
-  const handleCrop = useCallback(async () => {
-    if (!files[0]?.previewUrl || cropWidth <= 0 || cropHeight <= 0) return;
+  const getMousePosition = (e: MouseEvent<HTMLDivElement>) => {
+    const rect = containerRef.current?.getBoundingClientRect();
+    if (!rect) return { x: 0, y: 0 };
+    return {
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    };
+  };
 
-    setStatus('processing');
-    setProgress(0);
+  const handleMouseDown = (e: MouseEvent<HTMLDivElement>, mode: 'move' | 'resize', handle?: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+    setDragMode(mode);
+    setResizeHandle(handle || null);
+    const pos = getMousePosition(e);
+    setDragOrigin(pos);
+    setInitialCropArea({ ...cropArea });
+  };
+
+  const handleMouseMove = useCallback((e: MouseEvent<HTMLDivElement>) => {
+    if (!isDragging || !dragMode) return;
+
+    const pos = getMousePosition(e);
+    const deltaX = pos.x - dragOrigin.x;
+    const deltaY = pos.y - dragOrigin.y;
+    
+    const maxWidth = displayDimensions.width;
+    const maxHeight = displayDimensions.height;
+
+    let newArea = { ...initialCropArea };
+
+    if (dragMode === 'move') {
+      newArea.x = initialCropArea.x + deltaX;
+      newArea.y = initialCropArea.y + deltaY;
+    } else if (dragMode === 'resize' && resizeHandle) {
+      if (resizeHandle.includes('e')) {
+        newArea.width = initialCropArea.width + deltaX;
+      }
+      if (resizeHandle.includes('w')) {
+        const newWidth = initialCropArea.width - deltaX;
+        if (newWidth >= 50) {
+          newArea.x = initialCropArea.x + deltaX;
+          newArea.width = newWidth;
+        }
+      }
+      if (resizeHandle.includes('s')) {
+        newArea.height = initialCropArea.height + deltaY;
+      }
+      if (resizeHandle.includes('n')) {
+        const newHeight = initialCropArea.height - deltaY;
+        if (newHeight >= 50) {
+          newArea.y = initialCropArea.y + deltaY;
+          newArea.height = newHeight;
+        }
+      }
+      
+      if (aspectRatio !== null) {
+        if (resizeHandle.includes('e') || resizeHandle.includes('w')) {
+          newArea.height = newArea.width / aspectRatio;
+        } else {
+          newArea.width = newArea.height * aspectRatio;
+        }
+      }
+    }
+    
+    setCropArea(clampCropArea(newArea, maxWidth, maxHeight));
+  }, [isDragging, dragMode, dragOrigin, initialCropArea, resizeHandle, aspectRatio, displayDimensions, clampCropArea]);
+
+  const handleMouseUp = useCallback(() => {
+    setIsDragging(false);
+    setDragMode(null);
+    setResizeHandle(null);
+  }, []);
+
+  const resetCropArea = useCallback(() => {
+    initializeCropArea(displayDimensions.width, displayDimensions.height);
+    setAspectRatio(null);
+  }, [displayDimensions, initializeCropArea]);
+
+  const handleCrop = useCallback(async () => {
+    if (!files[0]?.previewUrl || realCropArea.width <= 0 || realCropArea.height <= 0) return;
+
     setError(null);
+    setShowResults(false);
 
     try {
-      const blob = await cropImage(
-        files[0].previewUrl,
-        cropX,
-        cropY,
-        cropWidth,
-        cropHeight,
-        files[0].file.type.includes('png') ? 'png' : 'jpg',
-        (prog) => setProgress(prog.percentage)
-      );
-      setResult(blob);
+      await stagedProcessing.runStagedProcessing(async () => {
+        const blob = await cropImage(
+          files[0].previewUrl!,
+          realCropArea.x,
+          realCropArea.y,
+          realCropArea.width,
+          realCropArea.height,
+          files[0].file.type.includes('png') ? 'png' : 'jpg'
+        );
+        setResult(blob);
+        return blob;
+      });
+      setShowResults(true);
     } catch {
       setError({ code: 'CROP_FAILED' });
-      setStatus('error');
     }
-  }, [files, cropX, cropY, cropWidth, cropHeight, setStatus, setProgress, setError, setResult]);
+  }, [files, realCropArea, setError, setResult, stagedProcessing]);
 
   const handleDownload = useCallback(() => {
     const ext = files[0]?.file.type.includes('png') ? 'png' : 'jpg';
     downloadResult(`unitools_cropped.${ext}`);
   }, [files, downloadResult]);
+
+  const reset = useCallback(() => {
+    resetHandler();
+    stagedProcessing.reset();
+    setShowResults(false);
+    setCropArea({ x: 0, y: 0, width: 0, height: 0 });
+    setOriginalDimensions({ width: 0, height: 0 });
+    setDisplayDimensions({ width: 0, height: 0 });
+  }, [resetHandler, stagedProcessing]);
 
   return (
     <div className="space-y-6">
@@ -107,7 +275,7 @@ export default function CropImageTool() {
         data-testid="input-file-image"
       />
 
-      {status === 'idle' && files.length === 0 && (
+      {!stagedProcessing.isProcessing && !showResults && files.length === 0 && (
         <div
           onDrop={handleDrop}
           onDragOver={(e) => e.preventDefault()}
@@ -129,72 +297,111 @@ export default function CropImageTool() {
         </div>
       )}
 
-      {status === 'idle' && files.length > 0 && (
+      {!stagedProcessing.isProcessing && !showResults && files.length > 0 && (
         <div className="space-y-4">
           <Card className="p-4">
-            {files[0].previewUrl && (
-              <div className="relative">
+            <div className="flex items-center justify-between gap-2 mb-4 flex-wrap">
+              <div className="flex gap-2 flex-wrap">
+                {ASPECT_PRESETS.map((preset) => (
+                  <Button
+                    key={preset.label}
+                    variant={aspectRatio === preset.value ? 'default' : 'outline'}
+                    size="sm"
+                    onClick={() => setAspectRatio(preset.value)}
+                    data-testid={`button-aspect-${preset.label}`}
+                  >
+                    {preset.label}
+                  </Button>
+                ))}
+              </div>
+              <Button variant="ghost" size="sm" onClick={resetCropArea}>
+                <RotateCcw className="w-4 h-4 mr-2" />
+                {t('Common.actions.reset')}
+              </Button>
+            </div>
+            
+            <div 
+              ref={containerRef}
+              className="relative select-none bg-muted rounded overflow-hidden inline-block w-full"
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleMouseUp}
+              onMouseLeave={handleMouseUp}
+            >
+              {files[0].previewUrl && (
                 <img 
+                  ref={imageRef}
                   src={files[0].previewUrl} 
                   alt="Original"
-                  className="w-full max-h-96 object-contain bg-muted rounded"
+                  className="w-full h-auto max-h-96 object-contain pointer-events-none"
+                  draggable={false}
                 />
-                <p className="text-sm text-muted-foreground mt-2 text-center">
-                  {t('Tools.crop-image.originalSize', { defaultValue: 'Original' })}: {originalDimensions.width} x {originalDimensions.height} px
-                </p>
-              </div>
-            )}
-          </Card>
-
-          <Card className="p-4 space-y-4">
-            <p className="font-medium">{t('Tools.crop-image.cropArea', { defaultValue: 'Crop Area' })}</p>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="cropX">X</Label>
-                <Input
-                  id="cropX"
-                  type="number"
-                  value={cropX}
-                  onChange={(e) => setCropX(Math.max(0, Number(e.target.value)))}
-                  min={0}
-                  max={originalDimensions.width}
-                  data-testid="input-crop-x"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="cropY">Y</Label>
-                <Input
-                  id="cropY"
-                  type="number"
-                  value={cropY}
-                  onChange={(e) => setCropY(Math.max(0, Number(e.target.value)))}
-                  min={0}
-                  max={originalDimensions.height}
-                  data-testid="input-crop-y"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="cropWidth">{t('Tools.crop-image.width', { defaultValue: 'Width' })}</Label>
-                <Input
-                  id="cropWidth"
-                  type="number"
-                  value={cropWidth}
-                  onChange={(e) => setCropWidth(Math.max(1, Number(e.target.value)))}
-                  min={1}
-                  data-testid="input-crop-width"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="cropHeight">{t('Tools.crop-image.height', { defaultValue: 'Height' })}</Label>
-                <Input
-                  id="cropHeight"
-                  type="number"
-                  value={cropHeight}
-                  onChange={(e) => setCropHeight(Math.max(1, Number(e.target.value)))}
-                  min={1}
-                  data-testid="input-crop-height"
-                />
-              </div>
+              )}
+              
+              {displayDimensions.width > 0 && (
+                <>
+                  <div 
+                    className="absolute inset-0 bg-black/50 pointer-events-none"
+                    style={{
+                      clipPath: `polygon(
+                        0 0, 100% 0, 100% 100%, 0 100%, 0 0,
+                        ${cropArea.x}px ${cropArea.y}px,
+                        ${cropArea.x}px ${cropArea.y + cropArea.height}px,
+                        ${cropArea.x + cropArea.width}px ${cropArea.y + cropArea.height}px,
+                        ${cropArea.x + cropArea.width}px ${cropArea.y}px,
+                        ${cropArea.x}px ${cropArea.y}px
+                      )`,
+                    }}
+                  />
+                  
+                  <div
+                    className="absolute border-2 border-primary cursor-move"
+                    style={{
+                      left: cropArea.x,
+                      top: cropArea.y,
+                      width: cropArea.width,
+                      height: cropArea.height,
+                    }}
+                    onMouseDown={(e) => handleMouseDown(e, 'move')}
+                  >
+                    {['nw', 'ne', 'sw', 'se'].map((handle) => (
+                      <div
+                        key={handle}
+                        className="absolute w-4 h-4 bg-primary border-2 border-white rounded-sm"
+                        style={{
+                          left: handle.includes('w') ? -8 : 'auto',
+                          right: handle.includes('e') ? -8 : 'auto',
+                          top: handle.includes('n') ? -8 : 'auto',
+                          bottom: handle.includes('s') ? -8 : 'auto',
+                          cursor: handle === 'nw' || handle === 'se' ? 'nwse-resize' : 'nesw-resize',
+                        }}
+                        onMouseDown={(e) => handleMouseDown(e, 'resize', handle)}
+                      />
+                    ))}
+                    
+                    {['n', 's', 'e', 'w'].map((handle) => (
+                      <div
+                        key={handle}
+                        className="absolute bg-primary"
+                        style={{
+                          left: handle === 'n' || handle === 's' ? '50%' : handle === 'w' ? -4 : 'auto',
+                          right: handle === 'e' ? -4 : 'auto',
+                          top: handle === 'e' || handle === 'w' ? '50%' : handle === 'n' ? -4 : 'auto',
+                          bottom: handle === 's' ? -4 : 'auto',
+                          width: handle === 'n' || handle === 's' ? 24 : 4,
+                          height: handle === 'e' || handle === 'w' ? 24 : 4,
+                          transform: handle === 'n' || handle === 's' ? 'translateX(-50%)' : 'translateY(-50%)',
+                          cursor: handle === 'n' || handle === 's' ? 'ns-resize' : 'ew-resize',
+                        }}
+                        onMouseDown={(e) => handleMouseDown(e, 'resize', handle)}
+                      />
+                    ))}
+                    
+                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black/70 text-white text-xs px-2 py-1 rounded pointer-events-none">
+                      {realCropArea.width} x {realCropArea.height}
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           </Card>
 
@@ -210,34 +417,39 @@ export default function CropImageTool() {
         </div>
       )}
 
-      {status === 'processing' && (
-        <div className="space-y-6 py-8">
-          <div className="flex flex-col items-center gap-4">
-            <Loader2 className="w-12 h-12 animate-spin text-primary" />
-            <p className="font-medium">{t('Common.workflow.processing')}</p>
-          </div>
-          <Progress value={progress} className="h-2" data-testid="progress-bar" />
-        </div>
+      {stagedProcessing.isProcessing && (
+        <StagedLoadingOverlay
+          stage={stagedProcessing.stage}
+          progress={stagedProcessing.progress}
+          stageProgress={stagedProcessing.stageProgress}
+          message={stagedProcessing.message}
+          error={stagedProcessing.error}
+          onCancel={stagedProcessing.abort}
+          showAds={true}
+        />
       )}
 
-      {status === 'success' && resultBlob && (
-        <div className="flex flex-col items-center gap-6 py-8">
-          <div className="w-20 h-20 rounded-full bg-green-500/10 flex items-center justify-center">
-            <CheckCircle className="w-10 h-10 text-green-500" />
+      {showResults && resultBlob && (
+        <div className="space-y-6">
+          <div className="flex flex-col items-center gap-6 py-8">
+            <div className="w-20 h-20 rounded-full bg-green-500/10 flex items-center justify-center">
+              <CheckCircle className="w-10 h-10 text-green-500" />
+            </div>
+            <div className="text-center">
+              <h3 className="text-xl font-semibold mb-2">{t('Common.workflow.processingComplete')}</h3>
+              <p className="text-muted-foreground">{realCropArea.width} x {realCropArea.height} px</p>
+            </div>
+            <div className="flex gap-3">
+              <Button size="lg" onClick={handleDownload} data-testid="button-download">
+                <Download className="w-5 h-5 mr-2" />
+                {t('Common.workflow.download')}
+              </Button>
+              <Button variant="outline" size="lg" onClick={reset} data-testid="button-start-over">
+                {t('Common.workflow.startOver')}
+              </Button>
+            </div>
           </div>
-          <div className="text-center">
-            <h3 className="text-xl font-semibold mb-2">{t('Common.workflow.processingComplete')}</h3>
-            <p className="text-muted-foreground">{cropWidth} x {cropHeight} px</p>
-          </div>
-          <div className="flex gap-3">
-            <Button size="lg" onClick={handleDownload} data-testid="button-download">
-              <Download className="w-5 h-5 mr-2" />
-              {t('Common.workflow.download')}
-            </Button>
-            <Button variant="outline" size="lg" onClick={reset} data-testid="button-start-over">
-              {t('Common.workflow.startOver')}
-            </Button>
-          </div>
+          <AdSlot position="results" />
         </div>
       )}
 

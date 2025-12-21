@@ -1,12 +1,14 @@
 import { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFileHandler, type FileHandlerError } from '@/hooks/useFileHandler';
+import { useStagedProcessing } from '@/hooks/useStagedProcessing';
 import { splitPdfByPages, getPdfPageCount, PdfSplitError, type SplitResult } from '@/lib/engines/pdfSplit';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
-import { FileText, Upload, Download, Loader2, Scissors } from 'lucide-react';
+import { StagedLoadingOverlay } from '@/components/StagedLoadingOverlay';
+import { FileText, Upload, Download, CheckCircle } from 'lucide-react';
 import { downloadBlob } from '@/hooks/useToolEngine';
+import { AdSlot } from '@/components/AdSlot';
 
 export default function SplitPdfTool() {
   const { t } = useTranslation();
@@ -14,19 +16,25 @@ export default function SplitPdfTool() {
   
   const [pageCount, setPageCount] = useState<number>(0);
   const [splitResults, setSplitResults] = useState<SplitResult[]>([]);
+  const [showResults, setShowResults] = useState(false);
   
   const {
     files,
-    status,
     error,
-    progress,
     addFiles,
     clearFiles,
-    setStatus,
     setError,
-    setProgress,
     reset: resetHandler,
   } = useFileHandler({ accept: '.pdf', multiple: false });
+
+  const stagedProcessing = useStagedProcessing({
+    minDuration: 4000,
+    stages: [
+      { name: 'analyzing', duration: 1200, message: t('Common.stages.readingPdf', { defaultValue: 'Reading PDF structure...' }) },
+      { name: 'processing', duration: 1800, message: t('Common.stages.splittingPdf', { defaultValue: 'Splitting PDF...' }) },
+      { name: 'optimizing', duration: 1000, message: t('Common.stages.finalizingDocument', { defaultValue: 'Finalizing document...' }) },
+    ],
+  });
 
   const translateError = useCallback((err: FileHandlerError | PdfSplitError | null): string => {
     if (!err) return '';
@@ -53,6 +61,7 @@ export default function SplitPdfTool() {
     if (e.target.files && e.target.files[0]) {
       await addFiles(e.target.files);
       setSplitResults([]);
+      setShowResults(false);
       
       const file = e.target.files[0];
       const reader = new FileReader();
@@ -76,6 +85,7 @@ export default function SplitPdfTool() {
     if (droppedFiles.length > 0) {
       await addFiles([droppedFiles[0]]);
       setSplitResults([]);
+      setShowResults(false);
       
       const reader = new FileReader();
       reader.onload = async () => {
@@ -90,37 +100,31 @@ export default function SplitPdfTool() {
     }
   }, [addFiles]);
 
-  const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-  }, []);
-
   const handleSplit = useCallback(async () => {
     if (files.length === 0 || !files[0].arrayBuffer) {
       setError({ code: 'NO_FILES_PROVIDED' });
       return;
     }
 
-    setStatus('processing');
-    setProgress(0);
     setError(null);
     setSplitResults([]);
+    setShowResults(false);
 
     try {
-      const results = await splitPdfByPages(files[0].arrayBuffer, (prog) => {
-        setProgress(prog.percentage);
+      await stagedProcessing.runStagedProcessing(async () => {
+        const results = await splitPdfByPages(files[0].arrayBuffer!);
+        setSplitResults(results);
+        return results;
       });
-
-      setSplitResults(results);
-      setStatus('success');
+      setShowResults(true);
     } catch (err) {
       if (err instanceof PdfSplitError) {
         setError({ code: err.code });
       } else {
         setError({ code: 'PROCESSING_FAILED' });
       }
-      setStatus('error');
     }
-  }, [files, setStatus, setProgress, setError]);
+  }, [files, setError, stagedProcessing]);
 
   const handleDownload = useCallback((result: SplitResult) => {
     downloadBlob(result.blob, `unitools_${result.filename}`);
@@ -134,9 +138,11 @@ export default function SplitPdfTool() {
 
   const reset = useCallback(() => {
     resetHandler();
+    stagedProcessing.reset();
     setSplitResults([]);
     setPageCount(0);
-  }, [resetHandler]);
+    setShowResults(false);
+  }, [resetHandler, stagedProcessing]);
 
   return (
     <div className="space-y-6">
@@ -153,25 +159,27 @@ export default function SplitPdfTool() {
         data-testid="input-file-pdf"
       />
 
-      <div
-        onDrop={handleDrop}
-        onDragOver={handleDragOver}
-        onClick={() => fileInputRef.current?.click()}
-        className="border-2 border-dashed border-muted-foreground/25 rounded-lg min-h-40 flex flex-col items-center justify-center gap-4 hover:border-muted-foreground/50 transition-colors cursor-pointer p-6"
-        data-testid="dropzone-pdf"
-      >
-        <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center">
-          <Upload className="w-6 h-6 text-muted-foreground" />
+      {!stagedProcessing.isProcessing && !showResults && (
+        <div
+          onDrop={handleDrop}
+          onDragOver={(e) => e.preventDefault()}
+          onClick={() => fileInputRef.current?.click()}
+          className="border-2 border-dashed border-muted-foreground/25 rounded-lg min-h-40 flex flex-col items-center justify-center gap-4 hover:border-muted-foreground/50 transition-colors cursor-pointer p-6"
+          data-testid="dropzone-pdf"
+        >
+          <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center">
+            <Upload className="w-6 h-6 text-muted-foreground" />
+          </div>
+          <div className="text-center">
+            <p className="font-medium">{t('Common.messages.dragDrop')}</p>
+            <p className="text-sm text-muted-foreground mt-1">
+              {t('Common.messages.noServerUpload')}
+            </p>
+          </div>
         </div>
-        <div className="text-center">
-          <p className="font-medium">{t('Common.messages.dragDrop')}</p>
-          <p className="text-sm text-muted-foreground mt-1">
-            {t('Common.messages.noServerUpload')}
-          </p>
-        </div>
-      </div>
+      )}
 
-      {files.length > 0 && splitResults.length === 0 && (
+      {files.length > 0 && !stagedProcessing.isProcessing && !showResults && (
         <Card>
           <CardContent className="p-4">
             <div className="flex items-center gap-3">
@@ -190,54 +198,76 @@ export default function SplitPdfTool() {
         </Card>
       )}
 
-      {status === 'processing' && (
-        <div className="space-y-2" data-testid="section-processing">
-          <div className="flex items-center gap-2 text-sm">
-            <Loader2 className="w-4 h-4 animate-spin" />
-            <span>{t('Common.messages.splittingPdf')}</span>
-          </div>
-          <Progress value={progress} className="h-2" data-testid="progress-bar" />
-        </div>
+      {stagedProcessing.isProcessing && (
+        <StagedLoadingOverlay
+          stage={stagedProcessing.stage}
+          progress={stagedProcessing.progress}
+          stageProgress={stagedProcessing.stageProgress}
+          message={stagedProcessing.message}
+          error={stagedProcessing.error}
+          onCancel={stagedProcessing.abort}
+          showAds={true}
+        />
       )}
 
-      {splitResults.length > 0 && (
-        <Card className="bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-800">
-          <CardContent className="p-4 space-y-4">
-            <div className="flex items-center justify-between gap-2 flex-wrap">
-              <p className="font-medium text-green-700 dark:text-green-300">
-                {t('Common.messages.complete')} - {splitResults.length} {t('Common.messages.pagesCreated')}
-              </p>
-              <Button onClick={handleDownloadAll} size="sm" data-testid="button-download-all">
-                <Download className="w-4 h-4 mr-2" />
-                {t('Common.actions.download')} ({splitResults.length})
-              </Button>
+      {showResults && splitResults.length > 0 && (
+        <div className="space-y-6">
+          <div className="flex flex-col items-center gap-4 py-4">
+            <div className="w-16 h-16 rounded-full bg-green-500/10 flex items-center justify-center">
+              <CheckCircle className="w-8 h-8 text-green-500" />
             </div>
+            <div className="text-center">
+              <h3 className="text-lg font-semibold">{t('Common.workflow.processingComplete')}</h3>
+              <p className="text-sm text-muted-foreground mt-1">
+                {splitResults.length} {t('Common.messages.pagesCreated')}
+              </p>
+            </div>
+          </div>
 
-            <ul className="space-y-2 max-h-60 overflow-y-auto" data-testid="list-results">
-              {splitResults.map((result, index) => (
-                <li
-                  key={index}
-                  className="flex items-center gap-3 p-2 bg-white dark:bg-background rounded-md border"
-                  data-testid={`result-item-${index}`}
-                >
-                  <FileText className="w-4 h-4 text-muted-foreground" />
-                  <span className="flex-1 text-sm">{result.filename}</span>
-                  <span className="text-xs text-muted-foreground">
-                    {formatFileSize(result.blob.size)}
-                  </span>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => handleDownload(result)}
-                    data-testid={`button-download-${index}`}
+          <Card>
+            <CardContent className="p-4 space-y-4">
+              <div className="flex items-center justify-between gap-2 flex-wrap">
+                <span className="font-medium">{t('Common.actions.download')}</span>
+                <Button onClick={handleDownloadAll} size="sm" data-testid="button-download-all">
+                  <Download className="w-4 h-4 mr-2" />
+                  {t('Common.actions.downloadAll')} ({splitResults.length})
+                </Button>
+              </div>
+
+              <ul className="space-y-2 max-h-60 overflow-y-auto" data-testid="list-results">
+                {splitResults.map((result, index) => (
+                  <li
+                    key={index}
+                    className="flex items-center gap-3 p-2 bg-muted/50 rounded-md"
+                    data-testid={`result-item-${index}`}
                   >
-                    <Download className="w-4 h-4" />
-                  </Button>
-                </li>
-              ))}
-            </ul>
-          </CardContent>
-        </Card>
+                    <FileText className="w-4 h-4 text-muted-foreground" />
+                    <span className="flex-1 text-sm">{result.filename}</span>
+                    <span className="text-xs text-muted-foreground">
+                      {formatFileSize(result.blob.size)}
+                    </span>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => handleDownload(result)}
+                      data-testid={`button-download-${index}`}
+                    >
+                      <Download className="w-4 h-4" />
+                    </Button>
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
+          
+          <div className="flex justify-center">
+            <Button variant="outline" onClick={reset} data-testid="button-reset">
+              {t('Common.workflow.startOver')}
+            </Button>
+          </div>
+          
+          <AdSlot position="results" />
+        </div>
       )}
 
       {error && (
@@ -246,32 +276,21 @@ export default function SplitPdfTool() {
         </div>
       )}
 
-      <div className="flex gap-4 flex-wrap">
-        <Button
-          onClick={handleSplit}
-          disabled={files.length === 0 || status === 'processing'}
-          className="flex-1"
-          data-testid="button-split"
-        >
-          {status === 'processing' ? (
-            <>
-              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              {t('Common.messages.processing')}
-            </>
-          ) : (
-            <>
-              <Scissors className="w-4 h-4 mr-2" />
-              {t('Common.actions.split')}
-            </>
-          )}
-        </Button>
-        
-        {(status === 'success' || status === 'error') && (
+      {!stagedProcessing.isProcessing && !showResults && files.length > 0 && (
+        <div className="flex gap-4 flex-wrap">
+          <Button
+            onClick={handleSplit}
+            disabled={files.length === 0 || pageCount < 2}
+            className="flex-1"
+            data-testid="button-split"
+          >
+            {t('Common.actions.split')}
+          </Button>
           <Button variant="outline" onClick={reset} data-testid="button-reset">
             {t('Common.actions.reset')}
           </Button>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }

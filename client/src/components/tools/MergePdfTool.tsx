@@ -237,7 +237,7 @@ export default function MergePdfTool() {
               </div>
             </CardContent>
           </Card>
-          <AdSlot position="result" />
+          <AdSlot position="results" />
         </div>
       )}
 
