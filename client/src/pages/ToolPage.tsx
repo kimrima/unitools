@@ -9,10 +9,53 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { SEOHead } from '@/components/seo/SEOHead';
 import { ToolStats, ToolSEOContent } from '@/components/seo/ToolContent';
-import { ArrowLeft, AlertCircle, Loader2, ChevronRight, Home, ThumbsUp, Check } from 'lucide-react';
-import { allTools } from '@/data/tools';
+import { ArrowLeft, AlertCircle, Loader2, ChevronRight, Home, ThumbsUp, Check, Star } from 'lucide-react';
+import { allTools, formatUsageCount } from '@/data/tools';
 import { useRecentTools } from '@/hooks/useRecentTools';
 import { useFeatureVote } from '@/hooks/useFeatureVote';
+
+const categoryColors: Record<string, { iconBg: string; icon: string; headerBg: string }> = {
+  pdf: { 
+    iconBg: 'bg-purple-100 dark:bg-purple-900/50', 
+    icon: 'text-purple-600 dark:text-purple-400',
+    headerBg: 'from-purple-50/80 via-purple-50/30 to-background dark:from-purple-950/30 dark:via-purple-950/10 dark:to-background'
+  },
+  imageEdit: { 
+    iconBg: 'bg-teal-100 dark:bg-teal-900/50', 
+    icon: 'text-teal-600 dark:text-teal-400',
+    headerBg: 'from-teal-50/80 via-teal-50/30 to-background dark:from-teal-950/30 dark:via-teal-950/10 dark:to-background'
+  },
+  imageConvert: { 
+    iconBg: 'bg-rose-100 dark:bg-rose-900/50', 
+    icon: 'text-rose-600 dark:text-rose-400',
+    headerBg: 'from-rose-50/80 via-rose-50/30 to-background dark:from-rose-950/30 dark:via-rose-950/10 dark:to-background'
+  },
+  videoAudio: { 
+    iconBg: 'bg-orange-100 dark:bg-orange-900/50', 
+    icon: 'text-orange-600 dark:text-orange-400',
+    headerBg: 'from-orange-50/80 via-orange-50/30 to-background dark:from-orange-950/30 dark:via-orange-950/10 dark:to-background'
+  },
+  text: { 
+    iconBg: 'bg-green-100 dark:bg-green-900/50', 
+    icon: 'text-green-600 dark:text-green-400',
+    headerBg: 'from-green-50/80 via-green-50/30 to-background dark:from-green-950/30 dark:via-green-950/10 dark:to-background'
+  },
+  social: { 
+    iconBg: 'bg-pink-100 dark:bg-pink-900/50', 
+    icon: 'text-pink-600 dark:text-pink-400',
+    headerBg: 'from-pink-50/80 via-pink-50/30 to-background dark:from-pink-950/30 dark:via-pink-950/10 dark:to-background'
+  },
+  developer: { 
+    iconBg: 'bg-cyan-100 dark:bg-cyan-900/50', 
+    icon: 'text-cyan-600 dark:text-cyan-400',
+    headerBg: 'from-cyan-50/80 via-cyan-50/30 to-background dark:from-cyan-950/30 dark:via-cyan-950/10 dark:to-background'
+  },
+  calculator: { 
+    iconBg: 'bg-blue-100 dark:bg-blue-900/50', 
+    icon: 'text-blue-600 dark:text-blue-400',
+    headerBg: 'from-blue-50/80 via-blue-50/30 to-background dark:from-blue-950/30 dark:via-blue-950/10 dark:to-background'
+  },
+};
 
 const MergePdfTool = lazy(() => import('@/components/tools/MergePdfTool'));
 const SplitPdfTool = lazy(() => import('@/components/tools/SplitPdfTool'));
@@ -447,6 +490,9 @@ export default function ToolPage() {
     'json-formatter', 'csv-to-json', 'json-to-csv', 'xml-to-json', 'yaml-to-json',
   ]);
   const needsToolId = toolsNeedingId.has(toolId);
+  
+  const colors = tool ? (categoryColors[tool.category] || categoryColors.pdf) : categoryColors.pdf;
+  const ToolIcon = tool?.icon;
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -454,7 +500,7 @@ export default function ToolPage() {
       <Header />
       
       <div className="bg-muted/30 border-b">
-        <div className="max-w-7xl mx-auto px-4 py-3">
+        <div className="max-w-6xl mx-auto px-4 py-3">
           <nav className="flex items-center gap-2 text-sm" data-testid="breadcrumb">
             <Link href={localizedPath('/')} className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1">
               <Home className="w-3.5 h-3.5" />
@@ -474,14 +520,14 @@ export default function ToolPage() {
         </div>
       </div>
 
-      <div className="bg-gradient-to-b from-muted/50 to-background py-8 md:py-12">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-start gap-4">
-            <Link href={localizedPath('/')}>
-              <Button variant="ghost" size="icon" className="flex-shrink-0 mt-1" data-testid="button-back">
-                <ArrowLeft className="w-5 h-5" />
-              </Button>
-            </Link>
+      <div className={`bg-gradient-to-b ${colors.headerBg} py-10 md:py-14`}>
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="flex items-start gap-5">
+            {ToolIcon && (
+              <div className={`w-16 h-16 ${colors.iconBg} rounded-2xl flex items-center justify-center flex-shrink-0`}>
+                <ToolIcon className={`w-8 h-8 ${colors.icon}`} />
+              </div>
+            )}
             <div className="flex-1">
               <div className="flex items-center gap-3 flex-wrap mb-2">
                 <h1 className="text-2xl md:text-3xl font-bold" data-testid="text-tool-title">
@@ -491,17 +537,25 @@ export default function ToolPage() {
                   <Badge variant="outline">{t('Common.tool.comingSoon')}</Badge>
                 )}
               </div>
-              <p className="text-muted-foreground text-lg mb-3" data-testid="text-tool-description">
+              <p className="text-muted-foreground text-lg mb-4" data-testid="text-tool-description">
                 {toolDescription || toolShortDesc}
               </p>
-              <ToolStats toolId={toolId} />
+              {tool && (
+                <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                  <div className="flex items-center gap-1.5">
+                    <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
+                    <span className="font-medium">{tool.rating}</span>
+                  </div>
+                  <span>{formatUsageCount(tool.usageCount)} {t('Common.tool.uses', { defaultValue: 'uses' })}</span>
+                </div>
+              )}
             </div>
           </div>
         </div>
       </div>
 
-      <main className="flex-1 max-w-7xl mx-auto px-4 py-8 w-full">
-        <Card className="overflow-hidden">
+      <main className="flex-1 max-w-6xl mx-auto px-4 py-8 w-full">
+        <Card>
           <CardContent className="p-6 md:p-8">
             {ToolComponent ? (
               <Suspense fallback={<ToolLoading />}>
