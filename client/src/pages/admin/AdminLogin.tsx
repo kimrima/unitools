@@ -44,9 +44,9 @@ export default function AdminLogin() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background p-4">
-      <Card className="w-full max-w-md">
+      <Card className="w-full max-w-md mx-4">
         <CardHeader className="space-y-1 text-center">
-          <CardTitle className="text-2xl font-bold">Admin Login</CardTitle>
+          <CardTitle className="text-xl sm:text-2xl font-bold">Admin Login</CardTitle>
           <CardDescription>UniTools Administration Panel</CardDescription>
         </CardHeader>
         <CardContent>

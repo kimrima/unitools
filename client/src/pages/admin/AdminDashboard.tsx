@@ -115,17 +115,23 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b bg-card">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between gap-4">
-          <h1 className="text-xl font-bold">UniTools Admin</h1>
-          <div className="flex items-center gap-2">
+      <header className="border-b bg-card sticky top-0 z-50">
+        <div className="container mx-auto px-4 py-3 flex items-center justify-between gap-2">
+          <h1 className="text-lg sm:text-xl font-bold truncate">UniTools Admin</h1>
+          <div className="flex items-center gap-1 sm:gap-2">
             <Link href="/en">
-              <Button variant="ghost" size="sm" data-testid="button-go-home">
+              <Button variant="ghost" size="icon" className="sm:hidden" data-testid="button-go-home-mobile">
+                <Home className="h-4 w-4" />
+              </Button>
+              <Button variant="ghost" size="sm" className="hidden sm:flex" data-testid="button-go-home">
                 <Home className="h-4 w-4 mr-2" />
                 Home
               </Button>
             </Link>
-            <Button variant="ghost" size="sm" onClick={handleLogout} data-testid="button-admin-logout">
+            <Button variant="ghost" size="icon" className="sm:hidden" onClick={handleLogout} data-testid="button-admin-logout-mobile">
+              <LogOut className="h-4 w-4" />
+            </Button>
+            <Button variant="ghost" size="sm" className="hidden sm:flex" onClick={handleLogout} data-testid="button-admin-logout">
               <LogOut className="h-4 w-4 mr-2" />
               Logout
             </Button>
@@ -133,25 +139,25 @@ export default function AdminDashboard() {
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-6">
-        <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList>
-            <TabsTrigger value="overview" data-testid="tab-overview">
-              <BarChart3 className="h-4 w-4 mr-2" />
-              Overview
+      <main className="container mx-auto px-4 py-4 sm:py-6">
+        <Tabs defaultValue="overview" className="space-y-4 sm:space-y-6">
+          <TabsList className="w-full sm:w-auto overflow-x-auto">
+            <TabsTrigger value="overview" data-testid="tab-overview" className="flex-1 sm:flex-none">
+              <BarChart3 className="h-4 w-4 sm:mr-2" />
+              <span className="hidden sm:inline">Overview</span>
             </TabsTrigger>
-            <TabsTrigger value="tools" data-testid="tab-tools">
-              <Wrench className="h-4 w-4 mr-2" />
-              Tools
+            <TabsTrigger value="tools" data-testid="tab-tools" className="flex-1 sm:flex-none">
+              <Wrench className="h-4 w-4 sm:mr-2" />
+              <span className="hidden sm:inline">Tools</span>
             </TabsTrigger>
-            <TabsTrigger value="votes" data-testid="tab-votes">
-              <ThumbsUp className="h-4 w-4 mr-2" />
-              Feature Votes
+            <TabsTrigger value="votes" data-testid="tab-votes" className="flex-1 sm:flex-none">
+              <ThumbsUp className="h-4 w-4 sm:mr-2" />
+              <span className="hidden sm:inline">Votes</span>
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview" className="space-y-6">
-            <div className="grid gap-4 md:grid-cols-3">
+            <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between gap-2 space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Today's Usage</CardTitle>
@@ -192,7 +198,7 @@ export default function AdminDashboard() {
               </Card>
             </div>
 
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="grid gap-3 sm:gap-4 grid-cols-1 md:grid-cols-2">
               <Card>
                 <CardHeader>
                   <CardTitle className="text-sm font-medium flex items-center gap-2">
@@ -254,8 +260,8 @@ export default function AdminDashboard() {
                         <p className="text-sm font-medium truncate">{tool.toolId}</p>
                         <p className="text-xs text-muted-foreground">{tool.usageCount} uses</p>
                       </div>
-                      <div className="flex items-center gap-3">
-                        <Badge variant={tool.isActive ? 'default' : 'secondary'}>
+                      <div className="flex items-center gap-2 sm:gap-3">
+                        <Badge variant={tool.isActive ? 'default' : 'secondary'} className="hidden sm:inline-flex">
                           {tool.isActive ? 'Active' : 'Inactive'}
                         </Badge>
                         <Switch
