@@ -54,6 +54,26 @@ const Base64Tool = lazy(() => import('@/components/tools/Base64Tool'));
 const UrlEncodeTool = lazy(() => import('@/components/tools/UrlEncodeTool'));
 const LoremIpsumTool = lazy(() => import('@/components/tools/LoremIpsumTool'));
 const DiffCheckerTool = lazy(() => import('@/components/tools/DiffCheckerTool'));
+const QrCodeTool = lazy(() => import('@/components/tools/QrCodeTool'));
+const InstagramLineBreakTool = lazy(() => import('@/components/tools/InstagramLineBreakTool'));
+const InstagramFontTool = lazy(() => import('@/components/tools/InstagramFontTool'));
+const RandomPickerTool = lazy(() => import('@/components/tools/RandomPickerTool'));
+const KaomojiTool = lazy(() => import('@/components/tools/KaomojiTool'));
+const UtmBuilderTool = lazy(() => import('@/components/tools/UtmBuilderTool'));
+const TimezoneConverterTool = lazy(() => import('@/components/tools/TimezoneConverterTool'));
+const HashtagGeneratorTool = lazy(() => import('@/components/tools/HashtagGeneratorTool'));
+const TiktokSafeZoneTool = lazy(() => import('@/components/tools/TiktokSafeZoneTool'));
+const InstagramGridTool = lazy(() => import('@/components/tools/InstagramGridTool'));
+const YoutubeThumbnailTool = lazy(() => import('@/components/tools/YoutubeThumbnailTool'));
+const YoutubeTagsTool = lazy(() => import('@/components/tools/YoutubeTagsTool'));
+const YoutubeChannelIdTool = lazy(() => import('@/components/tools/YoutubeChannelIdTool'));
+const VideoTitleLengthTool = lazy(() => import('@/components/tools/VideoTitleLengthTool'));
+const BarcodeGeneratorTool = lazy(() => import('@/components/tools/BarcodeGeneratorTool'));
+const UrlShortenerTool = lazy(() => import('@/components/tools/UrlShortenerTool'));
+const AdBannerGuideTool = lazy(() => import('@/components/tools/AdBannerGuideTool'));
+const LogoGeneratorTool = lazy(() => import('@/components/tools/LogoGeneratorTool'));
+const EmailSignatureTool = lazy(() => import('@/components/tools/EmailSignatureTool'));
+const FakeProfileTool = lazy(() => import('@/components/tools/FakeProfileTool'));
 
 const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element>> = {
   'merge-pdf': MergePdfTool,
@@ -149,6 +169,26 @@ const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element
   'morse-code': Base64Tool,
   'web-text-extract': ImageOcrTool,
   'json-formatter': JsonFormatterTool,
+  'instagram-line-break': InstagramLineBreakTool,
+  'hashtag-generator': HashtagGeneratorTool,
+  'instagram-font': InstagramFontTool,
+  'tiktok-safe-zone': TiktokSafeZoneTool,
+  'instagram-grid': InstagramGridTool,
+  'youtube-thumbnail': YoutubeThumbnailTool,
+  'youtube-tags': YoutubeTagsTool,
+  'youtube-channel-id': YoutubeChannelIdTool,
+  'video-title-length': VideoTitleLengthTool,
+  'qr-code-generator': QrCodeTool,
+  'barcode-generator': BarcodeGeneratorTool,
+  'url-shortener': UrlShortenerTool,
+  'utm-builder': UtmBuilderTool,
+  'ad-banner-guide': AdBannerGuideTool,
+  'logo-generator': LogoGeneratorTool,
+  'email-signature': EmailSignatureTool,
+  'random-picker': RandomPickerTool,
+  'fake-profile': FakeProfileTool,
+  'kaomoji-collection': KaomojiTool,
+  'timezone-converter': TimezoneConverterTool,
 };
 
 function ToolLoading() {
