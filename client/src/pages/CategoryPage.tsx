@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useRoute, Link } from 'wouter';
 import { useLocalizedPath } from '@/components/LocaleProvider';
-import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import Header from '@/components/layout/Header';
@@ -98,7 +97,7 @@ export default function CategoryPage() {
   const colors = categoryColors[categoryId as string] || categoryColors.pdf;
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-background">
       <SEOHead 
         pageType="category"
         categoryId={categoryId}
@@ -106,28 +105,29 @@ export default function CategoryPage() {
       <Header />
       
       <main className="flex-1">
-        <div className={`bg-gradient-to-b ${colors.headerBg} py-12 md:py-16`}>
-          <div className="max-w-6xl mx-auto px-4">
-            <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-8" data-testid="nav-breadcrumb">
-              <Link href={localizedPath('/')} className="hover:text-foreground transition-colors flex items-center gap-1">
+        <div className={`relative bg-white dark:bg-background py-12 md:py-16 overflow-hidden`}>
+          <div className="absolute inset-0 bg-dot-pattern opacity-30" />
+          <div className="max-w-6xl mx-auto px-4 relative z-10">
+            <nav className="flex items-center gap-2 text-sm text-slate-500 dark:text-muted-foreground mb-8" data-testid="nav-breadcrumb">
+              <Link href={localizedPath('/')} className="hover:text-slate-900 dark:hover:text-foreground transition-colors flex items-center gap-1">
                 <Home className="w-4 h-4" />
                 {t('Common.nav.home')}
               </Link>
               <ChevronRight className="w-4 h-4" />
-              <span className="text-foreground font-medium">
+              <span className="text-slate-900 dark:text-foreground font-medium">
                 {t(`Categories.${categoryId}.name`)}
               </span>
             </nav>
 
             <div className="flex items-center gap-5">
-              <div className={`w-20 h-20 ${colors.iconBg} rounded-2xl flex items-center justify-center`}>
-                <CategoryIcon className={`w-10 h-10 ${colors.icon}`} />
+              <div className={`w-16 h-16 md:w-20 md:h-20 ${colors.iconBg} rounded-2xl flex items-center justify-center shadow-sm`}>
+                <CategoryIcon className={`w-8 h-8 md:w-10 md:h-10 ${colors.icon}`} />
               </div>
               <div>
-                <h1 className="text-3xl md:text-4xl font-bold mb-2" data-testid="text-category-title">
+                <h1 className="text-2xl md:text-4xl font-black text-slate-900 dark:text-foreground mb-2" data-testid="text-category-title">
                   {t(`Categories.${categoryId}.name`)}
                 </h1>
-                <p className="text-muted-foreground text-lg">
+                <p className="text-slate-500 dark:text-muted-foreground text-sm md:text-lg">
                   {t(`Categories.${categoryId}.description`)} - {categoryTools.length} {t('Common.home.tools', { defaultValue: 'tools' })}
                 </p>
               </div>
@@ -135,44 +135,40 @@ export default function CategoryPage() {
           </div>
         </div>
 
-        <div className="max-w-6xl mx-auto px-4 py-10">
+        <div className="max-w-6xl mx-auto px-4 py-8 md:py-12">
           {implementedTools.length > 0 && (
             <div className="mb-12">
-              <h2 className="text-xl font-semibold mb-6">{t('Common.category.availableTools', { defaultValue: 'Available Tools' })}</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <h2 className="text-lg md:text-xl font-bold text-slate-900 dark:text-foreground mb-6">{t('Common.category.availableTools', { defaultValue: 'Available Tools' })}</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
                 {implementedTools.map((tool) => {
                   const ToolIcon = tool.icon;
                   
                   return (
                     <Link key={tool.id} href={localizedPath(`/${tool.id}`)}>
-                      <Card 
-                        className="hover-elevate cursor-pointer h-full group"
+                      <div 
+                        className="bg-white dark:bg-card p-4 md:p-5 rounded-2xl border border-slate-100 dark:border-border shadow-sm hover:shadow-md hover:border-primary/30 transition-all group flex items-start gap-4 h-full"
                         data-testid={`card-tool-${tool.id}`}
                       >
-                        <CardContent className="p-5">
-                          <div className="flex items-start gap-4">
-                            <div className={`w-12 h-12 ${colors.iconBg} rounded-xl flex items-center justify-center flex-shrink-0`}>
-                              <ToolIcon className={`w-6 h-6 ${colors.icon}`} />
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <h3 className="font-semibold text-sm mb-1.5 group-hover:text-primary transition-colors">
-                                {t(`Tools.${tool.id}.title`, tool.id)}
-                              </h3>
-                              <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
-                                {t(`Tools.${tool.id}.shortDesc`, t(`Tools.${tool.id}.description`, ''))}
-                              </p>
-                            </div>
-                            <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all flex-shrink-0 mt-1" />
-                          </div>
-                          <div className="mt-4 pt-3 border-t flex items-center justify-between text-xs text-muted-foreground">
+                        <div className={`w-10 h-10 md:w-12 md:h-12 ${colors.iconBg} rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform`}>
+                          <ToolIcon className={`w-5 h-5 md:w-6 md:h-6 ${colors.icon}`} />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-bold text-sm md:text-base text-slate-900 dark:text-foreground mb-1 group-hover:text-primary transition-colors">
+                            {t(`Tools.${tool.id}.title`, tool.id)}
+                          </h3>
+                          <p className="text-xs md:text-sm text-slate-500 dark:text-muted-foreground line-clamp-2 leading-relaxed">
+                            {t(`Tools.${tool.id}.shortDesc`, t(`Tools.${tool.id}.description`, ''))}
+                          </p>
+                          <div className="mt-2 flex items-center gap-3 text-xs text-slate-400 dark:text-muted-foreground">
                             <span>{formatUsageCount(tool.usageCount)} {t('Common.tool.uses', { defaultValue: 'uses' })}</span>
                             <div className="flex items-center gap-1">
                               <Star className="w-3.5 h-3.5 text-yellow-500 fill-yellow-500" />
                               <span>{tool.rating}</span>
                             </div>
                           </div>
-                        </CardContent>
-                      </Card>
+                        </div>
+                        <ArrowRight className="w-4 h-4 text-slate-300 dark:text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all flex-shrink-0 mt-1" />
+                      </div>
                     </Link>
                   );
                 })}
@@ -182,56 +178,54 @@ export default function CategoryPage() {
 
           {comingSoonTools.length > 0 && (
             <div>
-              <h2 className="text-xl font-semibold mb-6 text-muted-foreground">{t('Common.category.comingSoon', { defaultValue: 'Coming Soon' })}</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              <h2 className="text-lg md:text-xl font-bold text-slate-400 dark:text-muted-foreground mb-6">{t('Common.category.comingSoon', { defaultValue: 'Coming Soon' })}</h2>
+              <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-4">
                 {comingSoonTools.map((tool) => {
                   const ToolIcon = tool.icon;
                   const voted = hasVoted(tool.id);
                   const voteCount = getVoteCount(tool.id);
                   
                   return (
-                    <Card 
+                    <div 
                       key={tool.id} 
-                      className="relative overflow-visible bg-muted/30"
+                      className="bg-slate-100 dark:bg-muted/30 p-4 rounded-xl"
                       data-testid={`card-tool-${tool.id}`}
                     >
-                      <CardContent className="p-4">
-                        <div className="flex items-start gap-3">
-                          <div className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center flex-shrink-0">
-                            <ToolIcon className="w-5 h-5 text-muted-foreground" />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <h3 className="font-medium text-sm mb-1 truncate text-muted-foreground">
-                              {t(`Tools.${tool.id}.title`, tool.id)}
-                            </h3>
-                            <Badge variant="secondary" className="text-xs">
-                              Coming Soon
-                            </Badge>
-                          </div>
+                      <div className="flex items-start gap-3">
+                        <div className="w-10 h-10 bg-white dark:bg-muted rounded-lg flex items-center justify-center flex-shrink-0">
+                          <ToolIcon className="w-5 h-5 text-slate-400 dark:text-muted-foreground" />
                         </div>
-                        <div className="mt-3 pt-3 border-t">
-                          <Button
-                            variant={voted ? "secondary" : "outline"}
-                            size="sm"
-                            className="w-full"
-                            onClick={() => voteForFeature(tool.id)}
-                            data-testid={`button-vote-${tool.id}`}
-                          >
-                            {voted ? (
-                              <>
-                                <Check className="w-4 h-4 mr-1" />
-                                {t('Common.actions.voted', 'Voted')} ({voteCount})
-                              </>
-                            ) : (
-                              <>
-                                <ThumbsUp className="w-4 h-4 mr-1" />
-                                {t('Common.actions.vote', 'Vote')} ({voteCount})
-                              </>
-                            )}
-                          </Button>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-medium text-sm mb-1 truncate text-slate-500 dark:text-muted-foreground">
+                            {t(`Tools.${tool.id}.title`, tool.id)}
+                          </h3>
+                          <Badge variant="secondary" className="text-xs">
+                            Coming Soon
+                          </Badge>
                         </div>
-                      </CardContent>
-                    </Card>
+                      </div>
+                      <div className="mt-3 pt-3 border-t border-slate-200 dark:border-border">
+                        <Button
+                          variant={voted ? "secondary" : "outline"}
+                          size="sm"
+                          className="w-full"
+                          onClick={() => voteForFeature(tool.id)}
+                          data-testid={`button-vote-${tool.id}`}
+                        >
+                          {voted ? (
+                            <>
+                              <Check className="w-4 h-4 mr-1" />
+                              {t('Common.actions.voted', 'Voted')} ({voteCount})
+                            </>
+                          ) : (
+                            <>
+                              <ThumbsUp className="w-4 h-4 mr-1" />
+                              {t('Common.actions.vote', 'Vote')} ({voteCount})
+                            </>
+                          )}
+                        </Button>
+                      </div>
+                    </div>
                   );
                 })}
               </div>
