@@ -30,8 +30,9 @@ export default function InstagramFontTool() {
 
   const convertText = (style: keyof typeof FONT_STYLES) => {
     const { chars } = FONT_STYLES[style];
-    const upperChars = Array.from(chars.slice(0, 26));
-    const lowerChars = Array.from(chars.slice(26));
+    const allChars = Array.from(chars);
+    const upperChars = allChars.slice(0, 26);
+    const lowerChars = allChars.slice(26);
     
     return Array.from(input).map(char => {
       const upperIndex = NORMAL_UPPER.indexOf(char);
