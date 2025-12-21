@@ -36,6 +36,15 @@ const ImageWatermarkTool = lazy(() => import('@/components/tools/ImageWatermarkT
 const RoundCornersTool = lazy(() => import('@/components/tools/RoundCornersTool'));
 const ColorPickerTool = lazy(() => import('@/components/tools/ColorPickerTool'));
 const VideoToGifTool = lazy(() => import('@/components/tools/VideoToGifTool'));
+const TrimVideoTool = lazy(() => import('@/components/tools/TrimVideoTool'));
+const MuteVideoTool = lazy(() => import('@/components/tools/MuteVideoTool'));
+const ExtractAudioTool = lazy(() => import('@/components/tools/ExtractAudioTool'));
+const CompressVideoTool = lazy(() => import('@/components/tools/CompressVideoTool'));
+const TrimAudioTool = lazy(() => import('@/components/tools/TrimAudioTool'));
+const ConvertAudioTool = lazy(() => import('@/components/tools/ConvertAudioTool'));
+const VoiceRecorderTool = lazy(() => import('@/components/tools/VoiceRecorderTool'));
+const ScreenRecorderTool = lazy(() => import('@/components/tools/ScreenRecorderTool'));
+const VideoMetadataTool = lazy(() => import('@/components/tools/VideoMetadataTool'));
 
 const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element>> = {
   'merge-pdf': MergePdfTool,
@@ -82,6 +91,25 @@ const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element
   'favicon-generator': ResizeImageTool,
   'canvas-size': CropImageTool,
   'video-to-gif': VideoToGifTool,
+  'trim-video': TrimVideoTool,
+  'mute-video': MuteVideoTool,
+  'extract-audio': ExtractAudioTool,
+  'video-speed': TrimVideoTool,
+  'video-capture': TrimVideoTool,
+  'convert-video': CompressVideoTool,
+  'resize-video': CompressVideoTool,
+  'compress-video': CompressVideoTool,
+  'flip-video': TrimVideoTool,
+  'trim-audio': TrimAudioTool,
+  'join-audio': TrimAudioTool,
+  'convert-audio': ConvertAudioTool,
+  'boost-audio': ConvertAudioTool,
+  'reverse-audio': ConvertAudioTool,
+  'audio-bitrate': ConvertAudioTool,
+  'audio-visualizer': VoiceRecorderTool,
+  'video-metadata': VideoMetadataTool,
+  'voice-recorder': VoiceRecorderTool,
+  'screen-recorder': ScreenRecorderTool,
 };
 
 function ToolLoading() {

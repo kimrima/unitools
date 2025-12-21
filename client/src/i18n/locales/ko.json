@@ -29,7 +29,16 @@
       "merge": "합치기",
       "compress": "압축하기",
       "split": "나누기",
-      "createGif": "GIF 만들기"
+      "createGif": "GIF 만들기",
+      "trim": "자르기",
+      "extractAudio": "오디오 추출",
+      "muteVideo": "소리 제거",
+      "startRecording": "녹음 시작",
+      "startScreenRecording": "화면 녹화 시작",
+      "stop": "중지",
+      "pause": "일시정지",
+      "resume": "계속",
+      "recordAgain": "다시 녹음"
     },
     "messages": {
       "processing": "처리 중...",
@@ -61,7 +70,26 @@
       "duration": "길이",
       "seconds": "초",
       "browserNotSupported": "브라우저 지원 안됨",
-      "ffmpegNotSupported": "이 기능은 SharedArrayBuffer를 지원하는 브라우저가 필요합니다. Chrome 또는 Firefox 최신 버전을 사용해 주세요."
+      "ffmpegNotSupported": "이 기능은 SharedArrayBuffer를 지원하는 브라우저가 필요합니다. Chrome 또는 Firefox 최신 버전을 사용해 주세요.",
+      "extractingAudio": "오디오를 추출하고 있습니다...",
+      "compressingVideo": "비디오를 압축하고 있습니다...",
+      "endTime": "종료 시간",
+      "qualityLow": "낮음 (작은 파일)",
+      "qualityMedium": "보통 (균형)",
+      "qualityHigh": "높음 (고품질)",
+      "reduced": "감소",
+      "outputFormat": "출력 포맷",
+      "recordingComplete": "녹음 완료!",
+      "microphonePermissionDenied": "마이크 접근 거부됨",
+      "microphonePermissionRequired": "이 기능을 사용하려면 브라우저 설정에서 마이크 접근을 허용해 주세요.",
+      "screenPermissionDenied": "화면 접근 거부됨",
+      "screenPermissionRequired": "이 기능을 사용하려면 브라우저 설정에서 화면 녹화를 허용해 주세요.",
+      "screenRecordingNotSupported": "이 브라우저에서는 화면 녹화가 지원되지 않습니다.",
+      "includeAudio": "마이크 오디오 포함",
+      "fileType": "파일 유형",
+      "fileSize": "파일 크기",
+      "resolution": "해상도",
+      "aspectRatio": "화면 비율"
     },
     "errors": {
       "FILE_TOO_LARGE": "파일이 너무 큽니다",
@@ -398,6 +426,120 @@
       "title": "파비콘 생성기",
       "description": "모든 이미지에서 웹사이트용 파비콘 아이콘을 만듭니다.",
       "shortDesc": "파비콘 생성"
+    },
+    "trim-video": {
+      "title": "비디오 자르기",
+      "description": "시작점과 종료점을 설정하여 비디오 클립을 원하는 길이로 자릅니다.",
+      "shortDesc": "비디오 구간 자르기",
+      "instructions": "비디오를 업로드하고 시작/종료 시간을 설정하세요."
+    },
+    "mute-video": {
+      "title": "비디오 소리 제거",
+      "description": "비디오 파일에서 오디오 트랙을 제거하여 무음 비디오를 만듭니다.",
+      "shortDesc": "비디오 음소거",
+      "instructions": "비디오를 업로드하여 오디오 트랙을 제거하세요."
+    },
+    "extract-audio": {
+      "title": "오디오 추출",
+      "description": "비디오 파일에서 오디오를 추출하여 MP3로 저장합니다.",
+      "shortDesc": "비디오에서 MP3 추출",
+      "instructions": "비디오를 업로드하여 오디오를 MP3로 추출하세요."
+    },
+    "video-speed": {
+      "title": "비디오 속도 조절",
+      "description": "비디오 재생 속도를 변경합니다 (슬로우 모션 또는 빠르게).",
+      "shortDesc": "비디오 배속 조절",
+      "instructions": "비디오를 업로드하고 재생 속도를 선택하세요."
+    },
+    "video-capture": {
+      "title": "비디오 화면 캡처",
+      "description": "비디오에서 특정 프레임을 고화질 이미지로 캡처합니다.",
+      "shortDesc": "비디오 프레임 추출",
+      "instructions": "비디오를 업로드하고 캡처할 시간을 선택하세요."
+    },
+    "convert-video": {
+      "title": "비디오 포맷 변환",
+      "description": "비디오를 다른 포맷으로 변환합니다 (MP4, WebM, MOV, AVI).",
+      "shortDesc": "비디오 형식 변경",
+      "instructions": "비디오를 업로드하고 출력 포맷을 선택하세요."
+    },
+    "resize-video": {
+      "title": "비디오 크기 조절",
+      "description": "다양한 플랫폼용으로 비디오 크기를 변경합니다 (틱톡, 인스타그램, 유튜브).",
+      "shortDesc": "비디오 사이즈 변경",
+      "instructions": "비디오를 업로드하고 새 크기를 선택하세요."
+    },
+    "compress-video": {
+      "title": "비디오 압축",
+      "description": "화질을 유지하면서 비디오 파일 크기를 줄입니다.",
+      "shortDesc": "비디오 용량 줄이기",
+      "instructions": "비디오를 업로드하고 압축 품질을 선택하세요."
+    },
+    "flip-video": {
+      "title": "비디오 뒤집기",
+      "description": "비디오를 가로 또는 세로로 뒤집습니다 (거울 효과).",
+      "shortDesc": "비디오 반전",
+      "instructions": "비디오를 업로드하고 뒤집기 방향을 선택하세요."
+    },
+    "trim-audio": {
+      "title": "오디오 자르기",
+      "description": "오디오 파일을 잘라 벨소리나 클립을 만듭니다.",
+      "shortDesc": "오디오 구간 자르기",
+      "instructions": "오디오 파일을 업로드하고 시작/종료 시간을 설정하세요."
+    },
+    "join-audio": {
+      "title": "오디오 합치기",
+      "description": "여러 오디오 파일을 하나로 합칩니다.",
+      "shortDesc": "오디오 파일 병합",
+      "instructions": "합칠 오디오 파일들을 순서대로 업로드하세요."
+    },
+    "convert-audio": {
+      "title": "오디오 포맷 변환",
+      "description": "오디오 파일을 다른 포맷으로 변환합니다 (MP3, WAV, OGG).",
+      "shortDesc": "오디오 형식 변경",
+      "instructions": "오디오 파일을 업로드하고 출력 포맷을 선택하세요."
+    },
+    "boost-audio": {
+      "title": "오디오 볼륨 증폭",
+      "description": "조용한 오디오 녹음의 볼륨을 높입니다.",
+      "shortDesc": "볼륨 키우기",
+      "instructions": "오디오 파일을 업로드하고 볼륨 레벨을 조절하세요."
+    },
+    "reverse-audio": {
+      "title": "오디오 역재생",
+      "description": "창의적인 효과를 위해 오디오를 거꾸로 재생합니다.",
+      "shortDesc": "오디오 거꾸로",
+      "instructions": "역재생할 오디오 파일을 업로드하세요."
+    },
+    "audio-bitrate": {
+      "title": "오디오 비트레이트",
+      "description": "비트레이트를 조절하여 오디오 품질과 파일 크기를 변경합니다.",
+      "shortDesc": "오디오 품질 조절",
+      "instructions": "오디오 파일을 업로드하고 비트레이트를 선택하세요."
+    },
+    "audio-visualizer": {
+      "title": "오디오 시각화",
+      "description": "오디오에서 파형 시각화 비디오를 만듭니다.",
+      "shortDesc": "오디오 비디오 생성",
+      "instructions": "시각화 비디오를 만들 오디오 파일을 업로드하세요."
+    },
+    "video-metadata": {
+      "title": "비디오 메타데이터",
+      "description": "비디오 파일의 상세 정보를 확인합니다 (코덱, 해상도, 길이).",
+      "shortDesc": "비디오 정보 보기",
+      "instructions": "비디오를 업로드하여 메타데이터를 확인하세요."
+    },
+    "voice-recorder": {
+      "title": "음성 녹음기",
+      "description": "브라우저에서 마이크를 사용하여 직접 오디오를 녹음합니다.",
+      "shortDesc": "음성 녹음",
+      "instructions": "버튼을 클릭하여 마이크에서 녹음을 시작하세요."
+    },
+    "screen-recorder": {
+      "title": "화면 녹화기",
+      "description": "브라우저에서 직접 화면을 녹화합니다.",
+      "shortDesc": "화면 녹화",
+      "instructions": "시작을 클릭하여 화면을 녹화하세요. 마이크 오디오를 포함할 수 있습니다."
     },
     "json-formatter": {
       "title": "JSON 포맷터",

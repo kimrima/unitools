@@ -29,7 +29,16 @@
       "merge": "Merge",
       "compress": "Compress",
       "split": "Split",
-      "createGif": "Create GIF"
+      "createGif": "Create GIF",
+      "trim": "Trim",
+      "extractAudio": "Extract Audio",
+      "muteVideo": "Remove Audio",
+      "startRecording": "Start Recording",
+      "startScreenRecording": "Start Screen Recording",
+      "stop": "Stop",
+      "pause": "Pause",
+      "resume": "Resume",
+      "recordAgain": "Record Again"
     },
     "messages": {
       "processing": "Processing...",
@@ -61,7 +70,26 @@
       "duration": "Duration",
       "seconds": "seconds",
       "browserNotSupported": "Browser Not Supported",
-      "ffmpegNotSupported": "This feature requires a browser that supports SharedArrayBuffer. Please use the latest version of Chrome or Firefox."
+      "ffmpegNotSupported": "This feature requires a browser that supports SharedArrayBuffer. Please use the latest version of Chrome or Firefox.",
+      "extractingAudio": "Extracting audio...",
+      "compressingVideo": "Compressing video...",
+      "endTime": "End Time",
+      "qualityLow": "Low (smaller file)",
+      "qualityMedium": "Medium (balanced)",
+      "qualityHigh": "High (better quality)",
+      "reduced": "reduced",
+      "outputFormat": "Output Format",
+      "recordingComplete": "Recording Complete!",
+      "microphonePermissionDenied": "Microphone Access Denied",
+      "microphonePermissionRequired": "Please allow microphone access in your browser settings to use this feature.",
+      "screenPermissionDenied": "Screen Access Denied",
+      "screenPermissionRequired": "Please allow screen recording in your browser settings to use this feature.",
+      "screenRecordingNotSupported": "Screen recording is not supported in this browser.",
+      "includeAudio": "Include Microphone Audio",
+      "fileType": "File Type",
+      "fileSize": "File Size",
+      "resolution": "Resolution",
+      "aspectRatio": "Aspect Ratio"
     },
     "errors": {
       "FILE_TOO_LARGE": "File is too large",
@@ -398,6 +426,120 @@
       "title": "Favicon Generator",
       "description": "Create favicon icons for websites from any image.",
       "shortDesc": "Generate favicon"
+    },
+    "trim-video": {
+      "title": "Trim Video",
+      "description": "Cut video clips to desired length by setting start and end points.",
+      "shortDesc": "Cut video segments",
+      "instructions": "Upload a video and set start/end times to trim."
+    },
+    "mute-video": {
+      "title": "Mute Video",
+      "description": "Remove audio track from video files to create silent videos.",
+      "shortDesc": "Remove video audio",
+      "instructions": "Upload a video to remove its audio track."
+    },
+    "extract-audio": {
+      "title": "Extract Audio",
+      "description": "Extract audio from video files and save as MP3.",
+      "shortDesc": "Video to MP3",
+      "instructions": "Upload a video to extract its audio as MP3."
+    },
+    "video-speed": {
+      "title": "Video Speed",
+      "description": "Change video playback speed (slow motion or fast forward).",
+      "shortDesc": "Adjust video speed",
+      "instructions": "Upload a video and select playback speed."
+    },
+    "video-capture": {
+      "title": "Video Capture",
+      "description": "Capture specific frames from video as high-quality images.",
+      "shortDesc": "Extract video frames",
+      "instructions": "Upload a video and select timestamp to capture."
+    },
+    "convert-video": {
+      "title": "Convert Video",
+      "description": "Convert videos between formats (MP4, WebM, MOV, AVI).",
+      "shortDesc": "Change video format",
+      "instructions": "Upload a video and select output format."
+    },
+    "resize-video": {
+      "title": "Resize Video",
+      "description": "Change video dimensions for different platforms (TikTok, Instagram, YouTube).",
+      "shortDesc": "Change video size",
+      "instructions": "Upload a video and select new dimensions."
+    },
+    "compress-video": {
+      "title": "Compress Video",
+      "description": "Reduce video file size while maintaining quality.",
+      "shortDesc": "Reduce video size",
+      "instructions": "Upload a video and select compression quality."
+    },
+    "flip-video": {
+      "title": "Flip Video",
+      "description": "Flip videos horizontally or vertically (mirror effect).",
+      "shortDesc": "Mirror video",
+      "instructions": "Upload a video and select flip direction."
+    },
+    "trim-audio": {
+      "title": "Trim Audio",
+      "description": "Cut audio files to create ringtones or clips.",
+      "shortDesc": "Cut audio segments",
+      "instructions": "Upload an audio file and set start/end times to trim."
+    },
+    "join-audio": {
+      "title": "Join Audio",
+      "description": "Merge multiple audio files into one.",
+      "shortDesc": "Merge audio files",
+      "instructions": "Upload audio files to merge in order."
+    },
+    "convert-audio": {
+      "title": "Convert Audio",
+      "description": "Convert audio files between formats (MP3, WAV, OGG).",
+      "shortDesc": "Change audio format",
+      "instructions": "Upload an audio file and select output format."
+    },
+    "boost-audio": {
+      "title": "Boost Audio Volume",
+      "description": "Increase volume of quiet audio recordings.",
+      "shortDesc": "Increase volume",
+      "instructions": "Upload an audio file and adjust volume level."
+    },
+    "reverse-audio": {
+      "title": "Reverse Audio",
+      "description": "Play audio backwards for creative effects.",
+      "shortDesc": "Play audio backwards",
+      "instructions": "Upload an audio file to reverse."
+    },
+    "audio-bitrate": {
+      "title": "Audio Bitrate",
+      "description": "Change audio quality and file size by adjusting bitrate.",
+      "shortDesc": "Adjust audio quality",
+      "instructions": "Upload an audio file and select bitrate."
+    },
+    "audio-visualizer": {
+      "title": "Audio Visualizer",
+      "description": "Create waveform visualization video from audio.",
+      "shortDesc": "Create audio video",
+      "instructions": "Upload an audio file to create a visualizer video."
+    },
+    "video-metadata": {
+      "title": "Video Metadata",
+      "description": "View detailed information about video files (codec, resolution, duration).",
+      "shortDesc": "View video info",
+      "instructions": "Upload a video to view its metadata."
+    },
+    "voice-recorder": {
+      "title": "Voice Recorder",
+      "description": "Record audio using your microphone directly in browser.",
+      "shortDesc": "Record voice",
+      "instructions": "Click the button to start recording from your microphone."
+    },
+    "screen-recorder": {
+      "title": "Screen Recorder",
+      "description": "Record your screen directly in the browser.",
+      "shortDesc": "Record screen",
+      "instructions": "Click start to record your screen. You can include microphone audio."
     },
     "json-formatter": {
       "title": "JSON Formatter",
