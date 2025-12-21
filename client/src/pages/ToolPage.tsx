@@ -74,6 +74,23 @@ const AdBannerGuideTool = lazy(() => import('@/components/tools/AdBannerGuideToo
 const LogoGeneratorTool = lazy(() => import('@/components/tools/LogoGeneratorTool'));
 const EmailSignatureTool = lazy(() => import('@/components/tools/EmailSignatureTool'));
 const FakeProfileTool = lazy(() => import('@/components/tools/FakeProfileTool'));
+const HashGeneratorTool = lazy(() => import('@/components/tools/HashGeneratorTool'));
+const AesEncryptionTool = lazy(() => import('@/components/tools/AesEncryptionTool'));
+const PasswordGeneratorTool = lazy(() => import('@/components/tools/PasswordGeneratorTool'));
+const UuidGeneratorTool = lazy(() => import('@/components/tools/UuidGeneratorTool'));
+const RegexTesterTool = lazy(() => import('@/components/tools/RegexTesterTool'));
+const JwtDecoderTool = lazy(() => import('@/components/tools/JwtDecoderTool'));
+const CronGeneratorTool = lazy(() => import('@/components/tools/CronGeneratorTool'));
+const EpochConverterTool = lazy(() => import('@/components/tools/EpochConverterTool'));
+const ColorConverterTool = lazy(() => import('@/components/tools/ColorConverterTool'));
+const SqlFormatterTool = lazy(() => import('@/components/tools/SqlFormatterTool'));
+const HtmlMinifierTool = lazy(() => import('@/components/tools/HtmlMinifierTool'));
+const CssMinifierTool = lazy(() => import('@/components/tools/CssMinifierTool'));
+const JsMinifierTool = lazy(() => import('@/components/tools/JsMinifierTool'));
+const WhatIsMyIpTool = lazy(() => import('@/components/tools/WhatIsMyIpTool'));
+const Ipv4ToIpv6Tool = lazy(() => import('@/components/tools/Ipv4ToIpv6Tool'));
+const BcryptGeneratorTool = lazy(() => import('@/components/tools/BcryptGeneratorTool'));
+const HttpHeaderAnalyzerTool = lazy(() => import('@/components/tools/HttpHeaderAnalyzerTool'));
 
 const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element>> = {
   'merge-pdf': MergePdfTool,
@@ -189,6 +206,25 @@ const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element
   'fake-profile': FakeProfileTool,
   'kaomoji-collection': KaomojiTool,
   'timezone-converter': TimezoneConverterTool,
+  'sha256-hash': HashGeneratorTool,
+  'md5-hash': HashGeneratorTool,
+  'aes-encryption': AesEncryptionTool,
+  'base64-encode': Base64Tool,
+  'bcrypt-generator': BcryptGeneratorTool,
+  'html-minifier': HtmlMinifierTool,
+  'css-minifier': CssMinifierTool,
+  'js-minifier': JsMinifierTool,
+  'sql-formatter': SqlFormatterTool,
+  'password-generator': PasswordGeneratorTool,
+  'uuid-generator': UuidGeneratorTool,
+  'jwt-decoder': JwtDecoderTool,
+  'cron-generator': CronGeneratorTool,
+  'regex-tester': RegexTesterTool,
+  'ipv4-to-ipv6': Ipv4ToIpv6Tool,
+  'what-is-my-ip': WhatIsMyIpTool,
+  'http-header-analyzer': HttpHeaderAnalyzerTool,
+  'epoch-converter': EpochConverterTool,
+  'color-converter': ColorConverterTool,
 };
 
 function ToolLoading() {

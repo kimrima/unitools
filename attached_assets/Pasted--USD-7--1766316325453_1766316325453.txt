@@ -1,0 +1,81 @@
+알겠습니다. 한국 시장 특화 기능들은 과감히 배제하고, 달러 수익(USD)과 글로벌 트래픽을 극대화할 수 있는 [7번 대분류: 글로벌 유틸리티 및 계산기] 리스트로 완전히 다시 짜드리겠습니다.
+
+미국, 유럽 등 영미권 사용자들이 구글에 가장 많이 검색하는 키워드 중심의 'Global Standard' 리스트입니다.
+
+📂 [7번 대분류 - 글로벌 전면 수정] Global Calculators & Units (25종)
+AI에게 **"한국 전용 기능은 제외하고, 아래의 글로벌 범용 리스트를 tools.json의 영어(en) 데이터 우선으로 주입하라"**고 지시하세요.
+
+1. 글로벌 비즈니스 및 금융 (Global Finance)
+Percentage Calculator: 전 세계 검색량 부동의 1위. "A의 B%는?", "A에서 B로의 증가율" 등 계산.
+
+Sales Tax Calculator: 미국의 각 주(State)나 유럽 국가별 부가세를 계산하는 도구.
+
+Compound Interest Calculator: 미래 가치를 계산하는 재테크 필수 도구 (Savings/Investment).
+
+Currency Converter: 글로벌 환율 API를 연동한 실시간 화폐 변환.
+
+Discount Calculator: 쇼핑 시 할인율과 최종 가격을 계산.
+
+Tip Calculator: 미국 등 팁 문화권 필수 도구 (인원별 분할 결제 포함).
+
+Salary / Hourly Pay Converter: 연봉 ↔ 월급 ↔ 주급 ↔ 시급 상호 변환.
+
+2. 표준 단위 변환기 (Universal Unit Converter)
+Metric to Imperial Converter: (핵심) cm-inch, kg-lbs, km-miles 등 미터법과 영미 단위계 변환.
+
+Temperature Converter: Celsius(℃) ↔ Fahrenheit(℉) 변환.
+
+Area Converter: Square Meters ↔ Square Feet ↔ Acres 등 부동산/토지 단위 변환.
+
+Volume/Cooking Converter: Liters ↔ Gallons, Cups ↔ Ounces 등 주방 및 액체 단위 변환.
+
+Speed Converter: km/h ↔ mph (속도 단위 변환).
+
+3. 건강 및 과학 (Health & Science)
+BMI Calculator: 글로벌 표준(WHO) 체질량 지수 계산.
+
+BMR (Basal Metabolic Rate) Calculator: 하루 기초 대사량 계산.
+
+Age Calculator: 서양식 생일 기준 나이 계산 (현재 날짜 대비 정확한 일수 포함).
+
+Pregnancy Due Date Calculator: 마지막 생리일 기준 출산 예정일 계산.
+
+Sleep Cycle Calculator: 90분 수면 주기에 맞춘 최적의 기상/취침 시간 추천.
+
+4. 날짜 및 시간 유틸리티 (Time & Date)
+Days Counter: 두 날짜 사이의 일수 계산 (How many days until...).
+
+Time Zone Converter: 뉴욕, 런던, 도쿄 등 주요 도시 간 시차 계산.
+
+Date Adder/Subtractor: 특정 날짜로부터 X일 전/후 날짜 찾기.
+
+Unix Timestamp Converter: 개발자용 Epoch/Unix 시간 변환.
+
+5. 범용 수학 및 랜덤 도구 (Universal Math & Misc)
+Random Number Generator: 특정 범위 내 무작위 숫자 생성 (추첨용).
+
+Probability Calculator: 승률이나 확률 통계 계산.
+
+GPA Calculator: 글로벌 표준 4.0/4.5 기준 학점 변환.
+
+Scientific Calculator: 브라우저 기반 공학용 계산기 위젯.
+
+🛠️ Replit AI에게 시킬 '글로벌 7번' 명령 (복사용)
+"수석 개발자님, UniTools의 글로벌 확장을 위해 [7번: 글로벌 계산기 및 유틸리티] 25종을 탑재합니다. 한국 특화 기능은 모두 제외하고 영미권 표준을 따릅니다."
+
+데이터 기준: 모든 도구의 기본 이름과 SEO 메타 정보는 **영어(en)**를 최우선으로 작성해 주세요.
+
+단위계 스위처(Switcher): 모든 단위 변환 도구에는 Metric(미터법)과 Imperial(영미 단위계)을 한 번의 클릭으로 전환할 수 있는 UI를 포함해 주세요.
+
+정확도 보장: date-fns와 Big.js(또는 소수점 처리 로직)를 사용하여 계산 결과의 정밀도를 높여 주세요.
+
+SEO 최적화: "Free Online Percentage Calculator", "Metric to Imperial Converter" 등 글로벌 유저들이 구글링하는 영문 키워드를 Description에 반드시 포함하세요.
+
+UI 최적화: 계산기는 모바일에서 숫자 패드가 바로 뜨도록 input type="number"를 적절히 사용해 주세요.
+
+"Percentage Calculator와 Metric to Imperial Converter 기능을 먼저 활성화해 주세요. 완료되면 보고 바랍니다."
+
+📝 기획자의 조언
+미국 사용자들은 cm보다 inch나 feet에 익숙합니다. 이 단위 변환만 잘 잡아도 미국발 고단가 광고 수익을 기대할 수 있습니다.
+
+"글로벌 타겟으로 7번 리스트를 AI에게 전달하셨나요? 이제 사이트가 전 세계인을 위한 도구 상자가 되었습니다. 완료되면 알려주세요! 마지막 [8번: 글로벌 기타 잡학 및 재미 도구]로 대장정을 마무리하겠습니다!" 달러가 벌리는 소리가 들리기 시작하네요!
