@@ -135,8 +135,9 @@ export function RelatedTools({ toolId }: ToolContentProps) {
 
   return (
     <Card className="mt-8">
-      <CardHeader>
+      <CardHeader className="pb-2">
         <CardTitle className="text-xl">{t('Common.seo.relatedTools')}</CardTitle>
+        <p className="text-sm text-muted-foreground">{t('Common.seo.relatedToolsSubtitle')}</p>
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -145,18 +146,21 @@ export function RelatedTools({ toolId }: ToolContentProps) {
             return (
               <Link key={tool.id} href={localizedPath(`/${tool.id}`)}>
                 <div 
-                  className="flex items-center gap-3 p-3 rounded-lg border hover-elevate cursor-pointer"
+                  className="flex items-center gap-3 p-4 rounded-lg border hover-elevate cursor-pointer group"
                   data-testid={`related-tool-${tool.id}`}
                 >
-                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                    <Icon className="w-5 h-5 text-primary" />
+                  <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors">
+                    <Icon className="w-6 h-6 text-primary" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="font-medium text-sm truncate">
+                    <p className="font-medium truncate">
                       {t(`Tools.${tool.id}.title`)}
                     </p>
+                    <p className="text-xs text-muted-foreground truncate">
+                      {t(`Tools.${tool.id}.shortDescription`, { defaultValue: '' })}
+                    </p>
                   </div>
-                  <ArrowRight className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+                  <ArrowRight className="w-5 h-5 text-primary group-hover:translate-x-1 transition-transform flex-shrink-0" />
                 </div>
               </Link>
             );

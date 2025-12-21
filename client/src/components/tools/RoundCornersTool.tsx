@@ -10,6 +10,7 @@ import { Slider } from '@/components/ui/slider';
 import { StagedLoadingOverlay } from '@/components/StagedLoadingOverlay';
 import { Upload, Download, CheckCircle, Square } from 'lucide-react';
 import { AdSlot } from '@/components/AdSlot';
+import { ShareActions } from '@/components/ShareActions';
 
 const RADIUS_PRESETS = [0, 10, 20, 30, 50, 75, 100];
 
@@ -215,7 +216,7 @@ export default function RoundCornersTool() {
       )}
 
       {showResults && resultBlob && (
-        <div className="space-y-6">
+        <div className="space-y-4">
           <Card className="p-4">
             <div className="flex flex-col items-center gap-4">
               <div className="flex items-center gap-2 text-green-600">
@@ -223,11 +224,13 @@ export default function RoundCornersTool() {
                 <span className="font-medium">{t('Common.workflow.processingComplete')}</span>
               </div>
               {previewUrl && (
-                <img 
-                  src={previewUrl} 
-                  alt="Result" 
-                  className="max-w-full max-h-80 object-contain bg-muted rounded"
-                />
+                <div className="w-full flex justify-center p-4 bg-muted rounded">
+                  <img 
+                    src={previewUrl} 
+                    alt="Result" 
+                    className="max-w-full h-auto object-contain"
+                  />
+                </div>
               )}
               <p className="text-sm text-muted-foreground">
                 {t('Tools.round-corners.applied', { radius, defaultValue: `Corner radius: ${radius}px` })}
@@ -243,6 +246,7 @@ export default function RoundCornersTool() {
               </div>
             </div>
           </Card>
+          <ShareActions />
           <AdSlot position="results" />
         </div>
       )}

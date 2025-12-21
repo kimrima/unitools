@@ -193,6 +193,17 @@
       "selectFiles": "Select Files",
       "inDevelopment": "Under Development"
     },
+    "share": {
+      "title": "Share with Friends",
+      "helpOthers": "Help others discover this useful tool!",
+      "defaultTitle": "UniTools - Free Online Tools",
+      "defaultDescription": "Try this useful online tool!",
+      "linkCopied": "Link copied!",
+      "linkCopiedDesc": "Share this link with others.",
+      "copied": "Copied!",
+      "copyLink": "Copy Link",
+      "more": "More"
+    },
     "stages": {
       "analyzing": "Analyzing",
       "processing": "Processing",
@@ -218,7 +229,8 @@
       "howToUse": "How to Use",
       "features": "Key Features",
       "faq": "Frequently Asked Questions",
-      "relatedTools": "Related Tools",
+      "relatedTools": "Try These Tools Too",
+      "relatedToolsSubtitle": "Explore more free tools",
       "reviews": "reviews",
       "users": "users"
     }

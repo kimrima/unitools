@@ -11,6 +11,7 @@ import { Switch } from '@/components/ui/switch';
 import { StagedLoadingOverlay } from '@/components/StagedLoadingOverlay';
 import { Image, Upload, Download, CheckCircle, Link2 } from 'lucide-react';
 import { AdSlot } from '@/components/AdSlot';
+import { ShareActions } from '@/components/ShareActions';
 
 const PRESET_SCALES = [25, 50, 75, 100, 125, 150, 200];
 
@@ -257,7 +258,7 @@ export default function ResizeImageTool() {
       )}
 
       {showResults && resultBlob && (
-        <div className="space-y-6">
+        <div className="space-y-4">
           <Card className="p-4">
             <div className="flex flex-col items-center gap-4">
               <div className="flex items-center gap-2 text-green-600">
@@ -265,11 +266,13 @@ export default function ResizeImageTool() {
                 <span className="font-medium">{t('Common.workflow.processingComplete')}</span>
               </div>
               {previewUrl && (
-                <img 
-                  src={previewUrl} 
-                  alt="Result" 
-                  className="max-w-full max-h-80 object-contain bg-muted rounded"
-                />
+                <div className="w-full flex justify-center p-4 bg-muted rounded">
+                  <img 
+                    src={previewUrl} 
+                    alt="Result" 
+                    className="max-w-full h-auto object-contain"
+                  />
+                </div>
               )}
               <p className="text-sm text-muted-foreground">
                 {originalDimensions.width} x {originalDimensions.height} → {targetWidth} x {targetHeight} px
@@ -285,6 +288,7 @@ export default function ResizeImageTool() {
               </div>
             </div>
           </Card>
+          <ShareActions />
           <AdSlot position="results" />
         </div>
       )}
