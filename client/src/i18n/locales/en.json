@@ -154,6 +154,14 @@
       "adSlot": "Ad Slot",
       "selectFiles": "Select Files",
       "inDevelopment": "Under Development"
+    },
+    "seo": {
+      "howToUse": "How to Use",
+      "features": "Key Features",
+      "faq": "Frequently Asked Questions",
+      "relatedTools": "Related Tools",
+      "reviews": "reviews",
+      "users": "users"
     }
   },
   "Categories": {
@@ -285,6 +293,106 @@
       "title": "Percentage Calculator",
       "description": "Calculate percentages quickly and easily.",
       "shortDesc": "Calculate percentages"
+    },
+    "pdf-to-png": {
+      "title": "PDF to PNG",
+      "description": "Convert PDF files to high-quality PNG images with transparency support.",
+      "shortDesc": "Convert PDF to PNG images"
+    },
+    "png-to-pdf": {
+      "title": "PNG to PDF",
+      "description": "Convert PNG images to a single PDF file.",
+      "shortDesc": "Convert PNG images to PDF"
+    },
+    "pdf-to-word": {
+      "title": "PDF to Word",
+      "description": "Convert PDF files to editable Word documents.",
+      "shortDesc": "Convert PDF to DOCX"
+    },
+    "word-to-pdf": {
+      "title": "Word to PDF",
+      "description": "Convert Word documents to PDF format.",
+      "shortDesc": "Convert DOCX to PDF"
+    },
+    "pdf-to-excel": {
+      "title": "PDF to Excel",
+      "description": "Extract tables from PDF and convert to Excel spreadsheets.",
+      "shortDesc": "Convert PDF to XLSX"
+    },
+    "excel-to-pdf": {
+      "title": "Excel to PDF",
+      "description": "Convert Excel spreadsheets to PDF format.",
+      "shortDesc": "Convert XLSX to PDF"
+    },
+    "pdf-to-ppt": {
+      "title": "PDF to PowerPoint",
+      "description": "Convert PDF files to PowerPoint presentations.",
+      "shortDesc": "Convert PDF to PPTX"
+    },
+    "ppt-to-pdf": {
+      "title": "PowerPoint to PDF",
+      "description": "Convert PowerPoint presentations to PDF format.",
+      "shortDesc": "Convert PPTX to PDF"
+    },
+    "rotate-pdf": {
+      "title": "Rotate PDF",
+      "description": "Rotate PDF pages to any angle (90, 180, 270 degrees).",
+      "shortDesc": "Rotate PDF pages"
+    },
+    "delete-pdf-pages": {
+      "title": "Delete PDF Pages",
+      "description": "Remove unwanted pages from your PDF files.",
+      "shortDesc": "Remove pages from PDF"
+    },
+    "extract-pdf-pages": {
+      "title": "Extract PDF Pages",
+      "description": "Extract specific pages from a PDF to create a new file.",
+      "shortDesc": "Extract pages from PDF"
+    },
+    "organize-pdf": {
+      "title": "Organize PDF",
+      "description": "Reorder, rotate, and organize PDF pages with drag and drop.",
+      "shortDesc": "Rearrange PDF pages"
+    },
+    "protect-pdf": {
+      "title": "Protect PDF",
+      "description": "Add password protection to your PDF files.",
+      "shortDesc": "Password protect PDF"
+    },
+    "unlock-pdf": {
+      "title": "Unlock PDF",
+      "description": "Remove password protection from PDF files.",
+      "shortDesc": "Remove PDF password"
+    },
+    "sign-pdf": {
+      "title": "Sign PDF",
+      "description": "Add digital signatures to your PDF documents.",
+      "shortDesc": "Add signature to PDF"
+    },
+    "watermark-pdf": {
+      "title": "Watermark PDF",
+      "description": "Add text or image watermarks to PDF files.",
+      "shortDesc": "Add watermark to PDF"
+    },
+    "edit-pdf": {
+      "title": "Edit PDF",
+      "description": "Edit text, images, and annotations in PDF files.",
+      "shortDesc": "Edit PDF content"
+    },
+    "ocr-pdf": {
+      "title": "OCR PDF",
+      "description": "Extract text from scanned PDFs using optical character recognition.",
+      "shortDesc": "Extract text from scanned PDF"
+    },
+    "repair-pdf": {
+      "title": "Repair PDF",
+      "description": "Fix corrupted or damaged PDF files.",
+      "shortDesc": "Fix damaged PDF"
+    },
+    "optimize-pdf": {
+      "title": "Optimize PDF",
+      "description": "Optimize PDF for web or reduce file size while maintaining quality.",
+      "shortDesc": "Optimize PDF for web"
     }
   }
 }

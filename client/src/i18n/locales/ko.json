@@ -154,6 +154,14 @@
       "adSlot": "광고 영역",
       "selectFiles": "파일 선택",
       "inDevelopment": "개발 중"
+    },
+    "seo": {
+      "howToUse": "사용 방법",
+      "features": "주요 기능",
+      "faq": "자주 묻는 질문",
+      "relatedTools": "관련 도구",
+      "reviews": "리뷰",
+      "users": "사용자"
     }
   },
   "Categories": {
@@ -285,6 +293,106 @@
       "title": "퍼센트 계산기",
       "description": "퍼센트 계산을 쉽고 빠르게 수행하세요.",
       "shortDesc": "퍼센트 계산"
+    },
+    "pdf-to-png": {
+      "title": "PDF를 PNG로 변환",
+      "description": "PDF 파일을 투명도를 지원하는 고화질 PNG 이미지로 변환하세요.",
+      "shortDesc": "PDF를 PNG 이미지로 변환"
+    },
+    "png-to-pdf": {
+      "title": "PNG를 PDF로 변환",
+      "description": "PNG 이미지를 하나의 PDF 파일로 변환하세요.",
+      "shortDesc": "PNG 이미지를 PDF로 변환"
+    },
+    "pdf-to-word": {
+      "title": "PDF를 Word로 변환",
+      "description": "PDF 파일을 편집 가능한 Word 문서로 변환하세요.",
+      "shortDesc": "PDF를 DOCX로 변환"
+    },
+    "word-to-pdf": {
+      "title": "Word를 PDF로 변환",
+      "description": "Word 문서를 PDF 형식으로 변환하세요.",
+      "shortDesc": "DOCX를 PDF로 변환"
+    },
+    "pdf-to-excel": {
+      "title": "PDF를 Excel로 변환",
+      "description": "PDF에서 표를 추출하여 Excel 스프레드시트로 변환하세요.",
+      "shortDesc": "PDF를 XLSX로 변환"
+    },
+    "excel-to-pdf": {
+      "title": "Excel을 PDF로 변환",
+      "description": "Excel 스프레드시트를 PDF 형식으로 변환하세요.",
+      "shortDesc": "XLSX를 PDF로 변환"
+    },
+    "pdf-to-ppt": {
+      "title": "PDF를 PowerPoint로 변환",
+      "description": "PDF 파일을 PowerPoint 프레젠테이션으로 변환하세요.",
+      "shortDesc": "PDF를 PPTX로 변환"
+    },
+    "ppt-to-pdf": {
+      "title": "PowerPoint를 PDF로 변환",
+      "description": "PowerPoint 프레젠테이션을 PDF 형식으로 변환하세요.",
+      "shortDesc": "PPTX를 PDF로 변환"
+    },
+    "rotate-pdf": {
+      "title": "PDF 회전",
+      "description": "PDF 페이지를 원하는 각도(90, 180, 270도)로 회전하세요.",
+      "shortDesc": "PDF 페이지 회전"
+    },
+    "delete-pdf-pages": {
+      "title": "PDF 페이지 삭제",
+      "description": "PDF 파일에서 원하지 않는 페이지를 삭제하세요.",
+      "shortDesc": "PDF에서 페이지 삭제"
+    },
+    "extract-pdf-pages": {
+      "title": "PDF 페이지 추출",
+      "description": "PDF에서 특정 페이지만 추출하여 새 파일을 만드세요.",
+      "shortDesc": "PDF에서 페이지 추출"
+    },
+    "organize-pdf": {
+      "title": "PDF 정리",
+      "description": "드래그 앤 드롭으로 PDF 페이지를 재정렬하고 회전하세요.",
+      "shortDesc": "PDF 페이지 정리"
+    },
+    "protect-pdf": {
+      "title": "PDF 암호 설정",
+      "description": "PDF 파일에 비밀번호 보호를 추가하세요.",
+      "shortDesc": "PDF 비밀번호 보호"
+    },
+    "unlock-pdf": {
+      "title": "PDF 잠금 해제",
+      "description": "PDF 파일의 비밀번호 보호를 해제하세요.",
+      "shortDesc": "PDF 비밀번호 제거"
+    },
+    "sign-pdf": {
+      "title": "PDF 서명",
+      "description": "PDF 문서에 디지털 서명을 추가하세요.",
+      "shortDesc": "PDF에 서명 추가"
+    },
+    "watermark-pdf": {
+      "title": "PDF 워터마크",
+      "description": "PDF 파일에 텍스트 또는 이미지 워터마크를 추가하세요.",
+      "shortDesc": "PDF에 워터마크 추가"
+    },
+    "edit-pdf": {
+      "title": "PDF 편집",
+      "description": "PDF 파일의 텍스트, 이미지, 주석을 편집하세요.",
+      "shortDesc": "PDF 내용 편집"
+    },
+    "ocr-pdf": {
+      "title": "PDF OCR",
+      "description": "광학 문자 인식을 사용하여 스캔된 PDF에서 텍스트를 추출하세요.",
+      "shortDesc": "스캔된 PDF에서 텍스트 추출"
+    },
+    "repair-pdf": {
+      "title": "PDF 복구",
+      "description": "손상되거나 깨진 PDF 파일을 복구하세요.",
+      "shortDesc": "손상된 PDF 복구"
+    },
+    "optimize-pdf": {
+      "title": "PDF 최적화",
+      "description": "웹용으로 PDF를 최적화하거나 품질을 유지하면서 파일 크기를 줄이세요.",
+      "shortDesc": "웹용 PDF 최적화"
     }
   }
 }

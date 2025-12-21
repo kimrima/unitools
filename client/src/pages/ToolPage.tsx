@@ -7,6 +7,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import { SEOHead } from '@/components/seo/SEOHead';
+import { ToolStats, ToolSEOContent } from '@/components/seo/ToolContent';
 import { ArrowLeft, AlertCircle, Loader2, ChevronRight, Home } from 'lucide-react';
 import { allTools } from '@/data/tools';
 
@@ -105,6 +107,7 @@ export default function ToolPage() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
+      <SEOHead toolId={toolId} pageType="tool" />
       <Header />
       
       <div className="bg-muted/30 border-b">
@@ -145,9 +148,10 @@ export default function ToolPage() {
                   <Badge variant="outline">{t('Common.tool.comingSoon')}</Badge>
                 )}
               </div>
-              <p className="text-muted-foreground text-lg" data-testid="text-tool-description">
+              <p className="text-muted-foreground text-lg mb-3" data-testid="text-tool-description">
                 {toolDescription || toolShortDesc}
               </p>
+              <ToolStats toolId={toolId} />
             </div>
           </div>
         </div>
@@ -171,6 +175,8 @@ export default function ToolPage() {
             {t('Common.tool.privacyNote')}
           </p>
         </div>
+
+        <ToolSEOContent toolId={toolId} />
       </main>
 
       <Footer />

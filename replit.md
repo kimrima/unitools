@@ -61,6 +61,29 @@ Preferred communication style: Simple, everyday language.
 - Locale-prefixed routes: `/:locale` for homepage, `/:locale/:toolId` for tools
 - Automatic locale detection and redirect from root path
 
+### SEO Infrastructure (Phase 4)
+- **Dynamic Meta Tags**: Title and description auto-generated per tool page
+- **JSON-LD Schema**: SoftwareApplication schema with ratings for rich snippets
+- **Hreflang Tags**: Multi-language alternate links for proper locale indexing
+- **Canonical URLs**: Proper canonical tags to avoid duplicate content
+- **Auto Sitemap**: `/sitemap.xml` endpoint generates all tools + categories with hreflang
+- **Robots.txt**: `/robots.txt` with sitemap reference
+
+### Tool Data Structure
+Each tool in `client/src/data/tools.ts` contains:
+- `id`: Unique identifier used in URLs and i18n keys
+- `category`: Category grouping
+- `usageCount`: Display metric for social proof
+- `rating` / `ratingCount`: Star rating data for JSON-LD
+- `relatedTools`: Array of tool IDs for cross-linking
+- `acceptedFormats` / `outputFormats`: MIME types for file handling
+
+### Content Templates
+Tool pages automatically render (from i18n JSON):
+- `Tools.{toolId}.howToUse.step1-4`: Step-by-step instructions
+- `Tools.{toolId}.features.feature1-4`: Key feature list
+- `Tools.{toolId}.faq.q1-3` / `a1-3`: FAQ accordion
+
 ## External Dependencies
 
 ### Database
