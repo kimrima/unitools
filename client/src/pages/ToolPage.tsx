@@ -125,6 +125,10 @@ const RandomNumberTool = lazy(() => import('@/components/tools/RandomNumberTool'
 const ProbabilityCalculatorTool = lazy(() => import('@/components/tools/ProbabilityCalculatorTool'));
 const GpaCalculatorTool = lazy(() => import('@/components/tools/GpaCalculatorTool'));
 const ScientificCalculatorTool = lazy(() => import('@/components/tools/ScientificCalculatorTool'));
+const SpeedTestTool = lazy(() => import('@/components/tools/SpeedTestTool'));
+const CoinFlipperTool = lazy(() => import('@/components/tools/CoinFlipperTool'));
+const DiceRollerTool = lazy(() => import('@/components/tools/DiceRollerTool'));
+const CalculatorTool = lazy(() => import('@/components/tools/CalculatorTool'));
 
 const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element>> = {
   'merge-pdf': MergePdfTool,
@@ -291,6 +295,19 @@ const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element
   'probability-calculator': ProbabilityCalculatorTool,
   'gpa-calculator': GpaCalculatorTool,
   'scientific-calculator': ScientificCalculatorTool,
+  'speed-test': SpeedTestTool,
+  'coin-flipper': CoinFlipperTool,
+  'dice-roller': DiceRollerTool,
+  'calculator': CalculatorTool,
+  'wheel-of-fortune': RandomPickerTool,
+  'random-choice': RandomPickerTool,
+  'upside-down-text': CaseConverterTool,
+  'fancy-text': InstagramFontTool,
+  'zalgo-text': CaseConverterTool,
+  'binary-text': Base64Tool,
+  'screen-resolution': WhatIsMyIpTool,
+  'user-agent': WhatIsMyIpTool,
+  'color-contrast': ColorConverterTool,
 };
 
 function ToolLoading() {

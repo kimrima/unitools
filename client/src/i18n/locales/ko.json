@@ -1983,7 +1983,11 @@
     "coin-flipper": {
       "title": "동전 던지기",
       "description": "가상 동전을 던져 앞면 또는 뒷면 결과를 무작위로 얻으세요.",
-      "shortDesc": "가상 동전 던지기"
+      "shortDesc": "가상 동전 던지기",
+      "heads": "앞면",
+      "tails": "뒷면",
+      "flipButton": "동전 던지기",
+      "statistics": "통계"
     },
     "color-contrast": {
       "title": "색상 대비 검사기",
@@ -1993,7 +1997,12 @@
     "dice-roller": {
       "title": "주사위 굴리기",
       "description": "면 수와 개수를 맞춤 설정할 수 있는 가상 주사위를 굴리세요.",
-      "shortDesc": "가상 주사위"
+      "shortDesc": "가상 주사위",
+      "diceType": "주사위 종류",
+      "diceCount": "주사위 개수",
+      "rollButton": "주사위 굴리기",
+      "total": "합계",
+      "history": "굴리기 기록"
     },
     "drawing-pad": {
       "title": "그림판",
