@@ -128,6 +128,7 @@ ${urls.join('')}
     const robotsTxt = `User-agent: *
 Allow: /
 Disallow: /admin
+Disallow: /자리관
 
 Sitemap: ${baseUrl}/sitemap.xml
 `;
