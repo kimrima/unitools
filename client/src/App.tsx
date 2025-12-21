@@ -12,6 +12,7 @@ import AboutPage from "@/pages/AboutPage";
 import PrivacyPage from "@/pages/PrivacyPage";
 import TermsPage from "@/pages/TermsPage";
 import ContactPage from "@/pages/ContactPage";
+import ResultPage from "@/pages/ResultPage";
 
 import "./i18n/config";
 
@@ -25,6 +26,7 @@ function Router() {
       <Route path="/:locale/terms" component={TermsPage} />
       <Route path="/:locale/contact" component={ContactPage} />
       <Route path="/:locale/category/:categoryId" component={CategoryPage} />
+      <Route path="/:locale/:toolId/result" component={ResultPage} />
       <Route path="/:locale/:toolId" component={ToolPage} />
       <Route component={NotFound} />
     </Switch>
