@@ -7,11 +7,17 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft, AlertCircle, Loader2 } from 'lucide-react';
 
 const MergePdfTool = lazy(() => import('@/components/tools/MergePdfTool'));
+const SplitPdfTool = lazy(() => import('@/components/tools/SplitPdfTool'));
 const CompressImageTool = lazy(() => import('@/components/tools/CompressImageTool'));
+const ConvertImageTool = lazy(() => import('@/components/tools/ConvertImageTool'));
+const VideoToGifTool = lazy(() => import('@/components/tools/VideoToGifTool'));
 
 const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element>> = {
   'merge-pdf': MergePdfTool,
+  'split-pdf': SplitPdfTool,
   'compress-image': CompressImageTool,
+  'convert-image': ConvertImageTool,
+  'video-to-gif': VideoToGifTool,
 };
 
 function ToolLoading() {

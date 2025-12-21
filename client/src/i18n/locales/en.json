@@ -27,7 +27,9 @@
       "remove": "Remove",
       "clear": "Clear All",
       "merge": "Merge",
-      "compress": "Compress"
+      "compress": "Compress",
+      "split": "Split",
+      "createGif": "Create GIF"
     },
     "messages": {
       "processing": "Processing...",
@@ -38,22 +40,48 @@
       "readyToDownload": "Ready to download!",
       "processingFile": "Processing file...",
       "mergingPdfs": "Merging PDF files...",
+      "splittingPdf": "Splitting PDF file...",
       "compressingImage": "Compressing image...",
+      "convertingImage": "Converting image...",
+      "convertingVideo": "Converting video...",
+      "loadingFFmpeg": "Loading FFmpeg engine...",
       "filesSelected": "files selected",
       "noFilesSelected": "No files selected",
       "originalSize": "Original Size",
       "compressedSize": "Compressed Size",
       "savedPercent": "Saved",
       "quality": "Quality",
-      "maxWidth": "Max Width/Height"
+      "maxWidth": "Max Width/Height",
+      "pages": "pages",
+      "pagesCreated": "files created",
+      "targetFormat": "Target Format",
+      "fps": "FPS (Frames per second)",
+      "width": "Width",
+      "startTime": "Start Time",
+      "duration": "Duration",
+      "seconds": "seconds",
+      "browserNotSupported": "Browser Not Supported",
+      "ffmpegNotSupported": "This feature requires a browser that supports SharedArrayBuffer. Please use the latest version of Chrome or Firefox."
     },
     "errors": {
       "FILE_TOO_LARGE": "File is too large",
       "NO_FILES_SELECTED": "Please select files",
       "NO_FILES_PROVIDED": "No files provided",
+      "NO_FILE_PROVIDED": "No file provided",
       "FAILED_TO_PROCESS_PDF": "Failed to process PDF",
       "COMPRESSION_FAILED": "Compression failed",
-      "NEED_MORE_FILES": "At least 2 files are required"
+      "NEED_MORE_FILES": "At least 2 files are required",
+      "PROCESSING_FAILED": "Processing failed",
+      "INVALID_FILE_TYPE": "Invalid file type",
+      "INVALID_PDF": "Invalid PDF file",
+      "INVALID_PAGE_RANGE": "Invalid page range",
+      "INVALID_IMAGE": "Invalid image file",
+      "CANVAS_NOT_SUPPORTED": "Canvas not supported",
+      "CONVERSION_FAILED": "Conversion failed",
+      "FFMPEG_LOAD_FAILED": "Failed to load FFmpeg",
+      "INVALID_VIDEO": "Invalid video file",
+      "WORKER_ERROR": "Worker error occurred",
+      "VALIDATION_FAILED": "Validation failed"
     },
     "units": {
       "bytes": "Bytes",
@@ -122,7 +150,8 @@
     "split-pdf": {
       "title": "Split PDF",
       "description": "Split a PDF file into multiple files.",
-      "shortDesc": "Split PDF into multiple files"
+      "shortDesc": "Split PDF into multiple files",
+      "instructions": "Select a PDF file to split. Each page will be separated into individual files."
     },
     "compress-pdf": {
       "title": "Compress PDF",
@@ -159,6 +188,18 @@
       "description": "Reduce image file size for web optimization.",
       "shortDesc": "Reduce image file size",
       "instructions": "Select image files to compress. You can adjust quality and max dimensions."
+    },
+    "convert-image": {
+      "title": "Convert Image Format",
+      "description": "Convert images to different formats (JPG, PNG, WebP).",
+      "shortDesc": "Convert image format",
+      "instructions": "Select image files to convert and choose the desired output format."
+    },
+    "video-to-gif": {
+      "title": "Video to GIF",
+      "description": "Convert video files to animated GIF.",
+      "shortDesc": "Convert video to GIF",
+      "instructions": "Select a video file to convert to GIF. You can adjust FPS, size, start time and duration."
     },
     "json-formatter": {
       "title": "JSON Formatter",

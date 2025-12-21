@@ -27,7 +27,9 @@
       "remove": "제거",
       "clear": "전체 삭제",
       "merge": "합치기",
-      "compress": "압축하기"
+      "compress": "압축하기",
+      "split": "나누기",
+      "createGif": "GIF 만들기"
     },
     "messages": {
       "processing": "처리 중...",
@@ -38,22 +40,48 @@
       "readyToDownload": "다운로드 준비 완료!",
       "processingFile": "파일 처리 중...",
       "mergingPdfs": "PDF를 합치고 있습니다...",
+      "splittingPdf": "PDF를 나누고 있습니다...",
       "compressingImage": "이미지를 압축하고 있습니다...",
+      "convertingImage": "이미지를 변환하고 있습니다...",
+      "convertingVideo": "비디오를 변환하고 있습니다...",
+      "loadingFFmpeg": "FFmpeg 엔진을 로딩하고 있습니다...",
       "filesSelected": "개 파일 선택됨",
       "noFilesSelected": "선택된 파일이 없습니다",
       "originalSize": "원본 크기",
       "compressedSize": "압축 후 크기",
       "savedPercent": "절약률",
       "quality": "품질",
-      "maxWidth": "최대 너비/높이"
+      "maxWidth": "최대 너비/높이",
+      "pages": "페이지",
+      "pagesCreated": "개 파일 생성됨",
+      "targetFormat": "변환 포맷",
+      "fps": "FPS (초당 프레임)",
+      "width": "너비",
+      "startTime": "시작 시간",
+      "duration": "길이",
+      "seconds": "초",
+      "browserNotSupported": "브라우저 지원 안됨",
+      "ffmpegNotSupported": "이 기능은 SharedArrayBuffer를 지원하는 브라우저가 필요합니다. Chrome 또는 Firefox 최신 버전을 사용해 주세요."
     },
     "errors": {
       "FILE_TOO_LARGE": "파일이 너무 큽니다",
       "NO_FILES_SELECTED": "파일을 선택해주세요",
       "NO_FILES_PROVIDED": "파일이 제공되지 않았습니다",
+      "NO_FILE_PROVIDED": "파일이 제공되지 않았습니다",
       "FAILED_TO_PROCESS_PDF": "PDF 처리 실패",
       "COMPRESSION_FAILED": "압축 실패",
-      "NEED_MORE_FILES": "최소 2개 이상의 파일이 필요합니다"
+      "NEED_MORE_FILES": "최소 2개 이상의 파일이 필요합니다",
+      "PROCESSING_FAILED": "처리 실패",
+      "INVALID_FILE_TYPE": "지원하지 않는 파일 형식입니다",
+      "INVALID_PDF": "유효하지 않은 PDF 파일입니다",
+      "INVALID_PAGE_RANGE": "유효하지 않은 페이지 범위입니다",
+      "INVALID_IMAGE": "유효하지 않은 이미지 파일입니다",
+      "CANVAS_NOT_SUPPORTED": "캔버스를 지원하지 않습니다",
+      "CONVERSION_FAILED": "변환 실패",
+      "FFMPEG_LOAD_FAILED": "FFmpeg 로드 실패",
+      "INVALID_VIDEO": "유효하지 않은 비디오 파일입니다",
+      "WORKER_ERROR": "워커 오류가 발생했습니다",
+      "VALIDATION_FAILED": "유효성 검사 실패"
     },
     "units": {
       "bytes": "Bytes",
@@ -122,7 +150,8 @@
     "split-pdf": {
       "title": "PDF 분할",
       "description": "PDF 파일을 여러 개의 파일로 나누세요.",
-      "shortDesc": "PDF를 여러 파일로 분할"
+      "shortDesc": "PDF를 여러 파일로 분할",
+      "instructions": "분할할 PDF 파일을 선택하세요. 각 페이지가 개별 파일로 분리됩니다."
     },
     "compress-pdf": {
       "title": "PDF 압축",
@@ -159,6 +188,18 @@
       "description": "이미지 파일 크기를 줄여 웹에 최적화하세요.",
       "shortDesc": "이미지 파일 크기 줄이기",
       "instructions": "압축할 이미지 파일을 선택하세요. 품질과 최대 크기를 조절할 수 있습니다."
+    },
+    "convert-image": {
+      "title": "이미지 포맷 변환",
+      "description": "이미지를 다른 포맷(JPG, PNG, WebP)으로 변환하세요.",
+      "shortDesc": "이미지 포맷 변환",
+      "instructions": "변환할 이미지 파일을 선택하고 원하는 출력 포맷을 선택하세요."
+    },
+    "video-to-gif": {
+      "title": "비디오를 GIF로 변환",
+      "description": "비디오 파일을 애니메이션 GIF로 변환하세요.",
+      "shortDesc": "비디오를 GIF로 변환",
+      "instructions": "GIF로 변환할 비디오 파일을 선택하세요. FPS, 크기, 시작 시간과 길이를 조절할 수 있습니다."
     },
     "json-formatter": {
       "title": "JSON 포맷터",

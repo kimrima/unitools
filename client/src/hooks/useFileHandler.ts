@@ -2,10 +2,6 @@ import { useState, useCallback } from 'react';
 
 export type ProcessingStatus = 'idle' | 'processing' | 'success' | 'error';
 
-export type FileHandlerErrorCode = 
-  | 'FILE_TOO_LARGE'
-  | 'NO_FILES_SELECTED';
-
 export interface FileWithPreview {
   file: File;
   id: string;
@@ -21,7 +17,7 @@ export interface UseFileHandlerOptions {
 }
 
 export interface FileHandlerError {
-  code: FileHandlerErrorCode;
+  code: string;
   fileName?: string;
 }
 
