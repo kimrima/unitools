@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next';
 import { Progress } from '@/components/ui/progress';
-import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Loader2, FileSearch, Cog, Sparkles, Check, X } from 'lucide-react';
 import type { ProcessingStage } from '@/hooks/useStagedProcessing';
@@ -24,16 +23,6 @@ const stageIcons: Record<ProcessingStage, typeof Loader2> = {
   error: X,
 };
 
-const stageColors: Record<ProcessingStage, string> = {
-  idle: 'text-muted-foreground',
-  queued: 'text-muted-foreground',
-  analyzing: 'text-blue-500',
-  processing: 'text-amber-500',
-  optimizing: 'text-purple-500',
-  complete: 'text-green-500',
-  error: 'text-destructive',
-};
-
 export function StagedLoadingOverlay({
   stage,
   progress,
@@ -44,7 +33,6 @@ export function StagedLoadingOverlay({
 }: StagedLoadingOverlayProps) {
   const { t } = useTranslation();
   const Icon = stageIcons[stage] || Loader2;
-  const colorClass = stageColors[stage] || 'text-primary';
   
   const stages: ProcessingStage[] = ['analyzing', 'processing', 'optimizing'];
   const currentStageIndex = stages.indexOf(stage);
@@ -61,64 +49,80 @@ export function StagedLoadingOverlay({
   if (stage === 'idle') return null;
 
   return (
-    <div className="space-y-6">
-      <Card>
-        <CardContent className="p-8">
-          <div className="flex flex-col items-center gap-6">
-            <div className={`relative ${stage !== 'complete' && stage !== 'error' ? 'animate-pulse' : ''}`}>
-              <div className={`w-20 h-20 rounded-full bg-muted flex items-center justify-center ${colorClass}`}>
-                <Icon className={`w-10 h-10 ${stage !== 'complete' && stage !== 'error' ? 'animate-spin' : ''}`} />
-              </div>
+    <div className="w-full max-w-lg mx-auto py-12 px-4">
+      <div className="flex flex-col items-center gap-8">
+        <div className="relative">
+          <div className="w-24 h-24 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary/30 to-primary/10 flex items-center justify-center">
+              <Icon className={`w-8 h-8 text-primary ${stage !== 'complete' && stage !== 'error' ? 'animate-spin' : ''}`} />
             </div>
+          </div>
+          {stage !== 'complete' && stage !== 'error' && (
+            <div className="absolute inset-0 rounded-full border-2 border-primary/30 border-t-primary animate-spin" style={{ animationDuration: '1.5s' }} />
+          )}
+        </div>
+        
+        <div className="flex items-center gap-3">
+          {stages.map((s, idx) => {
+            const isComplete = idx < currentStageIndex;
+            const isCurrent = idx === currentStageIndex;
             
-            <div className="flex items-center gap-2">
-              {stages.map((s, idx) => (
-                <div key={s} className="flex items-center gap-2">
-                  <div className={`flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium transition-colors ${
-                    idx < currentStageIndex 
-                      ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
-                      : idx === currentStageIndex
-                        ? 'bg-primary/10 text-primary'
+            return (
+              <div key={s} className="flex items-center gap-3">
+                <div className="flex flex-col items-center gap-1">
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300 ${
+                    isComplete 
+                      ? 'bg-green-500 text-white'
+                      : isCurrent
+                        ? 'bg-primary text-white scale-110'
                         : 'bg-muted text-muted-foreground'
                   }`}>
-                    {idx < currentStageIndex && <Check className="w-3 h-3" />}
-                    {getStageLabel(s)}
+                    {isComplete ? <Check className="w-4 h-4" /> : idx + 1}
                   </div>
-                  {idx < stages.length - 1 && (
-                    <div className={`w-8 h-0.5 ${idx < currentStageIndex ? 'bg-green-500' : 'bg-muted'}`} />
-                  )}
+                  <span className={`text-xs font-medium whitespace-nowrap ${
+                    isCurrent ? 'text-foreground' : 'text-muted-foreground'
+                  }`}>
+                    {getStageLabel(s)}
+                  </span>
                 </div>
-              ))}
-            </div>
-            
-            <div className="w-full max-w-md space-y-2">
-              <Progress value={progress} className="h-3" />
-              <div className="flex justify-between text-sm text-muted-foreground">
-                <span>{message || t('Common.messages.processing')}</span>
-                <span>{Math.round(progress)}%</span>
+                {idx < stages.length - 1 && (
+                  <div className={`w-12 h-1 rounded-full transition-colors ${
+                    isComplete ? 'bg-green-500' : 'bg-muted'
+                  }`} />
+                )}
               </div>
-            </div>
-            
-            {error && (
-              <p className="text-destructive text-sm">{error}</p>
-            )}
-            
-            {onCancel && stage !== 'complete' && stage !== 'error' && (
-              <Button variant="outline" size="sm" onClick={onCancel}>
-                {t('Common.actions.cancel', { defaultValue: 'Cancel' })}
-              </Button>
-            )}
+            );
+          })}
+        </div>
+        
+        <div className="w-full space-y-3">
+          <div className="relative">
+            <Progress value={progress} className="h-2 bg-muted" />
+            <div 
+              className="absolute top-0 left-0 h-2 bg-gradient-to-r from-primary via-primary to-primary/80 rounded-full transition-all duration-300"
+              style={{ width: `${progress}%` }}
+            />
           </div>
-        </CardContent>
-      </Card>
-      
-      <Card className="bg-muted/30">
-        <CardContent className="p-4">
-          <p className="text-sm text-muted-foreground text-center">
-            {t('Common.messages.processingTip', { defaultValue: 'Your files are being processed securely in your browser. No data is uploaded to any server.' })}
-          </p>
-        </CardContent>
-      </Card>
+          <div className="flex justify-between items-center">
+            <span className="text-sm text-muted-foreground font-medium">{message || t('Common.messages.processing')}</span>
+            <span className="text-sm font-bold text-primary">{Math.round(progress)}%</span>
+          </div>
+        </div>
+        
+        {error && (
+          <p className="text-destructive text-sm font-medium">{error}</p>
+        )}
+        
+        {onCancel && stage !== 'complete' && stage !== 'error' && (
+          <Button variant="outline" onClick={onCancel} className="rounded-xl">
+            {t('Common.actions.cancel', { defaultValue: 'Cancel' })}
+          </Button>
+        )}
+        
+        <p className="text-xs text-muted-foreground text-center max-w-sm">
+          {t('Common.messages.processingTip', { defaultValue: 'Your files are being processed securely in your browser.' })}
+        </p>
+      </div>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFileHandler, type FileHandlerError } from '@/hooks/useFileHandler';
 import { useStagedProcessing } from '@/hooks/useStagedProcessing';
@@ -6,12 +6,12 @@ import { splitPdfByPages, getPdfPageCount, PdfSplitError, type SplitResult } fro
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { StagedLoadingOverlay } from '@/components/StagedLoadingOverlay';
-import { FileText, Upload, Download, CheckCircle } from 'lucide-react';
+import { FileUploadZone } from '@/components/tool-ui';
+import { FileText, Download, CheckCircle } from 'lucide-react';
 import { downloadBlob } from '@/hooks/useToolEngine';
 
 export default function SplitPdfTool() {
   const { t } = useTranslation();
-  const fileInputRef = useRef<HTMLInputElement>(null);
   
   const [pageCount, setPageCount] = useState<number>(0);
   const [splitResults, setSplitResults] = useState<SplitResult[]>([]);
@@ -56,13 +56,13 @@ export default function SplitPdfTool() {
     return `${(bytes / (k * k)).toFixed(1)} ${t('Common.units.mb')}`;
   }, [t]);
 
-  const handleFileSelect = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      await addFiles(e.target.files);
+  const handleFilesFromDropzone = useCallback(async (fileList: FileList) => {
+    if (fileList.length > 0) {
+      await addFiles(fileList);
       setSplitResults([]);
       setShowResults(false);
       
-      const file = e.target.files[0];
+      const file = fileList[0];
       const reader = new FileReader();
       reader.onload = async () => {
         try {
@@ -73,29 +73,6 @@ export default function SplitPdfTool() {
         }
       };
       reader.readAsArrayBuffer(file);
-    }
-  }, [addFiles]);
-
-  const handleDrop = useCallback(async (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    const droppedFiles = Array.from(e.dataTransfer.files).filter(
-      (file) => file.type === 'application/pdf'
-    );
-    if (droppedFiles.length > 0) {
-      await addFiles([droppedFiles[0]]);
-      setSplitResults([]);
-      setShowResults(false);
-      
-      const reader = new FileReader();
-      reader.onload = async () => {
-        try {
-          const count = await getPdfPageCount(reader.result as ArrayBuffer);
-          setPageCount(count);
-        } catch {
-          setPageCount(0);
-        }
-      };
-      reader.readAsArrayBuffer(droppedFiles[0]);
     }
   }, [addFiles]);
 
@@ -149,33 +126,12 @@ export default function SplitPdfTool() {
         {t('Tools.split-pdf.instructions')}
       </div>
 
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept=".pdf"
-        onChange={handleFileSelect}
-        className="hidden"
-        data-testid="input-file-pdf"
-      />
-
-      {!stagedProcessing.isProcessing && !showResults && (
-        <div
-          onDrop={handleDrop}
-          onDragOver={(e) => e.preventDefault()}
-          onClick={() => fileInputRef.current?.click()}
-          className="border-2 border-dashed border-muted-foreground/25 rounded-lg min-h-40 flex flex-col items-center justify-center gap-4 hover:border-muted-foreground/50 transition-colors cursor-pointer p-6"
-          data-testid="dropzone-pdf"
-        >
-          <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center">
-            <Upload className="w-6 h-6 text-muted-foreground" />
-          </div>
-          <div className="text-center">
-            <p className="font-medium">{t('Common.messages.dragDrop')}</p>
-            <p className="text-sm text-muted-foreground mt-1">
-              {t('Common.messages.noServerUpload')}
-            </p>
-          </div>
-        </div>
+      {!stagedProcessing.isProcessing && !showResults && files.length === 0 && (
+        <FileUploadZone
+          onFileSelect={handleFilesFromDropzone}
+          accept="application/pdf"
+          multiple={false}
+        />
       )}
 
       {files.length > 0 && !stagedProcessing.isProcessing && !showResults && (

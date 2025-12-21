@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFileHandler } from '@/hooks/useFileHandler';
 import { useStagedProcessing } from '@/hooks/useStagedProcessing';
@@ -6,11 +6,11 @@ import { compressPdf } from '@/lib/engines/pdfCompress';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { StagedLoadingOverlay } from '@/components/StagedLoadingOverlay';
-import { FileText, Upload, Download, CheckCircle } from 'lucide-react';
+import { FileUploadZone } from '@/components/tool-ui';
+import { FileText, Download, CheckCircle } from 'lucide-react';
 
 export default function CompressPdfTool() {
   const { t } = useTranslation();
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const [showResults, setShowResults] = useState(false);
   
   const {
@@ -39,19 +39,9 @@ export default function CompressPdfTool() {
     setShowResults(false);
   }, [resetHandler, stagedProcessing]);
 
-  const handleFileSelect = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      addFiles(e.target.files);
-    }
-  }, [addFiles]);
-
-  const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    const droppedFiles = Array.from(e.dataTransfer.files).filter(
-      (file) => file.type === 'application/pdf'
-    );
-    if (droppedFiles.length > 0) {
-      addFiles(droppedFiles);
+  const handleFilesFromDropzone = useCallback((fileList: FileList) => {
+    if (fileList.length > 0) {
+      addFiles(fileList);
     }
   }, [addFiles]);
 
@@ -96,35 +86,12 @@ export default function CompressPdfTool() {
         {t('Tools.compress-pdf.description')}
       </div>
 
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept=".pdf"
-        onChange={handleFileSelect}
-        className="hidden"
-        data-testid="input-file-pdf"
-      />
-
       {!stagedProcessing.isProcessing && !showResults && files.length === 0 && (
-        <div
-          onDrop={handleDrop}
-          onDragOver={(e) => e.preventDefault()}
-          onClick={() => fileInputRef.current?.click()}
-          className="border-2 border-dashed border-muted-foreground/25 rounded-xl min-h-64 flex flex-col items-center justify-center gap-4 p-8 cursor-pointer hover:border-primary/50 transition-colors"
-          data-testid="dropzone"
-        >
-          <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
-            <FileText className="w-8 h-8 text-primary" />
-          </div>
-          <div className="text-center">
-            <p className="font-medium text-lg">{t('Common.workflow.dropFilesHere')}</p>
-            <p className="text-sm text-muted-foreground mt-1">{t('Common.workflow.orClickToBrowse')}</p>
-          </div>
-          <Button variant="outline" data-testid="button-select-file">
-            <Upload className="w-4 h-4 mr-2" />
-            {t('Common.workflow.selectFiles')}
-          </Button>
-        </div>
+        <FileUploadZone
+          onFileSelect={handleFilesFromDropzone}
+          accept="application/pdf"
+          multiple={false}
+        />
       )}
 
       {!stagedProcessing.isProcessing && !showResults && files.length > 0 && (
