@@ -1,7 +1,7 @@
 import { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
-import { Upload, FileUp, Loader2 } from 'lucide-react';
+import { Upload, FileUp } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 interface FileUploadZoneProps {
@@ -23,7 +23,6 @@ export function FileUploadZone({
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -71,36 +70,21 @@ export function FileUploadZone({
     return dataTransfer.files;
   }, [accept]);
 
-  const handleDrop = useCallback(async (e: React.DragEvent) => {
+  const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
     setIsDragging(false);
-    if (disabled || isLoading) return;
+    if (disabled) return;
     
     const files = filterFilesByAccept(e.dataTransfer.files);
     if (files.length > 0) {
-      setIsLoading(true);
+      onFileSelect(files);
       toast({
-        title: t('Common.upload.uploading', { defaultValue: 'Uploading...' }),
-        description: t('Common.upload.processingFiles', { defaultValue: 'Processing your files' }),
+        title: t('Common.upload.uploadSuccess', { defaultValue: 'File added' }),
+        description: multiple 
+          ? t('Common.upload.filesReady', { count: files.length, defaultValue: `${files.length} files ready` })
+          : t('Common.upload.fileReady', { defaultValue: 'File ready for processing' }),
       });
-      try {
-        await Promise.resolve(onFileSelect(files));
-        toast({
-          title: t('Common.upload.uploadSuccess', { defaultValue: 'Upload complete' }),
-          description: multiple 
-            ? t('Common.upload.filesReady', { count: files.length, defaultValue: `${files.length} files ready` })
-            : t('Common.upload.fileReady', { defaultValue: 'File ready for processing' }),
-        });
-      } catch {
-        toast({
-          title: t('Common.upload.uploadFailed', { defaultValue: 'Upload failed' }),
-          description: t('Common.upload.tryAgain', { defaultValue: 'Please try again' }),
-          variant: 'destructive',
-        });
-      } finally {
-        setIsLoading(false);
-      }
     } else {
       toast({
         title: t('Common.upload.invalidFormat', { defaultValue: 'Invalid format' }),
@@ -108,38 +92,23 @@ export function FileUploadZone({
         variant: 'destructive',
       });
     }
-  }, [disabled, isLoading, onFileSelect, filterFilesByAccept, toast, t, multiple]);
+  }, [disabled, onFileSelect, filterFilesByAccept, toast, t, multiple]);
 
   const handleClick = useCallback(() => {
-    if (!disabled && !isLoading) fileInputRef.current?.click();
-  }, [disabled, isLoading]);
+    if (!disabled) fileInputRef.current?.click();
+  }, [disabled]);
 
-  const handleFileChange = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      setIsLoading(true);
+      onFileSelect(e.target.files);
       toast({
-        title: t('Common.upload.uploading', { defaultValue: 'Uploading...' }),
-        description: t('Common.upload.processingFiles', { defaultValue: 'Processing your files' }),
+        title: t('Common.upload.uploadSuccess', { defaultValue: 'File added' }),
+        description: multiple 
+          ? t('Common.upload.filesReady', { count: e.target.files.length, defaultValue: `${e.target.files.length} files ready` })
+          : t('Common.upload.fileReady', { defaultValue: 'File ready for processing' }),
       });
-      try {
-        await Promise.resolve(onFileSelect(e.target.files));
-        toast({
-          title: t('Common.upload.uploadSuccess', { defaultValue: 'Upload complete' }),
-          description: multiple 
-            ? t('Common.upload.filesReady', { count: e.target.files.length, defaultValue: `${e.target.files.length} files ready` })
-            : t('Common.upload.fileReady', { defaultValue: 'File ready for processing' }),
-        });
-      } catch {
-        toast({
-          title: t('Common.upload.uploadFailed', { defaultValue: 'Upload failed' }),
-          description: t('Common.upload.tryAgain', { defaultValue: 'Please try again' }),
-          variant: 'destructive',
-        });
-      } finally {
-        setIsLoading(false);
-        if (fileInputRef.current) {
-          fileInputRef.current.value = '';
-        }
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
       }
     }
   }, [onFileSelect, toast, t, multiple]);
@@ -228,7 +197,7 @@ export function FileUploadZone({
           ? 'border-primary bg-primary/5 scale-[1.02]' 
           : 'border-muted-foreground/30 hover:border-primary hover:bg-muted/50'
         }
-        ${disabled || isLoading ? 'opacity-50 cursor-not-allowed' : ''}
+        ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
         ${className}
       `}
       onDragOver={handleDragOver}
@@ -238,50 +207,30 @@ export function FileUploadZone({
       data-testid="zone-file-upload"
     >
       <div className="w-16 h-16 md:w-20 md:h-20 bg-primary/10 text-primary rounded-full flex items-center justify-center mb-4 md:mb-6 group-hover:scale-110 transition-transform duration-300">
-        {isLoading ? (
-          <Loader2 className="w-8 h-8 md:w-10 md:h-10 animate-spin" />
-        ) : (
-          <Upload className="w-8 h-8 md:w-10 md:h-10" />
-        )}
+        <Upload className="w-8 h-8 md:w-10 md:h-10" />
       </div>
       
       <h3 className="text-lg md:text-2xl font-bold mb-2 group-hover:text-primary transition-colors text-center">
-        {isLoading 
-          ? t('Common.upload.uploading', { defaultValue: 'Uploading...' })
-          : multiple 
-            ? t('Common.upload.uploadFiles', { defaultValue: 'Upload files' })
-            : t('Common.upload.uploadFile', { defaultValue: 'Upload your file' })
+        {multiple 
+          ? t('Common.upload.uploadFiles', { defaultValue: 'Upload files' })
+          : t('Common.upload.uploadFile', { defaultValue: 'Upload your file' })
         }
       </h3>
       
       <p className="text-sm md:text-base text-muted-foreground mb-4 md:mb-6 max-w-sm text-center">
-        {isLoading 
-          ? t('Common.upload.processingFiles', { defaultValue: 'Processing your files' })
-          : (
-            <>
-              {t('Common.upload.dragDrop', { defaultValue: 'Drag and drop here, or click to browse' })}
-              <span className="text-xs text-muted-foreground/70 mt-2 block">
-                {getAcceptLabel()}
-              </span>
-            </>
-          )
-        }
+        {t('Common.upload.dragDrop', { defaultValue: 'Drag and drop here, or click to browse' })}
+        <span className="text-xs text-muted-foreground/70 mt-2 block">
+          {getAcceptLabel()}
+        </span>
       </p>
       
       <Button 
         size="lg" 
         className="rounded-full px-8 pointer-events-none"
-        disabled={disabled || isLoading}
+        disabled={disabled}
       >
-        {isLoading ? (
-          <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-        ) : (
-          <FileUp className="w-5 h-5 mr-2" />
-        )}
-        {isLoading 
-          ? t('Common.upload.uploading', { defaultValue: 'Uploading...' })
-          : t('Common.upload.selectFile', { defaultValue: 'Select File' }) + (multiple ? 's' : '')
-        }
+        <FileUp className="w-5 h-5 mr-2" />
+        {t('Common.upload.selectFile', { defaultValue: 'Select File' })}{multiple ? 's' : ''}
       </Button>
       
       <input 
