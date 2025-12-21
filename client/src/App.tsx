@@ -8,6 +8,7 @@ import NotFound from "@/pages/not-found";
 import HomePage from "@/pages/HomePage";
 import ToolPage from "@/pages/ToolPage";
 import CategoryPage from "@/pages/CategoryPage";
+import AllToolsPage from "@/pages/AllToolsPage";
 import AboutPage from "@/pages/AboutPage";
 import PrivacyPage from "@/pages/PrivacyPage";
 import TermsPage from "@/pages/TermsPage";
@@ -25,6 +26,7 @@ function Router() {
     <Switch>
       <Route path="/" component={HomePage} />
       <Route path="/:locale" component={HomePage} />
+      <Route path="/:locale/all-tools" component={AllToolsPage} />
       <Route path="/:locale/about" component={AboutPage} />
       <Route path="/:locale/privacy" component={PrivacyPage} />
       <Route path="/:locale/terms" component={TermsPage} />

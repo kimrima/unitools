@@ -2323,7 +2323,7 @@ export const allTools: Tool[] = [
     id: 'upside-down-text', 
     category: 'misc', 
     icon: RotateCcw, 
-    implemented: true,
+    implemented: false,
     usageCount: 1234567,
     rating: 4.8,
     ratingCount: 23450,

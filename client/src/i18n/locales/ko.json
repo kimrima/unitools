@@ -148,8 +148,13 @@
       "categoriesTitle": "카테고리별 도구",
       "categoriesSubtitle": "8개 카테고리, 200개 이상 도구",
       "popularTitle": "인기 도구",
+      "popularSubtitle": "가장 인기 있는 도구를 확인하세요",
       "recentTools": "최근 사용한 도구",
       "viewAllTools": "모든 도구 보기",
+      "exploreTitle": "모든 도구 탐색",
+      "showMoreTools": "더 많은 도구 보기",
+      "allToolsTitle": "전체 도구",
+      "allToolsDesc": "모든 도구를 탐색하세요. 모든 처리는 브라우저에서 직접 수행됩니다.",
       "whyChoose": "UniTools를 선택하는 이유",
       "clientSideTitle": "100% 클라이언트 처리",
       "clientSideDesc": "파일이 서버로 전송되지 않습니다. 모든 처리는 브라우저에서 직접 수행되어 개인정보가 안전합니다.",
@@ -159,7 +164,8 @@
       "multiLangDesc": "한국어, 영어 등 다양한 언어로 사용할 수 있습니다. 더 많은 언어가 추가될 예정입니다.",
       "getStarted": "지금 바로 시작하세요",
       "getStartedDesc": "회원가입 없이 모든 도구를 무료로 사용할 수 있습니다.",
-      "tools": "개"
+      "tools": "개",
+      "viewAll": "전체 보기"
     },
     "tool": {
       "comingSoon": "개발 중",

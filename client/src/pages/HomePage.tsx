@@ -155,7 +155,7 @@ export default function HomePage() {
 
             <div className="text-center mt-10">
               <Button variant="outline" size="lg" asChild>
-                <Link href={localizedPath('/category/pdf')}>
+                <Link href={localizedPath('/all-tools')}>
                   {t('Common.home.viewAllTools', { defaultValue: 'View All Tools' })}
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Link>
@@ -202,7 +202,7 @@ export default function HomePage() {
                 className="rounded-full px-8 bg-white dark:bg-card border-2 hover:bg-slate-50 dark:hover:bg-muted text-slate-600 dark:text-foreground font-bold"
                 asChild
               >
-                <Link href={localizedPath('/category/imageConvert')}>
+                <Link href={localizedPath('/all-tools')}>
                   {t('Common.home.showMoreTools', { defaultValue: 'Show More Tools' })}
                   <ArrowRight className="ml-2 w-4 h-4" />
                 </Link>
