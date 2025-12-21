@@ -26,6 +26,7 @@ const ExtractPdfPagesTool = lazy(() => import('@/components/tools/ExtractPdfPage
 const OrganizePdfTool = lazy(() => import('@/components/tools/OrganizePdfTool'));
 const ProtectPdfTool = lazy(() => import('@/components/tools/ProtectPdfTool'));
 const UnlockPdfTool = lazy(() => import('@/components/tools/UnlockPdfTool'));
+const PdfToImageTool = lazy(() => import('@/components/tools/PdfToImageTool'));
 const CompressImageTool = lazy(() => import('@/components/tools/CompressImageTool'));
 const ConvertImageTool = lazy(() => import('@/components/tools/ConvertImageTool'));
 const ResizeImageTool = lazy(() => import('@/components/tools/ResizeImageTool'));
@@ -131,6 +132,8 @@ const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element
   'organize-pdf': OrganizePdfTool,
   'protect-pdf': ProtectPdfTool,
   'unlock-pdf': UnlockPdfTool,
+  'pdf-to-jpg': PdfToImageTool,
+  'pdf-to-png': PdfToImageTool,
   'compress-image': CompressImageTool,
   'convert-image': ConvertImageTool,
   'resize-image': ResizeImageTool,
