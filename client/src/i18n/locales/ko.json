@@ -551,7 +551,16 @@
     "create-gif": {
       "title": "GIF 만들기",
       "description": "여러 이미지로 애니메이션 GIF를 만듭니다.",
-      "shortDesc": "애니메이션 GIF 만들기"
+      "shortDesc": "애니메이션 GIF 만들기",
+      "addImages": "이미지 추가",
+      "dragHint": "이미지를 드래그하거나 클릭하여 선택",
+      "imageOrder": "이미지 순서",
+      "images": "이미지",
+      "frameDelay": "프레임 딜레이",
+      "quality": "품질",
+      "width": "너비",
+      "createButton": "GIF 만들기",
+      "successMessage": "GIF가 생성되었습니다."
     },
     "image-border": {
       "title": "테두리 추가",
@@ -1074,7 +1083,16 @@
     "sign-pdf": {
       "title": "PDF 서명",
       "description": "PDF 문서에 디지털 서명을 추가하세요.",
-      "shortDesc": "PDF에 서명 추가"
+      "shortDesc": "PDF에 서명 추가",
+      "drawSignature": "그리기",
+      "typeSignature": "타이핑",
+      "typePlaceholder": "서명을 입력하세요",
+      "pageNumber": "페이지 번호",
+      "signatureSize": "서명 크기",
+      "positionX": "가로 위치",
+      "positionY": "세로 위치",
+      "signButton": "PDF 서명하기",
+      "successMessage": "PDF에 서명이 추가되었습니다."
     },
     "watermark-pdf": {
       "title": "PDF 워터마크",
@@ -1089,7 +1107,14 @@
     "ocr-pdf": {
       "title": "PDF OCR",
       "description": "광학 문자 인식을 사용하여 스캔된 PDF에서 텍스트를 추출하세요.",
-      "shortDesc": "스캔된 PDF에서 텍스트 추출"
+      "shortDesc": "스캔된 PDF에서 텍스트 추출",
+      "language": "OCR 언어",
+      "ocrButton": "OCR 시작",
+      "loadingPdf": "PDF 로딩 중...",
+      "processingPage": "{{total}}페이지 중 {{current}}페이지 처리 중...",
+      "recognizing": "{{total}}페이지 중 {{current}}페이지 텍스트 인식 중...",
+      "saving": "PDF 저장 중...",
+      "successMessage": "OCR 완료. 텍스트 레이어가 PDF에 추가되었습니다."
     },
     "repair-pdf": {
       "title": "PDF 복구",
@@ -1104,7 +1129,10 @@
     "pdf-to-text": {
       "title": "PDF에서 텍스트 추출",
       "description": "PDF 파일에서 텍스트만 추출하여 텍스트 파일로 저장하세요.",
-      "shortDesc": "PDF 텍스트 추출"
+      "shortDesc": "PDF 텍스트 추출",
+      "extractButton": "텍스트 추출",
+      "successMessage": "텍스트가 성공적으로 추출되었습니다.",
+      "copiedMessage": "텍스트가 클립보드에 복사되었습니다."
     },
     "html-to-pdf": {
       "title": "HTML을 PDF로 변환",
@@ -1119,22 +1147,40 @@
     "crop-pdf": {
       "title": "PDF 여백 자르기",
       "description": "PDF 페이지의 여백과 흰 공간을 제거하세요.",
-      "shortDesc": "PDF 여백 제거"
+      "shortDesc": "PDF 여백 제거",
+      "marginTop": "상단 여백",
+      "marginRight": "우측 여백",
+      "marginBottom": "하단 여백",
+      "marginLeft": "좌측 여백",
+      "cropButton": "PDF 자르기",
+      "successMessage": "PDF가 성공적으로 잘렸습니다."
     },
     "grayscale-pdf": {
       "title": "PDF 흑백 변환",
       "description": "컬러 PDF를 흑백으로 변환하여 인쇄 비용을 절약하세요.",
-      "shortDesc": "PDF 흑백으로 변환"
+      "shortDesc": "PDF 흑백으로 변환",
+      "convertButton": "흑백으로 변환",
+      "successMessage": "PDF가 흑백으로 변환되었습니다."
     },
     "resize-pdf": {
       "title": "PDF 크기 변경",
       "description": "PDF 페이지 크기를 A4, Letter, A3 등 다른 규격으로 변경하세요.",
-      "shortDesc": "PDF 페이지 크기 변경"
+      "shortDesc": "PDF 페이지 크기 변경",
+      "pageSize": "목표 페이지 크기",
+      "orientation": "방향",
+      "portrait": "세로",
+      "landscape": "가로",
+      "resizeButton": "PDF 크기 변경",
+      "successMessage": "PDF 크기가 변경되었습니다."
     },
     "n-up-pdf": {
       "title": "PDF 모아찍기",
       "description": "한 장에 여러 PDF 페이지를 배치하세요 (2페이지, 4페이지 모아찍기).",
-      "shortDesc": "여러 페이지 한 장에"
+      "shortDesc": "여러 페이지 한 장에",
+      "pagesPerSheet": "한 장당 페이지 수",
+      "pages": "페이지",
+      "nupButton": "모아찍기 PDF 생성",
+      "successMessage": "모아찍기 PDF가 생성되었습니다."
     },
     "instagram-line-break": {
       "title": "인스타그램 줄바꿈 생성기",

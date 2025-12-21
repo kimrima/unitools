@@ -551,7 +551,16 @@
     "create-gif": {
       "title": "Create GIF",
       "description": "Create animated GIF from multiple images.",
-      "shortDesc": "Make animated GIF"
+      "shortDesc": "Make animated GIF",
+      "addImages": "Add Images",
+      "dragHint": "Drag images or click to browse",
+      "imageOrder": "Image Order",
+      "images": "images",
+      "frameDelay": "Frame Delay",
+      "quality": "Quality",
+      "width": "Width",
+      "createButton": "Create GIF",
+      "successMessage": "GIF created successfully."
     },
     "image-border": {
       "title": "Add Border",
@@ -1074,7 +1083,16 @@
     "sign-pdf": {
       "title": "Sign PDF",
       "description": "Add digital signatures to your PDF documents.",
-      "shortDesc": "Add signature to PDF"
+      "shortDesc": "Add signature to PDF",
+      "drawSignature": "Draw",
+      "typeSignature": "Type",
+      "typePlaceholder": "Type your signature",
+      "pageNumber": "Page Number",
+      "signatureSize": "Signature Size",
+      "positionX": "Horizontal Position",
+      "positionY": "Vertical Position",
+      "signButton": "Sign PDF",
+      "successMessage": "Your PDF has been signed successfully."
     },
     "watermark-pdf": {
       "title": "Watermark PDF",
@@ -1089,7 +1107,14 @@
     "ocr-pdf": {
       "title": "OCR PDF",
       "description": "Extract text from scanned PDFs using optical character recognition.",
-      "shortDesc": "Extract text from scanned PDF"
+      "shortDesc": "Extract text from scanned PDF",
+      "language": "OCR Language",
+      "ocrButton": "Start OCR",
+      "loadingPdf": "Loading PDF...",
+      "processingPage": "Processing page {{current}} of {{total}}...",
+      "recognizing": "Recognizing text on page {{current}} of {{total}}...",
+      "saving": "Saving PDF...",
+      "successMessage": "OCR completed. Text layer added to PDF."
     },
     "repair-pdf": {
       "title": "Repair PDF",
@@ -1104,7 +1129,10 @@
     "pdf-to-text": {
       "title": "PDF to Text",
       "description": "Extract text content from PDF files and save as plain text.",
-      "shortDesc": "Extract text from PDF"
+      "shortDesc": "Extract text from PDF",
+      "extractButton": "Extract Text",
+      "successMessage": "Text extracted successfully.",
+      "copiedMessage": "Text copied to clipboard."
     },
     "html-to-pdf": {
       "title": "HTML to PDF",
@@ -1119,22 +1147,40 @@
     "crop-pdf": {
       "title": "Crop PDF",
       "description": "Remove margins and white space from PDF pages.",
-      "shortDesc": "Trim PDF margins"
+      "shortDesc": "Trim PDF margins",
+      "marginTop": "Top Margin",
+      "marginRight": "Right Margin",
+      "marginBottom": "Bottom Margin",
+      "marginLeft": "Left Margin",
+      "cropButton": "Crop PDF",
+      "successMessage": "PDF cropped successfully."
     },
     "grayscale-pdf": {
       "title": "Grayscale PDF",
       "description": "Convert color PDF to black and white to save on printing costs.",
-      "shortDesc": "Convert PDF to grayscale"
+      "shortDesc": "Convert PDF to grayscale",
+      "convertButton": "Convert to Grayscale",
+      "successMessage": "PDF converted to grayscale successfully."
     },
     "resize-pdf": {
       "title": "Resize PDF",
       "description": "Change PDF page size from A4 to Letter, A3, or other formats.",
-      "shortDesc": "Change PDF page size"
+      "shortDesc": "Change PDF page size",
+      "pageSize": "Target Page Size",
+      "orientation": "Orientation",
+      "portrait": "Portrait",
+      "landscape": "Landscape",
+      "resizeButton": "Resize PDF",
+      "successMessage": "PDF resized successfully."
     },
     "n-up-pdf": {
       "title": "N-up PDF",
       "description": "Print multiple PDF pages on a single sheet (2-up, 4-up layout).",
-      "shortDesc": "Multiple pages per sheet"
+      "shortDesc": "Multiple pages per sheet",
+      "pagesPerSheet": "Pages per Sheet",
+      "pages": "pages",
+      "nupButton": "Create N-up PDF",
+      "successMessage": "N-up PDF created successfully."
     },
     "instagram-line-break": {
       "title": "Instagram Line Break Generator",
