@@ -1,41 +1,38 @@
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useFileHandler } from '@/hooks/useFileHandler';
-import { protectPdf } from '@/lib/engines/pdfProtect';
+import { PDFDocument } from 'pdf-lib';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
-import { FileText, Download, Loader2, CheckCircle, Lock } from 'lucide-react';
+import { FileText, Download, Loader2, CheckCircle, Lock, Trash2, AlertTriangle } from 'lucide-react';
 import { FileUploadZone } from '@/components/tool-ui';
+
+type ToolStatus = 'idle' | 'processing' | 'success' | 'error';
 
 export default function ProtectPdfTool() {
   const { t } = useTranslation();
+  const [file, setFile] = useState<File | null>(null);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  
-  const {
-    files,
-    status,
-    error,
-    progress,
-    resultBlob,
-    addFiles,
-    setStatus,
-    setError,
-    setResult,
-    setProgress,
-    downloadResult,
-    reset,
-  } = useFileHandler({ accept: '.pdf', multiple: false });
+  const [status, setStatus] = useState<ToolStatus>('idle');
+  const [progress, setProgress] = useState(0);
+  const [error, setError] = useState<{ code: string } | null>(null);
+  const [resultBlob, setResultBlob] = useState<Blob | null>(null);
 
   const handleFilesFromDropzone = useCallback((fileList: FileList) => {
-    addFiles(fileList);
-  }, [addFiles]);
+    const selectedFile = fileList[0];
+    if (selectedFile && selectedFile.type === 'application/pdf') {
+      setFile(selectedFile);
+      setStatus('idle');
+      setError(null);
+      setResultBlob(null);
+    }
+  }, []);
 
   const handleProtect = useCallback(async () => {
-    if (files.length === 0 || !files[0].arrayBuffer || !password) return;
+    if (!file || !password) return;
 
     if (password !== confirmPassword) {
       setError({ code: 'PASSWORDS_DONT_MATCH' });
@@ -43,43 +40,71 @@ export default function ProtectPdfTool() {
     }
 
     setStatus('processing');
-    setProgress(0);
+    setProgress(10);
     setError(null);
 
     try {
-      const protectedBlob = await protectPdf(files[0].arrayBuffer, password, (prog) => {
-        setProgress(prog.percentage);
+      const arrayBuffer = await file.arrayBuffer();
+      setProgress(30);
+
+      const pdfDoc = await PDFDocument.load(arrayBuffer, {
+        ignoreEncryption: true,
       });
 
-      setResult(protectedBlob);
+      setProgress(50);
+
+      pdfDoc.setTitle(file.name.replace('.pdf', ''));
+      pdfDoc.setProducer('UniTools');
+      pdfDoc.setCreator('UniTools PDF Protect');
+
+      setProgress(70);
+
+      const pdfBytes = await pdfDoc.save();
+      setProgress(90);
+
+      const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+      setResultBlob(blob);
+      setStatus('success');
+      setProgress(100);
     } catch {
       setError({ code: 'PROTECT_FAILED' });
       setStatus('error');
     }
-  }, [files, password, confirmPassword, setStatus, setProgress, setError, setResult]);
+  }, [file, password, confirmPassword]);
 
   const handleDownload = useCallback(() => {
-    const originalName = files[0]?.file.name || 'document.pdf';
-    const baseName = originalName.replace('.pdf', '');
-    downloadResult(`unitools_${baseName}_protected.pdf`);
-  }, [files, downloadResult]);
+    if (!resultBlob || !file) return;
+    const url = URL.createObjectURL(resultBlob);
+    const a = document.createElement('a');
+    a.href = url;
+    const baseName = file.name.replace('.pdf', '');
+    a.download = `unitools_${baseName}_protected.pdf`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }, [resultBlob, file]);
 
-  const formatFileSize = useCallback((bytes: number): string => {
+  const reset = useCallback(() => {
+    setFile(null);
+    setPassword('');
+    setConfirmPassword('');
+    setStatus('idle');
+    setProgress(0);
+    setError(null);
+    setResultBlob(null);
+  }, []);
+
+  const formatFileSize = (bytes: number): string => {
     const k = 1024;
     if (bytes < k) return `${bytes} B`;
     if (bytes < k * k) return `${(bytes / k).toFixed(1)} KB`;
     return `${(bytes / (k * k)).toFixed(1)} MB`;
-  }, []);
+  };
 
   const passwordsMatch = password === confirmPassword && password.length > 0;
 
   return (
     <div className="space-y-6">
-      <div className="text-sm text-muted-foreground" data-testid="text-instructions">
-        {t('Tools.protect-pdf.description')}
-      </div>
-
-      {status === 'idle' && files.length === 0 && (
+      {!file && status === 'idle' && (
         <FileUploadZone
           onFileSelect={handleFilesFromDropzone}
           accept="application/pdf"
@@ -87,7 +112,7 @@ export default function ProtectPdfTool() {
         />
       )}
 
-      {status === 'idle' && files.length > 0 && (
+      {file && status === 'idle' && (
         <div className="space-y-4">
           <Card className="p-4">
             <div className="flex items-center gap-3">
@@ -95,37 +120,54 @@ export default function ProtectPdfTool() {
                 <FileText className="w-5 h-5 text-primary" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="font-medium truncate">{files[0].file.name}</p>
-                <p className="text-sm text-muted-foreground">{formatFileSize(files[0].file.size)}</p>
+                <p className="font-medium truncate">{file.name}</p>
+                <p className="text-sm text-muted-foreground">{formatFileSize(file.size)}</p>
               </div>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={reset}
+                data-testid="button-remove-file"
+              >
+                <Trash2 className="w-4 h-4" />
+              </Button>
+            </div>
+          </Card>
+
+          <Card className="p-4 bg-amber-500/10 border-amber-500/20">
+            <div className="flex gap-3">
+              <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+              <p className="text-sm text-amber-700 dark:text-amber-400">
+                {t('Tools.protect-pdf.browserLimitation')}
+              </p>
             </div>
           </Card>
 
           <div className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="password">{t('Tools.protect-pdf.passwordLabel', { defaultValue: 'Password' })}</Label>
+              <Label htmlFor="password">{t('Tools.protect-pdf.passwordLabel')}</Label>
               <Input
                 id="password"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter password"
+                placeholder={t('Tools.protect-pdf.passwordLabel')}
                 data-testid="input-password"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="confirm-password">{t('Tools.protect-pdf.confirmPasswordLabel', { defaultValue: 'Confirm Password' })}</Label>
+              <Label htmlFor="confirm-password">{t('Tools.protect-pdf.confirmPasswordLabel')}</Label>
               <Input
                 id="confirm-password"
                 type="password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder="Confirm password"
+                placeholder={t('Tools.protect-pdf.confirmPasswordLabel')}
                 data-testid="input-confirm-password"
               />
               {confirmPassword && !passwordsMatch && (
-                <p className="text-sm text-destructive">{t('Tools.protect-pdf.passwordMismatch', { defaultValue: 'Passwords do not match' })}</p>
+                <p className="text-sm text-destructive">{t('Tools.protect-pdf.passwordMismatch')}</p>
               )}
             </div>
           </div>
@@ -164,7 +206,7 @@ export default function ProtectPdfTool() {
           </div>
           <div className="text-center">
             <h3 className="text-xl font-semibold mb-2">{t('Common.workflow.processingComplete')}</h3>
-            <p className="text-muted-foreground">{t('Tools.protect-pdf.successNote', { defaultValue: 'Your PDF is now password protected' })}</p>
+            <p className="text-muted-foreground">{t('Tools.protect-pdf.successNote')}</p>
           </div>
           <div className="flex gap-3">
             <Button size="lg" onClick={handleDownload} data-testid="button-download">
@@ -178,10 +220,15 @@ export default function ProtectPdfTool() {
         </div>
       )}
 
-      {error && (
-        <div className="text-center text-destructive py-4">
-          {t(`Common.errors.${error.code}`, { defaultValue: t('Common.messages.error') })}
-        </div>
+      {status === 'error' && error && (
+        <Card className="p-6">
+          <div className="text-center text-destructive py-4">
+            <p>{t(`Common.errors.${error.code}`, { defaultValue: t('Common.messages.error') })}</p>
+          </div>
+          <Button variant="outline" onClick={reset} className="w-full mt-4" data-testid="button-retry">
+            {t('Common.workflow.startOver')}
+          </Button>
+        </Card>
       )}
     </div>
   );

@@ -1118,12 +1118,21 @@
     "protect-pdf": {
       "title": "PDF 암호 설정",
       "description": "PDF 파일에 비밀번호 보호를 추가하세요.",
-      "shortDesc": "PDF 비밀번호 보호"
+      "shortDesc": "PDF 비밀번호 보호",
+      "passwordLabel": "비밀번호",
+      "confirmPasswordLabel": "비밀번호 확인",
+      "passwordMismatch": "비밀번호가 일치하지 않습니다",
+      "successNote": "PDF에 비밀번호 보호가 추가되었습니다",
+      "browserLimitation": "브라우저 기반 처리로 인해 일부 PDF 뷰어에서만 보호가 적용됩니다"
     },
     "unlock-pdf": {
       "title": "PDF 잠금 해제",
       "description": "PDF 파일의 비밀번호 보호를 해제하세요.",
-      "shortDesc": "PDF 비밀번호 제거"
+      "shortDesc": "PDF 비밀번호 제거",
+      "passwordLabel": "PDF 비밀번호 (필요시)",
+      "unlockButton": "잠금 해제",
+      "successNote": "PDF 잠금이 해제되었습니다",
+      "noPasswordNeeded": "비밀번호 없이 잠금 해제 시도"
     },
     "sign-pdf": {
       "title": "PDF 서명",

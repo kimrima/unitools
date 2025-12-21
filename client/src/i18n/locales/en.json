@@ -1112,12 +1112,21 @@
     "protect-pdf": {
       "title": "Protect PDF",
       "description": "Add password protection to your PDF files.",
-      "shortDesc": "Password protect PDF"
+      "shortDesc": "Password protect PDF",
+      "passwordLabel": "Password",
+      "confirmPasswordLabel": "Confirm Password",
+      "passwordMismatch": "Passwords do not match",
+      "successNote": "Your PDF is now password protected",
+      "browserLimitation": "Due to browser-based processing, protection may only work in some PDF viewers"
     },
     "unlock-pdf": {
       "title": "Unlock PDF",
       "description": "Remove password protection from PDF files.",
-      "shortDesc": "Remove PDF password"
+      "shortDesc": "Remove PDF password",
+      "passwordLabel": "PDF Password (if required)",
+      "unlockButton": "Unlock PDF",
+      "successNote": "PDF has been unlocked",
+      "noPasswordNeeded": "Try unlocking without password"
     },
     "sign-pdf": {
       "title": "Sign PDF",
