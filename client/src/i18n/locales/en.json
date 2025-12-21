@@ -1928,6 +1928,96 @@
       "title": "Scientific Calculator",
       "description": "Perform advanced mathematical calculations including trigonometry and logarithms.",
       "shortDesc": "Advanced math calculator"
+    },
+    "binary-text": {
+      "title": "Binary to Text Converter",
+      "description": "Convert binary code to readable text and vice versa.",
+      "shortDesc": "Binary text conversion"
+    },
+    "coin-flipper": {
+      "title": "Coin Flipper",
+      "description": "Flip a virtual coin for random heads or tails results.",
+      "shortDesc": "Virtual coin flip"
+    },
+    "color-contrast": {
+      "title": "Color Contrast Checker",
+      "description": "Check color contrast ratio for accessibility compliance.",
+      "shortDesc": "Check accessibility contrast"
+    },
+    "dice-roller": {
+      "title": "Dice Roller",
+      "description": "Roll virtual dice with customizable sides and quantity.",
+      "shortDesc": "Virtual dice roller"
+    },
+    "drawing-pad": {
+      "title": "Drawing Pad",
+      "description": "Free-hand drawing tool with various brushes and colors.",
+      "shortDesc": "Digital drawing canvas"
+    },
+    "fancy-text": {
+      "title": "Fancy Text Generator",
+      "description": "Convert text into stylish Unicode fonts and symbols.",
+      "shortDesc": "Stylish text converter"
+    },
+    "metronome": {
+      "title": "Online Metronome",
+      "description": "Adjustable tempo metronome for music practice.",
+      "shortDesc": "Music tempo keeper"
+    },
+    "morse-flasher": {
+      "title": "Morse Flasher",
+      "description": "Convert text to morse code with visual light flashing.",
+      "shortDesc": "Morse code flashlight"
+    },
+    "random-choice": {
+      "title": "Random Choice Picker",
+      "description": "Randomly select from a list of options or choices.",
+      "shortDesc": "Random selection tool"
+    },
+    "random-name": {
+      "title": "Random Name Generator",
+      "description": "Generate random names for characters, projects, or games.",
+      "shortDesc": "Random name creator"
+    },
+    "redirect-checker": {
+      "title": "URL Redirect Checker",
+      "description": "Trace URL redirects and see the redirect chain.",
+      "shortDesc": "Check URL redirects"
+    },
+    "screen-resolution": {
+      "title": "Screen Resolution Checker",
+      "description": "Detect your screen resolution and display information.",
+      "shortDesc": "Check screen size"
+    },
+    "speed-test": {
+      "title": "Internet Speed Test",
+      "description": "Test your internet connection download and upload speeds.",
+      "shortDesc": "Test internet speed"
+    },
+    "upside-down-text": {
+      "title": "Upside Down Text",
+      "description": "Flip your text upside down using special Unicode characters.",
+      "shortDesc": "Flip text upside down"
+    },
+    "user-agent": {
+      "title": "User Agent Checker",
+      "description": "View your browser's user agent string and device information.",
+      "shortDesc": "Check browser info"
+    },
+    "wheel-of-fortune": {
+      "title": "Wheel of Fortune",
+      "description": "Spin the wheel to randomly select from custom options.",
+      "shortDesc": "Random wheel spinner"
+    },
+    "white-noise": {
+      "title": "White Noise Generator",
+      "description": "Generate soothing white noise for focus or relaxation.",
+      "shortDesc": "Relaxing sound generator"
+    },
+    "zalgo-text": {
+      "title": "Zalgo Text Generator",
+      "description": "Create creepy glitch text with combining characters.",
+      "shortDesc": "Glitch text creator"
     }
   }
 }

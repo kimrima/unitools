@@ -1928,6 +1928,96 @@
       "title": "공학용 계산기",
       "description": "삼각함수와 로그를 포함한 고급 수학 계산을 수행하세요.",
       "shortDesc": "고급 수학 계산기"
+    },
+    "binary-text": {
+      "title": "이진수 텍스트 변환기",
+      "description": "이진수 코드를 읽을 수 있는 텍스트로 변환하거나 그 반대로 변환하세요.",
+      "shortDesc": "이진수 텍스트 변환"
+    },
+    "coin-flipper": {
+      "title": "동전 던지기",
+      "description": "가상 동전을 던져 앞면 또는 뒷면 결과를 무작위로 얻으세요.",
+      "shortDesc": "가상 동전 던지기"
+    },
+    "color-contrast": {
+      "title": "색상 대비 검사기",
+      "description": "접근성 기준 준수를 위해 색상 대비율을 검사하세요.",
+      "shortDesc": "접근성 대비 검사"
+    },
+    "dice-roller": {
+      "title": "주사위 굴리기",
+      "description": "면 수와 개수를 맞춤 설정할 수 있는 가상 주사위를 굴리세요.",
+      "shortDesc": "가상 주사위"
+    },
+    "drawing-pad": {
+      "title": "그림판",
+      "description": "다양한 브러시와 색상으로 자유롭게 그림을 그리세요.",
+      "shortDesc": "디지털 그림 캔버스"
+    },
+    "fancy-text": {
+      "title": "특수 글꼴 생성기",
+      "description": "텍스트를 스타일리시한 유니코드 글꼴과 기호로 변환하세요.",
+      "shortDesc": "스타일 텍스트 변환"
+    },
+    "metronome": {
+      "title": "온라인 메트로놈",
+      "description": "음악 연습을 위한 조절 가능한 템포 메트로놈입니다.",
+      "shortDesc": "음악 템포 유지기"
+    },
+    "morse-flasher": {
+      "title": "모스 부호 플래셔",
+      "description": "텍스트를 모스 부호로 변환하고 시각적 빛 깜박임으로 표시합니다.",
+      "shortDesc": "모스 부호 손전등"
+    },
+    "random-choice": {
+      "title": "랜덤 선택기",
+      "description": "옵션 또는 선택지 목록에서 무작위로 선택하세요.",
+      "shortDesc": "무작위 선택 도구"
+    },
+    "random-name": {
+      "title": "랜덤 이름 생성기",
+      "description": "캐릭터, 프로젝트 또는 게임용 무작위 이름을 생성하세요.",
+      "shortDesc": "무작위 이름 생성"
+    },
+    "redirect-checker": {
+      "title": "URL 리다이렉트 검사기",
+      "description": "URL 리다이렉트를 추적하고 리다이렉트 체인을 확인하세요.",
+      "shortDesc": "URL 리다이렉트 확인"
+    },
+    "screen-resolution": {
+      "title": "화면 해상도 검사기",
+      "description": "화면 해상도와 디스플레이 정보를 감지하세요.",
+      "shortDesc": "화면 크기 확인"
+    },
+    "speed-test": {
+      "title": "인터넷 속도 테스트",
+      "description": "인터넷 연결의 다운로드 및 업로드 속도를 테스트하세요.",
+      "shortDesc": "인터넷 속도 측정"
+    },
+    "upside-down-text": {
+      "title": "거꾸로 텍스트",
+      "description": "특수 유니코드 문자를 사용하여 텍스트를 거꾸로 뒤집으세요.",
+      "shortDesc": "텍스트 뒤집기"
+    },
+    "user-agent": {
+      "title": "사용자 에이전트 검사기",
+      "description": "브라우저의 사용자 에이전트 문자열과 기기 정보를 확인하세요.",
+      "shortDesc": "브라우저 정보 확인"
+    },
+    "wheel-of-fortune": {
+      "title": "룰렛 휠",
+      "description": "맞춤 옵션에서 무작위로 선택하는 휠을 돌리세요.",
+      "shortDesc": "무작위 휠 스피너"
+    },
+    "white-noise": {
+      "title": "백색 소음 생성기",
+      "description": "집중이나 휴식을 위한 편안한 백색 소음을 생성하세요.",
+      "shortDesc": "휴식용 소리 생성기"
+    },
+    "zalgo-text": {
+      "title": "잘고 텍스트 생성기",
+      "description": "결합 문자를 사용하여 으스스한 글리치 텍스트를 만드세요.",
+      "shortDesc": "글리치 텍스트 생성"
     }
   }
 }
