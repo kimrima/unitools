@@ -38,7 +38,6 @@ export default function AllToolsPage() {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-background flex flex-col">
       <Header />
-      
       <main className="flex-1 py-8 md:py-12">
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center mb-8">
@@ -51,7 +50,7 @@ export default function AllToolsPage() {
           </div>
 
           <div className="flex flex-col md:flex-row gap-4 mb-8 max-w-4xl mx-auto">
-            <div className="relative flex-1">
+            <div className="relative flex-1 ml-[-6px] mr-[-6px] pl-[0px] pr-[0px]">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
               <Input
                 placeholder={t('Common.nav.search', { defaultValue: 'Search tools...' })}
@@ -139,7 +138,6 @@ export default function AllToolsPage() {
           )}
         </div>
       </main>
-      
       <Footer />
     </div>
   );
