@@ -143,12 +143,12 @@ export interface Category {
 export const categories: Category[] = [
   { id: 'pdf', icon: FileText, toolCount: 32 },
   { id: 'imageConvert', icon: Image, toolCount: 10 },
-  { id: 'imageEdit', icon: ImagePlus, toolCount: 20 },
+  { id: 'imageEdit', icon: ImagePlus, toolCount: 23 },
   { id: 'videoAudio', icon: Film, toolCount: 20 },
-  { id: 'text', icon: Type, toolCount: 0 },
-  { id: 'social', icon: Share2, toolCount: 0 },
-  { id: 'developer', icon: Code, toolCount: 3 },
-  { id: 'calculator', icon: Calculator, toolCount: 2 },
+  { id: 'text', icon: Type, toolCount: 29 },
+  { id: 'social', icon: Share2, toolCount: 20 },
+  { id: 'developer', icon: Code, toolCount: 20 },
+  { id: 'calculator', icon: Calculator, toolCount: 23 },
 ];
 
 export const allTools: Tool[] = [
@@ -1533,7 +1533,7 @@ export const allTools: Tool[] = [
   // Social Media & Marketing Tools
   { 
     id: 'instagram-line-break', 
-    category: 'socialMedia', 
+    category: 'social', 
     icon: Instagram, 
     implemented: true,
     usageCount: 456780,
@@ -1545,7 +1545,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'hashtag-generator', 
-    category: 'socialMedia', 
+    category: 'social', 
     icon: Hash, 
     implemented: true,
     usageCount: 345670,
@@ -1557,7 +1557,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'instagram-font', 
-    category: 'socialMedia', 
+    category: 'social', 
     icon: Type, 
     implemented: true,
     usageCount: 289450,
@@ -1569,7 +1569,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'tiktok-safe-zone', 
-    category: 'socialMedia', 
+    category: 'social', 
     icon: Tv, 
     implemented: true,
     usageCount: 123450,
@@ -1581,7 +1581,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'instagram-grid', 
-    category: 'socialMedia', 
+    category: 'social', 
     icon: Grid, 
     implemented: true,
     usageCount: 198760,
@@ -1593,7 +1593,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'youtube-thumbnail', 
-    category: 'socialMedia', 
+    category: 'social', 
     icon: Youtube, 
     implemented: true,
     usageCount: 567890,
@@ -1605,7 +1605,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'youtube-tags', 
-    category: 'socialMedia', 
+    category: 'social', 
     icon: Hash, 
     implemented: true,
     usageCount: 234560,
@@ -1617,7 +1617,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'youtube-channel-id', 
-    category: 'socialMedia', 
+    category: 'social', 
     icon: AtSign, 
     implemented: true,
     usageCount: 145670,
@@ -1629,7 +1629,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'video-title-length', 
-    category: 'socialMedia', 
+    category: 'social', 
     icon: Type, 
     implemented: true,
     usageCount: 98760,
@@ -1641,7 +1641,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'qr-code-generator', 
-    category: 'socialMedia', 
+    category: 'social', 
     icon: QrCode, 
     implemented: true,
     usageCount: 789450,
@@ -1653,7 +1653,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'barcode-generator', 
-    category: 'socialMedia', 
+    category: 'social', 
     icon: Barcode, 
     implemented: true,
     usageCount: 234560,
@@ -1665,7 +1665,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'url-shortener', 
-    category: 'socialMedia', 
+    category: 'social', 
     icon: LinkIcon, 
     implemented: true,
     usageCount: 345670,
@@ -1677,7 +1677,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'utm-builder', 
-    category: 'socialMedia', 
+    category: 'social', 
     icon: Link, 
     implemented: true,
     usageCount: 178960,
@@ -1689,7 +1689,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'ad-banner-guide', 
-    category: 'socialMedia', 
+    category: 'social', 
     icon: RectangleHorizontal, 
     implemented: true,
     usageCount: 123450,
@@ -1701,7 +1701,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'logo-generator', 
-    category: 'socialMedia', 
+    category: 'social', 
     icon: Sparkles, 
     implemented: true,
     usageCount: 267890,
@@ -1713,7 +1713,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'email-signature', 
-    category: 'socialMedia', 
+    category: 'social', 
     icon: Mail, 
     implemented: true,
     usageCount: 189450,
@@ -1725,7 +1725,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'random-picker', 
-    category: 'socialMedia', 
+    category: 'social', 
     icon: Dice6, 
     implemented: true,
     usageCount: 345670,
@@ -1737,7 +1737,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'fake-profile', 
-    category: 'socialMedia', 
+    category: 'social', 
     icon: Users, 
     implemented: true,
     usageCount: 156780,
@@ -1749,7 +1749,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'kaomoji-collection', 
-    category: 'socialMedia', 
+    category: 'social', 
     icon: Smile, 
     implemented: true,
     usageCount: 234560,
@@ -1761,7 +1761,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'timezone-converter', 
-    category: 'socialMedia', 
+    category: 'social', 
     icon: Clock, 
     implemented: true,
     usageCount: 178960,
