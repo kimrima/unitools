@@ -7,8 +7,9 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   BarChart3, Users, Globe, Wrench, LogOut, TrendingUp, 
-  ThumbsUp, Activity
+  ThumbsUp, Activity, Home
 } from 'lucide-react';
+import { Link } from 'wouter';
 import { useToast } from '@/hooks/use-toast';
 
 interface OverviewData {
@@ -117,10 +118,18 @@ export default function AdminDashboard() {
       <header className="border-b bg-card">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between gap-4">
           <h1 className="text-xl font-bold">UniTools Admin</h1>
-          <Button variant="ghost" size="sm" onClick={handleLogout} data-testid="button-admin-logout">
-            <LogOut className="h-4 w-4 mr-2" />
-            Logout
-          </Button>
+          <div className="flex items-center gap-2">
+            <Link href="/en">
+              <Button variant="ghost" size="sm" data-testid="button-go-home">
+                <Home className="h-4 w-4 mr-2" />
+                Home
+              </Button>
+            </Link>
+            <Button variant="ghost" size="sm" onClick={handleLogout} data-testid="button-admin-logout">
+              <LogOut className="h-4 w-4 mr-2" />
+              Logout
+            </Button>
+          </div>
         </div>
       </header>
 

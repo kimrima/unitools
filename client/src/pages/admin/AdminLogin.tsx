@@ -4,7 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
-import { Lock, User } from 'lucide-react';
+import { Lock, User, Home } from 'lucide-react';
+import { Link } from 'wouter';
 import { useToast } from '@/hooks/use-toast';
 
 export default function AdminLogin() {
@@ -85,6 +86,12 @@ export default function AdminLogin() {
             <Button type="submit" className="w-full" disabled={isLoading} data-testid="button-admin-login">
               {isLoading ? 'Logging in...' : 'Login'}
             </Button>
+            <Link href="/en">
+              <Button variant="ghost" className="w-full" type="button" data-testid="button-go-home">
+                <Home className="h-4 w-4 mr-2" />
+                Go to Home
+              </Button>
+            </Link>
           </form>
         </CardContent>
       </Card>
