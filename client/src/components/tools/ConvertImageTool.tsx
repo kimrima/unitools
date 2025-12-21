@@ -244,7 +244,7 @@ export default function ConvertImageTool({ toolId = 'convert-image' }: ConvertIm
         setError({ code: 'PROCESSING_FAILED' });
       }
     }
-  }, [files, targetFormat, setError, stagedProcessing, saveResultToSession]);
+  }, [files, targetFormat, setError, stagedProcessing, saveResultsToSession]);
 
   const reset = useCallback(() => {
     resetHandler();
