@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFileHandler, type FileHandlerError } from '@/hooks/useFileHandler';
 import { compressVideo, FFmpegError, isFFmpegSupported, type CompressVideoResult } from '@/lib/engines/ffmpegEngine';
@@ -8,12 +8,12 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Video, Upload, Download, Loader2, Minimize2, AlertTriangle, Info } from 'lucide-react';
+import { FileUploadZone } from '@/components/tool-ui';
+import { Video, Download, Loader2, Minimize2, AlertTriangle, Info } from 'lucide-react';
 import { downloadBlob } from '@/hooks/useToolEngine';
 
 export default function CompressVideoTool() {
   const { t } = useTranslation();
-  const fileInputRef = useRef<HTMLInputElement>(null);
   
   const [quality, setQuality] = useState<'low' | 'medium' | 'high'>('medium');
   const [result, setResult] = useState<CompressVideoResult | null>(null);
@@ -55,31 +55,15 @@ export default function CompressVideoTool() {
     return t('Common.messages.error');
   }, [t]);
 
-  const handleFileSelect = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      addFiles(e.target.files);
+  const handleFilesFromDropzone = useCallback((fileList: FileList) => {
+    const videoFiles = Array.from(fileList).filter(f => f.type.startsWith('video/'));
+    if (videoFiles.length > 0) {
+      addFiles([videoFiles[0]]);
       setResult(null);
-      const url = URL.createObjectURL(e.target.files[0]);
+      const url = URL.createObjectURL(videoFiles[0]);
       setVideoUrl(url);
     }
   }, [addFiles]);
-
-  const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    const droppedFiles = Array.from(e.dataTransfer.files).filter(
-      (file) => file.type.startsWith('video/')
-    );
-    if (droppedFiles.length > 0) {
-      addFiles([droppedFiles[0]]);
-      setResult(null);
-      const url = URL.createObjectURL(droppedFiles[0]);
-      setVideoUrl(url);
-    }
-  }, [addFiles]);
-
-  const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-  }, []);
 
   const handleCompress = useCallback(async () => {
     if (files.length === 0) {
@@ -199,32 +183,10 @@ export default function CompressVideoTool() {
         </CardContent>
       </Card>
 
-      <input
-        ref={fileInputRef}
-        type="file"
+      <FileUploadZone
+        onFileSelect={handleFilesFromDropzone}
         accept="video/*"
-        onChange={handleFileSelect}
-        className="hidden"
-        data-testid="input-file-video"
       />
-
-      <div
-        onDrop={handleDrop}
-        onDragOver={handleDragOver}
-        onClick={() => fileInputRef.current?.click()}
-        className="border-2 border-dashed border-muted-foreground/25 rounded-lg min-h-40 flex flex-col items-center justify-center gap-4 hover:border-muted-foreground/50 transition-colors cursor-pointer p-6"
-        data-testid="dropzone-video"
-      >
-        <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center">
-          <Upload className="w-6 h-6 text-muted-foreground" />
-        </div>
-        <div className="text-center">
-          <p className="font-medium">{t('Common.messages.dragDrop')}</p>
-          <p className="text-sm text-muted-foreground mt-1">
-            {t('Common.messages.noServerUpload')}
-          </p>
-        </div>
-      </div>
 
       {videoUrl && !result && (
         <Card>

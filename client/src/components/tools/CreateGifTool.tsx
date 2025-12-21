@@ -1,11 +1,12 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Progress } from '@/components/ui/progress';
-import { Image, Upload, Download, Loader2, CheckCircle, Trash2, Plus, GripVertical } from 'lucide-react';
+import { FileUploadZone } from '@/components/tool-ui';
+import { Image, Download, Loader2, CheckCircle, Trash2, GripVertical } from 'lucide-react';
 
 type ToolStatus = 'idle' | 'processing' | 'success' | 'error';
 
@@ -17,7 +18,6 @@ interface ImageItem {
 
 export default function CreateGifTool() {
   const { t } = useTranslation();
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const [images, setImages] = useState<ImageItem[]>([]);
   const [status, setStatus] = useState<ToolStatus>('idle');
   const [progress, setProgress] = useState(0);
@@ -28,9 +28,8 @@ export default function CreateGifTool() {
   const [quality, setQuality] = useState(10);
   const [width, setWidth] = useState(400);
 
-  const handleFileSelect = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(e.target.files || []);
-    const imageFiles = files.filter(f => f.type.startsWith('image/'));
+  const handleFilesFromDropzone = useCallback((fileList: FileList) => {
+    const imageFiles = Array.from(fileList).filter(f => f.type.startsWith('image/'));
     
     const newImages = imageFiles.map(file => ({
       id: Math.random().toString(36).substr(2, 9),
@@ -45,22 +44,6 @@ export default function CreateGifTool() {
     if (resultUrl) URL.revokeObjectURL(resultUrl);
     setResultUrl('');
   }, [resultUrl]);
-
-  const handleDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    const files = Array.from(e.dataTransfer.files);
-    const imageFiles = files.filter(f => f.type.startsWith('image/'));
-    
-    const newImages = imageFiles.map(file => ({
-      id: Math.random().toString(36).substr(2, 9),
-      file,
-      preview: URL.createObjectURL(file),
-    }));
-    
-    setImages(prev => [...prev, ...newImages]);
-    setStatus('idle');
-    setError(null);
-  }, []);
 
   const removeImage = (id: string) => {
     setImages(prev => {
@@ -160,33 +143,11 @@ export default function CreateGifTool() {
 
   return (
     <div className="space-y-6">
-      <input
-        ref={fileInputRef}
-        type="file"
+      <FileUploadZone
+        onFileSelect={handleFilesFromDropzone}
         accept="image/*"
         multiple
-        onChange={handleFileSelect}
-        className="hidden"
-        data-testid="input-file-upload"
       />
-
-      <Card
-        className="border-2 border-dashed p-6 text-center cursor-pointer hover-elevate"
-        onClick={() => fileInputRef.current?.click()}
-        onDrop={handleDrop}
-        onDragOver={(e) => e.preventDefault()}
-        data-testid="dropzone-images"
-      >
-        <div className="flex flex-col items-center gap-3">
-          <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-            <Plus className="w-6 h-6 text-primary" />
-          </div>
-          <div>
-            <p className="font-medium">{t('Tools.create-gif.addImages')}</p>
-            <p className="text-sm text-muted-foreground">{t('Tools.create-gif.dragHint')}</p>
-          </div>
-        </div>
-      </Card>
 
       {images.length > 0 && (
         <Card className="p-4 space-y-4">

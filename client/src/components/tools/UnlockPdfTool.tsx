@@ -1,15 +1,15 @@
-import { useCallback, useRef } from 'react';
+import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFileHandler } from '@/hooks/useFileHandler';
 import { unlockPdf } from '@/lib/engines/pdfProtect';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
-import { FileText, Upload, Download, Loader2, CheckCircle, Unlock } from 'lucide-react';
+import { FileText, Download, Loader2, CheckCircle, Unlock } from 'lucide-react';
+import { FileUploadZone } from '@/components/tool-ui';
 
 export default function UnlockPdfTool() {
   const { t } = useTranslation();
-  const fileInputRef = useRef<HTMLInputElement>(null);
   
   const {
     files,
@@ -26,20 +26,8 @@ export default function UnlockPdfTool() {
     reset,
   } = useFileHandler({ accept: '.pdf', multiple: false });
 
-  const handleFileSelect = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      addFiles(e.target.files);
-    }
-  }, [addFiles]);
-
-  const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    const droppedFiles = Array.from(e.dataTransfer.files).filter(
-      (file) => file.type === 'application/pdf'
-    );
-    if (droppedFiles.length > 0) {
-      addFiles(droppedFiles);
-    }
+  const handleFilesFromDropzone = useCallback((fileList: FileList) => {
+    addFiles(fileList);
   }, [addFiles]);
 
   const handleUnlock = useCallback(async () => {
@@ -80,35 +68,12 @@ export default function UnlockPdfTool() {
         {t('Tools.unlock-pdf.description')}
       </div>
 
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept=".pdf"
-        onChange={handleFileSelect}
-        className="hidden"
-        data-testid="input-file-pdf"
-      />
-
       {status === 'idle' && files.length === 0 && (
-        <div
-          onDrop={handleDrop}
-          onDragOver={(e) => e.preventDefault()}
-          onClick={() => fileInputRef.current?.click()}
-          className="border-2 border-dashed border-muted-foreground/25 rounded-xl min-h-64 flex flex-col items-center justify-center gap-4 p-8 cursor-pointer hover:border-primary/50 transition-colors"
-          data-testid="dropzone"
-        >
-          <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
-            <FileText className="w-8 h-8 text-primary" />
-          </div>
-          <div className="text-center">
-            <p className="font-medium text-lg">{t('Common.workflow.dropFilesHere')}</p>
-            <p className="text-sm text-muted-foreground mt-1">{t('Common.workflow.orClickToBrowse')}</p>
-          </div>
-          <Button variant="outline" data-testid="button-select-file">
-            <Upload className="w-4 h-4 mr-2" />
-            {t('Common.workflow.selectFiles')}
-          </Button>
-        </div>
+        <FileUploadZone
+          onFileSelect={handleFilesFromDropzone}
+          accept="application/pdf"
+          multiple={false}
+        />
       )}
 
       {status === 'idle' && files.length > 0 && (

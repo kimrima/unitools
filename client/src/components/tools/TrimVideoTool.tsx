@@ -8,12 +8,12 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import { Video, Upload, Download, Loader2, Scissors, AlertTriangle } from 'lucide-react';
+import { FileUploadZone } from '@/components/tool-ui';
+import { Video, Download, Loader2, Scissors, AlertTriangle } from 'lucide-react';
 import { downloadBlob } from '@/hooks/useToolEngine';
 
 export default function TrimVideoTool() {
   const { t } = useTranslation();
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   
   const [startTime, setStartTime] = useState(0);
@@ -29,7 +29,6 @@ export default function TrimVideoTool() {
     error,
     progress,
     addFiles,
-    clearFiles,
     setStatus,
     setError,
     setProgress,
@@ -58,11 +57,12 @@ export default function TrimVideoTool() {
     return t('Common.messages.error');
   }, [t]);
 
-  const handleFileSelect = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      addFiles(e.target.files);
+  const handleFilesFromDropzone = useCallback((fileList: FileList) => {
+    const videoFiles = Array.from(fileList).filter(f => f.type.startsWith('video/'));
+    if (videoFiles.length > 0) {
+      addFiles([videoFiles[0]]);
       setResult(null);
-      const url = URL.createObjectURL(e.target.files[0]);
+      const url = URL.createObjectURL(videoFiles[0]);
       setVideoUrl(url);
     }
   }, [addFiles]);
@@ -73,23 +73,6 @@ export default function TrimVideoTool() {
       setVideoDuration(duration);
       setEndTime(Math.min(10, duration));
     }
-  }, []);
-
-  const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    const droppedFiles = Array.from(e.dataTransfer.files).filter(
-      (file) => file.type.startsWith('video/')
-    );
-    if (droppedFiles.length > 0) {
-      addFiles([droppedFiles[0]]);
-      setResult(null);
-      const url = URL.createObjectURL(droppedFiles[0]);
-      setVideoUrl(url);
-    }
-  }, [addFiles]);
-
-  const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
   }, []);
 
   const handleTrim = useCallback(async () => {
@@ -186,32 +169,10 @@ export default function TrimVideoTool() {
         </CardContent>
       </Card>
 
-      <input
-        ref={fileInputRef}
-        type="file"
+      <FileUploadZone
+        onFileSelect={handleFilesFromDropzone}
         accept="video/*"
-        onChange={handleFileSelect}
-        className="hidden"
-        data-testid="input-file-video"
       />
-
-      <div
-        onDrop={handleDrop}
-        onDragOver={handleDragOver}
-        onClick={() => fileInputRef.current?.click()}
-        className="border-2 border-dashed border-muted-foreground/25 rounded-lg min-h-40 flex flex-col items-center justify-center gap-4 hover:border-muted-foreground/50 transition-colors cursor-pointer p-6"
-        data-testid="dropzone-video"
-      >
-        <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center">
-          <Upload className="w-6 h-6 text-muted-foreground" />
-        </div>
-        <div className="text-center">
-          <p className="font-medium">{t('Common.messages.dragDrop')}</p>
-          <p className="text-sm text-muted-foreground mt-1">
-            {t('Common.messages.noServerUpload')}
-          </p>
-        </div>
-      </div>
 
       {videoUrl && (
         <Card>

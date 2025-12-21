@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PDFDocument } from 'pdf-lib';
 import { Card } from '@/components/ui/card';
@@ -6,13 +6,13 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Progress } from '@/components/ui/progress';
-import { FileText, Upload, Download, Loader2, CheckCircle, Crop, Trash2 } from 'lucide-react';
+import { FileText, Download, Loader2, CheckCircle, Crop, Trash2 } from 'lucide-react';
+import { FileUploadZone } from '@/components/tool-ui';
 
 type ToolStatus = 'idle' | 'processing' | 'success' | 'error';
 
 export default function CropPdfTool() {
   const { t } = useTranslation();
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<File | null>(null);
   const [status, setStatus] = useState<ToolStatus>('idle');
   const [progress, setProgress] = useState(0);
@@ -20,21 +20,10 @@ export default function CropPdfTool() {
   const [resultBlob, setResultBlob] = useState<Blob | null>(null);
   const [margins, setMargins] = useState({ top: 0, right: 0, bottom: 0, left: 0 });
 
-  const handleFileSelect = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = e.target.files?.[0];
+  const handleFilesFromDropzone = useCallback((fileList: FileList) => {
+    const selectedFile = fileList[0];
     if (selectedFile && selectedFile.type === 'application/pdf') {
       setFile(selectedFile);
-      setStatus('idle');
-      setError(null);
-      setResultBlob(null);
-    }
-  }, []);
-
-  const handleDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    const droppedFile = e.dataTransfer.files[0];
-    if (droppedFile && droppedFile.type === 'application/pdf') {
-      setFile(droppedFile);
       setStatus('idle');
       setError(null);
       setResultBlob(null);
@@ -94,36 +83,12 @@ export default function CropPdfTool() {
 
   return (
     <div className="space-y-6">
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept=".pdf"
-        onChange={handleFileSelect}
-        className="hidden"
-        data-testid="input-file-upload"
-      />
-
       {!file && (
-        <Card
-          className="border-2 border-dashed p-8 text-center cursor-pointer hover-elevate"
-          onClick={() => fileInputRef.current?.click()}
-          onDrop={handleDrop}
-          onDragOver={(e) => e.preventDefault()}
-          data-testid="dropzone-pdf"
-        >
-          <div className="flex flex-col items-center gap-4">
-            <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
-              <Upload className="w-8 h-8 text-primary" />
-            </div>
-            <div>
-              <p className="font-medium">{t('Common.dropzone.title')}</p>
-              <p className="text-sm text-muted-foreground">{t('Common.dropzone.subtitle')}</p>
-            </div>
-            <Button variant="outline" data-testid="button-browse-files">
-              {t('Common.dropzone.button')}
-            </Button>
-          </div>
-        </Card>
+        <FileUploadZone
+          onFileSelect={handleFilesFromDropzone}
+          accept="application/pdf"
+          multiple={false}
+        />
       )}
 
       {file && status !== 'success' && (

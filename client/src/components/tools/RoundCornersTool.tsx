@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState, useEffect } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFileHandler } from '@/hooks/useFileHandler';
 import { useStagedProcessing } from '@/hooks/useStagedProcessing';
@@ -8,14 +8,14 @@ import { Card } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { StagedLoadingOverlay } from '@/components/StagedLoadingOverlay';
-import { Upload, Download, CheckCircle, Square } from 'lucide-react';
+import { FileUploadZone } from '@/components/tool-ui';
+import { Download, CheckCircle, Square } from 'lucide-react';
 import { ShareActions } from '@/components/ShareActions';
 
 const RADIUS_PRESETS = [0, 10, 20, 30, 50, 75, 100];
 
 export default function RoundCornersTool() {
   const { t } = useTranslation();
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const [radius, setRadius] = useState(30);
   const [showResults, setShowResults] = useState(false);
   const [imageDimensions, setImageDimensions] = useState({ width: 0, height: 0 });
@@ -63,20 +63,9 @@ export default function RoundCornersTool() {
     }
   }, [files]);
 
-  const handleFileSelect = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      addFiles(e.target.files);
-      setShowResults(false);
-    }
-  }, [addFiles]);
-
-  const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    const droppedFiles = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
-    if (droppedFiles.length > 0) {
-      addFiles(droppedFiles);
-      setShowResults(false);
-    }
+  const handleFilesFromDropzone = useCallback((files: FileList) => {
+    addFiles(files);
+    setShowResults(false);
   }, [addFiles]);
 
   const handleApply = useCallback(async () => {
@@ -114,35 +103,11 @@ export default function RoundCornersTool() {
         {t('Tools.round-corners.description')}
       </div>
 
-      <input 
-        ref={fileInputRef} 
-        type="file" 
-        accept="image/*" 
-        onChange={handleFileSelect} 
-        className="hidden" 
-        data-testid="input-file-image"
-      />
-
       {!stagedProcessing.isProcessing && !showResults && files.length === 0 && (
-        <div 
-          onDrop={handleDrop} 
-          onDragOver={(e) => e.preventDefault()} 
-          onClick={() => fileInputRef.current?.click()}
-          className="border-2 border-dashed border-muted-foreground/25 rounded-xl min-h-64 flex flex-col items-center justify-center gap-4 p-8 cursor-pointer hover:border-primary/50 transition-colors"
-          data-testid="dropzone"
-        >
-          <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
-            <Square className="w-8 h-8 text-primary" />
-          </div>
-          <div className="text-center">
-            <p className="font-medium text-lg">{t('Common.workflow.dropFilesHere')}</p>
-            <p className="text-sm text-muted-foreground mt-1">{t('Common.workflow.orClickToBrowse')}</p>
-          </div>
-          <Button variant="outline" data-testid="button-select-file">
-            <Upload className="w-4 h-4 mr-2" />
-            {t('Common.workflow.selectFiles')}
-          </Button>
-        </div>
+        <FileUploadZone
+          onFileSelect={handleFilesFromDropzone}
+          accept="image/*"
+        />
       )}
 
       {!stagedProcessing.isProcessing && !showResults && files.length > 0 && (

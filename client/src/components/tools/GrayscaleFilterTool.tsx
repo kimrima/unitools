@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState, useMemo } from 'react';
+import { useCallback, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'wouter';
 import { useFileHandler } from '@/hooks/useFileHandler';
@@ -8,7 +8,8 @@ import { Card } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Slider } from '@/components/ui/slider';
 import { Label } from '@/components/ui/label';
-import { Upload, Download, Loader2, CheckCircle, Contrast, Sun, Eye } from 'lucide-react';
+import { FileUploadZone } from '@/components/tool-ui';
+import { Download, Loader2, CheckCircle, Contrast, Sun, Eye } from 'lucide-react';
 
 type ToolMode = 'grayscale-filter' | 'image-brightness' | 'image-opacity';
 
@@ -18,7 +19,6 @@ interface ImageFilterToolProps {
 
 export default function GrayscaleFilterTool({ toolId: propToolId }: ImageFilterToolProps) {
   const { t } = useTranslation();
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const [location] = useLocation();
   
   const toolId = useMemo(() => {
@@ -56,14 +56,8 @@ export default function GrayscaleFilterTool({ toolId: propToolId }: ImageFilterT
     reset,
   } = useFileHandler({ accept: 'image/*', multiple: false });
 
-  const handleFileSelect = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) addFiles(e.target.files);
-  }, [addFiles]);
-
-  const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    const droppedFiles = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
-    if (droppedFiles.length > 0) addFiles(droppedFiles);
+  const handleFilesFromDropzone = useCallback((files: FileList) => {
+    addFiles(files);
   }, [addFiles]);
 
   const handleApply = useCallback(async () => {
@@ -130,19 +124,12 @@ export default function GrayscaleFilterTool({ toolId: propToolId }: ImageFilterT
   return (
     <div className="space-y-6">
       <div className="text-sm text-muted-foreground">{t(`Tools.${toolConfig.titleKey}.description`)}</div>
-      <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileSelect} className="hidden" />
 
       {status === 'idle' && files.length === 0 && (
-        <div onDrop={handleDrop} onDragOver={(e) => e.preventDefault()} onClick={() => fileInputRef.current?.click()}
-          className="border-2 border-dashed border-muted-foreground/25 rounded-xl min-h-64 flex flex-col items-center justify-center gap-4 p-8 cursor-pointer hover:border-primary/50 transition-colors">
-          <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
-            <Icon className="w-8 h-8 text-primary" />
-          </div>
-          <div className="text-center">
-            <p className="font-medium text-lg">{t('Common.workflow.dropFilesHere')}</p>
-          </div>
-          <Button variant="outline"><Upload className="w-4 h-4 mr-2" />{t('Common.workflow.selectFiles')}</Button>
-        </div>
+        <FileUploadZone
+          onFileSelect={handleFilesFromDropzone}
+          accept="image/*"
+        />
       )}
 
       {status === 'idle' && files.length > 0 && (

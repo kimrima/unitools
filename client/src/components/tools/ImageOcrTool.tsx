@@ -1,11 +1,12 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Progress } from '@/components/ui/progress';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Upload, Copy, Trash2, ScanText } from 'lucide-react';
+import { FileUploadZone } from '@/components/tool-ui';
+import { Copy, Trash2, ScanText } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import Tesseract from 'tesseract.js';
 
@@ -21,7 +22,6 @@ const LANGUAGES = [
 export default function ImageOcrTool() {
   const { t } = useTranslation();
   const { toast } = useToast();
-  const fileInputRef = useRef<HTMLInputElement>(null);
   
   const [image, setImage] = useState<string | null>(null);
   const [text, setText] = useState('');
@@ -30,8 +30,8 @@ export default function ImageOcrTool() {
   const [progress, setProgress] = useState(0);
   const [progressMessage, setProgressMessage] = useState('');
 
-  const handleFileSelect = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+  const handleFilesFromDropzone = useCallback((files: FileList) => {
+    const file = files[0];
     if (!file) return;
     
     if (!file.type.startsWith('image/')) {
@@ -49,19 +49,6 @@ export default function ImageOcrTool() {
     };
     reader.readAsDataURL(file);
   }, [toast, t]);
-
-  const handleDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    const file = e.dataTransfer.files[0];
-    if (file && file.type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setImage(e.target?.result as string);
-        setText('');
-      };
-      reader.readAsDataURL(file);
-    }
-  }, []);
 
   const processOCR = async () => {
     if (!image) return;
@@ -112,9 +99,6 @@ export default function ImageOcrTool() {
     setImage(null);
     setText('');
     setProgress(0);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-    }
   };
 
   return (
@@ -153,21 +137,11 @@ export default function ImageOcrTool() {
               </div>
               
               {!image ? (
-                <div
-                  className="border-2 border-dashed rounded-lg p-8 text-center cursor-pointer hover-elevate transition-colors min-h-[300px] flex flex-col items-center justify-center"
-                  onClick={() => fileInputRef.current?.click()}
-                  onDragOver={(e) => e.preventDefault()}
-                  onDrop={handleDrop}
-                  data-testid="dropzone"
-                >
-                  <Upload className="h-12 w-12 text-muted-foreground mb-4" />
-                  <p className="text-muted-foreground">
-                    {t('Common.messages.dragDrop')}
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-2">
-                    JPG, PNG, WebP, GIF
-                  </p>
-                </div>
+                <FileUploadZone
+                  onFileSelect={handleFilesFromDropzone}
+                  accept="image/*"
+                  className="min-h-[300px]"
+                />
               ) : (
                 <div className="relative min-h-[300px] rounded-lg overflow-hidden bg-muted/30 flex items-center justify-center">
                   <img
@@ -178,15 +152,6 @@ export default function ImageOcrTool() {
                   />
                 </div>
               )}
-              
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                onChange={handleFileSelect}
-                className="hidden"
-                data-testid="input-file"
-              />
               
               {image && (
                 <Button

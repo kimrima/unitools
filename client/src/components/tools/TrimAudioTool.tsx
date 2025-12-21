@@ -8,12 +8,12 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import { Music, Upload, Download, Loader2, Scissors, AlertTriangle } from 'lucide-react';
+import { FileUploadZone } from '@/components/tool-ui';
+import { Music, Download, Loader2, Scissors, AlertTriangle } from 'lucide-react';
 import { downloadBlob } from '@/hooks/useToolEngine';
 
 export default function TrimAudioTool() {
   const { t } = useTranslation();
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
   
   const [startTime, setStartTime] = useState(0);
@@ -47,11 +47,12 @@ export default function TrimAudioTool() {
     return t('Common.messages.error');
   }, [t]);
 
-  const handleFileSelect = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      addFiles(e.target.files);
+  const handleFilesFromDropzone = useCallback((fileList: FileList) => {
+    const audioFiles = Array.from(fileList).filter(f => f.type.startsWith('audio/'));
+    if (audioFiles.length > 0) {
+      addFiles([audioFiles[0]]);
       setResult(null);
-      setAudioUrl(URL.createObjectURL(e.target.files[0]));
+      setAudioUrl(URL.createObjectURL(audioFiles[0]));
     }
   }, [addFiles]);
 
@@ -62,18 +63,6 @@ export default function TrimAudioTool() {
       setEndTime(Math.min(30, duration));
     }
   }, []);
-
-  const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    const droppedFiles = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('audio/'));
-    if (droppedFiles.length > 0) {
-      addFiles([droppedFiles[0]]);
-      setResult(null);
-      setAudioUrl(URL.createObjectURL(droppedFiles[0]));
-    }
-  }, [addFiles]);
-
-  const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => e.preventDefault(), []);
 
   const handleTrim = useCallback(async () => {
     if (files.length === 0) {
@@ -143,17 +132,10 @@ export default function TrimAudioTool() {
         </CardContent>
       </Card>
 
-      <input ref={fileInputRef} type="file" accept="audio/*" onChange={handleFileSelect} className="hidden" data-testid="input-file-audio" />
-
-      <div onDrop={handleDrop} onDragOver={handleDragOver} onClick={() => fileInputRef.current?.click()} className="border-2 border-dashed border-muted-foreground/25 rounded-lg min-h-40 flex flex-col items-center justify-center gap-4 hover:border-muted-foreground/50 transition-colors cursor-pointer p-6" data-testid="dropzone-audio">
-        <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center">
-          <Upload className="w-6 h-6 text-muted-foreground" />
-        </div>
-        <div className="text-center">
-          <p className="font-medium">{t('Common.messages.dragDrop')}</p>
-          <p className="text-sm text-muted-foreground mt-1">{t('Common.messages.noServerUpload')}</p>
-        </div>
-      </div>
+      <FileUploadZone
+        onFileSelect={handleFilesFromDropzone}
+        accept="audio/*"
+      />
 
       {audioUrl && (
         <Card>

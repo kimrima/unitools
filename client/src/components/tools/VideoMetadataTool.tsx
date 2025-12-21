@@ -1,10 +1,11 @@
 import { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useFileHandler, type FileHandlerError } from '@/hooks/useFileHandler';
+import { useFileHandler } from '@/hooks/useFileHandler';
 import { getFileSizeData } from '@/lib/engines/imageCompress';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Video, Upload, FileVideo } from 'lucide-react';
+import { FileUploadZone } from '@/components/tool-ui';
+import { FileVideo } from 'lucide-react';
 
 interface VideoMetadata {
   name: string;
@@ -18,7 +19,6 @@ interface VideoMetadata {
 
 export default function VideoMetadataTool() {
   const { t } = useTranslation();
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   
   const [metadata, setMetadata] = useState<VideoMetadata | null>(null);
@@ -27,7 +27,6 @@ export default function VideoMetadataTool() {
   const {
     files,
     addFiles,
-    clearFiles,
     reset: resetHandler,
   } = useFileHandler({ accept: 'video/*', multiple: false, maxSizeBytes: 500 * 1024 * 1024 });
 
@@ -48,11 +47,12 @@ export default function VideoMetadataTool() {
 
   const gcd = (a: number, b: number): number => b === 0 ? a : gcd(b, a % b);
 
-  const handleFileSelect = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      addFiles(e.target.files);
+  const handleFilesFromDropzone = useCallback((fileList: FileList) => {
+    const videoFiles = Array.from(fileList).filter(f => f.type.startsWith('video/'));
+    if (videoFiles.length > 0) {
+      addFiles([videoFiles[0]]);
       setMetadata(null);
-      setVideoUrl(URL.createObjectURL(e.target.files[0]));
+      setVideoUrl(URL.createObjectURL(videoFiles[0]));
     }
   }, [addFiles]);
 
@@ -75,18 +75,6 @@ export default function VideoMetadataTool() {
     }
   }, [files]);
 
-  const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    const droppedFiles = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('video/'));
-    if (droppedFiles.length > 0) {
-      addFiles([droppedFiles[0]]);
-      setMetadata(null);
-      setVideoUrl(URL.createObjectURL(droppedFiles[0]));
-    }
-  }, [addFiles]);
-
-  const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => e.preventDefault(), []);
-
   const reset = useCallback(() => {
     resetHandler();
     setMetadata(null);
@@ -97,17 +85,10 @@ export default function VideoMetadataTool() {
     <div className="space-y-6">
       <div className="text-sm text-muted-foreground" data-testid="text-instructions">{t('Tools.video-metadata.instructions')}</div>
 
-      <input ref={fileInputRef} type="file" accept="video/*" onChange={handleFileSelect} className="hidden" data-testid="input-file-video" />
-
-      <div onDrop={handleDrop} onDragOver={handleDragOver} onClick={() => fileInputRef.current?.click()} className="border-2 border-dashed border-muted-foreground/25 rounded-lg min-h-40 flex flex-col items-center justify-center gap-4 hover:border-muted-foreground/50 transition-colors cursor-pointer p-6" data-testid="dropzone-video">
-        <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center">
-          <Upload className="w-6 h-6 text-muted-foreground" />
-        </div>
-        <div className="text-center">
-          <p className="font-medium">{t('Common.messages.dragDrop')}</p>
-          <p className="text-sm text-muted-foreground mt-1">{t('Common.messages.noServerUpload')}</p>
-        </div>
-      </div>
+      <FileUploadZone
+        onFileSelect={handleFilesFromDropzone}
+        accept="video/*"
+      />
 
       {videoUrl && (
         <video
