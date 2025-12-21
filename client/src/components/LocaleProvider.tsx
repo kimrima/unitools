@@ -12,8 +12,13 @@ export function LocaleProvider({ children }: LocaleProviderProps) {
   const { i18n } = useTranslation();
 
   useEffect(() => {
-    const pathLocale = getLocaleFromPath(location);
     const segments = location.split('/').filter(Boolean);
+    
+    if (segments[0] === 'admin') {
+      return;
+    }
+    
+    const pathLocale = getLocaleFromPath(location);
     
     if (location === '/') {
       const browserLocale = getBrowserLocale();
