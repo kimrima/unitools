@@ -1,18 +1,18 @@
 import { useCallback, useRef, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams, Link } from 'wouter';
+import { useParams } from 'wouter';
 import { useFileHandler, type FileHandlerError } from '@/hooks/useFileHandler';
 import { useStagedProcessing } from '@/hooks/useStagedProcessing';
 import { convertImages, ImageConvertError, getFormatExtension, type ConvertResult, type ImageFormat } from '@/lib/engines/imageConvert';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
-import { Badge } from '@/components/ui/badge';
-import { Image, Upload, X, RefreshCw, Download, CheckCircle, Share2, ExternalLink, FileDown } from 'lucide-react';
+import { Image, X, RefreshCw, Download, Share2, FileDown } from 'lucide-react';
 import { StagedLoadingOverlay } from '@/components/StagedLoadingOverlay';
 import { allTools, type Tool } from '@/data/tools';
 import { useToast } from '@/hooks/use-toast';
+import { FileUploadZone, ResultSuccessHeader, FileResultCard, PrivacyNote, RelatedTools } from '@/components/tool-ui';
 
 interface ToolFormatConfig {
   acceptedFormats: string[];
@@ -316,78 +316,49 @@ export default function ConvertImageTool({ toolId = 'convert-image' }: ConvertIm
   }
   
   if (showResults && results.length > 0) {
+    const savedPercent = totalOriginalSize > totalOutputSize 
+      ? Math.round((1 - totalOutputSize / totalOriginalSize) * 100)
+      : 0;
+    
     return (
       <div className="space-y-6">
-        <Card className="border-green-200 dark:border-green-800 bg-green-50/50 dark:bg-green-950/20">
-          <CardHeader className="pb-2">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-full bg-green-100 dark:bg-green-900/50 flex items-center justify-center">
-                <CheckCircle className="w-6 h-6 text-green-600 dark:text-green-400" />
-              </div>
-              <div>
-                <CardTitle className="text-green-700 dark:text-green-300">
-                  {t('Common.messages.processingComplete', { defaultValue: 'Processing Complete!' })}
-                </CardTitle>
-                <p className="text-sm text-green-600 dark:text-green-400">
-                  {results.length === 1 
-                    ? t('Common.messages.readyToDownload', { defaultValue: 'Your file is ready to download' })
-                    : t('Common.messages.filesReadyToDownload', { count: results.length, defaultValue: `${results.length} files ready to download` })}
-                </p>
-              </div>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4 p-4 bg-background/50 rounded-lg">
-              <div className="text-center">
-                <p className="text-xs text-muted-foreground">{t('Common.messages.files', { defaultValue: 'Files' })}</p>
-                <p className="font-medium">{results.length}</p>
-              </div>
-              <div className="text-center">
-                <p className="text-xs text-muted-foreground">{t('Common.messages.originalSize', { defaultValue: 'Original' })}</p>
-                <p className="font-medium">{formatFileSize(totalOriginalSize)}</p>
-              </div>
-              <div className="text-center">
-                <p className="text-xs text-muted-foreground">{t('Common.messages.newSize', { defaultValue: 'New Size' })}</p>
-                <p className="font-medium">{formatFileSize(totalOutputSize)}</p>
-              </div>
-              <div className="text-center">
-                <p className="text-xs text-muted-foreground">{t('Common.messages.saved', { defaultValue: 'Saved' })}</p>
-                <p className="font-medium text-green-600">
-                  {totalOriginalSize > totalOutputSize 
-                    ? `-${Math.round((1 - totalOutputSize / totalOriginalSize) * 100)}%`
-                    : 'N/A'}
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        <ResultSuccessHeader
+          subtitle={results.length === 1 
+            ? t('Common.messages.readyToDownload', { defaultValue: 'Your file is ready to download' })
+            : t('Common.messages.filesReadyToDownload', { count: results.length, defaultValue: `${results.length} files ready to download` })
+          }
+          stats={[
+            { label: t('Common.messages.files', { defaultValue: 'Files' }), value: results.length },
+            { label: t('Common.messages.originalSize', { defaultValue: 'Original' }), value: formatFileSize(totalOriginalSize) },
+            { label: t('Common.messages.newSize', { defaultValue: 'New Size' }), value: formatFileSize(totalOutputSize) },
+            { label: t('Common.messages.saved', { defaultValue: 'Saved' }), value: savedPercent > 0 ? `-${savedPercent}%` : 'N/A' },
+          ]}
+        />
         
-        {results.length === 1 && results[0].previewUrl && (
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-base">{t('Common.messages.preview', { defaultValue: 'Preview' })}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <img src={results[0].previewUrl} alt="Result preview" className="max-h-64 mx-auto rounded-lg object-contain" />
-            </CardContent>
-          </Card>
+        {results.length === 1 && (
+          <FileResultCard
+            fileName={results[0].fileName}
+            fileSize={formatFileSize(results[0].outputSize)}
+            fileType="image"
+            previewUrl={results[0].previewUrl}
+            onDownload={() => handleDownload(results[0])}
+            onShare={handleShare}
+          />
         )}
         
         {results.length > 1 && (
           <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-base">{t('Common.messages.processedFiles', { defaultValue: 'Processed Files' })}</CardTitle>
-            </CardHeader>
-            <CardContent>
+            <CardContent className="p-4">
+              <p className="text-sm font-medium mb-4">{t('Common.messages.processedFiles', { defaultValue: 'Processed Files' })}</p>
               <ul className="space-y-2">
                 {results.map((result, index) => (
                   <li
                     key={index}
-                    className="flex items-center gap-3 p-3 bg-muted/50 rounded-md"
+                    className="flex items-center gap-3 p-3 bg-muted/50 rounded-xl"
                     data-testid={`result-item-${index}`}
                   >
                     {result.previewUrl && (
-                      <img src={result.previewUrl} alt="" className="w-10 h-10 object-cover rounded" />
+                      <img src={result.previewUrl} alt="" className="w-12 h-12 object-cover rounded-lg" />
                     )}
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium truncate">{result.fileName}</p>
@@ -398,6 +369,7 @@ export default function ConvertImageTool({ toolId = 'convert-image' }: ConvertIm
                     <Button
                       size="sm"
                       variant="outline"
+                      className="rounded-lg"
                       onClick={() => handleDownload(result)}
                       data-testid={`button-download-${index}`}
                     >
@@ -410,77 +382,48 @@ export default function ConvertImageTool({ toolId = 'convert-image' }: ConvertIm
           </Card>
         )}
         
-        <div className="flex flex-col sm:flex-row gap-3">
-          {results.length === 1 ? (
-            <Button onClick={() => handleDownload(results[0])} size="lg" className="flex-1" data-testid="button-download-result">
-              <Download className="w-5 h-5 mr-2" />
-              {t('Common.actions.download', { defaultValue: 'Download' })}
-            </Button>
-          ) : (
-            <Button onClick={handleDownloadAll} size="lg" className="flex-1" data-testid="button-download-all">
+        {results.length > 1 && (
+          <div className="flex flex-col sm:flex-row gap-3">
+            <Button onClick={handleDownloadAll} size="lg" className="flex-1 rounded-xl" data-testid="button-download-all">
               <FileDown className="w-5 h-5 mr-2" />
               {t('Common.actions.downloadAll', { defaultValue: 'Download All' })} ({results.length})
             </Button>
-          )}
-          <Button variant="outline" size="lg" onClick={reset} data-testid="button-new-file">
-            <RefreshCw className="w-4 h-4 mr-2" />
-            {t('Common.actions.processAnother', { defaultValue: 'Process Another' })}
-          </Button>
-          <Button variant="outline" size="lg" onClick={handleShare} data-testid="button-share">
-            <Share2 className="w-4 h-4 mr-2" />
-            {t('Common.actions.share', { defaultValue: 'Share' })}
-          </Button>
-        </div>
-        
-        <Card className="bg-muted/30">
-          <CardContent className="p-4">
-            <p className="text-sm text-muted-foreground text-center">
-              {t('Common.messages.thankYou', { defaultValue: 'Thank you for using UniTools! Your support helps us maintain and improve this free service.' })}
-            </p>
-          </CardContent>
-        </Card>
-        
-        {relatedTools.length > 0 && (
-          <div>
-            <h3 className="text-lg font-semibold mb-4">
-              {t('Common.messages.relatedTools', { defaultValue: 'You might also like' })}
-            </h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-              {relatedTools.map(relatedTool => (
-                <Link key={relatedTool.id} href={`/${locale}/${relatedTool.id}`}>
-                  <Card className="p-3 hover-elevate cursor-pointer h-full">
-                    <div className="flex flex-col items-center text-center gap-2">
-                      <Badge variant="secondary" className="text-xs">
-                        {t(`Categories.${relatedTool.category}.name`)}
-                      </Badge>
-                      <span className="text-sm font-medium line-clamp-2">
-                        {t(`Tools.${relatedTool.id}.title`)}
-                      </span>
-                      <ExternalLink className="w-3 h-3 text-muted-foreground" />
-                    </div>
-                  </Card>
-                </Link>
-              ))}
-            </div>
+            <Button variant="outline" size="lg" onClick={reset} className="rounded-xl" data-testid="button-new-file">
+              <RefreshCw className="w-4 h-4 mr-2" />
+              {t('Common.actions.processAnother', { defaultValue: 'Process Another' })}
+            </Button>
+            <Button variant="outline" size="lg" onClick={handleShare} className="rounded-xl" data-testid="button-share">
+              <Share2 className="w-4 h-4 mr-2" />
+              {t('Common.actions.share', { defaultValue: 'Share' })}
+            </Button>
           </div>
         )}
+        
+        {results.length === 1 && (
+          <div className="flex gap-3">
+            <Button variant="outline" size="lg" onClick={reset} className="flex-1 rounded-xl" data-testid="button-new-file">
+              <RefreshCw className="w-4 h-4 mr-2" />
+              {t('Common.actions.processAnother', { defaultValue: 'Process Another' })}
+            </Button>
+          </div>
+        )}
+        
+        <PrivacyNote variant="success" />
+        
+        <RelatedTools currentToolId={toolId} category={tool?.category} />
       </div>
     );
   }
   
   return (
     <div className="space-y-6">
-      <div className="text-sm text-muted-foreground" data-testid="text-instructions">
-        {t(`Tools.${toolId}.instructions`, { defaultValue: t('Tools.convert-image.instructions') })}
-      </div>
-
       {showFormatSelect && (
-        <Card>
+        <Card className="bg-muted/30">
           <CardContent className="p-4">
             <div className="space-y-2">
               <Label htmlFor="format-select">{t('Common.messages.targetFormat')}</Label>
               <Select value={targetFormat} onValueChange={(v) => setTargetFormat(v as ImageFormat)}>
-                <SelectTrigger id="format-select" data-testid="select-format">
+                <SelectTrigger id="format-select" className="rounded-xl" data-testid="select-format">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -506,32 +449,22 @@ export default function ConvertImageTool({ toolId = 'convert-image' }: ConvertIm
         data-testid="input-file-image"
       />
 
-      <div
-        onDrop={handleDrop}
-        onDragOver={handleDragOver}
-        onClick={() => fileInputRef.current?.click()}
-        className="border-2 border-dashed border-muted-foreground/25 rounded-lg min-h-40 flex flex-col items-center justify-center gap-4 hover:border-muted-foreground/50 transition-colors cursor-pointer p-6"
-        data-testid="dropzone-image"
-      >
-        <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center">
-          <Upload className="w-6 h-6 text-muted-foreground" />
-        </div>
-        <div className="text-center">
-          <p className="font-medium">{t('Common.messages.dragDrop')}</p>
-          <p className="text-sm text-muted-foreground mt-1">
-            {t('Common.messages.noServerUpload')}
-          </p>
-        </div>
-      </div>
+      {files.length === 0 && (
+        <FileUploadZone
+          onFileSelect={(fileList) => addFiles(fileList)}
+          accept={config.acceptMime}
+          multiple={true}
+        />
+      )}
 
       {files.length > 0 && (
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between gap-2 mb-4">
-              <span className="text-sm font-medium" data-testid="text-files-count">
+        <Card className="overflow-visible">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between gap-3 mb-4">
+              <span className="text-sm font-bold uppercase tracking-wide text-muted-foreground" data-testid="text-files-count">
                 {files.length} {t('Common.messages.filesSelected')}
               </span>
-              <Button variant="ghost" size="sm" onClick={clearFiles} data-testid="button-clear">
+              <Button variant="ghost" size="sm" onClick={clearFiles} className="rounded-lg" data-testid="button-clear">
                 {t('Common.actions.clear')}
               </Button>
             </div>
@@ -540,22 +473,26 @@ export default function ConvertImageTool({ toolId = 'convert-image' }: ConvertIm
               {files.map((file, index) => (
                 <li
                   key={file.id}
-                  className="flex items-center gap-3 p-2 bg-muted/50 rounded-md"
+                  className="flex items-center gap-3 p-3 bg-muted/50 rounded-xl border"
                   data-testid={`list-item-file-${index}`}
                 >
                   {file.previewUrl ? (
                     <img
                       src={file.previewUrl}
                       alt={file.file.name}
-                      className="w-10 h-10 object-cover rounded"
+                      className="w-12 h-12 object-cover rounded-lg border"
                     />
                   ) : (
-                    <Image className="w-5 h-5 text-muted-foreground" />
+                    <div className="w-12 h-12 bg-muted rounded-lg flex items-center justify-center">
+                      <Image className="w-5 h-5 text-muted-foreground" />
+                    </div>
                   )}
-                  <span className="flex-1 text-sm truncate">{file.file.name}</span>
-                  <span className="text-xs text-muted-foreground">
-                    {formatFileSize(file.file.size)}
-                  </span>
+                  <div className="flex-1 min-w-0">
+                    <span className="text-sm font-medium truncate block">{file.file.name}</span>
+                    <span className="text-xs text-muted-foreground">
+                      {formatFileSize(file.file.size)}
+                    </span>
+                  </div>
                   <Button
                     variant="ghost"
                     size="icon"
@@ -567,33 +504,34 @@ export default function ConvertImageTool({ toolId = 'convert-image' }: ConvertIm
                 </li>
               ))}
             </ul>
+            
+            <div className="flex gap-3 mt-6">
+              <Button
+                onClick={handleConvert}
+                size="lg"
+                className="flex-1 rounded-xl"
+                data-testid="button-convert"
+              >
+                <RefreshCw className="w-4 h-4 mr-2" />
+                {t('Common.actions.convert')}
+              </Button>
+              <Button variant="outline" size="lg" onClick={reset} className="rounded-xl" data-testid="button-reset">
+                {t('Common.actions.reset')}
+              </Button>
+            </div>
           </CardContent>
         </Card>
       )}
 
       {error && (
-        <div className="p-4 bg-destructive/10 text-destructive rounded-lg" data-testid="section-error">
+        <div className="p-4 bg-destructive/10 text-destructive rounded-xl" data-testid="section-error">
           {translateError(error)}
         </div>
       )}
-
-      <div className="flex gap-4 flex-wrap">
-        <Button
-          onClick={handleConvert}
-          disabled={files.length === 0}
-          className="flex-1"
-          data-testid="button-convert"
-        >
-          <RefreshCw className="w-4 h-4 mr-2" />
-          {t('Common.actions.convert')}
-        </Button>
-        
-        {files.length > 0 && (
-          <Button variant="outline" onClick={reset} data-testid="button-reset">
-            {t('Common.actions.reset')}
-          </Button>
-        )}
-      </div>
+      
+      {files.length === 0 && (
+        <PrivacyNote />
+      )}
     </div>
   );
 }
