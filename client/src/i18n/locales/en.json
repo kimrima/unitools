@@ -269,6 +269,136 @@
       "shortDesc": "Convert video to GIF",
       "instructions": "Select a video file to convert to GIF. You can adjust FPS, size, start time and duration."
     },
+    "heic-to-jpg": {
+      "title": "HEIC to JPG",
+      "description": "Convert iPhone HEIC photos to JPG format for Windows compatibility.",
+      "shortDesc": "Convert iPhone photos"
+    },
+    "webp-converter": {
+      "title": "WebP Converter",
+      "description": "Convert images to Google's WebP format for optimized web performance.",
+      "shortDesc": "Convert to WebP"
+    },
+    "svg-to-png": {
+      "title": "SVG to PNG",
+      "description": "Convert vector SVG graphics to PNG images.",
+      "shortDesc": "Convert SVG to PNG"
+    },
+    "bulk-convert-image": {
+      "title": "Bulk Image Convert",
+      "description": "Convert multiple images to a different format at once.",
+      "shortDesc": "Batch convert images"
+    },
+    "webp-to-png": {
+      "title": "WebP to PNG",
+      "description": "Convert WebP images to PNG format.",
+      "shortDesc": "Convert WebP to PNG"
+    },
+    "gif-to-png": {
+      "title": "GIF to PNG",
+      "description": "Extract the first frame of GIF as PNG image.",
+      "shortDesc": "Convert GIF to PNG"
+    },
+    "rotate-image": {
+      "title": "Rotate Image",
+      "description": "Rotate images by 90, 180, or 270 degrees.",
+      "shortDesc": "Rotate image"
+    },
+    "flip-image": {
+      "title": "Flip Image",
+      "description": "Flip images horizontally or vertically.",
+      "shortDesc": "Flip/mirror image"
+    },
+    "image-upscaler": {
+      "title": "Image Upscaler",
+      "description": "Enhance and upscale low-resolution images using AI.",
+      "shortDesc": "Upscale image quality"
+    },
+    "canvas-size": {
+      "title": "Change Canvas Size",
+      "description": "Extend the canvas area around your image without resizing.",
+      "shortDesc": "Extend image canvas"
+    },
+    "remove-background": {
+      "title": "Remove Background",
+      "description": "Automatically remove background from photos with one click.",
+      "shortDesc": "Remove image background"
+    },
+    "image-mosaic": {
+      "title": "Image Mosaic",
+      "description": "Blur or pixelate specific areas of your image.",
+      "shortDesc": "Add mosaic effect"
+    },
+    "image-watermark": {
+      "title": "Add Watermark",
+      "description": "Add text or image watermarks to protect your images.",
+      "shortDesc": "Add watermark to image"
+    },
+    "image-brightness": {
+      "title": "Brightness Adjustment",
+      "description": "Adjust the brightness and contrast of your images.",
+      "shortDesc": "Adjust brightness"
+    },
+    "grayscale-filter": {
+      "title": "Grayscale Filter",
+      "description": "Convert color images to black and white.",
+      "shortDesc": "Convert to grayscale"
+    },
+    "image-text": {
+      "title": "Add Text to Image",
+      "description": "Add custom text with various fonts to your images.",
+      "shortDesc": "Add text overlay"
+    },
+    "remove-exif": {
+      "title": "Remove EXIF Data",
+      "description": "Remove metadata and location info from your photos.",
+      "shortDesc": "Remove photo metadata"
+    },
+    "round-corners": {
+      "title": "Round Corners",
+      "description": "Add rounded corners to your images.",
+      "shortDesc": "Round image corners"
+    },
+    "image-shadow": {
+      "title": "Add Shadow",
+      "description": "Add a drop shadow effect to your images.",
+      "shortDesc": "Add shadow effect"
+    },
+    "color-picker": {
+      "title": "Color Picker",
+      "description": "Extract dominant colors and color palette from images.",
+      "shortDesc": "Extract colors"
+    },
+    "image-joiner": {
+      "title": "Join Images",
+      "description": "Combine multiple images horizontally or vertically.",
+      "shortDesc": "Merge images together"
+    },
+    "create-gif": {
+      "title": "Create GIF",
+      "description": "Create animated GIF from multiple images.",
+      "shortDesc": "Make animated GIF"
+    },
+    "image-border": {
+      "title": "Add Border",
+      "description": "Add custom colored borders to your images.",
+      "shortDesc": "Add image border"
+    },
+    "image-opacity": {
+      "title": "Adjust Opacity",
+      "description": "Change the transparency level of your images.",
+      "shortDesc": "Adjust transparency"
+    },
+    "image-ratio": {
+      "title": "Change Aspect Ratio",
+      "description": "Adjust images to specific aspect ratios (1:1, 4:3, 16:9).",
+      "shortDesc": "Change aspect ratio"
+    },
+    "favicon-generator": {
+      "title": "Favicon Generator",
+      "description": "Create favicon icons for websites from any image.",
+      "shortDesc": "Generate favicon"
+    },
     "json-formatter": {
       "title": "JSON Formatter",
       "description": "Format and validate JSON data beautifully.",

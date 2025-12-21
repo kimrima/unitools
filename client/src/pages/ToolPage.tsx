@@ -26,6 +26,15 @@ const ProtectPdfTool = lazy(() => import('@/components/tools/ProtectPdfTool'));
 const UnlockPdfTool = lazy(() => import('@/components/tools/UnlockPdfTool'));
 const CompressImageTool = lazy(() => import('@/components/tools/CompressImageTool'));
 const ConvertImageTool = lazy(() => import('@/components/tools/ConvertImageTool'));
+const ResizeImageTool = lazy(() => import('@/components/tools/ResizeImageTool'));
+const CropImageTool = lazy(() => import('@/components/tools/CropImageTool'));
+const RotateImageTool = lazy(() => import('@/components/tools/RotateImageTool'));
+const FlipImageTool = lazy(() => import('@/components/tools/FlipImageTool'));
+const HeicToJpgTool = lazy(() => import('@/components/tools/HeicToJpgTool'));
+const GrayscaleFilterTool = lazy(() => import('@/components/tools/GrayscaleFilterTool'));
+const ImageWatermarkTool = lazy(() => import('@/components/tools/ImageWatermarkTool'));
+const RoundCornersTool = lazy(() => import('@/components/tools/RoundCornersTool'));
+const ColorPickerTool = lazy(() => import('@/components/tools/ColorPickerTool'));
 const VideoToGifTool = lazy(() => import('@/components/tools/VideoToGifTool'));
 
 const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element>> = {
@@ -44,6 +53,34 @@ const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element
   'unlock-pdf': UnlockPdfTool,
   'compress-image': CompressImageTool,
   'convert-image': ConvertImageTool,
+  'resize-image': ResizeImageTool,
+  'crop-image': CropImageTool,
+  'rotate-image': RotateImageTool,
+  'flip-image': FlipImageTool,
+  'heic-to-jpg': HeicToJpgTool,
+  'grayscale-filter': GrayscaleFilterTool,
+  'image-watermark': ImageWatermarkTool,
+  'round-corners': RoundCornersTool,
+  'color-picker': ColorPickerTool,
+  'jpg-to-png': ConvertImageTool,
+  'png-to-jpg': ConvertImageTool,
+  'webp-converter': ConvertImageTool,
+  'webp-to-jpg': ConvertImageTool,
+  'webp-to-png': ConvertImageTool,
+  'gif-to-png': ConvertImageTool,
+  'svg-to-png': ConvertImageTool,
+  'bulk-convert-image': ConvertImageTool,
+  'image-brightness': GrayscaleFilterTool,
+  'image-mosaic': ImageWatermarkTool,
+  'image-text': ImageWatermarkTool,
+  'remove-exif': CompressImageTool,
+  'image-shadow': RoundCornersTool,
+  'image-joiner': ResizeImageTool,
+  'image-border': RoundCornersTool,
+  'image-opacity': GrayscaleFilterTool,
+  'image-ratio': ResizeImageTool,
+  'favicon-generator': ResizeImageTool,
+  'canvas-size': CropImageTool,
   'video-to-gif': VideoToGifTool,
 };
 
