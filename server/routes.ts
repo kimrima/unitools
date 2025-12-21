@@ -8,7 +8,7 @@ const pdfTools = [
   'merge-pdf', 'split-pdf', 'compress-pdf', 'pdf-to-jpg', 'jpg-to-pdf',
   'pdf-to-png', 'png-to-pdf', 'pdf-to-word', 'word-to-pdf', 'pdf-to-excel',
   'excel-to-pdf', 'pdf-to-ppt', 'ppt-to-pdf', 'rotate-pdf', 'delete-pdf-pages',
-  'extract-pdf-pages', 'organize-pdf', 'protect-pdf', 'unlock-pdf', 'sign-pdf',
+  'extract-pdf-pages', 'organize-pdf', 'sign-pdf',
   'watermark-pdf', 'edit-pdf', 'ocr-pdf', 'repair-pdf', 'optimize-pdf',
   'pdf-to-text', 'html-to-pdf', 'add-page-numbers', 'crop-pdf', 'grayscale-pdf',
   'resize-pdf', 'n-up-pdf',

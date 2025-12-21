@@ -67,8 +67,6 @@ const DeletePdfPagesTool = lazy(() => import('@/components/tools/DeletePdfPagesT
 const AddPageNumbersTool = lazy(() => import('@/components/tools/AddPageNumbersTool'));
 const ExtractPdfPagesTool = lazy(() => import('@/components/tools/ExtractPdfPagesTool'));
 const OrganizePdfTool = lazy(() => import('@/components/tools/OrganizePdfTool'));
-const ProtectPdfTool = lazy(() => import('@/components/tools/ProtectPdfTool'));
-const UnlockPdfTool = lazy(() => import('@/components/tools/UnlockPdfTool'));
 const PdfToImageTool = lazy(() => import('@/components/tools/PdfToImageTool'));
 const SignPdfTool = lazy(() => import('@/components/tools/SignPdfTool'));
 const PdfToTextTool = lazy(() => import('@/components/tools/PdfToTextTool'));
@@ -189,8 +187,6 @@ const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element
   'add-page-numbers': AddPageNumbersTool,
   'extract-pdf-pages': ExtractPdfPagesTool,
   'organize-pdf': OrganizePdfTool,
-  'protect-pdf': ProtectPdfTool,
-  'unlock-pdf': UnlockPdfTool,
   'pdf-to-jpg': PdfToImageTool,
   'pdf-to-png': PdfToImageTool,
   'sign-pdf': SignPdfTool,
