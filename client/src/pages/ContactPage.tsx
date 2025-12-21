@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { Mail, MessageSquare, Clock, CheckCircle } from 'lucide-react';
+import { MessageSquare, CheckCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 export default function ContactPage() {
@@ -54,8 +54,8 @@ export default function ContactPage() {
         </h1>
         <p className="text-muted-foreground mb-8">{t('Legal.contact.subtitle')}</p>
 
-        <div className="grid gap-8 md:grid-cols-3">
-          <div className="md:col-span-2">
+        <div className="grid gap-8 md:grid-cols-2">
+          <div className="md:col-span-1">
             {isSubmitted ? (
               <Card>
                 <CardContent className="pt-6">
@@ -139,32 +139,6 @@ export default function ContactPage() {
                 </CardContent>
               </Card>
             )}
-          </div>
-
-          <div className="space-y-4">
-            <Card>
-              <CardContent className="pt-6">
-                <div className="flex items-start gap-3">
-                  <Mail className="h-5 w-5 text-primary mt-0.5" />
-                  <div>
-                    <h3 className="font-semibold mb-1">{t('Legal.contact.info.email.title')}</h3>
-                    <p className="text-sm text-muted-foreground">support@unitools.app</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardContent className="pt-6">
-                <div className="flex items-start gap-3">
-                  <Clock className="h-5 w-5 text-primary mt-0.5" />
-                  <div>
-                    <h3 className="font-semibold mb-1">{t('Legal.contact.info.response.title')}</h3>
-                    <p className="text-sm text-muted-foreground">{t('Legal.contact.info.response.desc')}</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
           </div>
         </div>
       </main>
