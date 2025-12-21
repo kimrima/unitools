@@ -137,8 +137,9 @@
     },
     "hero": {
       "badge": "200+ Free Tools",
-      "titlePart1": "All Your Tools,",
-      "titlePart2": "One Place",
+      "titlePart1": "Free Tools to Make",
+      "titlePart2": "Everything",
+      "titlePart3": "Simple",
       "trustFree": "Free",
       "trustNoUpload": "No Server Upload",
       "trustMultiLang": "Multi-language"

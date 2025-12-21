@@ -137,8 +137,9 @@
     },
     "hero": {
       "badge": "200개 이상 무료 도구",
-      "titlePart1": "모든 온라인 도구를",
-      "titlePart2": "한 곳에서",
+      "titlePart1": "모든 작업을",
+      "titlePart2": "간편하게",
+      "titlePart3": "만드는 무료 도구",
       "trustFree": "무료",
       "trustNoUpload": "서버 업로드 없음",
       "trustMultiLang": "다국어"
