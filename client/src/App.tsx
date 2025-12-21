@@ -7,6 +7,7 @@ import { LocaleProvider } from "@/components/LocaleProvider";
 import NotFound from "@/pages/not-found";
 import HomePage from "@/pages/HomePage";
 import ToolPage from "@/pages/ToolPage";
+import CategoryPage from "@/pages/CategoryPage";
 import AboutPage from "@/pages/AboutPage";
 import PrivacyPage from "@/pages/PrivacyPage";
 import TermsPage from "@/pages/TermsPage";
@@ -23,6 +24,7 @@ function Router() {
       <Route path="/:locale/privacy" component={PrivacyPage} />
       <Route path="/:locale/terms" component={TermsPage} />
       <Route path="/:locale/contact" component={ContactPage} />
+      <Route path="/:locale/category/:categoryId" component={CategoryPage} />
       <Route path="/:locale/:toolId" component={ToolPage} />
       <Route component={NotFound} />
     </Switch>
