@@ -24,6 +24,22 @@ export interface CompressionProgress {
 
 export type ProgressCallback = (progress: CompressionProgress) => void;
 
+export type ImageCompressErrorCode = 
+  | 'NO_FILES_PROVIDED'
+  | 'COMPRESSION_FAILED';
+
+export class ImageCompressError extends Error {
+  code: ImageCompressErrorCode;
+  fileName?: string;
+
+  constructor(code: ImageCompressErrorCode, fileName?: string) {
+    super(code);
+    this.code = code;
+    this.fileName = fileName;
+    this.name = 'ImageCompressError';
+  }
+}
+
 const defaultOptions: CompressionOptions = {
   maxSizeMB: 1,
   maxWidthOrHeight: 1920,
@@ -40,24 +56,28 @@ export async function compressImage(
 
   const originalSize = file.size;
 
-  const compressedBlob = await imageCompression(file, {
-    maxSizeMB: mergedOptions.maxSizeMB,
-    maxWidthOrHeight: mergedOptions.maxWidthOrHeight,
-    initialQuality: mergedOptions.quality,
-    useWebWorker: mergedOptions.useWebWorker,
-    onProgress: onProgress,
-  });
+  try {
+    const compressedBlob = await imageCompression(file, {
+      maxSizeMB: mergedOptions.maxSizeMB,
+      maxWidthOrHeight: mergedOptions.maxWidthOrHeight,
+      initialQuality: mergedOptions.quality,
+      useWebWorker: mergedOptions.useWebWorker,
+      onProgress: onProgress,
+    });
 
-  const compressedSize = compressedBlob.size;
-  const compressionRatio = Math.round((1 - compressedSize / originalSize) * 100);
+    const compressedSize = compressedBlob.size;
+    const compressionRatio = Math.round((1 - compressedSize / originalSize) * 100);
 
-  return {
-    originalFile: file,
-    compressedBlob,
-    originalSize,
-    compressedSize,
-    compressionRatio,
-  };
+    return {
+      originalFile: file,
+      compressedBlob,
+      originalSize,
+      compressedSize,
+      compressionRatio,
+    };
+  } catch {
+    throw new ImageCompressError('COMPRESSION_FAILED', file.name);
+  }
 }
 
 export async function compressImages(
@@ -65,6 +85,10 @@ export async function compressImages(
   options: CompressionOptions = {},
   onProgress?: ProgressCallback
 ): Promise<CompressionResult[]> {
+  if (files.length === 0) {
+    throw new ImageCompressError('NO_FILES_PROVIDED');
+  }
+
   const results: CompressionResult[] = [];
   const total = files.length;
 
@@ -97,12 +121,20 @@ export async function compressImages(
   return results;
 }
 
-export function formatFileSize(bytes: number): string {
-  if (bytes === 0) return '0 Bytes';
+export type FileSizeUnit = 'bytes' | 'kb' | 'mb' | 'gb';
+
+export interface FormattedFileSize {
+  value: number;
+  unit: FileSizeUnit;
+}
+
+export function getFileSizeData(bytes: number): FormattedFileSize {
+  if (bytes === 0) return { value: 0, unit: 'bytes' };
   
   const k = 1024;
-  const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
   
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  if (bytes < k) return { value: bytes, unit: 'bytes' };
+  if (bytes < k * k) return { value: parseFloat((bytes / k).toFixed(2)), unit: 'kb' };
+  if (bytes < k * k * k) return { value: parseFloat((bytes / (k * k)).toFixed(2)), unit: 'mb' };
+  return { value: parseFloat((bytes / (k * k * k)).toFixed(2)), unit: 'gb' };
 }

@@ -2,6 +2,10 @@ import { useState, useCallback } from 'react';
 
 export type ProcessingStatus = 'idle' | 'processing' | 'success' | 'error';
 
+export type FileHandlerErrorCode = 
+  | 'FILE_TOO_LARGE'
+  | 'NO_FILES_SELECTED';
+
 export interface FileWithPreview {
   file: File;
   id: string;
@@ -16,10 +20,15 @@ export interface UseFileHandlerOptions {
   maxSizeBytes?: number;
 }
 
+export interface FileHandlerError {
+  code: FileHandlerErrorCode;
+  fileName?: string;
+}
+
 export interface UseFileHandlerReturn {
   files: FileWithPreview[];
   status: ProcessingStatus;
-  error: string | null;
+  error: FileHandlerError | null;
   resultBlob: Blob | null;
   resultUrl: string | null;
   progress: number;
@@ -28,7 +37,7 @@ export interface UseFileHandlerReturn {
   clearFiles: () => void;
   reorderFiles: (fromIndex: number, toIndex: number) => void;
   setStatus: (status: ProcessingStatus) => void;
-  setError: (error: string | null) => void;
+  setError: (error: FileHandlerError | null) => void;
   setResult: (blob: Blob, filename?: string) => void;
   setProgress: (progress: number) => void;
   downloadResult: (filename: string) => void;
@@ -60,7 +69,7 @@ export function useFileHandler(options: UseFileHandlerOptions = {}): UseFileHand
 
   const [files, setFiles] = useState<FileWithPreview[]>([]);
   const [status, setStatus] = useState<ProcessingStatus>('idle');
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<FileHandlerError | null>(null);
   const [resultBlob, setResultBlob] = useState<Blob | null>(null);
   const [resultUrl, setResultUrl] = useState<string | null>(null);
   const [progress, setProgress] = useState<number>(0);
@@ -72,12 +81,15 @@ export function useFileHandler(options: UseFileHandlerOptions = {}): UseFileHand
       fileArray.splice(1);
     }
 
+    for (const file of fileArray) {
+      if (file.size > maxSizeBytes) {
+        setError({ code: 'FILE_TOO_LARGE', fileName: file.name });
+        return;
+      }
+    }
+
     const processedFiles: FileWithPreview[] = await Promise.all(
       fileArray.map(async (file) => {
-        if (file.size > maxSizeBytes) {
-          throw new Error(`File ${file.name} exceeds maximum size`);
-        }
-
         const arrayBuffer = await fileToArrayBuffer(file);
         const previewUrl = createPreviewUrl(file);
 

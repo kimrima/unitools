@@ -47,6 +47,20 @@
       "quality": "Quality",
       "maxWidth": "Max Width/Height"
     },
+    "errors": {
+      "FILE_TOO_LARGE": "File is too large",
+      "NO_FILES_SELECTED": "Please select files",
+      "NO_FILES_PROVIDED": "No files provided",
+      "FAILED_TO_PROCESS_PDF": "Failed to process PDF",
+      "COMPRESSION_FAILED": "Compression failed",
+      "NEED_MORE_FILES": "At least 2 files are required"
+    },
+    "units": {
+      "bytes": "Bytes",
+      "kb": "KB",
+      "mb": "MB",
+      "gb": "GB"
+    },
     "footer": {
       "privacy": "Privacy Policy",
       "terms": "Terms of Service",

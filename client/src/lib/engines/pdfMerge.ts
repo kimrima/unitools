@@ -8,12 +8,28 @@ export interface MergeProgress {
 
 export type ProgressCallback = (progress: MergeProgress) => void;
 
+export type PdfMergeErrorCode = 
+  | 'NO_FILES_PROVIDED'
+  | 'FAILED_TO_PROCESS_PDF';
+
+export class PdfMergeError extends Error {
+  code: PdfMergeErrorCode;
+  fileIndex?: number;
+
+  constructor(code: PdfMergeErrorCode, fileIndex?: number) {
+    super(code);
+    this.code = code;
+    this.fileIndex = fileIndex;
+    this.name = 'PdfMergeError';
+  }
+}
+
 export async function mergePdfFiles(
   pdfBuffers: ArrayBuffer[],
   onProgress?: ProgressCallback
 ): Promise<Blob> {
   if (pdfBuffers.length === 0) {
-    throw new Error('No PDF files provided');
+    throw new PdfMergeError('NO_FILES_PROVIDED');
   }
 
   if (pdfBuffers.length === 1) {
@@ -33,8 +49,8 @@ export async function mergePdfFiles(
       pages.forEach((page) => {
         mergedPdf.addPage(page);
       });
-    } catch (err) {
-      throw new Error(`Failed to process PDF ${i + 1}: ${err instanceof Error ? err.message : 'Unknown error'}`);
+    } catch {
+      throw new PdfMergeError('FAILED_TO_PROCESS_PDF', i + 1);
     }
 
     if (onProgress) {

@@ -1,7 +1,7 @@
 import { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useFileHandler } from '@/hooks/useFileHandler';
-import { compressImage, formatFileSize, type CompressionResult } from '@/lib/engines/imageCompress';
+import { useFileHandler, type FileHandlerError } from '@/hooks/useFileHandler';
+import { compressImage, ImageCompressError, getFileSizeData, type CompressionResult } from '@/lib/engines/imageCompress';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
@@ -31,6 +31,31 @@ export default function CompressImageTool() {
     reset: resetHandler,
   } = useFileHandler({ accept: 'image/*', multiple: true });
 
+  const formatFileSize = useCallback((bytes: number): string => {
+    const data = getFileSizeData(bytes);
+    return `${data.value} ${t(`Common.units.${data.unit}`)}`;
+  }, [t]);
+
+  const translateError = useCallback((err: FileHandlerError | ImageCompressError | null): string => {
+    if (!err) return '';
+    
+    if (err instanceof ImageCompressError) {
+      if (err.code === 'COMPRESSION_FAILED' && err.fileName) {
+        return `${t('Common.errors.COMPRESSION_FAILED')}: ${err.fileName}`;
+      }
+      return t(`Common.errors.${err.code}`);
+    }
+    
+    if ('code' in err) {
+      if (err.code === 'FILE_TOO_LARGE' && err.fileName) {
+        return `${t('Common.errors.FILE_TOO_LARGE')}: ${err.fileName}`;
+      }
+      return t(`Common.errors.${err.code}`);
+    }
+    
+    return t('Common.messages.error');
+  }, [t]);
+
   const handleFileSelect = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       addFiles(e.target.files);
@@ -55,7 +80,7 @@ export default function CompressImageTool() {
 
   const handleCompress = useCallback(async () => {
     if (files.length === 0) {
-      setError(t('Common.messages.noFilesSelected'));
+      setError({ code: 'NO_FILES_SELECTED' });
       return;
     }
 
@@ -89,10 +114,14 @@ export default function CompressImageTool() {
       setCompressionResults(results);
       setStatus('success');
     } catch (err) {
-      setError(err instanceof Error ? err.message : t('Common.messages.error'));
+      if (err instanceof ImageCompressError) {
+        setError({ code: err.code } as FileHandlerError);
+      } else {
+        setError({ code: 'NO_FILES_PROVIDED' } as FileHandlerError);
+      }
       setStatus('error');
     }
-  }, [files, quality, maxSize, setStatus, setProgress, setError, t]);
+  }, [files, quality, maxSize, setStatus, setProgress, setError]);
 
   const handleDownload = useCallback((result: CompressionResult) => {
     const url = URL.createObjectURL(result.compressedBlob);
@@ -194,7 +223,7 @@ export default function CompressImageTool() {
       {files.length > 0 && compressionResults.length === 0 && (
         <Card>
           <CardContent className="p-4">
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center justify-between gap-2 mb-4">
               <span className="text-sm font-medium" data-testid="text-files-count">
                 {files.length} {t('Common.messages.filesSelected')}
               </span>
@@ -252,7 +281,7 @@ export default function CompressImageTool() {
       {compressionResults.length > 0 && (
         <Card className="bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-800">
           <CardContent className="p-4 space-y-4">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between gap-2 flex-wrap">
               <div className="flex items-center gap-2">
                 <Check className="w-5 h-5 text-green-600" />
                 <span className="font-medium text-green-700 dark:text-green-300">
@@ -276,7 +305,7 @@ export default function CompressImageTool() {
                 >
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium truncate">{result.originalFile.name}</p>
-                    <div className="flex gap-4 text-xs text-muted-foreground mt-1">
+                    <div className="flex gap-4 text-xs text-muted-foreground mt-1 flex-wrap">
                       <span>
                         {t('Common.messages.originalSize')}: {formatFileSize(result.originalSize)}
                       </span>
@@ -305,11 +334,11 @@ export default function CompressImageTool() {
 
       {error && (
         <div className="p-4 bg-destructive/10 text-destructive rounded-lg" data-testid="section-error">
-          {error}
+          {translateError(error)}
         </div>
       )}
 
-      <div className="flex gap-4">
+      <div className="flex gap-4 flex-wrap">
         <Button
           onClick={handleCompress}
           disabled={files.length === 0 || status === 'processing'}

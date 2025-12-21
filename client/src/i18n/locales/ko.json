@@ -47,6 +47,20 @@
       "quality": "품질",
       "maxWidth": "최대 너비/높이"
     },
+    "errors": {
+      "FILE_TOO_LARGE": "파일이 너무 큽니다",
+      "NO_FILES_SELECTED": "파일을 선택해주세요",
+      "NO_FILES_PROVIDED": "파일이 제공되지 않았습니다",
+      "FAILED_TO_PROCESS_PDF": "PDF 처리 실패",
+      "COMPRESSION_FAILED": "압축 실패",
+      "NEED_MORE_FILES": "최소 2개 이상의 파일이 필요합니다"
+    },
+    "units": {
+      "bytes": "Bytes",
+      "kb": "KB",
+      "mb": "MB",
+      "gb": "GB"
+    },
     "footer": {
       "privacy": "개인정보 보호",
       "terms": "이용약관",

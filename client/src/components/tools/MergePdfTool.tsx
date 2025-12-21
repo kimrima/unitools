@@ -1,7 +1,7 @@
 import { useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useFileHandler } from '@/hooks/useFileHandler';
-import { mergePdfFiles } from '@/lib/engines/pdfMerge';
+import { useFileHandler, type FileHandlerError } from '@/hooks/useFileHandler';
+import { mergePdfFiles, PdfMergeError } from '@/lib/engines/pdfMerge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
@@ -28,6 +28,26 @@ export default function MergePdfTool() {
     reset,
   } = useFileHandler({ accept: '.pdf', multiple: true });
 
+  const translateError = useCallback((err: FileHandlerError | PdfMergeError | null): string => {
+    if (!err) return '';
+    
+    if (err instanceof PdfMergeError) {
+      if (err.code === 'FAILED_TO_PROCESS_PDF' && err.fileIndex) {
+        return `${t('Common.errors.FAILED_TO_PROCESS_PDF')} #${err.fileIndex}`;
+      }
+      return t(`Common.errors.${err.code}`);
+    }
+    
+    if ('code' in err) {
+      if (err.code === 'FILE_TOO_LARGE' && err.fileName) {
+        return `${t('Common.errors.FILE_TOO_LARGE')}: ${err.fileName}`;
+      }
+      return t(`Common.errors.${err.code}`);
+    }
+    
+    return t('Common.messages.error');
+  }, [t]);
+
   const handleFileSelect = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       addFiles(e.target.files);
@@ -50,7 +70,7 @@ export default function MergePdfTool() {
 
   const handleMerge = useCallback(async () => {
     if (files.length < 2) {
-      setError(t('Common.messages.error'));
+      setError({ code: 'NEED_MORE_FILES' as const } as FileHandlerError);
       return;
     }
 
@@ -69,14 +89,25 @@ export default function MergePdfTool() {
 
       setResult(mergedBlob);
     } catch (err) {
-      setError(err instanceof Error ? err.message : t('Common.messages.error'));
+      if (err instanceof PdfMergeError) {
+        setError({ code: err.code } as FileHandlerError);
+      } else {
+        setError({ code: 'NO_FILES_PROVIDED' } as FileHandlerError);
+      }
       setStatus('error');
     }
-  }, [files, setStatus, setProgress, setError, setResult, t]);
+  }, [files, setStatus, setProgress, setError, setResult]);
 
   const handleDownload = useCallback(() => {
     downloadResult('merged.pdf');
   }, [downloadResult]);
+
+  const formatFileSize = useCallback((bytes: number): string => {
+    const k = 1024;
+    if (bytes < k) return `${bytes} ${t('Common.units.bytes')}`;
+    if (bytes < k * k) return `${(bytes / k).toFixed(1)} ${t('Common.units.kb')}`;
+    return `${(bytes / (k * k)).toFixed(1)} ${t('Common.units.mb')}`;
+  }, [t]);
 
   return (
     <div className="space-y-6">
@@ -115,7 +146,7 @@ export default function MergePdfTool() {
       {files.length > 0 && (
         <Card>
           <CardContent className="p-4">
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center justify-between gap-2 mb-4">
               <span className="text-sm font-medium" data-testid="text-files-count">
                 {files.length} {t('Common.messages.filesSelected')}
               </span>
@@ -135,7 +166,7 @@ export default function MergePdfTool() {
                   <FileText className="w-5 h-5 text-muted-foreground" />
                   <span className="flex-1 text-sm truncate">{file.file.name}</span>
                   <span className="text-xs text-muted-foreground">
-                    {(file.file.size / 1024).toFixed(1)} KB
+                    {formatFileSize(file.file.size)}
                   </span>
                   <Button
                     variant="ghost"
@@ -166,7 +197,7 @@ export default function MergePdfTool() {
       {status === 'success' && resultBlob && (
         <Card className="bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-800">
           <CardContent className="p-4">
-            <div className="flex items-center justify-between" data-testid="section-success">
+            <div className="flex items-center justify-between gap-2" data-testid="section-success">
               <div>
                 <p className="font-medium text-green-700 dark:text-green-300">
                   {t('Common.messages.complete')}
@@ -186,11 +217,11 @@ export default function MergePdfTool() {
 
       {error && (
         <div className="p-4 bg-destructive/10 text-destructive rounded-lg" data-testid="section-error">
-          {error}
+          {translateError(error)}
         </div>
       )}
 
-      <div className="flex gap-4">
+      <div className="flex gap-4 flex-wrap">
         <Button
           onClick={handleMerge}
           disabled={files.length < 2 || status === 'processing'}
