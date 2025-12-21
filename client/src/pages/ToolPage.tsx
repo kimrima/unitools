@@ -347,7 +347,6 @@ const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element
   'calculator': CalculatorTool,
   'wheel-of-fortune': RandomPickerTool,
   'random-choice': RandomPickerTool,
-  'upside-down-text': CaseConverterTool,
   'fancy-text': InstagramFontTool,
   'zalgo-text': CaseConverterTool,
   'binary-text': Base64Tool,

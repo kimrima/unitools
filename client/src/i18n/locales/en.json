@@ -2096,12 +2096,7 @@
       "description": "Test your internet connection download and upload speeds.",
       "shortDesc": "Test internet speed"
     },
-    "upside-down-text": {
-      "title": "Upside Down Text",
-      "description": "Flip your text upside down using special Unicode characters.",
-      "shortDesc": "Flip text upside down"
-    },
-    "user-agent": {
+        "user-agent": {
       "title": "User Agent Checker",
       "description": "View your browser's user agent string and device information.",
       "shortDesc": "Check browser info"

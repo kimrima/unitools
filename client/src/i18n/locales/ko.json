@@ -2102,12 +2102,7 @@
       "description": "인터넷 연결의 다운로드 및 업로드 속도를 테스트하세요.",
       "shortDesc": "인터넷 속도 측정"
     },
-    "upside-down-text": {
-      "title": "거꾸로 텍스트",
-      "description": "특수 유니코드 문자를 사용하여 텍스트를 거꾸로 뒤집으세요.",
-      "shortDesc": "텍스트 뒤집기"
-    },
-    "user-agent": {
+        "user-agent": {
       "title": "사용자 에이전트 검사기",
       "description": "브라우저의 사용자 에이전트 문자열과 기기 정보를 확인하세요.",
       "shortDesc": "브라우저 정보 확인"
