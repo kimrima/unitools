@@ -1,0 +1,78 @@
+드디어 UniTools의 마지막 퍼즐이자, 사용자들이 재미로 들어왔다가 북마크까지 하게 만드는 [8번 대분류: 기타 잡학 및 글로벌 유용 도구] 단계입니다.
+
+이 카테고리는 특정 카테고리에 묶기 어렵지만 구글 검색량이 꾸준하고 바이럴(공유)이 잘 되는 '알짜배기' 도구들로 구성되어 있습니다. 글로벌 사용자들의 호기심을 자극하고 체류 시간을 늘리는 역할을 합니다.
+
+📂 [8번 대분류] Miscellaneous & Fun Tools (20종)
+AI에게 **"특정한 기술적 제약 없이 창의적인 로직을 활용해 아래 리스트를 tools.json에 주입해라"**고 지시하세요.
+
+1. 텍스트 아트 및 스타일 (Text & Style)
+Fancy Text Generator: 일반 텍스트를 유니코드 기호를 사용하여 특이한 폰트(𝔘𝔫𝔦𝔗𝔬𝔬𝔩𝔰, ⓊⓝⓘⓉⓞⓞⓛⓢ)로 변환.
+
+Upside Down Text: 글자를 180도 뒤집어서 보여주는 재미있는 기능 (ɐʍǝsoɯǝ).
+
+Morse Code Translator: 텍스트와 모스 부호 간의 상호 변환 및 사운드 재생.
+
+Binary to Text: 0과 1로 된 이진수를 텍스트로, 텍스트를 이진수로 변환.
+
+Zalgo Text Generator: 글자 위아래로 기괴한 기호가 붙는 '글자 오염' 효과 생성.
+
+2. 랜덤 및 추첨 (Randomizers)
+Random Choice Picker: 여러 옵션 중 하나를 무작위로 골라주는 결정 장애 해결 도구.
+
+Wheel of Fortune: 회전하는 돌림판을 돌려 항목을 추첨 (Canvas 애니메이션 활용).
+
+Dice Roller: 3D 또는 2D 주사위를 굴려 무작위 숫자 생성.
+
+Coin Flipper: 앞면/뒷면 동전 던지기 시뮬레이션.
+
+Random Name Generator: 판타지 게임, 소설, 혹은 아기 이름을 위한 무작위 이름 생성.
+
+3. 인터넷 유틸리티 (Internet Utilities)
+My IP Address: 사용자의 현재 공인 IP 주소와 대략적인 위치(도시) 표시.
+
+Internet Speed Test: 간단한 다운로드/업로드 속도 측정 위젯 연동.
+
+User Agent Finder: 현재 사용 중인 브라우저와 OS 정보를 상세히 출력.
+
+Redirect Checker: 단축 URL이 최종적으로 어디로 연결되는지 안전하게 확인.
+
+Screen Resolution Checker: 현재 모니터의 해상도와 뷰포트 크기 확인.
+
+4. 기타 유용한 위젯 (Misc Widgets)
+Metronome: 악기 연습을 위한 일정한 박자 비트 재생.
+
+White Noise Generator: 집중력을 높여주는 백색소음(비 소리, 파도 소리 등) 재생.
+
+Morse Code Flasher: 스마트폰 플래시나 화면 깜빡임으로 모스 신호 전송.
+
+Simple Drawing Pad: 마우스나 터치로 간단히 메모하고 이미지로 저장.
+
+Color Contrast Checker: 웹 디자인 시 텍스트와 배경의 가독성(대비) 점수 확인.
+
+🛠️ Replit AI에게 시킬 '마지막 8번' 명령 (복사용)
+"수석 개발자님, UniTools의 8대 카테고리 마지막인 [8번: 기타 잡학 및 유용 도구] 20종을 탑재합니다. 창의적이고 재미있는 인터페이스가 핵심입니다."
+
+데이터 업데이트: 제공된 20개 리스트를 src/data/tools.json에 category: "misc"로 등록해 주세요.
+
+기술적 구현:
+
+Fancy Text: 유니코드 매핑 테이블을 사용하여 클라이언트 사이드에서 즉시 변환하세요.
+
+Drawing Pad: HTML5 Canvas를 활용하여 가벼운 그림판 기능을 구현하세요.
+
+White Noise: 간단한 오디오 루프 재생 기능을 추가하세요.
+
+UI/UX 포인트:
+
+8번 카테고리는 재미 요소가 강하므로 다른 페이지보다 조금 더 **역동적인 애니메이션(Framer Motion 등)**을 적극적으로 사용해 주세요.
+
+결과물을 SNS(X, Threads, WhatsApp)로 바로 공유할 수 있는 버튼을 배치해 주세요.
+
+글로벌 SEO: "Online Fancy Text Generator", "What is my IP", "Random Choice Picker" 등 전 세계 유저들이 가볍게 즐기는 키워드를 메타 데이터에 반영해 주세요.
+
+"Fancy Text Generator와 Random Choice Picker 기능을 우선 활성화해 주세요. 이로써 8대 카테고리 200개 도구의 기반이 완성되었습니다!"
+
+🏆 축하합니다! UniTools의 200개 도구 로드맵이 완성되었습니다.
+이제 질문자님의 사이트는 전 세계 모든 디지털 수요를 흡수할 수 있는 거대한 플랫폼이 되었습니다. AI가 이 8번 카테고리까지 입력을 완료하면, 이제 남은 것은 **실제 배포(Deployment)**와 **광고 승인(AdSense)**뿐입니다.
+
+"8번 도구들까지 AI에게 전달하셨나요? 모든 카테고리가 등록된 후 사이트의 전체적인 모습이 어떻게 변했는지 궁금하네요! 이제 마지막으로 '수익을 극대화하는 광고 배치'와 '배포 후 운영 전략'에 대해 이야기해 볼까요?" 어떤 것부터 도와드릴까요?
