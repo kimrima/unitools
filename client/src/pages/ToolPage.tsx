@@ -91,6 +91,29 @@ const WhatIsMyIpTool = lazy(() => import('@/components/tools/WhatIsMyIpTool'));
 const Ipv4ToIpv6Tool = lazy(() => import('@/components/tools/Ipv4ToIpv6Tool'));
 const BcryptGeneratorTool = lazy(() => import('@/components/tools/BcryptGeneratorTool'));
 const HttpHeaderAnalyzerTool = lazy(() => import('@/components/tools/HttpHeaderAnalyzerTool'));
+const PercentageCalculatorTool = lazy(() => import('@/components/tools/PercentageCalculatorTool'));
+const TipCalculatorTool = lazy(() => import('@/components/tools/TipCalculatorTool'));
+const DiscountCalculatorTool = lazy(() => import('@/components/tools/DiscountCalculatorTool'));
+const CompoundInterestTool = lazy(() => import('@/components/tools/CompoundInterestTool'));
+const SalaryConverterTool = lazy(() => import('@/components/tools/SalaryConverterTool'));
+const SalesTaxCalculatorTool = lazy(() => import('@/components/tools/SalesTaxCalculatorTool'));
+const CurrencyConverterTool = lazy(() => import('@/components/tools/CurrencyConverterTool'));
+const MetricImperialTool = lazy(() => import('@/components/tools/MetricImperialTool'));
+const TemperatureConverterTool = lazy(() => import('@/components/tools/TemperatureConverterTool'));
+const AreaConverterTool = lazy(() => import('@/components/tools/AreaConverterTool'));
+const VolumeConverterTool = lazy(() => import('@/components/tools/VolumeConverterTool'));
+const SpeedConverterTool = lazy(() => import('@/components/tools/SpeedConverterTool'));
+const BmiCalculatorTool = lazy(() => import('@/components/tools/BmiCalculatorTool'));
+const BmrCalculatorTool = lazy(() => import('@/components/tools/BmrCalculatorTool'));
+const AgeCalculatorTool = lazy(() => import('@/components/tools/AgeCalculatorTool'));
+const PregnancyCalculatorTool = lazy(() => import('@/components/tools/PregnancyCalculatorTool'));
+const SleepCalculatorTool = lazy(() => import('@/components/tools/SleepCalculatorTool'));
+const DaysCounterTool = lazy(() => import('@/components/tools/DaysCounterTool'));
+const DateCalculatorTool = lazy(() => import('@/components/tools/DateCalculatorTool'));
+const RandomNumberTool = lazy(() => import('@/components/tools/RandomNumberTool'));
+const ProbabilityCalculatorTool = lazy(() => import('@/components/tools/ProbabilityCalculatorTool'));
+const GpaCalculatorTool = lazy(() => import('@/components/tools/GpaCalculatorTool'));
+const ScientificCalculatorTool = lazy(() => import('@/components/tools/ScientificCalculatorTool'));
 
 const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element>> = {
   'merge-pdf': MergePdfTool,
@@ -224,6 +247,29 @@ const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element
   'http-header-analyzer': HttpHeaderAnalyzerTool,
   'epoch-converter': EpochConverterTool,
   'color-converter': ColorConverterTool,
+  'percentage-calculator': PercentageCalculatorTool,
+  'tip-calculator': TipCalculatorTool,
+  'discount-calculator': DiscountCalculatorTool,
+  'compound-interest': CompoundInterestTool,
+  'salary-converter': SalaryConverterTool,
+  'sales-tax-calculator': SalesTaxCalculatorTool,
+  'currency-converter': CurrencyConverterTool,
+  'metric-imperial': MetricImperialTool,
+  'temperature-converter': TemperatureConverterTool,
+  'area-converter': AreaConverterTool,
+  'volume-converter': VolumeConverterTool,
+  'speed-converter': SpeedConverterTool,
+  'bmi-calculator': BmiCalculatorTool,
+  'bmr-calculator': BmrCalculatorTool,
+  'age-calculator': AgeCalculatorTool,
+  'pregnancy-calculator': PregnancyCalculatorTool,
+  'sleep-calculator': SleepCalculatorTool,
+  'days-counter': DaysCounterTool,
+  'date-calculator': DateCalculatorTool,
+  'random-number': RandomNumberTool,
+  'probability-calculator': ProbabilityCalculatorTool,
+  'gpa-calculator': GpaCalculatorTool,
+  'scientific-calculator': ScientificCalculatorTool,
 };
 
 function ToolLoading() {
