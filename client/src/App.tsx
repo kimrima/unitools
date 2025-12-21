@@ -26,8 +26,8 @@ function ToolPageWrapper() {
 function Router() {
   return (
     <Switch>
-      <Route path="/admin" component={AdminLogin} />
-      <Route path="/admin/dashboard" component={AdminDashboard} />
+      <Route path="/자리관" component={AdminLogin} />
+      <Route path="/자리관/dashboard" component={AdminDashboard} />
       <Route path="/" component={HomePage} />
       <Route path="/:locale" component={HomePage} />
       <Route path="/:locale/all-tools" component={AllToolsPage} />
