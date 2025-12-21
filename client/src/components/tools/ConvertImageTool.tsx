@@ -11,11 +11,98 @@ import { Label } from '@/components/ui/label';
 import { Image, Upload, X, Download, Loader2, RefreshCw } from 'lucide-react';
 import { downloadBlob } from '@/hooks/useToolEngine';
 
-export default function ConvertImageTool() {
+interface ToolFormatConfig {
+  acceptedFormats: string[];
+  defaultTarget: ImageFormat;
+  availableTargets: ImageFormat[];
+  acceptMime: string;
+}
+
+const toolFormatConfigs: Record<string, ToolFormatConfig> = {
+  'png-to-jpg': {
+    acceptedFormats: ['PNG'],
+    defaultTarget: 'jpeg',
+    availableTargets: ['jpeg'],
+    acceptMime: 'image/png',
+  },
+  'jpg-to-png': {
+    acceptedFormats: ['JPG', 'JPEG'],
+    defaultTarget: 'png',
+    availableTargets: ['png'],
+    acceptMime: 'image/jpeg',
+  },
+  'webp-to-jpg': {
+    acceptedFormats: ['WebP'],
+    defaultTarget: 'jpeg',
+    availableTargets: ['jpeg'],
+    acceptMime: 'image/webp',
+  },
+  'webp-to-png': {
+    acceptedFormats: ['WebP'],
+    defaultTarget: 'png',
+    availableTargets: ['png'],
+    acceptMime: 'image/webp',
+  },
+  'png-to-webp': {
+    acceptedFormats: ['PNG'],
+    defaultTarget: 'webp',
+    availableTargets: ['webp'],
+    acceptMime: 'image/png',
+  },
+  'jpg-to-webp': {
+    acceptedFormats: ['JPG', 'JPEG'],
+    defaultTarget: 'webp',
+    availableTargets: ['webp'],
+    acceptMime: 'image/jpeg',
+  },
+  'webp-converter': {
+    acceptedFormats: ['JPG', 'PNG', 'GIF', 'BMP'],
+    defaultTarget: 'webp',
+    availableTargets: ['webp'],
+    acceptMime: 'image/jpeg,image/png,image/gif,image/bmp',
+  },
+  'convert-image': {
+    acceptedFormats: ['JPG', 'PNG', 'WebP', 'GIF', 'BMP'],
+    defaultTarget: 'jpeg',
+    availableTargets: ['jpeg', 'png', 'webp'],
+    acceptMime: 'image/*',
+  },
+  'bulk-convert': {
+    acceptedFormats: ['JPG', 'PNG', 'WebP', 'GIF', 'BMP'],
+    defaultTarget: 'jpeg',
+    availableTargets: ['jpeg', 'png', 'webp'],
+    acceptMime: 'image/*',
+  },
+  'bulk-convert-image': {
+    acceptedFormats: ['JPG', 'PNG', 'WebP', 'GIF', 'BMP'],
+    defaultTarget: 'jpeg',
+    availableTargets: ['jpeg', 'png', 'webp'],
+    acceptMime: 'image/*',
+  },
+  'gif-to-png': {
+    acceptedFormats: ['GIF'],
+    defaultTarget: 'png',
+    availableTargets: ['png'],
+    acceptMime: 'image/gif',
+  },
+  'svg-to-png': {
+    acceptedFormats: ['SVG'],
+    defaultTarget: 'png',
+    availableTargets: ['png'],
+    acceptMime: 'image/svg+xml',
+  },
+};
+
+interface ConvertImageToolProps {
+  toolId?: string;
+}
+
+export default function ConvertImageTool({ toolId = 'convert-image' }: ConvertImageToolProps) {
   const { t } = useTranslation();
   const fileInputRef = useRef<HTMLInputElement>(null);
   
-  const [targetFormat, setTargetFormat] = useState<ImageFormat>('jpeg');
+  const config = toolFormatConfigs[toolId] || toolFormatConfigs['convert-image'];
+  const [targetFormat, setTargetFormat] = useState<ImageFormat>(config.defaultTarget);
   const [convertResults, setConvertResults] = useState<ConvertResult[]>([]);
   
   const {
@@ -30,7 +117,9 @@ export default function ConvertImageTool() {
     setError,
     setProgress,
     reset: resetHandler,
-  } = useFileHandler({ accept: 'image/*', multiple: true });
+  } = useFileHandler({ accept: config.acceptMime, multiple: true });
+  
+  const showFormatSelect = config.availableTargets.length > 1;
 
   const formatFileSize = useCallback((bytes: number): string => {
     const data = getFileSizeData(bytes);
@@ -63,14 +152,21 @@ export default function ConvertImageTool() {
 
   const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    const droppedFiles = Array.from(e.dataTransfer.files).filter(
-      (file) => file.type.startsWith('image/')
-    );
+    const acceptedMimes = config.acceptMime === 'image/*' 
+      ? null 
+      : config.acceptMime.split(',');
+    
+    const droppedFiles = Array.from(e.dataTransfer.files).filter((file) => {
+      if (!file.type.startsWith('image/')) return false;
+      if (!acceptedMimes) return true;
+      return acceptedMimes.some(mime => file.type === mime.trim());
+    });
+    
     if (droppedFiles.length > 0) {
       addFiles(droppedFiles);
       setConvertResults([]);
     }
-  }, [addFiles]);
+  }, [addFiles, config.acceptMime]);
 
   const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -125,34 +221,44 @@ export default function ConvertImageTool() {
     setConvertResults([]);
   }, [resetHandler]);
 
+  const formatLabels: Record<ImageFormat, string> = {
+    jpeg: 'JPG',
+    png: 'PNG',
+    webp: 'WebP',
+  };
+  
   return (
     <div className="space-y-6">
       <div className="text-sm text-muted-foreground" data-testid="text-instructions">
-        {t('Tools.convert-image.instructions')}
+        {t(`Tools.${toolId}.instructions`, { defaultValue: t('Tools.convert-image.instructions') })}
       </div>
 
-      <Card>
-        <CardContent className="p-4">
-          <div className="space-y-2">
-            <Label htmlFor="format-select">{t('Common.messages.targetFormat')}</Label>
-            <Select value={targetFormat} onValueChange={(v) => setTargetFormat(v as ImageFormat)}>
-              <SelectTrigger id="format-select" data-testid="select-format">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="jpeg">JPG</SelectItem>
-                <SelectItem value="png">PNG</SelectItem>
-                <SelectItem value="webp">WebP</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </CardContent>
-      </Card>
+      {showFormatSelect && (
+        <Card>
+          <CardContent className="p-4">
+            <div className="space-y-2">
+              <Label htmlFor="format-select">{t('Common.messages.targetFormat')}</Label>
+              <Select value={targetFormat} onValueChange={(v) => setTargetFormat(v as ImageFormat)}>
+                <SelectTrigger id="format-select" data-testid="select-format">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {config.availableTargets.map((format) => (
+                    <SelectItem key={format} value={format}>
+                      {formatLabels[format]}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       <input
         ref={fileInputRef}
         type="file"
-        accept="image/*"
+        accept={config.acceptMime}
         multiple
         onChange={handleFileSelect}
         className="hidden"

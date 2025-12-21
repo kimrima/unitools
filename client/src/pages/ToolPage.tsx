@@ -437,6 +437,13 @@ export default function ToolPage() {
   }
 
   const ToolComponent = toolComponents[toolId];
+  
+  const toolsNeedingId = new Set([
+    'convert-image', 'png-to-jpg', 'jpg-to-png', 'webp-to-jpg', 'webp-to-png',
+    'png-to-webp', 'jpg-to-webp', 'webp-converter', 'bulk-convert',
+    'gif-to-png', 'svg-to-png', 'bulk-convert-image',
+  ]);
+  const needsToolId = toolsNeedingId.has(toolId);
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -495,7 +502,7 @@ export default function ToolPage() {
           <CardContent className="p-6 md:p-8">
             {ToolComponent ? (
               <Suspense fallback={<ToolLoading />}>
-                <ToolComponent />
+                {needsToolId ? <ToolComponent toolId={toolId} /> : <ToolComponent />}
               </Suspense>
             ) : (
               <GenericToolPlaceholder toolId={toolId} />

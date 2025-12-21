@@ -12,26 +12,11 @@ interface ToolContentProps {
 }
 
 export function ToolStats({ toolId }: ToolContentProps) {
-  const { t } = useTranslation();
   const tool = getToolById(toolId);
 
   if (!tool) return null;
 
-  return (
-    <div className="flex items-center gap-4 flex-wrap text-sm">
-      <div className="flex items-center gap-1.5">
-        <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
-        <span className="font-medium">{tool.rating}</span>
-        <span className="text-muted-foreground">
-          ({formatUsageCount(tool.ratingCount)} {t('Common.seo.reviews')})
-        </span>
-      </div>
-      <div className="flex items-center gap-1.5 text-muted-foreground">
-        <Users className="w-4 h-4" />
-        <span>{formatUsageCount(tool.usageCount)} {t('Common.seo.users')}</span>
-      </div>
-    </div>
-  );
+  return null;
 }
 
 export function HowToUse({ toolId }: ToolContentProps) {
@@ -170,10 +155,6 @@ export function RelatedTools({ toolId }: ToolContentProps) {
                     <p className="font-medium text-sm truncate">
                       {t(`Tools.${tool.id}.title`)}
                     </p>
-                    <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                      <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />
-                      <span>{tool.rating}</span>
-                    </div>
                   </div>
                   <ArrowRight className="w-4 h-4 text-muted-foreground flex-shrink-0" />
                 </div>
