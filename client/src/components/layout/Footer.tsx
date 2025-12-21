@@ -4,6 +4,7 @@ import { useLocalizedPath } from '@/components/LocaleProvider';
 import { allTools } from '@/data/tools';
 
 const categoryIds = ['pdf', 'imageEdit', 'imageConvert', 'videoAudio', 'text', 'social', 'developer', 'calculator'];
+const miscCategoryId = 'misc';
 
 export default function Footer() {
   const { t } = useTranslation();
@@ -105,6 +106,30 @@ export default function Footer() {
                 </div>
               );
             })}
+            {(() => {
+              const miscTools = getImplementedToolsByCategory(miscCategoryId);
+              if (miscTools.length === 0) return null;
+              return (
+                <div>
+                  <h5 className="font-medium text-white text-xs mb-3 uppercase tracking-wide">
+                    {t(`Categories.${miscCategoryId}.name`, { defaultValue: 'Fun & Misc' })}
+                  </h5>
+                  <ul className="space-y-1.5">
+                    {miscTools.map((tool) => (
+                      <li key={tool.id}>
+                        <Link
+                          href={localizedPath(`/${tool.id}`)}
+                          className="text-xs text-gray-400 hover:text-white transition-colors block truncate"
+                          data-testid={`link-footer-tool-${tool.id}`}
+                        >
+                          {t(`Tools.${tool.id}.title`, { defaultValue: tool.id })}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              );
+            })()}
           </div>
         </div>
 
