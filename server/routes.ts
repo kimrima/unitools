@@ -68,7 +68,7 @@ async function adminAuthMiddleware(req: Request, res: Response, next: NextFuncti
 
 export async function registerRoutes(server: Server, app: Express): Promise<void> {
   app.get('/sitemap.xml', (_req: Request, res: Response) => {
-    const baseUrl = process.env.SITE_URL || 'https://unitools.app';
+    const baseUrl = process.env.SITE_URL || 'https://unitools.store';
     const lastmod = new Date().toISOString().split('T')[0];
 
     const urls: string[] = [];
@@ -124,7 +124,7 @@ ${urls.join('')}
   });
 
   app.get('/robots.txt', (_req: Request, res: Response) => {
-    const baseUrl = process.env.SITE_URL || 'https://unitools.app';
+    const baseUrl = process.env.SITE_URL || 'https://unitools.store';
     const robotsTxt = `User-agent: *
 Allow: /
 Disallow: /admin
