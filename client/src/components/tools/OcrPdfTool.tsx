@@ -2,8 +2,13 @@ import { useState, useCallback, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PDFDocument } from 'pdf-lib';
 import * as pdfjs from 'pdfjs-dist';
-import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 import { createWorker, Worker } from 'tesseract.js';
+
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  'pdfjs-dist/build/pdf.worker.min.mjs',
+  import.meta.url,
+).toString();
+
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -13,8 +18,6 @@ import { FileText, Download, Loader2, CheckCircle, Scan, Trash2, Copy } from 'lu
 import { FileUploadZone } from '@/components/tool-ui';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-
-pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
 type ToolStatus = 'idle' | 'processing' | 'success' | 'error';
 

@@ -1,7 +1,12 @@
 import { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as pdfjs from 'pdfjs-dist';
-import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
+
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  'pdfjs-dist/build/pdf.worker.min.mjs',
+  import.meta.url,
+).toString();
+
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -9,8 +14,6 @@ import { Progress } from '@/components/ui/progress';
 import { FileText, Download, Loader2, CheckCircle, Copy, Trash2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { FileUploadZone } from '@/components/tool-ui';
-
-pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
 type ToolStatus = 'idle' | 'processing' | 'success' | 'error';
 
