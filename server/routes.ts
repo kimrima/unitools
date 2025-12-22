@@ -197,45 +197,30 @@ Sitemap: ${baseUrl}/sitemap.xml
 
   app.post('/api/admin/login', async (req: Request, res: Response) => {
     try {
-      const { username, password } = req.body;
+      const { password } = req.body;
       
-      if (!username || !password) {
-        return res.status(400).json({ error: 'Username and password required' });
+      if (!password) {
+        return res.status(400).json({ error: 'Password required' });
       }
       
-      const admin = await storage.getAdminByUsername(username);
+      const envPassword = process.env.ADMIN_PASSWORD;
+      
+      if (!envPassword) {
+        return res.status(500).json({ error: 'Admin password not configured' });
+      }
+      
+      if (password !== envPassword) {
+        return res.status(401).json({ error: 'Invalid password' });
+      }
+      
+      const adminUsername = 'admin';
+      let admin = await storage.getAdminByUsername(adminUsername);
       
       if (!admin) {
-        const envUsername = process.env.ADMIN_USERNAME || 'admin';
-        const envPassword = process.env.ADMIN_PASSWORD || 'admin123';
-        
-        if (username === envUsername && password === envPassword) {
-          const newAdmin = await storage.createAdmin({
-            username: envUsername,
-            passwordHash: hashPassword(envPassword),
-          });
-          
-          const token = randomBytes(32).toString('hex');
-          const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
-          
-          await storage.createAdminSession(newAdmin.id, token, expiresAt);
-          await storage.updateAdminLastLogin(newAdmin.id);
-          
-          res.cookie('admin_token', token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'lax',
-            maxAge: 24 * 60 * 60 * 1000,
-          });
-          
-          return res.json({ success: true, username: newAdmin.username });
-        }
-        
-        return res.status(401).json({ error: 'Invalid credentials' });
-      }
-      
-      if (admin.passwordHash !== hashPassword(password)) {
-        return res.status(401).json({ error: 'Invalid credentials' });
+        admin = await storage.createAdmin({
+          username: adminUsername,
+          passwordHash: hashPassword(envPassword),
+        });
       }
       
       const token = randomBytes(32).toString('hex');
