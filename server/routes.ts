@@ -136,6 +136,12 @@ Sitemap: ${baseUrl}/sitemap.xml
     res.send(robotsTxt);
   });
 
+  app.get('/ads.txt', (_req: Request, res: Response) => {
+    const adsTxt = `google.com, pub-2706292385168262, DIRECT, f08c47fec0942fa0`;
+    res.header('Content-Type', 'text/plain');
+    res.send(adsTxt);
+  });
+
   app.get('/api/tools', (_req: Request, res: Response) => {
     res.json({ tools: allToolIds, categories });
   });
