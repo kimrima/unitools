@@ -9,7 +9,7 @@ import { Slider } from '@/components/ui/slider';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { FullscreenWrapper } from './FullscreenWrapper';
 import { 
-  VolumeX, Play, X, Zap, Check, SkipForward, Trophy, RotateCcw, Timer
+  VolumeX, Play, X, Zap, Check, SkipForward, Trophy, RotateCcw, Timer, Clock
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { playClick, playFanfare } from '@/lib/sounds';
@@ -17,7 +17,14 @@ import { playClick, playFanfare } from '@/lib/sounds';
 const EXAMPLE_WORDS_KO = ['아이스크림', '스마트폰', '에어컨', '초콜릿', '자전거', '피아노', '냉장고', '헬리콥터', '해바라기', '트램펄린'];
 const EXAMPLE_WORDS_EN = ['Ice Cream', 'Smartphone', 'Sunglasses', 'Chocolate', 'Bicycle', 'Piano', 'Refrigerator', 'Helicopter', 'Sunflower', 'Trampoline'];
 
-const TIME_OPTIONS = [30, 60, 90, 120, 180];
+const TIME_OPTIONS = [
+  { value: '0', label: '무제한' },
+  { value: '30', label: '0:30' },
+  { value: '60', label: '1:00' },
+  { value: '90', label: '1:30' },
+  { value: '120', label: '2:00' },
+  { value: '180', label: '3:00' },
+];
 
 export default function SilentShoutTool() {
   const { t, i18n } = useTranslation();
@@ -27,17 +34,22 @@ export default function SilentShoutTool() {
   const [timeLimit, setTimeLimit] = useState('60');
   const [fontSize, setFontSize] = useState([80]);
   
+  const [isReady, setIsReady] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [remainingWords, setRemainingWords] = useState<string[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [timeLeft, setTimeLeft] = useState(60);
+  const [elapsedTime, setElapsedTime] = useState(0);
   const [correctCount, setCorrectCount] = useState(0);
   const [passedWords, setPassedWords] = useState<string[]>([]);
   const [isGameOver, setIsGameOver] = useState(false);
+  const [isAllCorrect, setIsAllCorrect] = useState(false);
   
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const startTimeRef = useRef<number>(0);
 
   const currentWord = remainingWords[currentIndex];
+  const hasTimeLimit = parseInt(timeLimit) > 0;
 
   const addWords = (text: string) => {
     const parts = text.split(/[,\n]+/).map(s => s.trim()).filter(s => s && !words.includes(s));
@@ -71,22 +83,35 @@ export default function SilentShoutTool() {
     return shuffled;
   };
 
-  const startGame = useCallback(() => {
+  const prepareGame = useCallback(() => {
     if (words.length < 3) return;
     
     setRemainingWords(shuffleArray(words));
     setCurrentIndex(0);
-    setTimeLeft(parseInt(timeLimit));
+    setTimeLeft(hasTimeLimit ? parseInt(timeLimit) : 0);
+    setElapsedTime(0);
     setCorrectCount(0);
     setPassedWords([]);
     setIsGameOver(false);
+    setIsAllCorrect(false);
+    setIsPlaying(false);
+    setIsReady(true);
+    playClick();
+  }, [words, timeLimit, hasTimeLimit]);
+
+  const startGame = useCallback(() => {
+    startTimeRef.current = Date.now();
     setIsPlaying(true);
     playClick();
-  }, [words, timeLimit]);
+  }, []);
 
-  const endGame = useCallback(() => {
+  const endGame = useCallback((allCorrect: boolean) => {
+    const finalTime = (Date.now() - startTimeRef.current) / 1000;
+    setElapsedTime(finalTime);
+    setIsAllCorrect(allCorrect);
     setIsGameOver(true);
     setIsPlaying(false);
+    setIsReady(false);
     if (timerRef.current) {
       clearInterval(timerRef.current);
       timerRef.current = null;
@@ -101,7 +126,7 @@ export default function SilentShoutTool() {
     const newRemaining = remainingWords.filter((_, i) => i !== currentIndex);
     
     if (newRemaining.length === 0) {
-      endGame();
+      endGame(true);
       return;
     }
     
@@ -121,11 +146,13 @@ export default function SilentShoutTool() {
 
   const resetGame = () => {
     setIsPlaying(false);
+    setIsReady(false);
     setIsGameOver(false);
     setRemainingWords([]);
     setCurrentIndex(0);
     setCorrectCount(0);
     setPassedWords([]);
+    setElapsedTime(0);
     if (timerRef.current) {
       clearInterval(timerRef.current);
       timerRef.current = null;
@@ -135,14 +162,17 @@ export default function SilentShoutTool() {
   useEffect(() => {
     if (isPlaying && !isGameOver) {
       timerRef.current = setInterval(() => {
-        setTimeLeft(prev => {
-          if (prev <= 1) {
-            endGame();
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
+        if (hasTimeLimit) {
+          setTimeLeft(prev => {
+            if (prev <= 1) {
+              endGame(false);
+              return 0;
+            }
+            return prev - 1;
+          });
+        }
+        setElapsedTime((Date.now() - startTimeRef.current) / 1000);
+      }, 100);
     }
 
     return () => {
@@ -150,19 +180,28 @@ export default function SilentShoutTool() {
         clearInterval(timerRef.current);
       }
     };
-  }, [isPlaying, isGameOver, endGame]);
+  }, [isPlaying, isGameOver, endGame, hasTimeLimit]);
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
+    const secs = Math.floor(seconds % 60);
     return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  const formatElapsed = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = (seconds % 60).toFixed(1);
+    if (mins > 0) {
+      return `${mins}분 ${parseFloat(secs).toFixed(1)}초`;
+    }
+    return `${parseFloat(secs).toFixed(1)}초`;
   };
 
   return (
     <FullscreenWrapper>
       <div className="space-y-6">
         <AnimatePresence mode="wait">
-          {!isPlaying && !isGameOver && (
+          {!isReady && !isPlaying && !isGameOver && (
             <motion.div 
               key="setup"
               initial={{ opacity: 0 }}
@@ -176,7 +215,7 @@ export default function SilentShoutTool() {
                   {t('Tools.silent-shout.title', '고요 속의 외침')}
                 </h2>
                 <p className="text-muted-foreground max-w-md mx-auto">
-                  {t('Tools.silent-shout.setupDesc', '제한 시간 안에 입모양으로 최대한 많이 맞추세요!')}
+                  {t('Tools.silent-shout.setupDesc', '입모양만 보고 제시어를 맞추세요!')}
                 </p>
               </div>
 
@@ -235,9 +274,9 @@ export default function SilentShoutTool() {
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          {TIME_OPTIONS.map(sec => (
-                            <SelectItem key={sec} value={sec.toString()}>
-                              {formatTime(sec)}
+                          {TIME_OPTIONS.map(opt => (
+                            <SelectItem key={opt.value} value={opt.value}>
+                              {opt.label}
                             </SelectItem>
                           ))}
                         </SelectContent>
@@ -264,17 +303,59 @@ export default function SilentShoutTool() {
                       {words.length}개 제시어 (최소 3개)
                     </span>
                     <Button 
-                      onClick={startGame} 
+                      onClick={prepareGame} 
                       disabled={words.length < 3}
                       className="gap-2" 
-                      data-testid="button-start"
+                      data-testid="button-prepare"
                     >
                       <Play className="w-4 h-4" />
-                      {t('Tools.silent-shout.start', '게임 시작')}
+                      {t('Tools.silent-shout.prepare', '준비하기')}
                     </Button>
                   </div>
                 </div>
               )}
+            </motion.div>
+          )}
+
+          {isReady && !isPlaying && !isGameOver && (
+            <motion.div
+              key="ready"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0 }}
+              className="space-y-6"
+            >
+              <Card className="bg-gradient-to-br from-primary/5 to-primary/10">
+                <CardContent className="p-0">
+                  <div className="min-h-[300px] flex flex-col items-center justify-center p-8 gap-6">
+                    <div className="text-center space-y-2">
+                      <VolumeX className="w-16 h-16 mx-auto text-primary/50" />
+                      <h2 className="text-2xl font-bold text-muted-foreground">
+                        {t('Tools.silent-shout.readyTitle', '준비 완료')}
+                      </h2>
+                      <p className="text-muted-foreground">
+                        {words.length}개 제시어 | {hasTimeLimit ? `제한시간 ${formatTime(parseInt(timeLimit))}` : '무제한'}
+                      </p>
+                    </div>
+                    
+                    <Button 
+                      size="lg"
+                      onClick={startGame}
+                      className="h-16 px-12 text-xl gap-3"
+                      data-testid="button-start"
+                    >
+                      <Play className="w-6 h-6" />
+                      {t('Tools.silent-shout.start', '시작!')}
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <div className="text-center">
+                <Button variant="ghost" size="sm" onClick={resetGame}>
+                  {t('Tools.silent-shout.back', '뒤로가기')}
+                </Button>
+              </div>
             </motion.div>
           )}
 
@@ -287,13 +368,22 @@ export default function SilentShoutTool() {
               className="space-y-6"
             >
               <div className="flex items-center justify-between">
-                <Badge 
-                  variant={timeLeft <= 10 ? "destructive" : "outline"} 
-                  className={`text-xl px-4 py-2 font-mono ${timeLeft <= 10 ? 'animate-pulse' : ''}`}
-                >
-                  <Timer className="w-5 h-5 mr-2" />
-                  {formatTime(timeLeft)}
-                </Badge>
+                <div className="flex items-center gap-2">
+                  {hasTimeLimit ? (
+                    <Badge 
+                      variant={timeLeft <= 10 ? "destructive" : "outline"} 
+                      className={`text-xl px-4 py-2 font-mono ${timeLeft <= 10 ? 'animate-pulse' : ''}`}
+                    >
+                      <Timer className="w-5 h-5 mr-2" />
+                      {formatTime(timeLeft)}
+                    </Badge>
+                  ) : (
+                    <Badge variant="outline" className="text-xl px-4 py-2 font-mono">
+                      <Clock className="w-5 h-5 mr-2" />
+                      {formatTime(elapsedTime)}
+                    </Badge>
+                  )}
+                </div>
                 <div className="flex items-center gap-2">
                   <Badge variant="default" className="gap-1">
                     <Check className="w-3 h-3" />
@@ -371,7 +461,7 @@ export default function SilentShoutTool() {
                   <Trophy className="w-20 h-20 mx-auto text-yellow-500" />
                 </motion.div>
                 <h2 className="text-3xl font-bold">
-                  {remainingWords.length === 0 
+                  {isAllCorrect 
                     ? t('Tools.silent-shout.allCorrect', '전부 맞췄습니다!') 
                     : t('Tools.silent-shout.gameOver', '게임 종료!')}
                 </h2>
@@ -380,15 +470,24 @@ export default function SilentShoutTool() {
               <Card>
                 <CardContent className="p-6">
                   <div className="text-center space-y-4">
-                    <div className="space-y-2">
-                      <div className="text-5xl font-bold text-green-500">{correctCount}</div>
-                      <div className="text-muted-foreground flex items-center justify-center gap-1">
-                        <Check className="w-4 h-4" />
-                        {t('Tools.silent-shout.correctCount', '정답')} / {words.length}개
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-1">
+                        <div className="text-4xl font-bold text-green-500">{correctCount}</div>
+                        <div className="text-muted-foreground text-sm flex items-center justify-center gap-1">
+                          <Check className="w-4 h-4" />
+                          정답 / {words.length}개
+                        </div>
+                      </div>
+                      <div className="space-y-1">
+                        <div className="text-4xl font-bold text-primary">{formatElapsed(elapsedTime)}</div>
+                        <div className="text-muted-foreground text-sm flex items-center justify-center gap-1">
+                          <Clock className="w-4 h-4" />
+                          소요 시간
+                        </div>
                       </div>
                     </div>
                     
-                    {passedWords.length > 0 && (
+                    {(passedWords.length > 0 || remainingWords.length > 0) && (
                       <div className="pt-4 border-t">
                         <div className="text-sm text-muted-foreground mb-2">
                           {t('Tools.silent-shout.missedWords', '못 맞춘 단어')}
@@ -408,12 +507,12 @@ export default function SilentShoutTool() {
               </Card>
 
               <div className="flex gap-4 justify-center">
-                <Button onClick={startGame} className="gap-2" data-testid="button-restart">
+                <Button onClick={prepareGame} className="gap-2" data-testid="button-restart">
                   <RotateCcw className="w-4 h-4" />
                   {t('Tools.silent-shout.playAgain', '다시 하기')}
                 </Button>
                 <Button variant="outline" onClick={resetGame} data-testid="button-back">
-                  {t('Tools.silent-shout.back', '목록으로')}
+                  {t('Tools.silent-shout.back', '처음으로')}
                 </Button>
               </div>
             </motion.div>
