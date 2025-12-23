@@ -153,6 +153,9 @@ export default function CompressVideoTool() {
               <p className="text-blue-700 dark:text-blue-300 mt-1">
                 {t('Common.messages.fileSizeLimitNotice')} {t('Common.messages.recommendedVideoLength')}
               </p>
+              <p className="text-amber-600 dark:text-amber-400 mt-1">
+                {t('Common.messages.qualityDegradationNotice')}
+              </p>
             </div>
           </div>
         </CardContent>

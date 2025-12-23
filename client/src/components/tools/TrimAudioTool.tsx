@@ -127,6 +127,7 @@ export default function TrimAudioTool() {
             <div className="text-sm">
               <p className="font-medium text-blue-800 dark:text-blue-200">{t('Common.messages.audioFileSizeLimit')}</p>
               <p className="text-blue-700 dark:text-blue-300 mt-1">{t('Common.messages.fileSizeLimitNotice')}</p>
+              <p className="text-amber-600 dark:text-amber-400 mt-1">{t('Common.messages.qualityDegradationNotice')}</p>
             </div>
           </div>
         </CardContent>
