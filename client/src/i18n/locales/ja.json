@@ -964,16 +964,9 @@
       "placeholder": "Enter lines to shuffle..."
     },
     "binary-converter": {
-      "title": "Binary Converter",
-      "description": "Convert text to binary (0s and 1s) and vice versa.",
-      "shortDesc": "Text to binary",
-      "instructions": "Enter text to convert to binary or binary to decode to text.",
-      "textToBinary": "Text to Binary",
-      "binaryToText": "Binary to Text",
-      "textLabel": "Text",
-      "binaryLabel": "Binary",
-      "textPlaceholder": "Enter text to convert to binary...",
-      "binaryPlaceholder": "Enter binary code (e.g., 01001000 01101001)..."
+      "title": "バイナリ変換",
+      "description": "テキストをバイナリに変換します。",
+      "shortDesc": "バイナリに変換"
     },
     "morse-code": {
       "title": "モールス符号",
@@ -1064,9 +1057,9 @@
       "shortDesc": "PDFページを回転"
     },
     "delete-pdf-pages": {
-      "title": "Delete PDF Pages",
-      "description": "Remove unwanted pages from your PDF files.",
-      "shortDesc": "Remove pages from PDF"
+      "title": "PDFページ削除",
+      "description": "PDFから不要なページを削除します。",
+      "shortDesc": "PDFからページを削除"
     },
     "extract-pdf-pages": {
       "title": "PDFページ抽出",
@@ -1074,9 +1067,9 @@
       "shortDesc": "PDFページを抽出"
     },
     "organize-pdf": {
-      "title": "Organize PDF",
-      "description": "Reorder, rotate, and organize PDF pages with drag and drop.",
-      "shortDesc": "Rearrange PDF pages"
+      "title": "PDF整理",
+      "description": "PDFページを並び替えます。",
+      "shortDesc": "PDFページを並び替え"
     },
     "protect-pdf": {
       "title": "Protect PDF",
@@ -1098,18 +1091,9 @@
       "noPasswordNeeded": "Try unlocking without password"
     },
     "sign-pdf": {
-      "title": "Sign PDF",
-      "description": "Add digital signatures to your PDF documents.",
-      "shortDesc": "Add signature to PDF",
-      "drawSignature": "Draw",
-      "typeSignature": "Type",
-      "typePlaceholder": "Type your signature",
-      "pageNumber": "Page Number",
-      "signatureSize": "Signature Size",
-      "positionX": "Horizontal Position",
-      "positionY": "Vertical Position",
-      "signButton": "Sign PDF",
-      "successMessage": "Your PDF has been signed successfully."
+      "title": "PDF署名",
+      "description": "PDFに署名を追加します。",
+      "shortDesc": "PDFに署名を追加"
     },
     "watermark-pdf": {
       "title": "Watermark PDF",
@@ -1146,12 +1130,9 @@
       "shortDesc": "Optimize PDF for web"
     },
     "pdf-to-text": {
-      "title": "PDF to Text",
-      "description": "Extract text content from PDF files and save as plain text.",
-      "shortDesc": "Extract text from PDF",
-      "extractButton": "Extract Text",
-      "successMessage": "Text extracted successfully.",
-      "copiedMessage": "Text copied to clipboard."
+      "title": "PDFからテキスト",
+      "description": "PDFからテキストを抽出します。",
+      "shortDesc": "PDFからテキスト抽出"
     },
     "html-to-pdf": {
       "title": "HTML to PDF",
@@ -1164,33 +1145,19 @@
       "shortDesc": "ページ番号を追加"
     },
     "crop-pdf": {
-      "title": "Crop PDF",
-      "description": "Remove margins and white space from PDF pages.",
-      "shortDesc": "Trim PDF margins",
-      "marginTop": "Top Margin",
-      "marginRight": "Right Margin",
-      "marginBottom": "Bottom Margin",
-      "marginLeft": "Left Margin",
-      "cropButton": "Crop PDF",
-      "successMessage": "PDF cropped successfully."
+      "title": "PDFクロップ",
+      "description": "PDFの余白をトリミングします。",
+      "shortDesc": "PDFをクロップ"
     },
     "grayscale-pdf": {
-      "title": "Grayscale PDF",
-      "description": "Convert color PDF to black and white to save on printing costs.",
-      "shortDesc": "Convert PDF to grayscale",
-      "convertButton": "Convert to Grayscale",
-      "successMessage": "PDF converted to grayscale successfully."
+      "title": "グレースケールPDF",
+      "description": "PDFをグレースケールに変換します。",
+      "shortDesc": "グレースケールに変換"
     },
     "resize-pdf": {
-      "title": "Resize PDF",
-      "description": "Change PDF page size from A4 to Letter, A3, or other formats.",
-      "shortDesc": "Change PDF page size",
-      "pageSize": "Target Page Size",
-      "orientation": "Orientation",
-      "portrait": "Portrait",
-      "landscape": "Landscape",
-      "resizeButton": "Resize PDF",
-      "successMessage": "PDF resized successfully."
+      "title": "PDFサイズ変更",
+      "description": "PDFページサイズを変更します。",
+      "shortDesc": "PDFサイズを変更"
     },
     "n-up-pdf": {
       "title": "PDF Multi-Page Layout",
@@ -1274,33 +1241,14 @@
       "shortDesc": "バーコードを作成"
     },
     "url-shortener": {
-      "title": "URL Shortener",
-      "description": "Shorten long URLs into compact, shareable links.",
-      "shortDesc": "Shorten URLs",
-      "notice": "This is a demo. Shortened URLs are generated locally and won't actually redirect.",
-      "longUrlLabel": "Long URL",
-      "longUrlPlaceholder": "Enter the URL to shorten...",
-      "customAliasLabel": "Custom Alias (optional)",
-      "customAliasPlaceholder": "my-custom-link",
-      "customAliasHint": "Letters, numbers, hyphens, and underscores only",
-      "generate": "Shorten URL",
-      "shortUrlLabel": "Shortened URL",
-      "generated": "Short URL generated!",
-      "testLink": "Test Original Link",
-      "invalidUrl": "Please enter a valid URL"
+      "title": "URL短縮",
+      "description": "URLを短縮します。",
+      "shortDesc": "URLを短縮"
     },
     "utm-builder": {
-      "title": "UTM Builder",
-      "description": "Create trackable marketing URLs with UTM parameters for Google Analytics.",
-      "shortDesc": "Build UTM links",
-      "baseUrlLabel": "Website URL",
-      "sourceLabel": "Campaign Source (utm_source)",
-      "mediumLabel": "Campaign Medium (utm_medium)",
-      "campaignLabel": "Campaign Name (utm_campaign)",
-      "termLabel": "Campaign Term (utm_term)",
-      "contentLabel": "Campaign Content (utm_content)",
-      "resultLabel": "Generated URL",
-      "resultPlaceholder": "Your UTM URL will appear here"
+      "title": "UTMビルダー",
+      "description": "UTMリンクを作成します。",
+      "shortDesc": "UTMリンクを作成"
     },
     "ad-banner-guide": {
       "title": "Ad Banner Size Guide",
@@ -1328,17 +1276,9 @@
       "shortDesc": "メール署名を作成"
     },
     "random-picker": {
-      "title": "Random Picker",
-      "description": "Randomly pick winners from a list of names for giveaways and contests.",
-      "shortDesc": "Pick random winners",
-      "inputLabel": "Names / Items",
-      "placeholder": "Enter names (one per line)...",
-      "countLabel": "Winners",
-      "pick": "Pick Winners",
-      "resultLabel": "Winners",
-      "winnersTitle": "Winners",
-      "picked": "{{count}} winner(s) selected!",
-      "noResult": "Enter names and click Pick"
+      "title": "ランダム選択",
+      "description": "ランダムに当選者を選びます。",
+      "shortDesc": "ランダム選択"
     },
     "fake-profile": {
       "title": "Fake Profile Generator",
@@ -1355,12 +1295,9 @@
       "noProfiles": "Click Generate to create profiles"
     },
     "kaomoji-collection": {
-      "title": "Kaomoji Collection",
-      "description": "Browse and copy Japanese text emoticons for your messages.",
-      "shortDesc": "Text emoticons",
-      "searchPlaceholder": "Search categories...",
-      "all": "All",
-      "copied": "Kaomoji copied!"
+      "title": "顔文字コレクション",
+      "description": "テキスト顔文字コレクション。",
+      "shortDesc": "顔文字"
     },
     "timezone-converter": {
       "title": "タイムゾーン変換",
@@ -1378,22 +1315,9 @@
       "shortDesc": "MD5ハッシュを生成"
     },
     "aes-encryption": {
-      "title": "AES Encryption/Decryption",
-      "description": "Encrypt and decrypt text using AES-256 encryption with a secure password.",
-      "shortDesc": "Encrypt/decrypt text",
-      "encrypt": "Encrypt",
-      "decrypt": "Decrypt",
-      "textLabel": "Text",
-      "textPlaceholder": "Enter text to encrypt or decrypt...",
-      "passwordLabel": "Password",
-      "passwordPlaceholder": "Enter encryption password...",
-      "resultLabel": "Result",
-      "encryptedLabel": "Encrypted Text",
-      "decryptedLabel": "Decrypted Text",
-      "encryptBtn": "Encrypt",
-      "decryptBtn": "Decrypt",
-      "copied": "Copied!",
-      "decryptError": "Decryption failed. Check your password and encrypted text."
+      "title": "AES暗号化/復号化",
+      "description": "テキストを暗号化/復号化します。",
+      "shortDesc": "暗号化/復号化"
     },
     "bcrypt-generator": {
       "title": "BCrypt Hash Generator",
@@ -1410,16 +1334,9 @@
       "simulationNotice": "This is a simulation using SHA-256 iterations. For production, use a server-side BCrypt library."
     },
     "html-minifier": {
-      "title": "HTML Minifier",
-      "description": "Minify HTML code by removing whitespace, comments, and optimizing structure.",
-      "shortDesc": "Minify HTML code",
-      "inputLabel": "HTML Code",
-      "placeholder": "Paste your HTML code here...",
-      "outputLabel": "Minified HTML",
-      "minify": "Minify",
-      "removeComments": "Remove Comments",
-      "collapseWhitespace": "Collapse Whitespace",
-      "removeEmptyAttr": "Remove Empty Attributes"
+      "title": "HTML圧縮",
+      "description": "HTMLコードを圧縮します。",
+      "shortDesc": "HTMLを圧縮"
     },
     "css-minifier": {
       "title": "CSS圧縮",
@@ -1432,17 +1349,9 @@
       "shortDesc": "JavaScriptを圧縮"
     },
     "sql-formatter": {
-      "title": "SQL Formatter",
-      "description": "Format and beautify SQL queries for better readability.",
-      "shortDesc": "Format SQL queries",
-      "inputLabel": "SQL Query",
-      "placeholder": "Paste your SQL query here...",
-      "outputLabel": "Formatted SQL",
-      "indentLabel": "Indent Size",
-      "spaces": "spaces",
-      "format": "Format",
-      "minify": "Minify",
-      "empty": "Enter SQL query to format"
+      "title": "SQLフォーマッター",
+      "description": "SQLクエリをフォーマットします。",
+      "shortDesc": "SQLをフォーマット"
     },
     "password-generator": {
       "title": "パスワード生成",
@@ -1455,18 +1364,9 @@
       "shortDesc": "UUIDを生成"
     },
     "jwt-decoder": {
-      "title": "JWT Decoder",
-      "description": "Decode and inspect JSON Web Tokens (JWT) without verification.",
-      "shortDesc": "Decode JWT tokens",
-      "inputLabel": "JWT Token",
-      "placeholder": "Paste your JWT token here...",
-      "invalidFormat": "Invalid JWT format. Token should have 3 parts separated by dots.",
-      "parseError": "Failed to parse JWT token.",
-      "expired": "Expired",
-      "valid": "Valid",
-      "expiresAt": "Expires",
-      "issuedAt": "Issued",
-      "empty": "Paste a JWT token to decode"
+      "title": "JWTデコーダー",
+      "description": "JWTトークンをデコードします。",
+      "shortDesc": "JWTをデコード"
     },
     "cron-generator": {
       "title": "Cron Expression Generator",
@@ -1508,30 +1408,14 @@
       "invalidIpv6": "Invalid IPv6 address (must be IPv4-mapped)"
     },
     "what-is-my-ip": {
-      "title": "What Is My IP",
-      "description": "Find your public IP address and location information.",
-      "shortDesc": "Find your IP",
-      "yourIp": "Your Public IP Address",
-      "location": "Location",
-      "timezone": "Timezone",
-      "isp": "ISP / Organization",
-      "refresh": "Refresh",
-      "retry": "Try Again",
-      "error": "Failed to fetch IP information"
+      "title": "私のIPアドレス",
+      "description": "あなたのIPを確認します。",
+      "shortDesc": "IPを確認"
     },
     "http-header-analyzer": {
-      "title": "HTTP Header Analyzer",
-      "description": "Analyze HTTP response headers from any URL.",
-      "shortDesc": "Analyze HTTP headers",
-      "urlLabel": "URL",
-      "placeholder": "Enter URL (e.g., example.com)",
-      "analyze": "Analyze",
-      "headersLabel": "Response Headers",
-      "openUrl": "Open URL",
-      "empty": "Enter a URL to analyze its HTTP headers",
-      "notice": "Due to browser security (CORS), only CORS-enabled sites can be analyzed.",
-      "corsError": "CORS restriction prevented header retrieval",
-      "corsNote": "Most sites block cross-origin requests for security"
+      "title": "HTTPヘッダー分析",
+      "description": "HTTPヘッダーを分析します。",
+      "shortDesc": "ヘッダーを分析"
     },
     "epoch-converter": {
       "title": "Epoch/Unix Time Converter",
@@ -1571,19 +1455,9 @@
       "shortDesc": "複利を計算"
     },
     "salary-converter": {
-      "title": "Salary Converter",
-      "description": "Convert salary between hourly, weekly, monthly, and yearly rates.",
-      "shortDesc": "Convert salary periods",
-      "amount": "Amount",
-      "payPeriod": "Pay Period",
-      "hoursPerWeek": "Hours per Week",
-      "weeksPerYear": "Weeks per Year",
-      "yearly": "Yearly",
-      "monthly": "Monthly",
-      "biweekly": "Bi-Weekly",
-      "weekly": "Weekly",
-      "daily": "Daily",
-      "hourly": "Hourly"
+      "title": "給与変換",
+      "description": "給与期間を変換します。",
+      "shortDesc": "給与を変換"
     },
     "sales-tax-calculator": {
       "title": "消費税計算機",
@@ -1606,42 +1480,24 @@
       "imperial": "Imperial"
     },
     "temperature-converter": {
-      "title": "Temperature Converter",
-      "description": "Convert between Celsius, Fahrenheit, and Kelvin.",
-      "shortDesc": "Convert temperatures",
-      "celsius": "Celsius",
-      "fahrenheit": "Fahrenheit",
-      "kelvin": "Kelvin",
-      "freezing": "Water freezing point",
-      "boiling": "Water boiling point",
-      "same": "Same in both scales"
+      "title": "温度変換",
+      "description": "温度を変換します。",
+      "shortDesc": "温度を変換"
     },
     "area-converter": {
-      "title": "Area Converter",
-      "description": "Convert between square meters, feet, acres, and hectares.",
-      "shortDesc": "Convert area units",
-      "value": "Value",
-      "from": "From",
-      "to": "To",
-      "result": "Result"
+      "title": "面積変換",
+      "description": "面積単位を変換します。",
+      "shortDesc": "面積を変換"
     },
     "volume-converter": {
-      "title": "Volume Converter",
-      "description": "Convert between liters, gallons, cups, and other volume units.",
-      "shortDesc": "Convert volume units",
-      "value": "Value",
-      "from": "From",
-      "to": "To",
-      "result": "Result"
+      "title": "体積変換",
+      "description": "体積単位を変換します。",
+      "shortDesc": "体積を変換"
     },
     "speed-converter": {
-      "title": "Speed Converter",
-      "description": "Convert between km/h, mph, m/s, and knots.",
-      "shortDesc": "Convert speed units",
-      "kmh": "Kilometers per hour",
-      "mph": "Miles per hour",
-      "mps": "Meters per second",
-      "knots": "Knots"
+      "title": "速度変換",
+      "description": "速度単位を変換します。",
+      "shortDesc": "速度を変換"
     },
     "bmi-calculator": {
       "title": "BMI計算機",
@@ -1708,33 +1564,14 @@
       "fallAsleepInfo": "Includes {{minutes}} minutes to fall asleep."
     },
     "days-counter": {
-      "title": "Days Counter",
-      "description": "Count days between two dates or until a specific date.",
-      "shortDesc": "Count days between dates",
-      "startDate": "Start Date",
-      "endDate": "End Date",
-      "days": "days",
-      "weeks": "weeks",
-      "months": "months",
-      "years": "years",
-      "daysAgo": "Days ago",
-      "daysUntil": "Days until"
+      "title": "日数カウンター",
+      "description": "日付間の日数をカウントします。",
+      "shortDesc": "日数をカウント"
     },
     "date-calculator": {
-      "title": "Date Calculator",
-      "description": "Add or subtract days, weeks, months, or years from a date.",
-      "shortDesc": "Add/subtract from dates",
-      "startDate": "Start Date",
-      "direction": "Direction",
-      "add": "Add",
-      "subtract": "Subtract",
-      "amount": "Amount",
-      "unit": "Unit",
-      "days": "Days",
-      "weeks": "Weeks",
-      "months": "Months",
-      "years": "Years",
-      "resultDate": "Result Date"
+      "title": "日付計算機",
+      "description": "日付を加算/減算します。",
+      "shortDesc": "日付を計算"
     },
     "random-number": {
       "title": "乱数生成",
@@ -1750,26 +1587,9 @@
       "tooManyUnique": "Cannot generate that many unique numbers in this range"
     },
     "probability-calculator": {
-      "title": "Probability Calculator",
-      "description": "Calculate probabilities for single and multiple events.",
-      "shortDesc": "Calculate probabilities",
-      "single": "Single Event",
-      "multiple": "Multiple Events",
-      "odds": "Odds",
-      "favorable": "Favorable Outcomes",
-      "total": "Total Outcomes",
-      "probability": "Probability",
-      "percentage": "Percentage",
-      "oddsRatio": "Odds Ratio",
-      "probA": "P(A)",
-      "probB": "P(B)",
-      "aAndB": "P(A and B)",
-      "aOrB": "P(A or B)",
-      "notA": "P(not A)",
-      "neither": "P(neither)",
-      "oddsFor": "Odds For",
-      "oddsAgainst": "Odds Against",
-      "impliedProbability": "Implied Probability"
+      "title": "確率計算機",
+      "description": "確率を計算します。",
+      "shortDesc": "確率を計算"
     },
     "gpa-calculator": {
       "title": "GPA計算機",
@@ -1787,12 +1607,9 @@
       "shortDesc": "Binary text conversion"
     },
     "coin-flip": {
-      "title": "Coin Flip",
-      "description": "Flip a virtual coin for random heads or tails results.",
-      "shortDesc": "Virtual coin flip",
-      "heads": "Heads",
-      "tails": "Tails",
-      "flip": "Flip Coin"
+      "title": "コイントス",
+      "description": "バーチャルコインフリップ。",
+      "shortDesc": "コインフリップ"
     },
     "random-color": {
       "title": "Random Color Generator",
@@ -1823,22 +1640,9 @@
       "shortDesc": "タイピング速度テスト"
     },
     "screen-info": {
-      "title": "Screen Info",
-      "description": "Check screen resolution, viewport size, and browser info.",
-      "shortDesc": "Screen and browser info",
-      "display": "Display",
-      "browser": "Browser & System",
-      "screenResolution": "Screen Resolution",
-      "viewportSize": "Viewport Size",
-      "pixelRatio": "Pixel Ratio",
-      "colorDepth": "Color Depth",
-      "orientation": "Orientation",
-      "language": "Language",
-      "platform": "Platform",
-      "touchSupport": "Touch Support",
-      "onlineStatus": "Online Status",
-      "cookiesEnabled": "Cookies Enabled",
-      "userAgent": "User Agent"
+      "title": "画面情報",
+      "description": "画面とブラウザ情報を表示します。",
+      "shortDesc": "画面情報"
     },
     "color-contrast": {
       "title": "Color Contrast Checker",
@@ -1846,14 +1650,9 @@
       "shortDesc": "Check accessibility contrast"
     },
     "dice-roller": {
-      "title": "Dice Roller",
-      "description": "Roll virtual dice with customizable sides and quantity.",
-      "shortDesc": "Virtual dice roller",
-      "diceType": "Dice Type",
-      "diceCount": "Number of Dice",
-      "rollButton": "Roll Dice",
-      "total": "Total",
-      "history": "Roll History"
+      "title": "サイコロ",
+      "description": "バーチャルサイコロ。",
+      "shortDesc": "サイコロを振る"
     },
     "drawing-pad": {
       "title": "Drawing Pad",
@@ -1940,35 +1739,14 @@
       "shortDesc": "占い"
     },
     "love-calculator": {
-      "title": "Love Calculator",
-      "description": "Calculate the love compatibility between two people.",
-      "shortDesc": "Love compatibility test",
-      "name1": "Your Name",
-      "name2": "Partner's Name",
-      "enterName": "Enter name",
-      "calculate": "Calculate Love",
-      "perfect": "Perfect Match!",
-      "great": "Great Chemistry!",
-      "good": "Good Potential!",
-      "possible": "Possible Match",
-      "tryAgain": "Maybe Just Friends?"
+      "title": "ラブ計算機",
+      "description": "愛の相性テスト。",
+      "shortDesc": "相性テスト"
     },
     "breathing-exercise": {
-      "478": "4-7-8 Technique",
-      "title": "Breathing Exercise",
-      "description": "Guided breathing exercises for stress relief and focus improvement.",
-      "shortDesc": "Meditation breathing guide",
-      "pattern": "Breathing Pattern",
-      "relaxed": "Relaxed (4-4)",
-      "box": "Box Breathing (4-4-4-4)",
-      "calm": "Calming (4-2-6)",
-      "inhale": "Inhale",
-      "hold": "Hold",
-      "exhale": "Exhale",
-      "ready": "準備完了",
-      "start": "Start",
-      "stop": "停止",
-      "cycles": "Completed Cycles"
+      "title": "呼吸エクササイズ",
+      "description": "瞑想呼吸ガイド。",
+      "shortDesc": "呼吸ガイド"
     },
     "pomodoro-timer": {
       "title": "ポモドーロタイマー",
@@ -2012,18 +1790,14 @@
       "newGame": "New Game"
     },
     "quotes-generator": {
-      "title": "Quotes Generator",
-      "description": "Display inspirational quotes and sayings randomly.",
-      "shortDesc": "Random quote generator",
-      "newQuote": "New Quote"
+      "title": "名言生成",
+      "description": "ランダムな名言を生成します。",
+      "shortDesc": "名言を生成"
     },
     "flip-text": {
-      "title": "Flip Text",
-      "description": "Flip your text upside down for a fun effect.",
-      "shortDesc": "Upside-down text generator",
-      "input": "Original Text",
-      "output": "Flipped Text",
-      "placeholder": "Enter text here..."
+      "title": "テキスト反転",
+      "description": "上下逆さテキスト生成。",
+      "shortDesc": "テキスト反転"
     },
     "emoji-search": {
       "title": "Emoji Search",
@@ -2039,68 +1813,19 @@
       "clickToCopy": "Click an emoji to copy"
     },
     "yes-no-generator": {
-      "title": "Yes/No Generator",
-      "description": "Generate a random yes or no answer when you can't decide.",
-      "shortDesc": "Random decision helper",
-      "question": "Question",
-      "placeholder": "Enter your question...",
-      "decide": "Decide for Me",
-      "yes": "Yes",
-      "no": "No",
-      "maybe": "Maybe",
-      "history": "History"
+      "title": "はい/いいえ生成",
+      "description": "ランダム決定ヘルパー。",
+      "shortDesc": "はい/いいえ"
     },
     "elimination-wheel": {
-      "title": "Elimination Wheel",
-      "description": "Find the last one standing! Each round eliminates one person until only the winner remains.",
-      "shortDesc": "Last one standing game",
-      "participants": "Participants (one per line)",
-      "participantsPlaceholder": "Enter names, one per line",
-      "participantCount": "{{count}} participants",
-      "startGame": "Start Elimination Game",
-      "spinning": "Spinning...",
-      "eliminate": "Eliminate!",
-      "eliminated": "Eliminated!",
-      "remaining": "Remaining",
-      "eliminatedList": "Eliminated",
-      "noOneYet": "No one eliminated yet",
-      "winner": "Winner!",
-      "restart": "Restart",
-      "howToPlay": "How to Play",
-      "rule1": "1. Spin the wheel to eliminate one person",
-      "rule2": "2. The eliminated person is removed from the wheel",
-      "rule3": "3. Continue until only one person remains",
-      "rule4": "4. The last person standing is the winner!"
+      "title": "エリミネーションホイール",
+      "description": "最後の一人ゲーム。",
+      "shortDesc": "最後の一人"
     },
     "team-picker": {
-      "title": "Team Picker",
-      "description": "Randomly divide participants into fair teams. Perfect for sports, games, and group activities.",
-      "shortDesc": "Random team assignment",
-      "participants": "Participants (one per line)",
-      "placeholder": "Enter names, one per line\n\nExample:\nAlice\nBob\nCharlie\nDavid",
-      "teamCount": "Number of Teams",
-      "teams": "Teams",
-      "people": "people",
-      "members": "members",
-      "generateTeams": "Generate Teams",
-      "shuffling": "Shuffling...",
-      "reset": "リセット",
-      "noTeamsYet": "No teams yet",
-      "addParticipants": "Add participants and click \"Generate Teams\" to randomly divide them into teams",
-      "useCases": "Use Cases",
-      "useCase1": "Sports team drafts",
-      "useCase2": "School group projects",
-      "useCase3": "Office team building",
-      "useCase4": "Game night teams",
-      "features": "Features",
-      "feature1": "Fair random distribution",
-      "feature2": "Up to 8 teams",
-      "feature3": "Copy results instantly",
-      "feature4": "Re-shuffle anytime",
-      "tips": "Tips",
-      "tip1": "Enter one name per line",
-      "tip2": "Shuffle multiple times for different results",
-      "tip3": "Copy and share with your group"
+      "title": "チーム選択",
+      "description": "ランダムチーム割り当て。",
+      "shortDesc": "チーム割り当て"
     },
     "liar-game": {
       "title": "Liar Game",
@@ -2202,48 +1927,14 @@
       "shortDesc": "クリック数テスト"
     },
     "bingo-generator": {
-      "title": "Bingo Generator",
-      "description": "Create custom bingo boards for any occasion! Perfect for events.",
-      "shortDesc": "Custom bingo maker",
-      "items": "Bingo items (one per line)",
-      "placeholder": "Enter items, one per line\n\nExample:\nApple\nBanana\nStrawberry\nWatermelon\n...",
-      "gridSize": "Grid Size",
-      "generate": "Generate Bingo",
-      "needMore": "Need {{count}} more items",
-      "howToUse": "How to Use",
-      "step1": "Enter items for the bingo board, one per line.",
-      "step2": "Select the grid size (3x3, 4x4, 5x5).",
-      "step3": "Click cells to mark them.",
-      "step4": "Complete a row, column, or diagonal for Bingo!",
-      "ideas": "Bingo Ideas",
-      "idea1": "Stream bingo: Things viewers should do",
-      "idea2": "Travel bingo: Things to do while traveling",
-      "idea3": "Meeting bingo: Common meeting phrases",
-      "idea4": "New Year bingo: Goals for the year",
-      "bingo": "Bingo!",
-      "shuffle": "Shuffle",
-      "reset": "リセット",
-      "clickToMark": "Click to mark"
+      "title": "ビンゴ生成",
+      "description": "カスタムビンゴメーカー。",
+      "shortDesc": "ビンゴを作成"
     },
     "stopwatch-challenge": {
-      "title": "Stopwatch Challenge",
-      "description": "Can you stop exactly at the target time? Test your timing!",
-      "shortDesc": "Stop at exact time",
-      "best": "Best",
-      "target": "Target",
-      "seconds": "seconds",
-      "instructions": "Stop exactly at {{target}} seconds!",
-      "start": "Start",
-      "stop": "停止",
-      "reset": "リセット",
-      "difference": "Difference",
-      "diff": "Diff",
-      "history": "History",
-      "perfect": "Perfect!",
-      "excellent": "Excellent!",
-      "great": "Great!",
-      "good": "Good",
-      "tryAgain": "Try Again!"
+      "title": "ストップウォッチチャレンジ",
+      "description": "正確な時間に止めるチャレンジ。",
+      "shortDesc": "時間チャレンジ"
     },
     "memory-game": {
       "title": "メモリーゲーム",
@@ -2251,25 +1942,9 @@
       "shortDesc": "記憶力ゲーム"
     },
     "silent-shout": {
-      "title": "Silent Shout",
-      "description": "Read lips to guess the word! Perfect for headphone games.",
-      "shortDesc": "Lip reading game",
-      "setupDesc": "Add words and start the game! Players wearing headphones guess by lip reading.",
-      "addSingle": "Add Single",
-      "bulkAdd": "Bulk Add",
-      "bulkHint": "One word per line",
-      "bulkPlaceholder": "Apple\nBanana\nStrawberry\nWatermelon",
-      "parseBulk": "Add All",
-      "wordList": "Word List",
-      "wordPlaceholder": "Enter word",
-      "start": "Start Game",
-      "back": "Back to List",
-      "fontSize": "Font Size",
-      "clickToReveal": "Click to reveal word",
-      "prev": "Prev",
-      "next": "次へ",
-      "hide": "Hide",
-      "show": "Show"
+      "title": "サイレントシャウト",
+      "description": "唇読みゲーム。",
+      "shortDesc": "唇読みゲーム"
     },
     "big-wheel": {
       "title": "ビッグホイール",
@@ -2308,33 +1983,33 @@
     },
     "korean-initial-quiz": {
       "title": "韓国語初声クイズ",
-      "description": "韓国語の初声から単語を当てます。",
-      "shortDesc": "初声から推測"
+      "description": "初声から推測するクイズ。",
+      "shortDesc": "初声クイズ"
     },
     "random-color-generator": {
       "title": "ランダムカラー生成",
-      "description": "16進コードでランダムな色を生成します。",
-      "shortDesc": "ランダムな色を生成"
+      "description": "ランダムな色を生成します。",
+      "shortDesc": "色を生成"
     },
     "lorem-ipsum-generator": {
       "title": "Lorem Ipsum生成",
-      "description": "デザイン用のプレースホルダーテキストを生成します。",
-      "shortDesc": "プレースホルダーテキストを生成"
+      "description": "ダミーテキストを生成します。",
+      "shortDesc": "ダミーテキストを生成"
     },
     "aes-encrypt": {
       "title": "AES暗号化/復号化",
-      "description": "AESを使用してテキストを暗号化および復号化します。",
-      "shortDesc": "テキストを暗号化/復号化"
+      "description": "テキストを暗号化/復号化します。",
+      "shortDesc": "暗号化/復号化"
     },
     "base64-encoder": {
       "title": "Base64エンコーダー",
-      "description": "テキストをBase64でエンコードおよびデコードします。",
-      "shortDesc": "Base64をエンコード/デコード"
+      "description": "Base64エンコーディング。",
+      "shortDesc": "Base64エンコード"
     },
     "bcrypt-hash": {
       "title": "BCryptハッシュ生成",
-      "description": "パスワード用のBCryptハッシュを生成します。",
-      "shortDesc": "BCryptハッシュを生成"
+      "description": "BCryptハッシュを生成します。",
+      "shortDesc": "BCryptハッシュ生成"
     },
     "html-beautifier": {
       "title": "HTML整形",
@@ -2850,6 +2525,106 @@
       "title": "SNSプロフィール生成",
       "description": "SNSプロフィール用の自己紹介文を生成します。",
       "shortDesc": "プロフィール文を生成"
+    },
+    "base64-text-converter": {
+      "title": "Base64テキスト変換",
+      "description": "Base64エンコード/デコードします。",
+      "shortDesc": "Base64変換"
+    },
+    "text-shuffler": {
+      "title": "テキストシャッフル",
+      "description": "テキストをシャッフルします。",
+      "shortDesc": "テキストをシャッフル"
+    },
+    "html-entity-converter": {
+      "title": "HTMLエンティティ変換",
+      "description": "HTMLエンティティを変換します。",
+      "shortDesc": "HTMLエンティティ変換"
+    },
+    "word-frequency-analyzer": {
+      "title": "単語頻度分析",
+      "description": "単語の出現頻度を分析します。",
+      "shortDesc": "単語頻度を分析"
+    },
+    "web-page-text-extractor": {
+      "title": "Webページテキスト抽出",
+      "description": "HTMLテキストを抽出します。",
+      "shortDesc": "HTMLテキスト抽出"
+    },
+    "video-title-length-checker": {
+      "title": "動画タイトル長チェッカー",
+      "description": "タイトルの長さを最適化します。",
+      "shortDesc": "タイトル長を最適化"
+    },
+    "ad-banner-size-guide": {
+      "title": "広告バナーサイズガイド",
+      "description": "広告サイズ参考情報。",
+      "shortDesc": "広告サイズ参考"
+    },
+    "simple-logo-generator": {
+      "title": "シンプルロゴ生成",
+      "description": "シンプルなロゴを作成します。",
+      "shortDesc": "ロゴを作成"
+    },
+    "fake-profile-generator": {
+      "title": "フェイクプロフィール生成",
+      "description": "テスト用プロフィールを生成します。",
+      "shortDesc": "テストプロフィール"
+    },
+    "bcrypt-hash-generator": {
+      "title": "BCryptハッシュ生成",
+      "description": "BCryptハッシュを生成します。",
+      "shortDesc": "BCryptハッシュ生成"
+    },
+    "cron-expression-generator": {
+      "title": "Cron式生成",
+      "description": "Cron式を生成します。",
+      "shortDesc": "Cron式を生成"
+    },
+    "ipv4-to-ipv6-converter": {
+      "title": "IPv4からIPv6変換",
+      "description": "IPアドレスを変換します。",
+      "shortDesc": "IPアドレス変換"
+    },
+    "epoch-unix-time-converter": {
+      "title": "Epoch/Unix時間変換",
+      "description": "タイムスタンプを変換します。",
+      "shortDesc": "タイムスタンプ変換"
+    },
+    "metric-imperial-converter": {
+      "title": "メートル法/ヤード法変換",
+      "description": "メートル法とヤード法を変換します。",
+      "shortDesc": "単位を変換"
+    },
+    "bmr-tdee-calculator": {
+      "title": "BMR＆TDEE計算機",
+      "description": "代謝率を計算します。",
+      "shortDesc": "代謝率を計算"
+    },
+    "pregnancy-due-date-calculator": {
+      "title": "出産予定日計算機",
+      "description": "出産予定日を計算します。",
+      "shortDesc": "出産予定日を計算"
+    },
+    "sleep-cycle-calculator": {
+      "title": "睡眠サイクル計算機",
+      "description": "睡眠時間を計算します。",
+      "shortDesc": "睡眠時間を計算"
+    },
+    "reaction-time-test": {
+      "title": "反応時間テスト",
+      "description": "反応速度を測定します。",
+      "shortDesc": "反応速度を測定"
+    },
+    "number-guessing-game": {
+      "title": "数当てゲーム",
+      "description": "数当てゲーム。",
+      "shortDesc": "数当てゲーム"
+    },
+    "hearing-age-test": {
+      "title": "聴力年齢テスト",
+      "description": "聴力周波数テスト。",
+      "shortDesc": "聴力テスト"
     }
   }
 }
