@@ -2300,6 +2300,123 @@
       "title": "Zalgo Text Generator",
       "description": "Create creepy glitch text with combining characters.",
       "shortDesc": "Glitch text creator"
+    },
+    "magic-8-ball": {
+      "title": "Magic 8 Ball",
+      "description": "Ask a question and receive a mystical answer from the Magic 8 Ball.",
+      "shortDesc": "Fortune telling",
+      "question": "Question",
+      "placeholder": "Ask a yes/no question...",
+      "ask": "Ask the Magic 8 Ball"
+    },
+    "love-calculator": {
+      "title": "Love Calculator",
+      "description": "Calculate the love compatibility between two people.",
+      "shortDesc": "Love compatibility test",
+      "name1": "Your Name",
+      "name2": "Partner's Name",
+      "enterName": "Enter name",
+      "calculate": "Calculate Love",
+      "perfect": "Perfect Match!",
+      "great": "Great Chemistry!",
+      "good": "Good Potential!",
+      "possible": "Possible Match",
+      "tryAgain": "Maybe Just Friends?"
+    },
+    "breathing-exercise": {
+      "title": "Breathing Exercise",
+      "description": "Guided breathing exercises for stress relief and focus improvement.",
+      "shortDesc": "Meditation breathing guide",
+      "pattern": "Breathing Pattern",
+      "relaxed": "Relaxed (4-4)",
+      "box": "Box Breathing (4-4-4-4)",
+      "478": "4-7-8 Technique",
+      "calm": "Calming (4-2-6)",
+      "inhale": "Inhale",
+      "hold": "Hold",
+      "exhale": "Exhale",
+      "ready": "Ready",
+      "start": "Start",
+      "stop": "Stop",
+      "cycles": "Completed Cycles"
+    },
+    "pomodoro-timer": {
+      "title": "Pomodoro Timer",
+      "description": "Boost focus and productivity with the Pomodoro technique timer.",
+      "shortDesc": "Productivity timer",
+      "work": "Focus",
+      "shortBreak": "Short Break",
+      "longBreak": "Long Break",
+      "start": "Start",
+      "pause": "Pause",
+      "completed": "Completed Pomodoros"
+    },
+    "reaction-time": {
+      "title": "Reaction Time Test",
+      "description": "Test how fast your reaction time is.",
+      "shortDesc": "Reaction speed test",
+      "click": "Click to Start",
+      "wait": "Wait for green...",
+      "clickNow": "Click Now!",
+      "tooSoon": "Too soon! Click to try again",
+      "excellent": "Excellent!",
+      "great": "Great!",
+      "good": "Good",
+      "average": "Average",
+      "slow": "Needs Practice",
+      "best": "Best Time",
+      "history": "Recent Results"
+    },
+    "number-guessing": {
+      "title": "Number Guessing Game",
+      "description": "Guess the number the computer is thinking of.",
+      "shortDesc": "Number guessing game",
+      "hint": "I'm thinking of a number between {{min}} and {{max}}",
+      "enterGuess": "Enter your guess",
+      "guess": "Guess",
+      "correct": "Correct!",
+      "attempts": "You got it in {{count}} attempts",
+      "history": "Guess History",
+      "newGame": "New Game"
+    },
+    "quotes-generator": {
+      "title": "Quotes Generator",
+      "description": "Display inspirational quotes and sayings randomly.",
+      "shortDesc": "Random quote generator",
+      "newQuote": "New Quote"
+    },
+    "flip-text": {
+      "title": "Flip Text",
+      "description": "Flip your text upside down for a fun effect.",
+      "shortDesc": "Upside-down text generator",
+      "input": "Original Text",
+      "output": "Flipped Text",
+      "placeholder": "Enter text here..."
+    },
+    "emoji-search": {
+      "title": "Emoji Search",
+      "description": "Find and copy emojis from various categories.",
+      "shortDesc": "Find and copy emojis",
+      "smileys": "Smileys",
+      "gestures": "Gestures",
+      "animals": "Animals",
+      "food": "Food",
+      "activities": "Activities",
+      "objects": "Objects",
+      "symbols": "Symbols",
+      "clickToCopy": "Click an emoji to copy"
+    },
+    "yes-no-generator": {
+      "title": "Yes/No Generator",
+      "description": "Generate a random yes or no answer when you can't decide.",
+      "shortDesc": "Random decision helper",
+      "question": "Question",
+      "placeholder": "Enter your question...",
+      "decide": "Decide for Me",
+      "yes": "Yes",
+      "no": "No",
+      "maybe": "Maybe",
+      "history": "History"
     }
   }
 }

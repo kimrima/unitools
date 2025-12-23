@@ -194,6 +194,16 @@ const StopwatchTool = lazy(() => import('@/components/tools/StopwatchTool'));
 const WheelSpinnerTool = lazy(() => import('@/components/tools/WheelSpinnerTool'));
 const TypingTestTool = lazy(() => import('@/components/tools/TypingTestTool'));
 const ScreenInfoTool = lazy(() => import('@/components/tools/ScreenInfoTool'));
+const Magic8BallTool = lazy(() => import('@/components/tools/Magic8BallTool'));
+const LoveCalculatorTool = lazy(() => import('@/components/tools/LoveCalculatorTool'));
+const BreathingExerciseTool = lazy(() => import('@/components/tools/BreathingExerciseTool'));
+const PomodoroTimerTool = lazy(() => import('@/components/tools/PomodoroTimerTool'));
+const ReactionTimeTool = lazy(() => import('@/components/tools/ReactionTimeTool'));
+const NumberGuessingTool = lazy(() => import('@/components/tools/NumberGuessingTool'));
+const QuotesGeneratorTool = lazy(() => import('@/components/tools/QuotesGeneratorTool'));
+const FlipTextTool = lazy(() => import('@/components/tools/FlipTextTool'));
+const EmojiSearchTool = lazy(() => import('@/components/tools/EmojiSearchTool'));
+const YesNoGeneratorTool = lazy(() => import('@/components/tools/YesNoGeneratorTool'));
 
 const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element>> = {
   'merge-pdf': MergePdfTool,
@@ -363,6 +373,16 @@ const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element
   'wheel-spinner': WheelSpinnerTool,
   'typing-test': TypingTestTool,
   'screen-info': ScreenInfoTool,
+  'magic-8-ball': Magic8BallTool,
+  'love-calculator': LoveCalculatorTool,
+  'breathing-exercise': BreathingExerciseTool,
+  'pomodoro-timer': PomodoroTimerTool,
+  'reaction-time': ReactionTimeTool,
+  'number-guessing': NumberGuessingTool,
+  'quotes-generator': QuotesGeneratorTool,
+  'flip-text': FlipTextTool,
+  'emoji-search': EmojiSearchTool,
+  'yes-no-generator': YesNoGeneratorTool,
 };
 
 function ToolLoading() {

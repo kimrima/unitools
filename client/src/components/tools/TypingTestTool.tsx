@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -6,26 +6,93 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Label } from '@/components/ui/label';
 import { RotateCcw, Play } from 'lucide-react';
 
-const SAMPLE_TEXTS = {
-  easy: [
-    "The quick brown fox jumps over the lazy dog.",
-    "A journey of a thousand miles begins with a single step.",
-    "To be or not to be, that is the question.",
-    "All that glitters is not gold.",
-  ],
-  medium: [
-    "The only way to do great work is to love what you do. If you haven't found it yet, keep looking.",
-    "In the middle of difficulty lies opportunity. Success is not final, failure is not fatal.",
-    "Life is what happens when you're busy making other plans. Stay hungry, stay foolish.",
-  ],
-  hard: [
-    "The greatest glory in living lies not in never falling, but in rising every time we fall. The future belongs to those who believe in the beauty of their dreams.",
-    "It is during our darkest moments that we must focus to see the light. The only impossible journey is the one you never begin.",
-  ],
+const SAMPLE_TEXTS: Record<string, Record<string, string[]>> = {
+  ko: {
+    easy: [
+      "빠른 갈색 여우가 게으른 개를 뛰어넘습니다.",
+      "천 리 길도 한 걸음부터 시작됩니다.",
+      "하늘이 무너져도 솟아날 구멍이 있다.",
+      "가는 말이 고와야 오는 말이 곱다.",
+    ],
+    medium: [
+      "좋은 일을 하는 유일한 방법은 하는 일을 사랑하는 것입니다. 아직 찾지 못했다면 계속 찾으세요.",
+      "어려움 속에 기회가 있습니다. 성공은 끝이 아니고, 실패는 치명적이지 않습니다.",
+      "인생은 다른 계획을 세우느라 바쁠 때 일어나는 것입니다. 배고파라, 어리석어라.",
+    ],
+    hard: [
+      "살면서 가장 영광스러운 것은 넘어지지 않는 것이 아니라, 넘어질 때마다 다시 일어나는 것입니다. 미래는 자신의 꿈의 아름다움을 믿는 사람들의 것입니다.",
+      "가장 어두운 순간에 빛을 보기 위해 집중해야 합니다. 유일하게 불가능한 여정은 시작하지 않는 여정입니다.",
+    ],
+  },
+  en: {
+    easy: [
+      "The quick brown fox jumps over the lazy dog.",
+      "A journey of a thousand miles begins with a single step.",
+      "To be or not to be, that is the question.",
+      "All that glitters is not gold.",
+    ],
+    medium: [
+      "The only way to do great work is to love what you do. If you haven't found it yet, keep looking.",
+      "In the middle of difficulty lies opportunity. Success is not final, failure is not fatal.",
+      "Life is what happens when you're busy making other plans. Stay hungry, stay foolish.",
+    ],
+    hard: [
+      "The greatest glory in living lies not in never falling, but in rising every time we fall. The future belongs to those who believe in the beauty of their dreams.",
+      "It is during our darkest moments that we must focus to see the light. The only impossible journey is the one you never begin.",
+    ],
+  },
+  ja: {
+    easy: [
+      "速い茶色の狐が怠けた犬を飛び越えます。",
+      "千里の道も一歩から始まります。",
+      "継続は力なり。",
+      "七転び八起き。",
+    ],
+    medium: [
+      "偉大な仕事をする唯一の方法は、自分がしていることを愛することです。まだ見つかっていないなら、探し続けてください。",
+      "困難の中にチャンスがあります。成功は終わりではなく、失敗は致命的ではありません。",
+    ],
+    hard: [
+      "生きる上での最大の栄光は、決して転ばないことではなく、転ぶたびに立ち上がることにあります。未来は自分の夢の美しさを信じる人々のものです。",
+    ],
+  },
+  es: {
+    easy: [
+      "El rápido zorro marrón salta sobre el perro perezoso.",
+      "Un viaje de mil millas comienza con un solo paso.",
+      "Ser o no ser, esa es la cuestión.",
+      "No todo lo que brilla es oro.",
+    ],
+    medium: [
+      "La única manera de hacer un gran trabajo es amar lo que haces. Si no lo has encontrado, sigue buscando.",
+      "En medio de la dificultad yace la oportunidad. El éxito no es definitivo, el fracaso no es fatal.",
+    ],
+    hard: [
+      "La mayor gloria de vivir no está en no caer nunca, sino en levantarnos cada vez que caemos. El futuro pertenece a quienes creen en la belleza de sus sueños.",
+    ],
+  },
+  fr: {
+    easy: [
+      "Le rapide renard brun saute par-dessus le chien paresseux.",
+      "Un voyage de mille lieues commence par un seul pas.",
+      "Être ou ne pas être, telle est la question.",
+      "Tout ce qui brille n'est pas or.",
+    ],
+    medium: [
+      "La seule façon de faire du bon travail est d'aimer ce que vous faites. Si vous ne l'avez pas encore trouvé, continuez à chercher.",
+      "Au milieu de la difficulté se trouve l'opportunité. Le succès n'est pas final, l'échec n'est pas fatal.",
+    ],
+    hard: [
+      "La plus grande gloire de vivre ne réside pas dans le fait de ne jamais tomber, mais de se relever à chaque chute. L'avenir appartient à ceux qui croient en la beauté de leurs rêves.",
+    ],
+  },
 };
 
 export default function TypingTestTool() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const currentLang = i18n.language.split('-')[0] || 'en';
+  const texts = SAMPLE_TEXTS[currentLang] || SAMPLE_TEXTS.en;
+  
   const [difficulty, setDifficulty] = useState<'easy' | 'medium' | 'hard'>('medium');
   const [targetText, setTargetText] = useState('');
   const [typedText, setTypedText] = useState('');
@@ -37,8 +104,8 @@ export default function TypingTestTool() {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const startTest = useCallback(() => {
-    const texts = SAMPLE_TEXTS[difficulty];
-    const randomText = texts[Math.floor(Math.random() * texts.length)];
+    const diffTexts = texts[difficulty] || texts.easy;
+    const randomText = diffTexts[Math.floor(Math.random() * diffTexts.length)];
     setTargetText(randomText);
     setTypedText('');
     setIsStarted(true);
@@ -47,7 +114,7 @@ export default function TypingTestTool() {
     setEndTime(null);
     setErrors(0);
     setTimeout(() => inputRef.current?.focus(), 100);
-  }, [difficulty]);
+  }, [difficulty, texts]);
 
   const resetTest = useCallback(() => {
     setIsStarted(false);

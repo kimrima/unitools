@@ -2306,6 +2306,123 @@
       "title": "잘고 텍스트 생성기",
       "description": "결합 문자를 사용하여 으스스한 글리치 텍스트를 만드세요.",
       "shortDesc": "글리치 텍스트 생성"
+    },
+    "magic-8-ball": {
+      "title": "매직 8볼",
+      "description": "질문을 하고 신비로운 매직 8볼의 답변을 받아보세요.",
+      "shortDesc": "운세 점치기",
+      "question": "질문",
+      "placeholder": "예/아니오로 대답할 수 있는 질문을 하세요...",
+      "ask": "매직 8볼에게 물어보기"
+    },
+    "love-calculator": {
+      "title": "러브 계산기",
+      "description": "두 사람의 이름으로 궁합을 측정해보세요.",
+      "shortDesc": "사랑 궁합 계산",
+      "name1": "내 이름",
+      "name2": "상대방 이름",
+      "enterName": "이름 입력",
+      "calculate": "궁합 계산하기",
+      "perfect": "완벽한 짝!",
+      "great": "환상의 궁합!",
+      "good": "좋은 가능성!",
+      "possible": "가능성 있음",
+      "tryAgain": "친구로 지내는 게?"
+    },
+    "breathing-exercise": {
+      "title": "호흡 운동",
+      "description": "스트레스 해소와 집중력 향상을 위한 가이드 호흡 운동입니다.",
+      "shortDesc": "명상 호흡 가이드",
+      "pattern": "호흡 패턴",
+      "relaxed": "편안함 (4-4)",
+      "box": "박스 호흡 (4-4-4-4)",
+      "478": "4-7-8 기법",
+      "calm": "진정 (4-2-6)",
+      "inhale": "들이쉬기",
+      "hold": "멈추기",
+      "exhale": "내쉬기",
+      "ready": "준비",
+      "start": "시작",
+      "stop": "중지",
+      "cycles": "완료한 사이클"
+    },
+    "pomodoro-timer": {
+      "title": "뽀모도로 타이머",
+      "description": "집중력과 생산성을 높이는 뽀모도로 기법 타이머입니다.",
+      "shortDesc": "생산성 타이머",
+      "work": "집중",
+      "shortBreak": "짧은 휴식",
+      "longBreak": "긴 휴식",
+      "start": "시작",
+      "pause": "일시정지",
+      "completed": "완료한 뽀모도로"
+    },
+    "reaction-time": {
+      "title": "반응 속도 테스트",
+      "description": "당신의 반응 속도가 얼마나 빠른지 테스트해보세요.",
+      "shortDesc": "반응 속도 측정",
+      "click": "클릭하여 시작",
+      "wait": "초록색을 기다리세요...",
+      "clickNow": "지금 클릭!",
+      "tooSoon": "너무 빨랐어요! 다시 클릭하세요",
+      "excellent": "최고!",
+      "great": "훌륭해요!",
+      "good": "좋아요",
+      "average": "보통",
+      "slow": "연습이 필요해요",
+      "best": "최고 기록",
+      "history": "최근 결과"
+    },
+    "number-guessing": {
+      "title": "숫자 맞추기 게임",
+      "description": "컴퓨터가 생각한 숫자를 맞춰보세요.",
+      "shortDesc": "숫자 추측 게임",
+      "hint": "{{min}}부터 {{max}} 사이의 숫자를 생각하고 있어요",
+      "enterGuess": "추측 입력",
+      "guess": "맞추기",
+      "correct": "정답!",
+      "attempts": "{{count}}번 만에 맞췄습니다",
+      "history": "추측 기록",
+      "newGame": "새 게임"
+    },
+    "quotes-generator": {
+      "title": "명언 생성기",
+      "description": "영감을 주는 명언과 격언을 랜덤으로 보여드립니다.",
+      "shortDesc": "랜덤 명언 생성",
+      "newQuote": "새 명언"
+    },
+    "flip-text": {
+      "title": "텍스트 뒤집기",
+      "description": "텍스트를 거꾸로 뒤집어서 재미있는 효과를 만들어보세요.",
+      "shortDesc": "뒤집힌 텍스트 생성",
+      "input": "원본 텍스트",
+      "output": "뒤집힌 텍스트",
+      "placeholder": "여기에 텍스트를 입력하세요..."
+    },
+    "emoji-search": {
+      "title": "이모지 검색",
+      "description": "다양한 카테고리에서 이모지를 찾아 복사하세요.",
+      "shortDesc": "이모지 찾기 및 복사",
+      "smileys": "얼굴",
+      "gestures": "손동작",
+      "animals": "동물",
+      "food": "음식",
+      "activities": "활동",
+      "objects": "물건",
+      "symbols": "기호",
+      "clickToCopy": "이모지를 클릭하면 복사됩니다"
+    },
+    "yes-no-generator": {
+      "title": "예/아니오 생성기",
+      "description": "결정을 못하겠을 때 예/아니오를 랜덤으로 생성해드립니다.",
+      "shortDesc": "랜덤 결정 도우미",
+      "question": "질문",
+      "placeholder": "질문을 입력하세요...",
+      "decide": "결정해줘",
+      "yes": "예",
+      "no": "아니오",
+      "maybe": "아마도",
+      "history": "기록"
     }
   }
 }

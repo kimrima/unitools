@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -7,8 +7,8 @@ import { Label } from '@/components/ui/label';
 import { RotateCw } from 'lucide-react';
 
 const COLORS = [
-  '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7',
-  '#DDA0DD', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E9',
+  '#8B5CF6', '#EC4899', '#F59E0B', '#10B981', '#3B82F6',
+  '#EF4444', '#06B6D4', '#84CC16', '#F97316', '#6366F1',
 ];
 
 export default function WheelSpinnerTool() {
@@ -18,7 +18,7 @@ export default function WheelSpinnerTool() {
   const [rotation, setRotation] = useState(0);
   const [isSpinning, setIsSpinning] = useState(false);
   const [winner, setWinner] = useState<string | null>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const wheelRef = useRef<HTMLDivElement>(null);
 
   const updateItems = useCallback((text: string) => {
     setInputText(text);
@@ -26,58 +26,8 @@ export default function WheelSpinnerTool() {
     setItems(newItems.length > 0 ? newItems : ['Option 1']);
   }, []);
 
-  const drawWheel = useCallback(() => {
-    const canvas = canvasRef.current;
-    if (!canvas || items.length === 0) return;
-    
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-    
-    const size = canvas.width;
-    const center = size / 2;
-    const radius = center - 10;
-    const sliceAngle = (2 * Math.PI) / items.length;
-    
-    ctx.clearRect(0, 0, size, size);
-    
-    items.forEach((item, i) => {
-      const startAngle = i * sliceAngle + (rotation * Math.PI / 180);
-      const endAngle = startAngle + sliceAngle;
-      
-      ctx.beginPath();
-      ctx.moveTo(center, center);
-      ctx.arc(center, center, radius, startAngle, endAngle);
-      ctx.closePath();
-      ctx.fillStyle = COLORS[i % COLORS.length];
-      ctx.fill();
-      ctx.strokeStyle = '#fff';
-      ctx.lineWidth = 2;
-      ctx.stroke();
-      
-      ctx.save();
-      ctx.translate(center, center);
-      ctx.rotate(startAngle + sliceAngle / 2);
-      ctx.textAlign = 'right';
-      ctx.fillStyle = '#fff';
-      ctx.font = 'bold 14px sans-serif';
-      ctx.shadowColor = 'rgba(0,0,0,0.5)';
-      ctx.shadowBlur = 3;
-      const text = item.length > 12 ? item.substring(0, 12) + '...' : item;
-      ctx.fillText(text, radius - 20, 5);
-      ctx.restore();
-    });
-    
-    ctx.beginPath();
-    ctx.arc(center, center, 20, 0, 2 * Math.PI);
-    ctx.fillStyle = '#fff';
-    ctx.fill();
-    ctx.strokeStyle = '#333';
-    ctx.lineWidth = 2;
-    ctx.stroke();
-  }, [items, rotation]);
-
   const spin = useCallback(() => {
-    if (isSpinning || items.length === 0) return;
+    if (isSpinning || items.length < 2) return;
     
     setIsSpinning(true);
     setWinner(null);
@@ -112,9 +62,7 @@ export default function WheelSpinnerTool() {
     requestAnimationFrame(animate);
   }, [isSpinning, items, rotation]);
 
-  useState(() => {
-    drawWheel();
-  });
+  const sliceAngle = 360 / items.length;
 
   return (
     <div className="space-y-6">
@@ -144,21 +92,69 @@ export default function WheelSpinnerTool() {
             <div className="flex flex-col items-center space-y-4">
               <div className="relative">
                 <div 
-                  className="absolute -top-2 left-1/2 -translate-x-1/2 z-10 w-0 h-0"
+                  className="absolute -top-2 left-1/2 -translate-x-1/2 z-10"
                   style={{
-                    borderLeft: '12px solid transparent',
-                    borderRight: '12px solid transparent',
-                    borderTop: '24px solid #333',
+                    width: 0,
+                    height: 0,
+                    borderLeft: '15px solid transparent',
+                    borderRight: '15px solid transparent',
+                    borderTop: '30px solid #333',
                   }}
                 />
-                <canvas
-                  ref={canvasRef}
-                  width={280}
-                  height={280}
-                  className="rounded-full"
-                  style={{ transform: `rotate(${rotation}deg)` }}
-                  data-testid="wheel-canvas"
-                />
+                <div 
+                  ref={wheelRef}
+                  className="relative w-72 h-72 rounded-full overflow-hidden shadow-lg"
+                  style={{ 
+                    transform: `rotate(${rotation}deg)`,
+                    transition: isSpinning ? 'none' : 'transform 0.1s ease-out'
+                  }}
+                  data-testid="wheel-display"
+                >
+                  <svg viewBox="0 0 100 100" className="w-full h-full">
+                    {items.map((item, i) => {
+                      const startAngle = i * sliceAngle - 90;
+                      const endAngle = startAngle + sliceAngle;
+                      const startRad = (startAngle * Math.PI) / 180;
+                      const endRad = (endAngle * Math.PI) / 180;
+                      const x1 = 50 + 50 * Math.cos(startRad);
+                      const y1 = 50 + 50 * Math.sin(startRad);
+                      const x2 = 50 + 50 * Math.cos(endRad);
+                      const y2 = 50 + 50 * Math.sin(endRad);
+                      const largeArc = sliceAngle > 180 ? 1 : 0;
+                      
+                      const midAngle = startAngle + sliceAngle / 2;
+                      const midRad = (midAngle * Math.PI) / 180;
+                      const textX = 50 + 32 * Math.cos(midRad);
+                      const textY = 50 + 32 * Math.sin(midRad);
+                      const displayText = item.length > 8 ? item.substring(0, 8) + '..' : item;
+                      
+                      return (
+                        <g key={i}>
+                          <path
+                            d={`M 50 50 L ${x1} ${y1} A 50 50 0 ${largeArc} 1 ${x2} ${y2} Z`}
+                            fill={COLORS[i % COLORS.length]}
+                            stroke="#fff"
+                            strokeWidth="0.5"
+                          />
+                          <text
+                            x={textX}
+                            y={textY}
+                            textAnchor="middle"
+                            dominantBaseline="middle"
+                            fill="#fff"
+                            fontSize="4"
+                            fontWeight="bold"
+                            transform={`rotate(${midAngle + 90}, ${textX}, ${textY})`}
+                            style={{ textShadow: '0 1px 2px rgba(0,0,0,0.5)' }}
+                          >
+                            {displayText}
+                          </text>
+                        </g>
+                      );
+                    })}
+                    <circle cx="50" cy="50" r="8" fill="#fff" stroke="#333" strokeWidth="1" />
+                  </svg>
+                </div>
               </div>
 
               <Button 
