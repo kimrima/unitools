@@ -54,6 +54,40 @@ export async function pdfToImages(
       const page = await pdf.getPage(pageNum);
       const viewport = page.getViewport({ scale });
 
+      // Get operator list first to ensure all page resources are processed
+      // This forces pdf.js to decode all images before we render
+      const opList = await page.getOperatorList();
+      
+      // Wait for all page objects (images) to be fully loaded
+      // The commonObjs and objs contain decoded image data
+      const objsToWait: Promise<unknown>[] = [];
+      
+      // Check each operator for image references and ensure they're loaded
+      for (let i = 0; i < opList.fnArray.length; i++) {
+        const fn = opList.fnArray[i];
+        // OPS.paintImageXObject = 85, OPS.paintImageMaskXObject = 83
+        if (fn === 85 || fn === 83) {
+          const args = opList.argsArray[i];
+          if (args && args[0]) {
+            const objId = args[0];
+            // Try to get the object, which forces it to be decoded
+            try {
+              const objPromise = new Promise<void>((resolve) => {
+                page.objs.get(objId, () => resolve());
+              });
+              objsToWait.push(objPromise);
+            } catch {
+              // Object might already be loaded or not exist
+            }
+          }
+        }
+      }
+      
+      // Wait for all image objects to be loaded
+      if (objsToWait.length > 0) {
+        await Promise.all(objsToWait);
+      }
+
       const canvas = document.createElement('canvas');
       const context = canvas.getContext('2d');
       if (!context) {
@@ -70,7 +104,6 @@ export async function pdfToImages(
       }
 
       // Use 'print' intent to ensure all images with soft masks are fully rendered
-      // The display renderer can skip images that aren't ready, but print waits for completion
       const renderContext = {
         canvasContext: context,
         viewport,
@@ -78,7 +111,7 @@ export async function pdfToImages(
         intent: 'print' as const,
       };
       
-      // Render the page with print intent
+      // Render the page
       const renderTask = page.render(renderContext);
       await renderTask.promise;
 
