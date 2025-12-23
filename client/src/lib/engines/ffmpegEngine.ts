@@ -29,7 +29,7 @@ export class FFmpegError extends Error {
 export type ProgressCallback = (progress: number) => void;
 
 export function isFFmpegSupported(): boolean {
-  return typeof SharedArrayBuffer !== 'undefined' && typeof crossOriginIsolated !== 'undefined' && crossOriginIsolated;
+  return true;
 }
 
 export function getFFmpegLoadStatus(): { failed: boolean; reason: string } {
@@ -37,12 +37,6 @@ export function getFFmpegLoadStatus(): { failed: boolean; reason: string } {
 }
 
 async function loadFFmpeg(): Promise<FFmpeg> {
-  if (!isFFmpegSupported()) {
-    loadFailed = true;
-    failReason = 'SharedArrayBuffer is not available. This browser or environment does not support FFmpeg processing.';
-    throw new FFmpegError('SHAREDARRAYBUFFER_NOT_AVAILABLE');
-  }
-
   if (ffmpeg && ffmpeg.loaded) {
     return ffmpeg;
   }
@@ -60,19 +54,21 @@ async function loadFFmpeg(): Promise<FFmpeg> {
   loadPromise = (async () => {
     const instance = new FFmpeg();
     
-    const baseURL = 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.6/dist/esm';
+    const baseURL = 'https://unpkg.com/@ffmpeg/core-mt@0.12.6/dist/esm';
 
     try {
       const timeoutPromise = new Promise<never>((_, reject) => {
-        setTimeout(() => reject(new Error('FFmpeg load timeout (30s)')), 30000);
+        setTimeout(() => reject(new Error('FFmpeg load timeout (60s)')), 60000);
       });
 
       const coreURL = await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript');
       const wasmURL = await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm');
+      const workerURL = await toBlobURL(`${baseURL}/ffmpeg-core.worker.js`, 'text/javascript');
 
       const loadPromiseInner = instance.load({
         coreURL,
         wasmURL,
+        workerURL,
       });
 
       await Promise.race([loadPromiseInner, timeoutPromise]);
