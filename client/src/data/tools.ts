@@ -123,6 +123,8 @@ import {
   Wind,
   Quote,
   HelpCircle,
+  Trophy,
+  Skull,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -153,7 +155,7 @@ export const categories: Category[] = [
   { id: 'social', icon: Share2, toolCount: 20 },
   { id: 'developer', icon: Code, toolCount: 20 },
   { id: 'calculator', icon: Calculator, toolCount: 23 },
-  { id: 'funMisc', icon: Dices, toolCount: 20 },
+  { id: 'funMisc', icon: Dices, toolCount: 22 },
 ];
 
 export const allTools: Tool[] = [
@@ -2466,6 +2468,30 @@ export const allTools: Tool[] = [
     ratingCount: 19200,
     relatedTools: ['magic-8-ball', 'coin-flip', 'wheel-spinner'],
     acceptedFormats: [],
+    outputFormats: ['text'],
+  },
+  { 
+    id: 'elimination-wheel', 
+    category: 'funMisc', 
+    icon: Skull, 
+    implemented: true,
+    usageCount: 1234567,
+    rating: 4.9,
+    ratingCount: 28900,
+    relatedTools: ['wheel-spinner', 'team-picker', 'coin-flip'],
+    acceptedFormats: ['text'],
+    outputFormats: ['text'],
+  },
+  { 
+    id: 'team-picker', 
+    category: 'funMisc', 
+    icon: Users, 
+    implemented: true,
+    usageCount: 987654,
+    rating: 4.8,
+    ratingCount: 21500,
+    relatedTools: ['elimination-wheel', 'wheel-spinner', 'random-number'],
+    acceptedFormats: ['text'],
     outputFormats: ['text'],
   },
 ];

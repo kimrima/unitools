@@ -204,6 +204,8 @@ const QuotesGeneratorTool = lazy(() => import('@/components/tools/QuotesGenerato
 const FlipTextTool = lazy(() => import('@/components/tools/FlipTextTool'));
 const EmojiSearchTool = lazy(() => import('@/components/tools/EmojiSearchTool'));
 const YesNoGeneratorTool = lazy(() => import('@/components/tools/YesNoGeneratorTool'));
+const EliminationWheelTool = lazy(() => import('@/components/tools/EliminationWheelTool'));
+const TeamPickerTool = lazy(() => import('@/components/tools/TeamPickerTool'));
 
 const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element>> = {
   'merge-pdf': MergePdfTool,
@@ -383,6 +385,8 @@ const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element
   'flip-text': FlipTextTool,
   'emoji-search': EmojiSearchTool,
   'yes-no-generator': YesNoGeneratorTool,
+  'elimination-wheel': EliminationWheelTool,
+  'team-picker': TeamPickerTool,
 };
 
 function ToolLoading() {
