@@ -2698,6 +2698,46 @@
       "next": "Next",
       "hide": "Hide",
       "show": "Show"
+    },
+    "big-wheel": {
+      "title": "Big Wheel",
+      "description": "Spin the wheel with amazing visual effects! Optimized for streaming and broadcasts.",
+      "shortDesc": "Broadcast-ready wheel",
+      "setupTitle": "Setup Your Wheel",
+      "setupDesc": "Add items to spin the wheel!",
+      "itemPlaceholder": "Enter item name",
+      "bulkAdd": "Bulk Add (one per line)",
+      "bulkPlaceholder": "Pizza\nChicken\nBurger\nTacos",
+      "spin": "SPIN!",
+      "spinning": "Spinning...",
+      "winner": "Winner!"
+    },
+    "pirate-barrel": {
+      "title": "Pirate Barrel",
+      "description": "Insert swords one by one - whoever makes the pirate pop out loses! A thrilling game of chance.",
+      "shortDesc": "Pop-up pirate game",
+      "namePlaceholder": "Player name",
+      "start": "Start Game",
+      "players": "players",
+      "turn": "{{name}}'s Turn",
+      "reset": "New Game",
+      "loser": "{{name}} loses!",
+      "desc": "Take turns inserting swords. Whoever makes the pirate jump loses!"
+    },
+    "hearing-age": {
+      "title": "Hearing Age Test",
+      "description": "Test your hearing by playing high-frequency sounds. As we age, we lose the ability to hear higher frequencies.",
+      "shortDesc": "Hearing frequency test",
+      "volume": "Volume",
+      "warning": "Use headphones for accurate results. Start with low volume.",
+      "start": "Start Test",
+      "playSound": "Play Sound",
+      "stop": "Stop",
+      "canHear": "I Hear It!",
+      "cantHear": "Can't Hear",
+      "typical": "Typically heard by ages",
+      "result": "Your Hearing Age",
+      "retry": "Try Again"
     }
   }
 }

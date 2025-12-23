@@ -2704,6 +2704,46 @@
       "next": "다음",
       "hide": "숨기기",
       "show": "보기"
+    },
+    "big-wheel": {
+      "title": "대형 룰렛",
+      "description": "화려한 효과와 함께 룰렛을 돌려보세요! 방송용으로 최적화된 대형 룰렛입니다.",
+      "shortDesc": "방송용 대형 룰렛",
+      "setupTitle": "룰렛 설정",
+      "setupDesc": "항목을 추가하고 룰렛을 돌리세요!",
+      "itemPlaceholder": "항목 입력",
+      "bulkAdd": "한번에 추가",
+      "bulkPlaceholder": "피자\n치킨\n햄버거\n짜장면",
+      "spin": "돌리기!",
+      "spinning": "돌리는 중...",
+      "winner": "당첨!"
+    },
+    "pirate-barrel": {
+      "title": "해적 통 아저씨",
+      "description": "칼을 하나씩 꽂다가 해적이 튀어나오면 탈락! 스릴 넘치는 복불복 게임입니다.",
+      "shortDesc": "복불복 칼꽂기 게임",
+      "namePlaceholder": "참가자 이름",
+      "start": "게임 시작",
+      "players": "명",
+      "turn": "{{name}}의 차례",
+      "reset": "새 게임",
+      "loser": "{{name}} 탈락!",
+      "desc": "순서대로 칼을 꽂으세요. 해적이 튀어나오면 탈락!"
+    },
+    "hearing-age": {
+      "title": "청각 나이 테스트",
+      "description": "높은 주파수 소리를 듣고 청력 나이를 측정해보세요. 나이가 들수록 고주파음이 잘 안 들립니다.",
+      "shortDesc": "가청 주파수 테스트",
+      "volume": "볼륨",
+      "warning": "정확한 결과를 위해 이어폰을 착용하세요. 낮은 볼륨부터 시작하세요.",
+      "start": "테스트 시작",
+      "playSound": "소리 재생",
+      "stop": "멈추기",
+      "canHear": "들려요!",
+      "cantHear": "안 들려요",
+      "typical": "일반적으로",
+      "result": "당신의 청력 나이",
+      "retry": "다시 테스트"
     }
   }
 }

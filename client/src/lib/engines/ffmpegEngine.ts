@@ -1389,3 +1389,198 @@ export async function addAudioToVideo(
     throw new FFmpegError('PROCESSING_FAILED');
   }
 }
+
+export interface BoostAudioOptions {
+  file: File;
+  boostLevel: number;
+}
+
+export interface BoostAudioResult {
+  outputBlob: Blob;
+  outputSize: number;
+}
+
+export async function boostAudio(
+  options: BoostAudioOptions,
+  onProgress?: ProgressCallback
+): Promise<BoostAudioResult> {
+  const { file, boostLevel } = options;
+  
+  if (!file) {
+    throw new FFmpegError('NO_FILE_PROVIDED');
+  }
+
+  let ff: FFmpegInstance;
+  try {
+    ff = await loadFFmpeg();
+  } catch (e) {
+    if (e instanceof FFmpegError) throw e;
+    throw new FFmpegError('FFMPEG_LOAD_FAILED');
+  }
+
+  if (onProgress) {
+    ff.setProgress(({ ratio }) => {
+      onProgress(Math.round(ratio * 100));
+    });
+  }
+
+  const inputFileName = 'input' + getFileExtension(file.name);
+  const outputFileName = 'output.mp3';
+
+  try {
+    ff.FS('writeFile', inputFileName, await fetchFile(file));
+
+    const volumeMultiplier = boostLevel / 100;
+    await ff.run(
+      '-i', inputFileName,
+      '-filter:a', `volume=${volumeMultiplier}`,
+      '-y',
+      outputFileName
+    );
+
+    const data = ff.FS('readFile', outputFileName);
+    const outputBlob = new Blob([data.buffer], { type: 'audio/mpeg' });
+
+    try { ff.FS('unlink', inputFileName); } catch {}
+    try { ff.FS('unlink', outputFileName); } catch {}
+    try { ff.exit(); } catch {}
+
+    return {
+      outputBlob,
+      outputSize: outputBlob.size,
+    };
+  } catch (e) {
+    try { ff.exit(); } catch {}
+    if (e instanceof FFmpegError) throw e;
+    throw new FFmpegError('PROCESSING_FAILED');
+  }
+}
+
+export interface ReverseAudioOptions {
+  file: File;
+}
+
+export interface ReverseAudioResult {
+  outputBlob: Blob;
+  outputSize: number;
+}
+
+export async function reverseAudio(
+  options: ReverseAudioOptions,
+  onProgress?: ProgressCallback
+): Promise<ReverseAudioResult> {
+  const { file } = options;
+  
+  if (!file) {
+    throw new FFmpegError('NO_FILE_PROVIDED');
+  }
+
+  let ff: FFmpegInstance;
+  try {
+    ff = await loadFFmpeg();
+  } catch (e) {
+    if (e instanceof FFmpegError) throw e;
+    throw new FFmpegError('FFMPEG_LOAD_FAILED');
+  }
+
+  if (onProgress) {
+    ff.setProgress(({ ratio }) => {
+      onProgress(Math.round(ratio * 100));
+    });
+  }
+
+  const inputFileName = 'input' + getFileExtension(file.name);
+  const outputFileName = 'output.mp3';
+
+  try {
+    ff.FS('writeFile', inputFileName, await fetchFile(file));
+
+    await ff.run(
+      '-i', inputFileName,
+      '-filter:a', 'areverse',
+      '-y',
+      outputFileName
+    );
+
+    const data = ff.FS('readFile', outputFileName);
+    const outputBlob = new Blob([data.buffer], { type: 'audio/mpeg' });
+
+    try { ff.FS('unlink', inputFileName); } catch {}
+    try { ff.FS('unlink', outputFileName); } catch {}
+    try { ff.exit(); } catch {}
+
+    return {
+      outputBlob,
+      outputSize: outputBlob.size,
+    };
+  } catch (e) {
+    try { ff.exit(); } catch {}
+    if (e instanceof FFmpegError) throw e;
+    throw new FFmpegError('PROCESSING_FAILED');
+  }
+}
+
+export interface AudioBitrateOptions {
+  file: File;
+  bitrate: string;
+}
+
+export interface AudioBitrateResult {
+  outputBlob: Blob;
+  outputSize: number;
+}
+
+export async function changeAudioBitrate(
+  options: AudioBitrateOptions,
+  onProgress?: ProgressCallback
+): Promise<AudioBitrateResult> {
+  const { file, bitrate } = options;
+  
+  if (!file) {
+    throw new FFmpegError('NO_FILE_PROVIDED');
+  }
+
+  let ff: FFmpegInstance;
+  try {
+    ff = await loadFFmpeg();
+  } catch (e) {
+    if (e instanceof FFmpegError) throw e;
+    throw new FFmpegError('FFMPEG_LOAD_FAILED');
+  }
+
+  if (onProgress) {
+    ff.setProgress(({ ratio }) => {
+      onProgress(Math.round(ratio * 100));
+    });
+  }
+
+  const inputFileName = 'input' + getFileExtension(file.name);
+  const outputFileName = 'output.mp3';
+
+  try {
+    ff.FS('writeFile', inputFileName, await fetchFile(file));
+
+    await ff.run(
+      '-i', inputFileName,
+      '-b:a', bitrate,
+      '-y',
+      outputFileName
+    );
+
+    const data = ff.FS('readFile', outputFileName);
+    const outputBlob = new Blob([data.buffer], { type: 'audio/mpeg' });
+
+    try { ff.FS('unlink', inputFileName); } catch {}
+    try { ff.FS('unlink', outputFileName); } catch {}
+    try { ff.exit(); } catch {}
+
+    return {
+      outputBlob,
+      outputSize: outputBlob.size,
+    };
+  } catch (e) {
+    try { ff.exit(); } catch {}
+    if (e instanceof FFmpegError) throw e;
+    throw new FFmpegError('PROCESSING_FAILED');
+  }
+}

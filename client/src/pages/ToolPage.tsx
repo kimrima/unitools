@@ -213,6 +213,9 @@ const CpsTestTool = lazy(() => import('@/components/tools/CpsTestTool'));
 const BingoGeneratorTool = lazy(() => import('@/components/tools/BingoGeneratorTool'));
 const StopwatchChallengeTool = lazy(() => import('@/components/tools/StopwatchChallengeTool'));
 const SilentShoutTool = lazy(() => import('@/components/tools/SilentShoutTool'));
+const BigWheelTool = lazy(() => import('@/components/tools/BigWheelTool'));
+const PirateBarrelTool = lazy(() => import('@/components/tools/PirateBarrelTool'));
+const HearingAgeTool = lazy(() => import('@/components/tools/HearingAgeTool'));
 
 const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element>> = {
   'merge-pdf': MergePdfTool,
@@ -401,6 +404,9 @@ const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element
   'bingo-generator': BingoGeneratorTool,
   'stopwatch-challenge': StopwatchChallengeTool,
   'silent-shout': SilentShoutTool,
+  'big-wheel': BigWheelTool,
+  'pirate-barrel': PirateBarrelTool,
+  'hearing-age': HearingAgeTool,
 };
 
 function ToolLoading() {
