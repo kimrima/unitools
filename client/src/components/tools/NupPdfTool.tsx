@@ -57,7 +57,7 @@ export default function NupPdfTool() {
     setError(null);
 
     try {
-      await stagedProcessing.runStagedProcessing(async () => {
+      const result = await stagedProcessing.runStagedProcessing(async () => {
         const arrayBuffer = await file.arrayBuffer();
         const srcDoc = await PDFDocument.load(arrayBuffer);
         const newDoc = await PDFDocument.create();
@@ -108,7 +108,7 @@ export default function NupPdfTool() {
         const pdfBytes = await newDoc.save();
         return new Blob([pdfBytes], { type: 'application/pdf' });
       });
-      setResultBlob(stagedProcessing.result as Blob);
+      setResultBlob(result);
       setStatus('success');
     } catch {
       setError({ code: 'NUP_FAILED' });
@@ -124,6 +124,13 @@ export default function NupPdfTool() {
     a.download = file.name.replace('.pdf', `_${nupLayout}up.pdf`);
     a.click();
     URL.revokeObjectURL(url);
+  };
+
+  const reset = () => {
+    setFile(null);
+    setResultBlob(null);
+    setStatus('idle');
+    stagedProcessing.reset();
   };
 
   return (
@@ -149,10 +156,7 @@ export default function NupPdfTool() {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => {
-                setFile(null);
-                setResultBlob(null);
-              }}
+              onClick={reset}
               data-testid="button-remove-file"
             >
               <Trash2 className="w-4 h-4" />
@@ -248,11 +252,7 @@ export default function NupPdfTool() {
             </Button>
             <Button
               variant="outline"
-              onClick={() => {
-                setFile(null);
-                setResultBlob(null);
-                setStatus('idle');
-              }}
+              onClick={reset}
               data-testid="button-new"
             >
               {t('Common.processAnother')}
