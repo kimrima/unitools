@@ -110,6 +110,10 @@ const UrlEncodeTool = lazy(() => import('@/components/tools/UrlEncodeTool'));
 const LoremIpsumTool = lazy(() => import('@/components/tools/LoremIpsumTool'));
 const DummyDataGeneratorTool = lazy(() => import('@/components/tools/DummyDataGeneratorTool'));
 const DiffCheckerTool = lazy(() => import('@/components/tools/DiffCheckerTool'));
+const HtmlEntityTool = lazy(() => import('@/components/tools/HtmlEntityTool'));
+const WordFrequencyTool = lazy(() => import('@/components/tools/WordFrequencyTool'));
+const BinaryConverterTool = lazy(() => import('@/components/tools/BinaryConverterTool'));
+const MorseCodeTool = lazy(() => import('@/components/tools/MorseCodeTool'));
 const QrCodeTool = lazy(() => import('@/components/tools/QrCodeTool'));
 const InstagramLineBreakTool = lazy(() => import('@/components/tools/InstagramLineBreakTool'));
 const RandomPickerTool = lazy(() => import('@/components/tools/RandomPickerTool'));
@@ -270,12 +274,12 @@ const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element
   'markdown-preview': CharacterCountTool,
   'url-encode': UrlEncodeTool,
   'base64-text': Base64Tool,
-  'html-entity': UrlEncodeTool,
+  'html-entity': HtmlEntityTool,
   'diff-checker': DiffCheckerTool,
-  'word-frequency': CharacterCountTool,
+  'word-frequency': WordFrequencyTool,
   'text-shuffle': TextProcessingTool,
-  'binary-converter': Base64Tool,
-  'morse-code': Base64Tool,
+  'binary-converter': BinaryConverterTool,
+  'morse-code': MorseCodeTool,
   'web-text-extract': WebTextExtractTool,
   'json-formatter': JsonFormatterTool,
   'instagram-line-break': InstagramLineBreakTool,

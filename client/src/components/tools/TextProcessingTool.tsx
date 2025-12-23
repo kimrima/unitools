@@ -85,11 +85,14 @@ export default function TextProcessingTool() {
         break;
         
       case 'text-shuffle':
-        const shuffleLines = input.split('\n');
-        for (let i = shuffleLines.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [shuffleLines[i], shuffleLines[j]] = [shuffleLines[j], shuffleLines[i]];
-        }
+        const shuffleLines = input.split('\n').map(line => {
+          const words = line.split(/\s+/);
+          for (let i = words.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [words[i], words[j]] = [words[j], words[i]];
+          }
+          return words.join(' ');
+        });
         result = shuffleLines.join('\n');
         break;
     }

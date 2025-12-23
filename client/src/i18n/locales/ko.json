@@ -986,7 +986,13 @@
       "title": "HTML 엔티티 변환기",
       "description": "특수 문자를 HTML 엔티티로 변환하거나 그 반대로 변환합니다.",
       "shortDesc": "HTML 엔티티",
-      "instructions": "특수 문자를 HTML 엔티티로 변환할 텍스트를 입력하세요."
+      "instructions": "특수 문자를 HTML 엔티티로 변환할 텍스트를 입력하세요.",
+      "encode": "인코딩",
+      "decode": "디코딩",
+      "textLabel": "일반 텍스트",
+      "encodedLabel": "HTML 엔티티",
+      "textPlaceholder": "특수 문자가 포함된 텍스트를 입력하세요...",
+      "encodedPlaceholder": "&lt;div&gt;와 같은 HTML 엔티티를 입력하세요..."
     },
     "diff-checker": {
       "title": "텍스트 비교 도구",
@@ -1005,7 +1011,19 @@
       "title": "단어 빈도 분석기",
       "description": "텍스트에서 가장 자주 사용되는 단어를 분석합니다.",
       "shortDesc": "단어 빈도 분석",
-      "instructions": "텍스트를 붙여넣어 단어 빈도 통계를 확인하세요."
+      "instructions": "텍스트를 붙여넣어 단어 빈도 통계를 확인하세요.",
+      "inputLabel": "입력 텍스트",
+      "placeholder": "단어 빈도를 분석할 텍스트를 붙여넣으세요...",
+      "analyze": "빈도 분석",
+      "sortLabel": "정렬 기준",
+      "byFrequency": "빈도순",
+      "alphabetical": "알파벳순",
+      "minLength": "최소 길이",
+      "totalWords": "총 단어 수",
+      "uniqueWords": "고유 단어 수",
+      "wordColumn": "단어",
+      "countColumn": "횟수",
+      "showingTop": "{{count}}개 단어 중 상위 100개 표시"
     },
     "text-shuffle": {
       "title": "텍스트 섞기",
@@ -1020,13 +1038,25 @@
       "title": "이진수 변환기",
       "description": "텍스트를 이진수(0과 1)로 변환하거나 그 반대로 변환합니다.",
       "shortDesc": "텍스트를 이진수로",
-      "instructions": "텍스트를 이진수로 변환하거나 이진수를 텍스트로 디코딩하세요."
+      "instructions": "텍스트를 이진수로 변환하거나 이진수를 텍스트로 디코딩하세요.",
+      "textToBinary": "텍스트 → 이진수",
+      "binaryToText": "이진수 → 텍스트",
+      "textLabel": "텍스트",
+      "binaryLabel": "이진수",
+      "textPlaceholder": "이진수로 변환할 텍스트를 입력하세요...",
+      "binaryPlaceholder": "이진수 코드를 입력하세요 (예: 01001000 01101001)..."
     },
     "morse-code": {
       "title": "모스 부호 변환기",
       "description": "텍스트를 모스 부호로 변환하거나 모스 부호를 텍스트로 변환합니다.",
       "shortDesc": "모스 부호",
-      "instructions": "모스 부호로 변환할 텍스트를 입력하세요."
+      "instructions": "모스 부호로 변환할 텍스트를 입력하세요.",
+      "textToMorse": "텍스트 → 모스",
+      "morseToText": "모스 → 텍스트",
+      "textLabel": "텍스트",
+      "morseLabel": "모스 부호",
+      "textPlaceholder": "모스 부호로 변환할 텍스트를 입력하세요...",
+      "morsePlaceholder": "모스 부호를 입력하세요 (예: .... . .-.. .-.. ---)..."
     },
     "web-text-extract": {
       "title": "웹 페이지 텍스트 추출기",
