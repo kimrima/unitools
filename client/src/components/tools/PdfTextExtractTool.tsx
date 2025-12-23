@@ -50,7 +50,7 @@ export default function PdfTextExtractTool() {
     setError(null);
 
     try {
-      await stagedProcessing.runStagedProcessing(async () => {
+      const result = await stagedProcessing.runStagedProcessing(async () => {
         const arrayBuffer = await file.arrayBuffer();
         const pdf = await pdfjs.getDocument({ data: arrayBuffer }).promise;
         
@@ -71,8 +71,13 @@ export default function PdfTextExtractTool() {
         return fullText.trim();
       });
       
-      setExtractedText(stagedProcessing.result as string);
-      setStatus('success');
+      if (result) {
+        setExtractedText(result as string);
+        setStatus('success');
+      } else {
+        setError({ code: 'NO_TEXT_FOUND' });
+        setStatus('error');
+      }
     } catch {
       setError({ code: 'EXTRACT_FAILED' });
       setStatus('error');

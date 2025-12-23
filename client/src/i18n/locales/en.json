@@ -905,9 +905,23 @@
     },
     "dummy-generator": {
       "title": "Dummy Data Generator",
-      "description": "Generate fake names, emails, and phone numbers for testing.",
+      "description": "Generate fake names, emails, addresses, and phone numbers for testing.",
       "shortDesc": "Generate test data",
-      "instructions": "Select the type and amount of dummy data to generate."
+      "instructions": "Select the fields and amount of dummy data to generate.",
+      "countLabel": "Records",
+      "fieldsLabel": "Fields to Generate",
+      "generate": "Generate Data",
+      "outputLabel": "Generated Data",
+      "textFormat": "Text",
+      "selectField": "Please select at least one field",
+      "fieldName": "Full Name",
+      "fieldEmail": "Email",
+      "fieldPhone": "Phone",
+      "fieldAddress": "Address",
+      "fieldCompany": "Company",
+      "fieldJob": "Job Title",
+      "fieldDate": "Birth Date",
+      "fieldId": "ID Number"
     },
     "lorem-ipsum": {
       "title": "Lorem Ipsum Generator",

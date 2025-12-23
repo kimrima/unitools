@@ -911,9 +911,23 @@
     },
     "dummy-generator": {
       "title": "더미 데이터 생성기",
-      "description": "테스트용 가짜 이름, 이메일, 전화번호를 생성합니다.",
+      "description": "테스트용 가짜 이름, 이메일, 주소, 전화번호를 생성합니다.",
       "shortDesc": "테스트 데이터 생성",
-      "instructions": "생성할 더미 데이터의 유형과 양을 선택하세요."
+      "instructions": "생성할 필드와 데이터 수를 선택하세요.",
+      "countLabel": "레코드 수",
+      "fieldsLabel": "생성할 필드",
+      "generate": "데이터 생성",
+      "outputLabel": "생성된 데이터",
+      "textFormat": "텍스트",
+      "selectField": "최소 하나의 필드를 선택하세요",
+      "fieldName": "이름",
+      "fieldEmail": "이메일",
+      "fieldPhone": "전화번호",
+      "fieldAddress": "주소",
+      "fieldCompany": "회사",
+      "fieldJob": "직책",
+      "fieldDate": "생년월일",
+      "fieldId": "ID 번호"
     },
     "lorem-ipsum": {
       "title": "로렘 입숨 생성기",

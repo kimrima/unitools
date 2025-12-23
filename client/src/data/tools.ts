@@ -1302,18 +1302,6 @@ export const allTools: Tool[] = [
     outputFormats: ['csv'],
   },
   { 
-    id: 'excel-to-pdf', 
-    category: 'text', 
-    icon: FileSpreadsheet, 
-    implemented: true,
-    usageCount: 98760,
-    rating: 4.6,
-    ratingCount: 1967,
-    relatedTools: ['csv-to-json', 'json-to-csv'],
-    acceptedFormats: ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'],
-    outputFormats: ['pdf'],
-  },
-  { 
     id: 'xml-to-json', 
     category: 'text', 
     icon: Braces, 

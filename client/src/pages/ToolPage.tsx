@@ -108,6 +108,7 @@ const JsonFormatterTool = lazy(() => import('@/components/tools/JsonFormatterToo
 const Base64Tool = lazy(() => import('@/components/tools/Base64Tool'));
 const UrlEncodeTool = lazy(() => import('@/components/tools/UrlEncodeTool'));
 const LoremIpsumTool = lazy(() => import('@/components/tools/LoremIpsumTool'));
+const DummyDataGeneratorTool = lazy(() => import('@/components/tools/DummyDataGeneratorTool'));
 const DiffCheckerTool = lazy(() => import('@/components/tools/DiffCheckerTool'));
 const QrCodeTool = lazy(() => import('@/components/tools/QrCodeTool'));
 const InstagramLineBreakTool = lazy(() => import('@/components/tools/InstagramLineBreakTool'));
@@ -261,11 +262,10 @@ const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element
   'prefix-suffix': TextProcessingTool,
   'csv-to-json': JsonFormatterTool,
   'json-to-csv': JsonFormatterTool,
-  'excel-to-pdf': JsonFormatterTool,
   'xml-to-json': JsonFormatterTool,
   'yaml-to-json': JsonFormatterTool,
   'text-to-list': TextProcessingTool,
-  'dummy-generator': LoremIpsumTool,
+  'dummy-generator': DummyDataGeneratorTool,
   'lorem-ipsum': LoremIpsumTool,
   'markdown-preview': CharacterCountTool,
   'url-encode': UrlEncodeTool,
