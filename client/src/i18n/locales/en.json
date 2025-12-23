@@ -2113,14 +2113,99 @@
       "description": "Convert binary code to readable text and vice versa.",
       "shortDesc": "Binary text conversion"
     },
-    "coin-flipper": {
-      "title": "Coin Flipper",
+    "coin-flip": {
+      "title": "Coin Flip",
       "description": "Flip a virtual coin for random heads or tails results.",
       "shortDesc": "Virtual coin flip",
       "heads": "Heads",
       "tails": "Tails",
-      "flipButton": "Flip Coin",
-      "statistics": "Statistics"
+      "flip": "Flip Coin"
+    },
+    "random-color": {
+      "title": "Random Color Generator",
+      "description": "Generate random colors and view HEX, RGB, HSL values.",
+      "shortDesc": "Random color generator",
+      "generate1": "Generate 1",
+      "generate5": "Generate 5",
+      "generate10": "Generate 10"
+    },
+    "countdown-timer": {
+      "title": "Countdown Timer",
+      "description": "A timer that counts down to your target time.",
+      "shortDesc": "Countdown timer",
+      "hours": "Hours",
+      "minutes": "Minutes",
+      "seconds": "Seconds",
+      "start": "Start",
+      "pause": "Pause",
+      "reset": "Reset",
+      "complete": "Time's up!"
+    },
+    "stopwatch": {
+      "title": "Stopwatch",
+      "description": "A stopwatch for precise time measurement.",
+      "shortDesc": "Time measurement stopwatch",
+      "start": "Start",
+      "pause": "Pause",
+      "reset": "Reset",
+      "lap": "Lap",
+      "laps": "Lap Records",
+      "lapNumber": "Lap"
+    },
+    "password-generator": {
+      "title": "Password Generator",
+      "description": "Generate secure and strong random passwords.",
+      "shortDesc": "Secure password generator",
+      "length": "Length",
+      "uppercase": "Uppercase (A-Z)",
+      "lowercase": "Lowercase (a-z)",
+      "numbers": "Numbers (0-9)",
+      "symbols": "Symbols (!@#$...)",
+      "generate": "Generate Password",
+      "strength": "Strength"
+    },
+    "wheel-spinner": {
+      "title": "Wheel Spinner",
+      "description": "Enter items and spin the wheel to randomly select.",
+      "shortDesc": "Random selection wheel",
+      "items": "Items (one per line)",
+      "itemCount": "{{count}} items",
+      "spin": "Spin Wheel",
+      "spinning": "Spinning...",
+      "winner": "Winner"
+    },
+    "typing-test": {
+      "title": "Typing Test",
+      "description": "Measure your typing speed and accuracy.",
+      "shortDesc": "Typing speed test",
+      "difficulty": "Difficulty",
+      "easy": "Easy",
+      "medium": "Medium",
+      "hard": "Hard",
+      "start": "Start Test",
+      "placeholder": "Start typing...",
+      "accuracy": "Accuracy",
+      "errors": "Errors",
+      "complete": "Test Complete!",
+      "tryAgain": "Try Again"
+    },
+    "screen-info": {
+      "title": "Screen Info",
+      "description": "Check screen resolution, viewport size, and browser info.",
+      "shortDesc": "Screen and browser info",
+      "display": "Display",
+      "browser": "Browser & System",
+      "screenResolution": "Screen Resolution",
+      "viewportSize": "Viewport Size",
+      "pixelRatio": "Pixel Ratio",
+      "colorDepth": "Color Depth",
+      "orientation": "Orientation",
+      "language": "Language",
+      "platform": "Platform",
+      "touchSupport": "Touch Support",
+      "onlineStatus": "Online Status",
+      "cookiesEnabled": "Cookies Enabled",
+      "userAgent": "User Agent"
     },
     "color-contrast": {
       "title": "Color Contrast Checker",

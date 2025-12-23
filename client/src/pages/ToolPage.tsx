@@ -187,6 +187,13 @@ const ShadowAddTool = lazy(() => import('@/components/tools/ShadowAddTool'));
 const RemoveExifTool = lazy(() => import('@/components/tools/RemoveExifTool'));
 const ImageJoinerTool = lazy(() => import('@/components/tools/ImageJoinerTool'));
 const FaviconGeneratorTool = lazy(() => import('@/components/tools/FaviconGeneratorTool'));
+const CoinFlipTool = lazy(() => import('@/components/tools/CoinFlipTool'));
+const RandomColorTool = lazy(() => import('@/components/tools/RandomColorTool'));
+const CountdownTimerTool = lazy(() => import('@/components/tools/CountdownTimerTool'));
+const StopwatchTool = lazy(() => import('@/components/tools/StopwatchTool'));
+const WheelSpinnerTool = lazy(() => import('@/components/tools/WheelSpinnerTool'));
+const TypingTestTool = lazy(() => import('@/components/tools/TypingTestTool'));
+const ScreenInfoTool = lazy(() => import('@/components/tools/ScreenInfoTool'));
 
 const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element>> = {
   'merge-pdf': MergePdfTool,
@@ -347,24 +354,15 @@ const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element
   'probability-calculator': ProbabilityCalculatorTool,
   'gpa-calculator': GpaCalculatorTool,
   'scientific-calculator': ScientificCalculatorTool,
-  'speed-test': SpeedTestTool,
-  'coin-flipper': CoinFlipperTool,
-  'dice-roller': DiceRollerTool,
   'calculator': CalculatorTool,
-  'wheel-of-fortune': RandomPickerTool,
-  'random-choice': RandomPickerTool,
-  'fancy-text': CaseConverterTool,
-  'zalgo-text': CaseConverterTool,
-  'binary-text': Base64Tool,
-  'screen-resolution': WhatIsMyIpTool,
-  'user-agent': WhatIsMyIpTool,
-  'color-contrast': ColorConverterTool,
-  'white-noise': WhiteNoiseTool,
-  'random-name': RandomNameTool,
-  'metronome': MetronomeTool,
-  'morse-flasher': Base64Tool,
-  'drawing-pad': ColorPickerTool,
-  'redirect-checker': WhatIsMyIpTool,
+  'coin-flip': CoinFlipTool,
+  'dice-roller': DiceRollerTool,
+  'random-color': RandomColorTool,
+  'countdown-timer': CountdownTimerTool,
+  'stopwatch': StopwatchTool,
+  'wheel-spinner': WheelSpinnerTool,
+  'typing-test': TypingTestTool,
+  'screen-info': ScreenInfoTool,
 };
 
 function ToolLoading() {

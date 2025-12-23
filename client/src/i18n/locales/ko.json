@@ -2119,14 +2119,99 @@
       "description": "이진수 코드를 읽을 수 있는 텍스트로 변환하거나 그 반대로 변환하세요.",
       "shortDesc": "이진수 텍스트 변환"
     },
-    "coin-flipper": {
+    "coin-flip": {
       "title": "동전 던지기",
       "description": "가상 동전을 던져 앞면 또는 뒷면 결과를 무작위로 얻으세요.",
       "shortDesc": "가상 동전 던지기",
       "heads": "앞면",
       "tails": "뒷면",
-      "flipButton": "동전 던지기",
-      "statistics": "통계"
+      "flip": "동전 던지기"
+    },
+    "random-color": {
+      "title": "랜덤 색상 생성기",
+      "description": "무작위 색상을 생성하고 HEX, RGB, HSL 값을 확인하세요.",
+      "shortDesc": "무작위 색상 생성",
+      "generate1": "1개 생성",
+      "generate5": "5개 생성",
+      "generate10": "10개 생성"
+    },
+    "countdown-timer": {
+      "title": "카운트다운 타이머",
+      "description": "목표 시간까지 카운트다운하는 타이머입니다.",
+      "shortDesc": "카운트다운 타이머",
+      "hours": "시간",
+      "minutes": "분",
+      "seconds": "초",
+      "start": "시작",
+      "pause": "일시정지",
+      "reset": "초기화",
+      "complete": "시간이 다 됐습니다!"
+    },
+    "stopwatch": {
+      "title": "스톱워치",
+      "description": "정확한 시간 측정을 위한 스톱워치입니다.",
+      "shortDesc": "시간 측정 스톱워치",
+      "start": "시작",
+      "pause": "일시정지",
+      "reset": "초기화",
+      "lap": "랩",
+      "laps": "랩 기록",
+      "lapNumber": "랩"
+    },
+    "password-generator": {
+      "title": "비밀번호 생성기",
+      "description": "안전하고 강력한 무작위 비밀번호를 생성하세요.",
+      "shortDesc": "안전한 비밀번호 생성",
+      "length": "길이",
+      "uppercase": "대문자 (A-Z)",
+      "lowercase": "소문자 (a-z)",
+      "numbers": "숫자 (0-9)",
+      "symbols": "특수문자 (!@#$...)",
+      "generate": "비밀번호 생성",
+      "strength": "강도"
+    },
+    "wheel-spinner": {
+      "title": "룰렛 스피너",
+      "description": "항목을 입력하고 룰렛을 돌려 무작위로 선택하세요.",
+      "shortDesc": "무작위 선택 룰렛",
+      "items": "항목 (한 줄에 하나씩)",
+      "itemCount": "{{count}}개 항목",
+      "spin": "룰렛 돌리기",
+      "spinning": "돌리는 중...",
+      "winner": "당첨"
+    },
+    "typing-test": {
+      "title": "타이핑 테스트",
+      "description": "타이핑 속도와 정확도를 측정해보세요.",
+      "shortDesc": "타이핑 속도 측정",
+      "difficulty": "난이도",
+      "easy": "쉬움",
+      "medium": "보통",
+      "hard": "어려움",
+      "start": "테스트 시작",
+      "placeholder": "타이핑을 시작하세요...",
+      "accuracy": "정확도",
+      "errors": "오류",
+      "complete": "테스트 완료!",
+      "tryAgain": "다시 시도"
+    },
+    "screen-info": {
+      "title": "화면 정보",
+      "description": "화면 해상도, 뷰포트 크기, 브라우저 정보를 확인하세요.",
+      "shortDesc": "화면 및 브라우저 정보",
+      "display": "디스플레이",
+      "browser": "브라우저 & 시스템",
+      "screenResolution": "화면 해상도",
+      "viewportSize": "뷰포트 크기",
+      "pixelRatio": "픽셀 비율",
+      "colorDepth": "색상 깊이",
+      "orientation": "방향",
+      "language": "언어",
+      "platform": "플랫폼",
+      "touchSupport": "터치 지원",
+      "onlineStatus": "온라인 상태",
+      "cookiesEnabled": "쿠키 활성화",
+      "userAgent": "사용자 에이전트"
     },
     "color-contrast": {
       "title": "색상 대비 검사기",
