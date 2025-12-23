@@ -162,29 +162,30 @@
       "gb": "GB"
     },
     "footer": {
-      "about": "About",
-      "privacy": "Privacy Policy",
-      "terms": "Terms of Service",
-      "contact": "Contact Us",
-      "allRightsReserved": "All rights reserved",
+      "about": "概要",
+      "privacy": "プライバシーポリシー",
+      "terms": "利用規約",
+      "contact": "お問い合わせ",
+      "allRightsReserved": "全著作権所有",
       "trustClientSide": "100%クライアントサイド",
-      "trustClientSideDesc": "Your files stay on your device",
-      "trustFreeTools": "200+ Tools",
-      "trustFreeToolsDesc": "All free, no registration required",
-      "trustMultiLang": "Multi-language Support",
-      "trustMultiLangDesc": "Available in Korean, English & more"
+      "trustClientSideDesc": "ファイルはあなたのデバイスに残ります",
+      "trustFreeTools": "200以上のツール",
+      "trustFreeToolsDesc": "すべて無料、登録不要",
+      "trustMultiLang": "多言語サポート",
+      "trustMultiLangDesc": "韓国語、英語など対応",
+      "tagline": "作業を高速化する無料オンラインツール。アップロード不要、100%ブラウザベースで高速体験。"
     },
     "hero": {
       "badge": "200以上の無料ツール",
-      "titlePart1": "無料ツールで作成",
+      "titlePart1": "無料ツールで",
       "titlePart2": "すべてを",
-      "titlePart3": "簡単に",
+      "titlePart3": "シンプルに",
       "trustFree": "無料",
-      "trustNoUpload": "No Server Upload",
-      "trustMultiLang": "Multi-language",
-      "featurePrivacy": "100% Client-Side Processing",
-      "featureFree": "Completely Free",
-      "featureNoSignup": "No Sign-up Required"
+      "trustNoUpload": "サーバーアップロードなし",
+      "trustMultiLang": "多言語",
+      "featurePrivacy": "100%クライアントサイド処理",
+      "featureFree": "完全無料",
+      "featureNoSignup": "登録不要"
     },
     "category": {
       "availableTools": "利用可能なツール",
@@ -192,22 +193,22 @@
     },
     "home": {
       "categoriesTitle": "カテゴリ別ツール",
-      "categoriesSubtitle": "8カテゴリ、200+ツール",
-      "popularTitle": "最も人気のあるツール",
-      "popularSubtitle": "The best of the best. All free, no catch.",
-      "recentTools": "Recently Used",
+      "categoriesSubtitle": "8カテゴリ、200以上のツール",
+      "popularTitle": "人気ツール",
+      "popularSubtitle": "最も人気のあるツールをチェック",
+      "recentTools": "最近使用したツール",
       "viewAllTools": "すべてのツールを見る",
       "exploreTitle": "すべてのツールを探索",
       "showMoreTools": "さらにツールを表示",
       "whyChoose": "UniToolsを選ぶ理由",
       "clientSideTitle": "100%クライアントサイド",
-      "clientSideDesc": "Files never leave your device. All processing happens in your browser for complete privacy.",
+      "clientSideDesc": "ファイルはあなたのデバイスから離れません。すべての処理はブラウザで行われ、完全なプライバシーが保たれます。",
       "fastFreeTitle": "高速＆無料",
-      "fastFreeDesc": "Instant processing with no upload wait. All tools are completely free to use.",
+      "fastFreeDesc": "アップロード待ち時間なしで即座に処理。すべてのツールが完全に無料。",
       "multiLangTitle": "多言語",
-      "multiLangDesc": "Available in Korean, English, and more languages coming soon.",
+      "multiLangDesc": "韓国語、英語などで利用可能。さらに多くの言語が近日公開。",
       "getStarted": "今すぐ始める",
-      "getStartedDesc": "Use all tools for free without registration.",
+      "getStartedDesc": "登録なしですべてのツールを無料で使用。",
       "tools": "ツール"
     },
     "tool": {
@@ -224,66 +225,68 @@
       "uses": "uses"
     },
     "search": {
-      "placeholder": "Search tools (e.g., PDF, Image, Video)...",
-      "noResults": "No tools found for \"{{query}}\""
+      "placeholder": "ツールを検索 (例: PDF, 画像, ビデオ)...",
+      "noResults": "\"{{query}}\"に該当するツールが見つかりません"
     },
     "workflow": {
-      "upload": "Upload",
-      "options": "Options",
-      "processing": "Processing",
-      "complete": "Complete",
-      "dropFilesHere": "Drop files here",
-      "orClickToBrowse": "or click to browse",
-      "maxFilesInfo": "Up to {{maxFiles}} files, {{maxSize}} each",
-      "filesSelected": "{{count}} file(s) selected",
-      "percentComplete": "{{percent}}% complete",
+      "upload": "アップロード",
+      "options": "オプション",
+      "processing": "処理中",
+      "complete": "完了",
+      "dropFilesHere": "ファイルをここにドロップ",
+      "orClickToBrowse": "またはクリックして参照",
+      "maxFilesInfo": "最大{{maxFiles}}ファイル、各{{maxSize}}",
+      "filesSelected": "{{count}}ファイル選択済み",
+      "percentComplete": "{{percent}}%完了",
       "processingComplete": "処理完了!",
       "download": "ダウンロード",
-      "startOver": "Start Over",
-      "adSlot": "Ad Slot",
+      "startOver": "最初からやり直す",
+      "adSlot": "広告スロット",
       "selectFiles": "ファイルを選択",
-      "inDevelopment": "Under Development"
+      "inDevelopment": "開発中",
+      "uploadYourFile": "ファイルをアップロード",
+      "dragAndDrop": "ここにドラッグ＆ドロップ、またはクリックして参照"
     },
     "share": {
-      "title": "Share with Friends",
-      "helpOthers": "Help others discover this useful tool!",
-      "defaultTitle": "UniTools - Free Online Tools",
-      "defaultDescription": "Try this useful online tool!",
-      "linkCopied": "Link copied!",
-      "linkCopiedDesc": "Share this link with others.",
-      "copied": "Copied!",
-      "copyLink": "Copy Link",
-      "more": "More"
+      "title": "友達と共有",
+      "helpOthers": "この便利なツールを他の人にも紹介しましょう！",
+      "defaultTitle": "UniTools - 無料オンラインツール",
+      "defaultDescription": "この便利なオンラインツールを試してみてください！",
+      "linkCopied": "リンクをコピーしました！",
+      "linkCopiedDesc": "このリンクを他の人と共有してください。",
+      "copied": "コピーしました！",
+      "copyLink": "リンクをコピー",
+      "more": "もっと"
     },
     "stages": {
-      "analyzing": "Analyzing",
-      "processing": "Processing",
-      "optimizing": "Optimizing",
-      "analyzingFiles": "Analyzing files...",
-      "convertingFormat": "Converting format...",
-      "optimizingOutput": "Optimizing output...",
-      "readingPdf": "Reading PDF structure...",
-      "mergingPages": "Merging pages...",
-      "finalizingDocument": "Finalizing document...",
-      "compressingPdf": "Compressing PDF...",
-      "splittingPdf": "Splitting PDF...",
-      "processingImage": "Processing image...",
-      "applyingFilter": "Applying filter...",
-      "resizingImage": "Resizing image...",
-      "croppingImage": "Cropping image...",
-      "loadingEngine": "Loading processing engine...",
-      "processingVideo": "Processing video...",
-      "processingAudio": "Processing audio...",
-      "preparingOutput": "Preparing output..."
+      "analyzing": "分析中",
+      "processing": "処理中",
+      "optimizing": "最適化中",
+      "analyzingFiles": "ファイルを分析中...",
+      "convertingFormat": "形式を変換中...",
+      "optimizingOutput": "出力を最適化中...",
+      "readingPdf": "PDFを読み込み中...",
+      "mergingPages": "ページをマージ中...",
+      "finalizingDocument": "ドキュメントを完了中...",
+      "compressingPdf": "PDFを圧縮中...",
+      "splittingPdf": "PDFを分割中...",
+      "processingImage": "画像を処理中...",
+      "applyingFilter": "フィルターを適用中...",
+      "resizingImage": "画像をリサイズ中...",
+      "croppingImage": "画像を切り抜き中...",
+      "loadingEngine": "処理エンジンを読み込み中...",
+      "processingVideo": "ビデオを処理中...",
+      "processingAudio": "オーディオを処理中...",
+      "preparingOutput": "出力を準備中..."
     },
     "seo": {
-      "howToUse": "How to Use",
-      "features": "Key Features",
-      "faq": "Frequently Asked Questions",
-      "relatedTools": "Try These Tools Too",
-      "relatedToolsSubtitle": "Explore more free tools",
-      "reviews": "reviews",
-      "users": "users"
+      "howToUse": "使い方",
+      "features": "主な機能",
+      "faq": "よくある質問",
+      "relatedTools": "これらのツールもお試しください",
+      "relatedToolsSubtitle": "さらに無料ツールを探索",
+      "reviews": "レビュー",
+      "users": "ユーザー"
     }
   },
   "Categories": {
@@ -465,29 +468,27 @@
     "pdf-to-jpg": {
       "title": "PDFからJPG",
       "description": "PDFファイルを高品質のJPG画像に即座に変換します。",
-      "shortDesc": "Convert PDF to JPG images"
+      "shortDesc": "PDFをJPG画像に変換"
     },
     "jpg-to-pdf": {
       "title": "JPGからPDF",
       "description": "複数のJPG画像を1つのPDFファイルに結合します。",
-      "shortDesc": "Convert JPG images to PDF"
+      "shortDesc": "JPG画像をPDFに変換"
     },
     "merge-pdf": {
       "title": "PDFをマージ",
       "description": "複数のPDFファイルを1つに結合します。",
-      "shortDesc": "Merge multiple PDFs into one",
-      "instructions": "Select the PDF files you want to merge. You can drag to reorder them."
+      "shortDesc": "複数のPDFを1つにマージ"
     },
     "split-pdf": {
       "title": "PDFを分割",
       "description": "PDFファイルを複数のファイルに分割します。",
-      "shortDesc": "Split PDF into multiple files",
-      "instructions": "Select a PDF file to split. Each page will be separated into individual files."
+      "shortDesc": "PDFを複数のファイルに分割"
     },
     "compress-pdf": {
       "title": "PDFを圧縮",
       "description": "共有しやすいようにPDFファイルサイズを縮小します。",
-      "shortDesc": "Reduce PDF file size"
+      "shortDesc": "PDFファイルサイズを縮小"
     },
     "png-to-jpg": {
       "title": "PNGからJPG",
@@ -1201,17 +1202,9 @@
       "shortDesc": "Convert units"
     },
     "percentage-calculator": {
-      "title": "Percentage Calculator",
-      "description": "Calculate percentages quickly and easily. What is X% of Y, X is what percent of Y, and percentage change.",
-      "shortDesc": "パーセント計算",
-      "whatIs": "What is X% of Y",
-      "percentOf": "X is what % of Y",
-      "change": "% Change",
-      "whatIsPrefix": "What is",
-      "of": "of",
-      "isWhatPercent": "is what % of",
-      "from": "From",
-      "to": "To"
+      "title": "パーセント計算",
+      "description": "パーセンテージを簡単に計算します。",
+      "shortDesc": "パーセント計算"
     },
     "pdf-to-png": {
       "title": "PDF to PNG",
@@ -1771,15 +1764,8 @@
     },
     "password-generator": {
       "title": "パスワード生成",
-      "description": "Generate secure and strong random passwords.",
-      "shortDesc": "安全なパスワード生成",
-      "length": "Length",
-      "uppercase": "Uppercase (A-Z)",
-      "lowercase": "Lowercase (a-z)",
-      "numbers": "Numbers (0-9)",
-      "symbols": "Symbols (!@#$...)",
-      "generate": "Generate Password",
-      "strength": "Strength"
+      "description": "安全で強力なランダムパスワードを生成します。",
+      "shortDesc": "安全なパスワードを生成"
     },
     "uuid-generator": {
       "title": "UUID/GUID Generator",
@@ -2211,53 +2197,24 @@
       "generate10": "Generate 10"
     },
     "countdown-timer": {
-      "title": "Countdown Timer",
-      "description": "A timer that counts down to your target time.",
-      "shortDesc": "Countdown timer",
-      "hours": "Hours",
-      "minutes": "Minutes",
-      "seconds": "Seconds",
-      "start": "Start",
-      "pause": "一時停止",
-      "reset": "リセット",
-      "complete": "Time's up!"
+      "title": "カウントダウンタイマー",
+      "description": "カウントダウンタイマー。",
+      "shortDesc": "カウントダウン"
     },
     "stopwatch": {
-      "title": "Stopwatch",
-      "description": "A stopwatch for precise time measurement.",
-      "shortDesc": "Time measurement stopwatch",
-      "start": "Start",
-      "pause": "一時停止",
-      "reset": "リセット",
-      "lap": "Lap",
-      "laps": "Lap Records",
-      "lapNumber": "Lap"
+      "title": "ストップウォッチ",
+      "description": "時間測定ストップウォッチ。",
+      "shortDesc": "時間測定"
     },
     "wheel-spinner": {
-      "title": "Wheel Spinner",
-      "description": "Enter items and spin the wheel to randomly select.",
-      "shortDesc": "Random selection wheel",
-      "items": "Items (one per line)",
-      "itemsPlaceholder": "Enter options, one per line",
-      "itemCount": "{{count}} items",
-      "spin": "Spin Wheel",
-      "spinning": "Spinning...",
-      "winner": "Winner"
+      "title": "ルーレット",
+      "description": "ランダム選択ルーレット。",
+      "shortDesc": "ランダム選択"
     },
     "typing-test": {
-      "title": "Typing Test",
-      "description": "Measure your typing speed and accuracy.",
-      "shortDesc": "Typing speed test",
-      "difficulty": "Difficulty",
-      "easy": "Easy",
-      "medium": "Medium",
-      "hard": "Hard",
-      "start": "Start Test",
-      "placeholder": "Start typing...",
-      "accuracy": "Accuracy",
-      "errors": "Errors",
-      "complete": "Test Complete!",
-      "tryAgain": "Try Again"
+      "title": "タイピングテスト",
+      "description": "タイピング速度をテストします。",
+      "shortDesc": "タイピング速度テスト"
     },
     "screen-info": {
       "title": "Screen Info",
@@ -2372,12 +2329,9 @@
       "shortDesc": "Glitch text creator"
     },
     "magic-8-ball": {
-      "title": "Magic 8 Ball",
-      "description": "Ask a question and receive a mystical answer from the Magic 8 Ball.",
-      "shortDesc": "Fortune telling",
-      "question": "Question",
-      "placeholder": "Ask a yes/no question...",
-      "ask": "Ask the Magic 8 Ball"
+      "title": "マジック8ボール",
+      "description": "運命を占う。",
+      "shortDesc": "占い"
     },
     "love-calculator": {
       "title": "Love Calculator",
@@ -2412,14 +2366,8 @@
     },
     "pomodoro-timer": {
       "title": "ポモドーロタイマー",
-      "description": "Boost focus and productivity with the Pomodoro technique timer.",
-      "shortDesc": "生産性タイマー",
-      "work": "Focus",
-      "shortBreak": "Short Break",
-      "longBreak": "Long Break",
-      "start": "Start",
-      "pause": "一時停止",
-      "completed": "Completed Pomodoros"
+      "description": "25分の作業サイクルで生産性を向上させます。",
+      "shortDesc": "生産性タイマー"
     },
     "reaction-time": {
       "title": "Reaction Time Test",
@@ -2587,61 +2535,14 @@
       "newGame": "New Game"
     },
     "balance-game": {
-      "title": "Balance Game",
-      "description": "Choose between two options! See what others picked.",
-      "shortDesc": "これ対あれ",
-      "setupDesc": "Add questions and start the game!",
-      "addSingle": "Add Single",
-      "bulkAdd": "Bulk Add",
-      "bulkHint": "One per line, separate with comma (,) or vs",
-      "bulkPlaceholder": "Summer forever, Winter forever\nInvisibility vs Teleportation\nTravel to past, Travel to future",
-      "parseBulk": "Add All",
-      "questionList": "Question List",
-      "start": "Start Game",
-      "back": "Back to List",
-      "reset": "リセット",
-      "optionA": "Option A",
-      "optionB": "Option B",
-      "optionAPlaceholder": "e.g. Summer forever",
-      "optionBPlaceholder": "e.g. Winter forever",
-      "addQuestion": "Add Question",
-      "whichWouldYouChoose": "Which would you choose?",
-      "votes": "votes",
-      "prev": "Prev",
-      "next": "次へ",
-      "voteAgain": "Vote Again",
-      "totalVotes": "Total {{count}} votes",
-      "loadExamples": "Examples"
+      "title": "バランスゲーム",
+      "description": "これ対あれ - どちらを選ぶ？",
+      "shortDesc": "これ対あれ"
     },
     "tournament-game": {
-      "title": "Tournament Game",
-      "description": "Pick your favorite through tournament brackets! Supports 4, 8, 16, 32 rounds.",
-      "shortDesc": "トーナメントブラケット選択",
-      "setupTitle": "Add items and start the tournament!",
-      "roundSizeLabel": "Tournament Size",
-      "round4": "Semi-final (4 items)",
-      "round8": "Quarter-final (8 items)",
-      "round16": "Round of 16 (16 items)",
-      "round32": "Round of 32 (32 items)",
-      "addItemLabel": "Add Item",
-      "itemPlaceholder": "Enter item and press Enter",
-      "add": "Add",
-      "loadExamples": "Fill with food examples",
-      "itemsList": "Items List",
-      "startGame": "Start Game",
-      "vs": "VS",
-      "final": "Final",
-      "semiFinal": "Semi-final",
-      "quarterFinal": "Quarter-final",
-      "round16Final": "Round of 16",
-      "round32Final": "Round of 32",
-      "roundN": "Round of {{n}}",
-      "matchOf": "Match {{current}} of {{total}}",
-      "winner": "Winner",
-      "champion": "Champion",
-      "matchHistory": "Match History",
-      "playAgain": "Play Again",
-      "congratulations": "Congratulations!"
+      "title": "トーナメントゲーム",
+      "description": "トーナメントブラケット選択ゲーム。",
+      "shortDesc": "トーナメントブラケット"
     },
     "chosung-quiz": {
       "title": "Korean Initial Quiz",
@@ -2690,23 +2591,9 @@
       "reset": "リセット"
     },
     "cps-test": {
-      "title": "CPS Test",
-      "description": "Click as fast as you can for {{duration}} seconds!",
-      "shortDesc": "クリック数テスト",
-      "best": "Best",
-      "clickToStart": "Click to Start",
-      "time": "Time",
-      "clicks": "Clicks",
-      "keepClicking": "Keep clicking!",
-      "tryAgain": "Try Again",
-      "history": "History",
-      "totalClicks": "clicks",
-      "kohi": "Kohi Click Master",
-      "pro": "Pro Gamer",
-      "fast": "Fast",
-      "good": "Good",
-      "average": "Average",
-      "slow": "Keep Practicing"
+      "title": "CPSテスト",
+      "description": "1秒あたりのクリック数をテストします。",
+      "shortDesc": "クリック数テスト"
     },
     "bingo-generator": {
       "title": "Bingo Generator",
@@ -2785,17 +2672,9 @@
       "show": "Show"
     },
     "big-wheel": {
-      "title": "Big Wheel",
-      "description": "Spin the wheel with amazing visual effects! Optimized for streaming and broadcasts.",
-      "shortDesc": "放送用ルーレット",
-      "setupTitle": "Setup Your Wheel",
-      "setupDesc": "Add items to spin the wheel!",
-      "itemPlaceholder": "Enter item name",
-      "bulkAdd": "Bulk Add (one per line)",
-      "bulkPlaceholder": "Pizza\nChicken\nBurger\nTacos",
-      "spin": "SPIN!",
-      "spinning": "Spinning...",
-      "winner": "Winner!"
+      "title": "大きなルーレット",
+      "description": "放送用のルーレットホイール。",
+      "shortDesc": "放送用ルーレット"
     },
     "hearing-age": {
       "title": "Hearing Age Test",
@@ -2811,6 +2690,21 @@
       "typical": "Typically heard by ages",
       "result": "Your Hearing Age",
       "retry": "Try Again"
+    },
+    "random-number-generator": {
+      "title": "乱数生成",
+      "description": "ランダムな数字を生成します。",
+      "shortDesc": "乱数を生成"
+    },
+    "flip-coin": {
+      "title": "コイントス",
+      "description": "バーチャルコイントス。",
+      "shortDesc": "バーチャルコイン"
+    },
+    "roll-dice": {
+      "title": "サイコロを振る",
+      "description": "バーチャルサイコロ。",
+      "shortDesc": "バーチャルサイコロ"
     }
   }
 }

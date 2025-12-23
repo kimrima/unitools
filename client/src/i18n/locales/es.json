@@ -163,8 +163,8 @@
     },
     "footer": {
       "about": "Acerca de",
-      "privacy": "Política de Privacidad",
-      "terms": "Términos de Servicio",
+      "privacy": "Política de privacidad",
+      "terms": "Términos de servicio",
       "contact": "Contáctenos",
       "allRightsReserved": "Todos los derechos reservados",
       "trustClientSide": "100% del lado del cliente",
@@ -172,7 +172,8 @@
       "trustFreeTools": "200+ Herramientas",
       "trustFreeToolsDesc": "Todo gratis, sin registro",
       "trustMultiLang": "Soporte multiidioma",
-      "trustMultiLangDesc": "Disponible en coreano, inglés y más"
+      "trustMultiLangDesc": "Disponible en coreano, inglés y más",
+      "tagline": "Herramientas en línea gratuitas para ayudarte a trabajar más rápido. Sin cargas, 100% basado en navegador y experiencia rápida."
     },
     "hero": {
       "badge": "200+ Herramientas Gratuitas",
@@ -193,17 +194,17 @@
     "home": {
       "categoriesTitle": "Herramientas por categoría",
       "categoriesSubtitle": "8 categorías, 200+ herramientas",
-      "popularTitle": "Nuestras herramientas más populares",
-      "popularSubtitle": "Lo mejor de lo mejor. Todo gratis.",
+      "popularTitle": "Herramientas populares",
+      "popularSubtitle": "Las herramientas más populares",
       "recentTools": "Usado recientemente",
       "viewAllTools": "Ver todas las herramientas",
       "exploreTitle": "Explorar todas las herramientas",
       "showMoreTools": "Ver más herramientas",
       "whyChoose": "Por qué elegir UniTools",
       "clientSideTitle": "100% del lado del cliente",
-      "clientSideDesc": "Los archivos nunca salen de tu dispositivo. Procesamiento con privacidad completa.",
+      "clientSideDesc": "Los archivos nunca salen de tu dispositivo. Todo el procesamiento ocurre en tu navegador para privacidad completa.",
       "fastFreeTitle": "Rápido y gratis",
-      "fastFreeDesc": "Procesamiento instantáneo sin esperas. Todas las herramientas son gratis.",
+      "fastFreeDesc": "Procesamiento instantáneo sin esperas de carga. Todas las herramientas son completamente gratuitas.",
       "multiLangTitle": "Multiidioma",
       "multiLangDesc": "Disponible en coreano, inglés y más idiomas próximamente.",
       "getStarted": "Comienza ahora",
@@ -231,7 +232,7 @@
       "upload": "Subir",
       "options": "Opciones",
       "processing": "Procesando",
-      "complete": "Completado",
+      "complete": "Completo",
       "dropFilesHere": "Suelta archivos aquí",
       "orClickToBrowse": "o haz clic para buscar",
       "maxFilesInfo": "Hasta {{maxFiles}} archivos, {{maxSize}} cada uno",
@@ -242,11 +243,13 @@
       "startOver": "Empezar de nuevo",
       "adSlot": "Espacio publicitario",
       "selectFiles": "Seleccionar archivos",
-      "inDevelopment": "En desarrollo"
+      "inDevelopment": "En desarrollo",
+      "uploadYourFile": "Sube tu archivo",
+      "dragAndDrop": "Arrastra y suelta aquí, o haz clic para buscar"
     },
     "share": {
       "title": "Compartir con amigos",
-      "helpOthers": "¡Ayuda a otros a descubrir esta herramienta útil!",
+      "helpOthers": "¡Ayuda a otros a descubrir esta útil herramienta!",
       "defaultTitle": "UniTools - Herramientas en línea gratuitas",
       "defaultDescription": "¡Prueba esta útil herramienta en línea!",
       "linkCopied": "¡Enlace copiado!",
@@ -262,7 +265,7 @@
       "analyzingFiles": "Analizando archivos...",
       "convertingFormat": "Convirtiendo formato...",
       "optimizingOutput": "Optimizando salida...",
-      "readingPdf": "Leyendo estructura PDF...",
+      "readingPdf": "Leyendo PDF...",
       "mergingPages": "Fusionando páginas...",
       "finalizingDocument": "Finalizando documento...",
       "compressingPdf": "Comprimiendo PDF...",
@@ -475,14 +478,12 @@
     "merge-pdf": {
       "title": "Fusionar PDF",
       "description": "Combina múltiples archivos PDF en uno.",
-      "shortDesc": "Fusionar múltiples PDFs en uno",
-      "instructions": "Selecciona los archivos PDF a fusionar. Puedes arrastrar para reordenarlos."
+      "shortDesc": "Fusionar múltiples PDFs"
     },
     "split-pdf": {
       "title": "Dividir PDF",
       "description": "Divide un archivo PDF en múltiples archivos.",
-      "shortDesc": "Dividir PDF en múltiples archivos",
-      "instructions": "Selecciona un archivo PDF para dividir. Cada página se separará en archivos individuales."
+      "shortDesc": "Dividir PDF en múltiples archivos"
     },
     "compress-pdf": {
       "title": "Comprimir PDF",
@@ -1202,16 +1203,8 @@
     },
     "percentage-calculator": {
       "title": "Calculadora de porcentaje",
-      "description": "Calculate percentages quickly and easily. What is X% of Y, X is what percent of Y, and percentage change.",
-      "shortDesc": "Calcular porcentajes",
-      "whatIs": "What is X% of Y",
-      "percentOf": "X is what % of Y",
-      "change": "% Change",
-      "whatIsPrefix": "What is",
-      "of": "of",
-      "isWhatPercent": "is what % of",
-      "from": "From",
-      "to": "To"
+      "description": "Calcula porcentajes fácilmente.",
+      "shortDesc": "Calcular porcentajes"
     },
     "pdf-to-png": {
       "title": "PDF to PNG",
@@ -1771,15 +1764,8 @@
     },
     "password-generator": {
       "title": "Generador de contraseñas",
-      "description": "Generate secure and strong random passwords.",
-      "shortDesc": "Generador seguro de contraseñas",
-      "length": "Length",
-      "uppercase": "Uppercase (A-Z)",
-      "lowercase": "Lowercase (a-z)",
-      "numbers": "Numbers (0-9)",
-      "symbols": "Symbols (!@#$...)",
-      "generate": "Generate Password",
-      "strength": "Strength"
+      "description": "Genera contraseñas aleatorias seguras y fuertes.",
+      "shortDesc": "Generador seguro de contraseñas"
     },
     "uuid-generator": {
       "title": "UUID/GUID Generator",
@@ -2211,53 +2197,24 @@
       "generate10": "Generate 10"
     },
     "countdown-timer": {
-      "title": "Countdown Timer",
-      "description": "A timer that counts down to your target time.",
-      "shortDesc": "Temporizador de cuenta regresiva",
-      "hours": "Hours",
-      "minutes": "Minutes",
-      "seconds": "Seconds",
-      "start": "Start",
-      "pause": "Pausar",
-      "reset": "Restablecer",
-      "complete": "Time's up!"
+      "title": "Temporizador de cuenta regresiva",
+      "description": "Temporizador de cuenta regresiva.",
+      "shortDesc": "Cuenta regresiva"
     },
     "stopwatch": {
       "title": "Cronómetro",
-      "description": "A stopwatch for precise time measurement.",
-      "shortDesc": "Cronómetro de medición de tiempo",
-      "start": "Start",
-      "pause": "Pausar",
-      "reset": "Restablecer",
-      "lap": "Lap",
-      "laps": "Lap Records",
-      "lapNumber": "Lap"
+      "description": "Cronómetro de medición de tiempo.",
+      "shortDesc": "Medición de tiempo"
     },
     "wheel-spinner": {
       "title": "Ruleta giratoria",
-      "description": "Enter items and spin the wheel to randomly select.",
-      "shortDesc": "Rueda de selección aleatoria",
-      "items": "Items (one per line)",
-      "itemsPlaceholder": "Enter options, one per line",
-      "itemCount": "{{count}} items",
-      "spin": "Spin Wheel",
-      "spinning": "Spinning...",
-      "winner": "Winner"
+      "description": "Rueda de selección aleatoria.",
+      "shortDesc": "Selección aleatoria"
     },
     "typing-test": {
       "title": "Test de escritura",
-      "description": "Measure your typing speed and accuracy.",
-      "shortDesc": "Prueba de velocidad de escritura",
-      "difficulty": "Difficulty",
-      "easy": "Easy",
-      "medium": "Medium",
-      "hard": "Hard",
-      "start": "Start Test",
-      "placeholder": "Start typing...",
-      "accuracy": "Accuracy",
-      "errors": "Errors",
-      "complete": "Test Complete!",
-      "tryAgain": "Try Again"
+      "description": "Prueba tu velocidad de escritura.",
+      "shortDesc": "Prueba de velocidad de escritura"
     },
     "screen-info": {
       "title": "Screen Info",
@@ -2373,11 +2330,8 @@
     },
     "magic-8-ball": {
       "title": "Bola mágica 8",
-      "description": "Ask a question and receive a mystical answer from the Magic 8 Ball.",
-      "shortDesc": "Adivinación",
-      "question": "Question",
-      "placeholder": "Ask a yes/no question...",
-      "ask": "Ask the Magic 8 Ball"
+      "description": "Adivinación.",
+      "shortDesc": "Adivinación"
     },
     "love-calculator": {
       "title": "Love Calculator",
@@ -2412,14 +2366,8 @@
     },
     "pomodoro-timer": {
       "title": "Temporizador Pomodoro",
-      "description": "Boost focus and productivity with the Pomodoro technique timer.",
-      "shortDesc": "Temporizador de productividad",
-      "work": "Focus",
-      "shortBreak": "Short Break",
-      "longBreak": "Long Break",
-      "start": "Start",
-      "pause": "Pausar",
-      "completed": "Completed Pomodoros"
+      "description": "Mejora la productividad con ciclos de trabajo de 25 minutos.",
+      "shortDesc": "Temporizador de productividad"
     },
     "reaction-time": {
       "title": "Reaction Time Test",
@@ -2588,60 +2536,13 @@
     },
     "balance-game": {
       "title": "Juego de equilibrio",
-      "description": "Choose between two options! See what others picked.",
-      "shortDesc": "Esto vs Aquello",
-      "setupDesc": "Add questions and start the game!",
-      "addSingle": "Add Single",
-      "bulkAdd": "Bulk Add",
-      "bulkHint": "One per line, separate with comma (,) or vs",
-      "bulkPlaceholder": "Summer forever, Winter forever\nInvisibility vs Teleportation\nTravel to past, Travel to future",
-      "parseBulk": "Add All",
-      "questionList": "Question List",
-      "start": "Start Game",
-      "back": "Back to List",
-      "reset": "Restablecer",
-      "optionA": "Option A",
-      "optionB": "Option B",
-      "optionAPlaceholder": "e.g. Summer forever",
-      "optionBPlaceholder": "e.g. Winter forever",
-      "addQuestion": "Add Question",
-      "whichWouldYouChoose": "Which would you choose?",
-      "votes": "votes",
-      "prev": "Prev",
-      "next": "Siguiente",
-      "voteAgain": "Vote Again",
-      "totalVotes": "Total {{count}} votes",
-      "loadExamples": "Examples"
+      "description": "Esto vs Aquello - ¿Cuál eliges?",
+      "shortDesc": "Esto vs Aquello"
     },
     "tournament-game": {
       "title": "Juego de torneo",
-      "description": "Pick your favorite through tournament brackets! Supports 4, 8, 16, 32 rounds.",
-      "shortDesc": "Selector de bracket de torneo",
-      "setupTitle": "Add items and start the tournament!",
-      "roundSizeLabel": "Tournament Size",
-      "round4": "Semi-final (4 items)",
-      "round8": "Quarter-final (8 items)",
-      "round16": "Round of 16 (16 items)",
-      "round32": "Round of 32 (32 items)",
-      "addItemLabel": "Add Item",
-      "itemPlaceholder": "Enter item and press Enter",
-      "add": "Add",
-      "loadExamples": "Fill with food examples",
-      "itemsList": "Items List",
-      "startGame": "Start Game",
-      "vs": "VS",
-      "final": "Final",
-      "semiFinal": "Semi-final",
-      "quarterFinal": "Quarter-final",
-      "round16Final": "Round of 16",
-      "round32Final": "Round of 32",
-      "roundN": "Round of {{n}}",
-      "matchOf": "Match {{current}} of {{total}}",
-      "winner": "Winner",
-      "champion": "Champion",
-      "matchHistory": "Match History",
-      "playAgain": "Play Again",
-      "congratulations": "Congratulations!"
+      "description": "Selector de bracket de torneo.",
+      "shortDesc": "Selector de bracket"
     },
     "chosung-quiz": {
       "title": "Quiz de iniciales coreanas",
@@ -2691,22 +2592,8 @@
     },
     "cps-test": {
       "title": "Test CPS",
-      "description": "Click as fast as you can for {{duration}} seconds!",
-      "shortDesc": "Prueba de clics por segundo",
-      "best": "Best",
-      "clickToStart": "Click to Start",
-      "time": "Time",
-      "clicks": "Clicks",
-      "keepClicking": "Keep clicking!",
-      "tryAgain": "Try Again",
-      "history": "History",
-      "totalClicks": "clicks",
-      "kohi": "Kohi Click Master",
-      "pro": "Pro Gamer",
-      "fast": "Fast",
-      "good": "Good",
-      "average": "Average",
-      "slow": "Keep Practicing"
+      "description": "Prueba de clics por segundo.",
+      "shortDesc": "Prueba de clics por segundo"
     },
     "bingo-generator": {
       "title": "Bingo Generator",
@@ -2786,16 +2673,8 @@
     },
     "big-wheel": {
       "title": "Rueda grande",
-      "description": "Spin the wheel with amazing visual effects! Optimized for streaming and broadcasts.",
-      "shortDesc": "Rueda lista para transmisión",
-      "setupTitle": "Setup Your Wheel",
-      "setupDesc": "Add items to spin the wheel!",
-      "itemPlaceholder": "Enter item name",
-      "bulkAdd": "Bulk Add (one per line)",
-      "bulkPlaceholder": "Pizza\nChicken\nBurger\nTacos",
-      "spin": "SPIN!",
-      "spinning": "Spinning...",
-      "winner": "Winner!"
+      "description": "Rueda de la fortuna para transmisiones.",
+      "shortDesc": "Rueda para transmisión"
     },
     "hearing-age": {
       "title": "Hearing Age Test",
@@ -2811,6 +2690,21 @@
       "typical": "Typically heard by ages",
       "result": "Your Hearing Age",
       "retry": "Try Again"
+    },
+    "random-number-generator": {
+      "title": "Generador de números aleatorios",
+      "description": "Genera números aleatorios.",
+      "shortDesc": "Generar números aleatorios"
+    },
+    "flip-coin": {
+      "title": "Lanzar moneda",
+      "description": "Lanzamiento de moneda virtual.",
+      "shortDesc": "Moneda virtual"
+    },
+    "roll-dice": {
+      "title": "Tirar dados",
+      "description": "Dados virtuales.",
+      "shortDesc": "Dados virtuales"
     }
   }
 }

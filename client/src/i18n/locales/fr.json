@@ -5,7 +5,7 @@
     "siteDescription": "200+ outils en ligne gratuits. Tout le traitement se fait directement dans votre navigateur.",
     "success": "Succès!",
     "download": "Télécharger",
-    "processAnother": "Traiter autre",
+    "processAnother": "Traiter un autre",
     "nav": {
       "home": "Accueil",
       "pdf": "Outils PDF",
@@ -162,17 +162,18 @@
       "gb": "GB"
     },
     "footer": {
-      "about": "About",
-      "privacy": "Privacy Policy",
-      "terms": "Terms of Service",
-      "contact": "Contact Us",
-      "allRightsReserved": "All rights reserved",
+      "about": "À propos",
+      "privacy": "Politique de confidentialité",
+      "terms": "Conditions d'utilisation",
+      "contact": "Contactez-nous",
+      "allRightsReserved": "Tous droits réservés",
       "trustClientSide": "100% côté client",
-      "trustClientSideDesc": "Your files stay on your device",
-      "trustFreeTools": "200+ Tools",
-      "trustFreeToolsDesc": "All free, no registration required",
-      "trustMultiLang": "Multi-language Support",
-      "trustMultiLangDesc": "Available in Korean, English & more"
+      "trustClientSideDesc": "Vos fichiers restent sur votre appareil",
+      "trustFreeTools": "200+ Outils",
+      "trustFreeToolsDesc": "Tout gratuit, sans inscription",
+      "trustMultiLang": "Support multilingue",
+      "trustMultiLangDesc": "Disponible en coréen, anglais et plus",
+      "tagline": "Outils en ligne gratuits pour vous aider à travailler plus rapidement. Sans téléchargement, 100% basé sur le navigateur."
     },
     "hero": {
       "badge": "200+ Outils Gratuits",
@@ -180,11 +181,11 @@
       "titlePart2": "Tout",
       "titlePart3": "Simple",
       "trustFree": "Gratuit",
-      "trustNoUpload": "No Server Upload",
-      "trustMultiLang": "Multi-language",
-      "featurePrivacy": "100% Client-Side Processing",
-      "featureFree": "Completely Free",
-      "featureNoSignup": "No Sign-up Required"
+      "trustNoUpload": "Pas de téléchargement",
+      "trustMultiLang": "Multilingue",
+      "featurePrivacy": "Traitement 100% côté client",
+      "featureFree": "Entièrement gratuit",
+      "featureNoSignup": "Aucune inscription requise"
     },
     "category": {
       "availableTools": "Outils disponibles",
@@ -193,21 +194,21 @@
     "home": {
       "categoriesTitle": "Outils par catégorie",
       "categoriesSubtitle": "8 catégories, 200+ outils",
-      "popularTitle": "Nos outils les plus populaires",
-      "popularSubtitle": "The best of the best. All free, no catch.",
-      "recentTools": "Recently Used",
+      "popularTitle": "Outils populaires",
+      "popularSubtitle": "Les outils les plus populaires",
+      "recentTools": "Utilisé récemment",
       "viewAllTools": "Voir tous les outils",
       "exploreTitle": "Explorer tous les outils",
       "showMoreTools": "Voir plus d'outils",
       "whyChoose": "Pourquoi choisir UniTools",
       "clientSideTitle": "100% côté client",
-      "clientSideDesc": "Files never leave your device. All processing happens in your browser for complete privacy.",
+      "clientSideDesc": "Les fichiers ne quittent jamais votre appareil. Tout le traitement se fait dans votre navigateur.",
       "fastFreeTitle": "Rapide et gratuit",
-      "fastFreeDesc": "Instant processing with no upload wait. All tools are completely free to use.",
+      "fastFreeDesc": "Traitement instantané sans attente. Tous les outils sont gratuits.",
       "multiLangTitle": "Multilingue",
-      "multiLangDesc": "Available in Korean, English, and more languages coming soon.",
+      "multiLangDesc": "Disponible en coréen, anglais et plus de langues bientôt.",
       "getStarted": "Commencez maintenant",
-      "getStartedDesc": "Use all tools for free without registration.",
+      "getStartedDesc": "Utilisez tous les outils gratuitement sans inscription.",
       "tools": "outils"
     },
     "tool": {
@@ -224,66 +225,68 @@
       "uses": "uses"
     },
     "search": {
-      "placeholder": "Search tools (e.g., PDF, Image, Video)...",
-      "noResults": "No tools found for \"{{query}}\""
+      "placeholder": "Rechercher des outils (ex., PDF, Image, Vidéo)...",
+      "noResults": "Aucun outil trouvé pour \"{{query}}\""
     },
     "workflow": {
-      "upload": "Upload",
+      "upload": "Télécharger",
       "options": "Options",
-      "processing": "Processing",
-      "complete": "Complete",
-      "dropFilesHere": "Drop files here",
-      "orClickToBrowse": "or click to browse",
-      "maxFilesInfo": "Up to {{maxFiles}} files, {{maxSize}} each",
-      "filesSelected": "{{count}} file(s) selected",
-      "percentComplete": "{{percent}}% complete",
+      "processing": "Traitement",
+      "complete": "Terminé",
+      "dropFilesHere": "Déposez les fichiers ici",
+      "orClickToBrowse": "ou cliquez pour parcourir",
+      "maxFilesInfo": "Jusqu'à {{maxFiles}} fichiers, {{maxSize}} chacun",
+      "filesSelected": "{{count}} fichier(s) sélectionné(s)",
+      "percentComplete": "{{percent}}% terminé",
       "processingComplete": "Traitement terminé!",
       "download": "Télécharger",
-      "startOver": "Start Over",
-      "adSlot": "Ad Slot",
+      "startOver": "Recommencer",
+      "adSlot": "Espace publicitaire",
       "selectFiles": "Sélectionner fichiers",
-      "inDevelopment": "Under Development"
+      "inDevelopment": "En développement",
+      "uploadYourFile": "Téléchargez votre fichier",
+      "dragAndDrop": "Glissez-déposez ici ou cliquez pour parcourir"
     },
     "share": {
-      "title": "Share with Friends",
-      "helpOthers": "Help others discover this useful tool!",
-      "defaultTitle": "UniTools - Free Online Tools",
-      "defaultDescription": "Try this useful online tool!",
-      "linkCopied": "Link copied!",
-      "linkCopiedDesc": "Share this link with others.",
-      "copied": "Copied!",
-      "copyLink": "Copy Link",
-      "more": "More"
+      "title": "Partager avec des amis",
+      "helpOthers": "Aidez les autres à découvrir cet outil utile!",
+      "defaultTitle": "UniTools - Outils en ligne gratuits",
+      "defaultDescription": "Essayez cet outil en ligne utile!",
+      "linkCopied": "Lien copié!",
+      "linkCopiedDesc": "Partagez ce lien avec d'autres.",
+      "copied": "Copié!",
+      "copyLink": "Copier le lien",
+      "more": "Plus"
     },
     "stages": {
-      "analyzing": "Analyzing",
-      "processing": "Processing",
-      "optimizing": "Optimizing",
-      "analyzingFiles": "Analyzing files...",
-      "convertingFormat": "Converting format...",
-      "optimizingOutput": "Optimizing output...",
-      "readingPdf": "Reading PDF structure...",
-      "mergingPages": "Merging pages...",
-      "finalizingDocument": "Finalizing document...",
-      "compressingPdf": "Compressing PDF...",
-      "splittingPdf": "Splitting PDF...",
-      "processingImage": "Processing image...",
-      "applyingFilter": "Applying filter...",
-      "resizingImage": "Resizing image...",
-      "croppingImage": "Cropping image...",
-      "loadingEngine": "Loading processing engine...",
-      "processingVideo": "Processing video...",
-      "processingAudio": "Processing audio...",
-      "preparingOutput": "Preparing output..."
+      "analyzing": "Analyse",
+      "processing": "Traitement",
+      "optimizing": "Optimisation",
+      "analyzingFiles": "Analyse des fichiers...",
+      "convertingFormat": "Conversion du format...",
+      "optimizingOutput": "Optimisation de la sortie...",
+      "readingPdf": "Lecture du PDF...",
+      "mergingPages": "Fusion des pages...",
+      "finalizingDocument": "Finalisation du document...",
+      "compressingPdf": "Compression du PDF...",
+      "splittingPdf": "Division du PDF...",
+      "processingImage": "Traitement de l'image...",
+      "applyingFilter": "Application du filtre...",
+      "resizingImage": "Redimensionnement de l'image...",
+      "croppingImage": "Recadrage de l'image...",
+      "loadingEngine": "Chargement du moteur de traitement...",
+      "processingVideo": "Traitement de la vidéo...",
+      "processingAudio": "Traitement de l'audio...",
+      "preparingOutput": "Préparation de la sortie..."
     },
     "seo": {
-      "howToUse": "How to Use",
-      "features": "Key Features",
-      "faq": "Frequently Asked Questions",
-      "relatedTools": "Try These Tools Too",
-      "relatedToolsSubtitle": "Explore more free tools",
-      "reviews": "reviews",
-      "users": "users"
+      "howToUse": "Comment utiliser",
+      "features": "Caractéristiques principales",
+      "faq": "Questions fréquentes",
+      "relatedTools": "Essayez aussi ces outils",
+      "relatedToolsSubtitle": "Explorez plus d'outils gratuits",
+      "reviews": "avis",
+      "users": "utilisateurs"
     }
   },
   "Categories": {
@@ -464,30 +467,28 @@
   "Tools": {
     "pdf-to-jpg": {
       "title": "PDF en JPG",
-      "description": "Convert PDF files to high-quality JPG images instantly.",
-      "shortDesc": "Convert PDF to JPG images"
+      "description": "Convertissez des fichiers PDF en images JPG de haute qualité instantanément.",
+      "shortDesc": "Convertir PDF en images JPG"
     },
     "jpg-to-pdf": {
       "title": "JPG en PDF",
-      "description": "Combine multiple JPG images into a single PDF file.",
-      "shortDesc": "Convert JPG images to PDF"
+      "description": "Combinez plusieurs images JPG en un seul fichier PDF.",
+      "shortDesc": "Convertir images JPG en PDF"
     },
     "merge-pdf": {
       "title": "Fusionner PDF",
-      "description": "Combine multiple PDF files into one.",
-      "shortDesc": "Merge multiple PDFs into one",
-      "instructions": "Select the PDF files you want to merge. You can drag to reorder them."
+      "description": "Combinez plusieurs fichiers PDF en un seul.",
+      "shortDesc": "Fusionner plusieurs PDFs"
     },
     "split-pdf": {
       "title": "Diviser PDF",
-      "description": "Split a PDF file into multiple files.",
-      "shortDesc": "Split PDF into multiple files",
-      "instructions": "Select a PDF file to split. Each page will be separated into individual files."
+      "description": "Divisez un fichier PDF en plusieurs fichiers.",
+      "shortDesc": "Diviser PDF en plusieurs fichiers"
     },
     "compress-pdf": {
       "title": "Compresser PDF",
-      "description": "Reduce PDF file size for easier sharing.",
-      "shortDesc": "Reduce PDF file size"
+      "description": "Réduisez la taille du fichier PDF pour un partage plus facile.",
+      "shortDesc": "Réduire la taille du PDF"
     },
     "png-to-jpg": {
       "title": "PNG en JPG",
@@ -1201,17 +1202,9 @@
       "shortDesc": "Convert units"
     },
     "percentage-calculator": {
-      "title": "Percentage Calculator",
-      "description": "Calculate percentages quickly and easily. What is X% of Y, X is what percent of Y, and percentage change.",
-      "shortDesc": "Calculate percentages",
-      "whatIs": "What is X% of Y",
-      "percentOf": "X is what % of Y",
-      "change": "% Change",
-      "whatIsPrefix": "What is",
-      "of": "of",
-      "isWhatPercent": "is what % of",
-      "from": "From",
-      "to": "To"
+      "title": "Calculatrice de pourcentage",
+      "description": "Calculez facilement les pourcentages.",
+      "shortDesc": "Calculer les pourcentages"
     },
     "pdf-to-png": {
       "title": "PDF to PNG",
@@ -1771,15 +1764,8 @@
     },
     "password-generator": {
       "title": "Générateur de mot de passe",
-      "description": "Generate secure and strong random passwords.",
-      "shortDesc": "Secure password generator",
-      "length": "Length",
-      "uppercase": "Uppercase (A-Z)",
-      "lowercase": "Lowercase (a-z)",
-      "numbers": "Numbers (0-9)",
-      "symbols": "Symbols (!@#$...)",
-      "generate": "Generate Password",
-      "strength": "Strength"
+      "description": "Générez des mots de passe aléatoires sécurisés et forts.",
+      "shortDesc": "Générateur de mot de passe sécurisé"
     },
     "uuid-generator": {
       "title": "UUID/GUID Generator",
@@ -2211,53 +2197,24 @@
       "generate10": "Generate 10"
     },
     "countdown-timer": {
-      "title": "Countdown Timer",
-      "description": "A timer that counts down to your target time.",
-      "shortDesc": "Countdown timer",
-      "hours": "Hours",
-      "minutes": "Minutes",
-      "seconds": "Seconds",
-      "start": "Start",
-      "pause": "Pause",
-      "reset": "Réinitialiser",
-      "complete": "Time's up!"
+      "title": "Minuteur de compte à rebours",
+      "description": "Minuteur de compte à rebours.",
+      "shortDesc": "Compte à rebours"
     },
     "stopwatch": {
-      "title": "Stopwatch",
-      "description": "A stopwatch for precise time measurement.",
-      "shortDesc": "Time measurement stopwatch",
-      "start": "Start",
-      "pause": "Pause",
-      "reset": "Réinitialiser",
-      "lap": "Lap",
-      "laps": "Lap Records",
-      "lapNumber": "Lap"
+      "title": "Chronomètre",
+      "description": "Chronomètre de mesure du temps.",
+      "shortDesc": "Mesure du temps"
     },
     "wheel-spinner": {
-      "title": "Wheel Spinner",
-      "description": "Enter items and spin the wheel to randomly select.",
-      "shortDesc": "Random selection wheel",
-      "items": "Items (one per line)",
-      "itemsPlaceholder": "Enter options, one per line",
-      "itemCount": "{{count}} items",
-      "spin": "Spin Wheel",
-      "spinning": "Spinning...",
-      "winner": "Winner"
+      "title": "Roulette tournante",
+      "description": "Roue de sélection aléatoire.",
+      "shortDesc": "Sélection aléatoire"
     },
     "typing-test": {
-      "title": "Typing Test",
-      "description": "Measure your typing speed and accuracy.",
-      "shortDesc": "Typing speed test",
-      "difficulty": "Difficulty",
-      "easy": "Easy",
-      "medium": "Medium",
-      "hard": "Hard",
-      "start": "Start Test",
-      "placeholder": "Start typing...",
-      "accuracy": "Accuracy",
-      "errors": "Errors",
-      "complete": "Test Complete!",
-      "tryAgain": "Try Again"
+      "title": "Test de frappe",
+      "description": "Testez votre vitesse de frappe.",
+      "shortDesc": "Test de vitesse de frappe"
     },
     "screen-info": {
       "title": "Screen Info",
@@ -2372,12 +2329,9 @@
       "shortDesc": "Glitch text creator"
     },
     "magic-8-ball": {
-      "title": "Magic 8 Ball",
-      "description": "Ask a question and receive a mystical answer from the Magic 8 Ball.",
-      "shortDesc": "Fortune telling",
-      "question": "Question",
-      "placeholder": "Ask a yes/no question...",
-      "ask": "Ask the Magic 8 Ball"
+      "title": "Boule magique 8",
+      "description": "Divination.",
+      "shortDesc": "Divination"
     },
     "love-calculator": {
       "title": "Love Calculator",
@@ -2412,14 +2366,8 @@
     },
     "pomodoro-timer": {
       "title": "Minuteur Pomodoro",
-      "description": "Boost focus and productivity with the Pomodoro technique timer.",
-      "shortDesc": "Productivity timer",
-      "work": "Focus",
-      "shortBreak": "Short Break",
-      "longBreak": "Long Break",
-      "start": "Start",
-      "pause": "Pause",
-      "completed": "Completed Pomodoros"
+      "description": "Améliorez la productivité avec des cycles de travail de 25 minutes.",
+      "shortDesc": "Minuteur de productivité"
     },
     "reaction-time": {
       "title": "Reaction Time Test",
@@ -2587,61 +2535,14 @@
       "newGame": "New Game"
     },
     "balance-game": {
-      "title": "Balance Game",
-      "description": "Choose between two options! See what others picked.",
-      "shortDesc": "This vs That",
-      "setupDesc": "Add questions and start the game!",
-      "addSingle": "Add Single",
-      "bulkAdd": "Bulk Add",
-      "bulkHint": "One per line, separate with comma (,) or vs",
-      "bulkPlaceholder": "Summer forever, Winter forever\nInvisibility vs Teleportation\nTravel to past, Travel to future",
-      "parseBulk": "Add All",
-      "questionList": "Question List",
-      "start": "Start Game",
-      "back": "Back to List",
-      "reset": "Réinitialiser",
-      "optionA": "Option A",
-      "optionB": "Option B",
-      "optionAPlaceholder": "e.g. Summer forever",
-      "optionBPlaceholder": "e.g. Winter forever",
-      "addQuestion": "Add Question",
-      "whichWouldYouChoose": "Which would you choose?",
-      "votes": "votes",
-      "prev": "Prev",
-      "next": "Suivant",
-      "voteAgain": "Vote Again",
-      "totalVotes": "Total {{count}} votes",
-      "loadExamples": "Examples"
+      "title": "Jeu d'équilibre",
+      "description": "Ceci vs Cela - Lequel choisissez-vous?",
+      "shortDesc": "Ceci vs Cela"
     },
     "tournament-game": {
-      "title": "Tournament Game",
-      "description": "Pick your favorite through tournament brackets! Supports 4, 8, 16, 32 rounds.",
-      "shortDesc": "Tournament bracket picker",
-      "setupTitle": "Add items and start the tournament!",
-      "roundSizeLabel": "Tournament Size",
-      "round4": "Semi-final (4 items)",
-      "round8": "Quarter-final (8 items)",
-      "round16": "Round of 16 (16 items)",
-      "round32": "Round of 32 (32 items)",
-      "addItemLabel": "Add Item",
-      "itemPlaceholder": "Enter item and press Enter",
-      "add": "Add",
-      "loadExamples": "Fill with food examples",
-      "itemsList": "Items List",
-      "startGame": "Start Game",
-      "vs": "VS",
-      "final": "Final",
-      "semiFinal": "Semi-final",
-      "quarterFinal": "Quarter-final",
-      "round16Final": "Round of 16",
-      "round32Final": "Round of 32",
-      "roundN": "Round of {{n}}",
-      "matchOf": "Match {{current}} of {{total}}",
-      "winner": "Winner",
-      "champion": "Champion",
-      "matchHistory": "Match History",
-      "playAgain": "Play Again",
-      "congratulations": "Congratulations!"
+      "title": "Jeu de tournoi",
+      "description": "Sélecteur de bracket de tournoi.",
+      "shortDesc": "Sélecteur de bracket"
     },
     "chosung-quiz": {
       "title": "Korean Initial Quiz",
@@ -2690,23 +2591,9 @@
       "reset": "Réinitialiser"
     },
     "cps-test": {
-      "title": "CPS Test",
-      "description": "Click as fast as you can for {{duration}} seconds!",
-      "shortDesc": "Clicks per second test",
-      "best": "Best",
-      "clickToStart": "Click to Start",
-      "time": "Time",
-      "clicks": "Clicks",
-      "keepClicking": "Keep clicking!",
-      "tryAgain": "Try Again",
-      "history": "History",
-      "totalClicks": "clicks",
-      "kohi": "Kohi Click Master",
-      "pro": "Pro Gamer",
-      "fast": "Fast",
-      "good": "Good",
-      "average": "Average",
-      "slow": "Keep Practicing"
+      "title": "Test CPS",
+      "description": "Test de clics par seconde.",
+      "shortDesc": "Test de clics par seconde"
     },
     "bingo-generator": {
       "title": "Bingo Generator",
@@ -2785,17 +2672,9 @@
       "show": "Show"
     },
     "big-wheel": {
-      "title": "Big Wheel",
-      "description": "Spin the wheel with amazing visual effects! Optimized for streaming and broadcasts.",
-      "shortDesc": "Broadcast-ready wheel",
-      "setupTitle": "Setup Your Wheel",
-      "setupDesc": "Add items to spin the wheel!",
-      "itemPlaceholder": "Enter item name",
-      "bulkAdd": "Bulk Add (one per line)",
-      "bulkPlaceholder": "Pizza\nChicken\nBurger\nTacos",
-      "spin": "SPIN!",
-      "spinning": "Spinning...",
-      "winner": "Winner!"
+      "title": "Grande roue",
+      "description": "Roue de la fortune pour les diffusions.",
+      "shortDesc": "Roue pour diffusion"
     },
     "hearing-age": {
       "title": "Hearing Age Test",
@@ -2811,6 +2690,21 @@
       "typical": "Typically heard by ages",
       "result": "Your Hearing Age",
       "retry": "Try Again"
+    },
+    "random-number-generator": {
+      "title": "Générateur de nombres aléatoires",
+      "description": "Générez des nombres aléatoires.",
+      "shortDesc": "Générer des nombres aléatoires"
+    },
+    "flip-coin": {
+      "title": "Lancer une pièce",
+      "description": "Lancer de pièce virtuel.",
+      "shortDesc": "Pièce virtuelle"
+    },
+    "roll-dice": {
+      "title": "Lancer les dés",
+      "description": "Dés virtuels.",
+      "shortDesc": "Dés virtuels"
     }
   }
 }
