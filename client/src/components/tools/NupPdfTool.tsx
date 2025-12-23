@@ -4,9 +4,10 @@ import { PDFDocument, PageSizes } from 'pdf-lib';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { Progress } from '@/components/ui/progress';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { FileText, Download, Loader2, CheckCircle, LayoutGrid, Trash2 } from 'lucide-react';
+import { useStagedProcessing } from '@/hooks/useStagedProcessing';
+import { StagedLoadingOverlay } from '@/components/StagedLoadingOverlay';
+import { FileText, Download, CheckCircle, LayoutGrid, Trash2, Info } from 'lucide-react';
 import { FileUploadZone } from '@/components/tool-ui';
 
 type ToolStatus = 'idle' | 'processing' | 'success' | 'error';
@@ -16,10 +17,18 @@ export default function NupPdfTool() {
   const { t } = useTranslation();
   const [file, setFile] = useState<File | null>(null);
   const [status, setStatus] = useState<ToolStatus>('idle');
-  const [progress, setProgress] = useState(0);
   const [error, setError] = useState<{ code: string } | null>(null);
   const [resultBlob, setResultBlob] = useState<Blob | null>(null);
   const [nupLayout, setNupLayout] = useState<NupLayout>('2');
+
+  const stagedProcessing = useStagedProcessing({
+    minDuration: 2500,
+    stages: [
+      { name: 'analyzing', duration: 600, message: t('Common.stages.loadingDocument', { defaultValue: 'Loading document...' }) },
+      { name: 'processing', duration: 1200, message: t('Common.stages.arrangingPages', { defaultValue: 'Arranging pages...' }) },
+      { name: 'optimizing', duration: 700, message: t('Common.stages.finalizingDocument', { defaultValue: 'Finalizing document...' }) },
+    ],
+  });
 
   const handleFilesFromDropzone = useCallback((fileList: FileList) => {
     const selectedFile = fileList[0];
@@ -45,66 +54,62 @@ export default function NupPdfTool() {
     if (!file) return;
 
     setStatus('processing');
-    setProgress(10);
     setError(null);
 
     try {
-      const arrayBuffer = await file.arrayBuffer();
-      setProgress(20);
-
-      const srcDoc = await PDFDocument.load(arrayBuffer);
-      const newDoc = await PDFDocument.create();
-      
-      const { cols, rows } = getLayoutConfig(nupLayout);
-      const pagesPerSheet = cols * rows;
-      const srcPages = srcDoc.getPages();
-      const totalSheets = Math.ceil(srcPages.length / pagesPerSheet);
-
-      const [targetWidth, targetHeight] = PageSizes.A4;
-      const cellWidth = targetWidth / cols;
-      const cellHeight = targetHeight / rows;
-      const padding = 10;
-
-      for (let sheetIdx = 0; sheetIdx < totalSheets; sheetIdx++) {
-        const newPage = newDoc.addPage([targetWidth, targetHeight]);
+      await stagedProcessing.runStagedProcessing(async () => {
+        const arrayBuffer = await file.arrayBuffer();
+        const srcDoc = await PDFDocument.load(arrayBuffer);
+        const newDoc = await PDFDocument.create();
         
-        for (let cellIdx = 0; cellIdx < pagesPerSheet; cellIdx++) {
-          const srcPageIdx = sheetIdx * pagesPerSheet + cellIdx;
-          if (srcPageIdx >= srcPages.length) break;
+        const { cols, rows } = getLayoutConfig(nupLayout);
+        const pagesPerSheet = cols * rows;
+        const srcPages = srcDoc.getPages();
+        const totalSheets = Math.ceil(srcPages.length / pagesPerSheet);
 
-          const srcPage = srcPages[srcPageIdx];
-          const [embeddedPage] = await newDoc.embedPages([srcPage]);
-          
-          const { width: srcWidth, height: srcHeight } = srcPage.getSize();
-          const scaleX = (cellWidth - padding * 2) / srcWidth;
-          const scaleY = (cellHeight - padding * 2) / srcHeight;
-          const scale = Math.min(scaleX, scaleY);
-          
-          const scaledWidth = srcWidth * scale;
-          const scaledHeight = srcHeight * scale;
-          
-          const col = cellIdx % cols;
-          const row = Math.floor(cellIdx / cols);
-          
-          const x = col * cellWidth + (cellWidth - scaledWidth) / 2;
-          const y = targetHeight - (row + 1) * cellHeight + (cellHeight - scaledHeight) / 2;
+        const [targetWidth, targetHeight] = PageSizes.A4;
+        const cellWidth = targetWidth / cols;
+        const cellHeight = targetHeight / rows;
+        const padding = 10;
 
-          newPage.drawPage(embeddedPage, {
-            x,
-            y,
-            width: scaledWidth,
-            height: scaledHeight,
-          });
+        for (let sheetIdx = 0; sheetIdx < totalSheets; sheetIdx++) {
+          const newPage = newDoc.addPage([targetWidth, targetHeight]);
+          
+          for (let cellIdx = 0; cellIdx < pagesPerSheet; cellIdx++) {
+            const srcPageIdx = sheetIdx * pagesPerSheet + cellIdx;
+            if (srcPageIdx >= srcPages.length) break;
+
+            const srcPage = srcPages[srcPageIdx];
+            const [embeddedPage] = await newDoc.embedPages([srcPage]);
+            
+            const { width: srcWidth, height: srcHeight } = srcPage.getSize();
+            const scaleX = (cellWidth - padding * 2) / srcWidth;
+            const scaleY = (cellHeight - padding * 2) / srcHeight;
+            const scale = Math.min(scaleX, scaleY);
+            
+            const scaledWidth = srcWidth * scale;
+            const scaledHeight = srcHeight * scale;
+            
+            const col = cellIdx % cols;
+            const row = Math.floor(cellIdx / cols);
+            
+            const x = col * cellWidth + (cellWidth - scaledWidth) / 2;
+            const y = targetHeight - (row + 1) * cellHeight + (cellHeight - scaledHeight) / 2;
+
+            newPage.drawPage(embeddedPage, {
+              x,
+              y,
+              width: scaledWidth,
+              height: scaledHeight,
+            });
+          }
         }
 
-        setProgress(20 + (70 * (sheetIdx + 1) / totalSheets));
-      }
-
-      const pdfBytes = await newDoc.save();
-      const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-      setResultBlob(blob);
+        const pdfBytes = await newDoc.save();
+        return new Blob([pdfBytes], { type: 'application/pdf' });
+      });
+      setResultBlob(stagedProcessing.result as Blob);
       setStatus('success');
-      setProgress(100);
     } catch {
       setError({ code: 'NUP_FAILED' });
       setStatus('error');
@@ -154,6 +159,13 @@ export default function NupPdfTool() {
             </Button>
           </div>
 
+          <div className="p-3 bg-muted/30 rounded-lg flex items-start gap-3">
+            <Info className="w-4 h-4 text-muted-foreground shrink-0 mt-0.5" />
+            <p className="text-sm text-muted-foreground">
+              {t('Tools.n-up-pdf.explanation', 'This tool shrinks and arranges multiple pages onto a single sheet, perfect for handouts, reviewing documents, or saving paper when printing.')}
+            </p>
+          </div>
+
           <div className="space-y-2">
             <Label>{t('Tools.n-up-pdf.pagesPerSheet')}</Label>
             <Select value={nupLayout} onValueChange={(v) => setNupLayout(v as NupLayout)}>
@@ -169,14 +181,28 @@ export default function NupPdfTool() {
             </Select>
           </div>
 
-          {status === 'processing' && (
-            <div className="space-y-2">
-              <Progress value={progress} />
-              <p className="text-sm text-center text-muted-foreground">
-                {t('Common.processing')} {Math.round(progress)}%
-              </p>
+          <div className="space-y-2">
+            <Label>{t('Tools.n-up-pdf.layoutPreview', 'Layout Preview')}</Label>
+            <div className="border rounded-lg p-4 bg-muted/10 flex justify-center">
+              <div 
+                className="border-2 border-primary/50 rounded bg-background aspect-[3/4] w-32 grid gap-1 p-2"
+                style={{
+                  gridTemplateColumns: `repeat(${getLayoutConfig(nupLayout).cols}, 1fr)`,
+                  gridTemplateRows: `repeat(${getLayoutConfig(nupLayout).rows}, 1fr)`,
+                }}
+                data-testid="layout-preview"
+              >
+                {Array.from({ length: parseInt(nupLayout) }).map((_, i) => (
+                  <div 
+                    key={i} 
+                    className="border border-muted-foreground/30 rounded-sm bg-primary/10 flex items-center justify-center text-xs text-muted-foreground"
+                  >
+                    {i + 1}
+                  </div>
+                ))}
+              </div>
             </div>
-          )}
+          </div>
 
           {error && (
             <p className="text-sm text-destructive">{t(`Errors.${error.code}`)}</p>
@@ -188,20 +214,19 @@ export default function NupPdfTool() {
             disabled={status === 'processing'}
             data-testid="button-nup"
           >
-            {status === 'processing' ? (
-              <>
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                {t('Common.processing')}
-              </>
-            ) : (
-              <>
-                <LayoutGrid className="w-4 h-4 mr-2" />
-                {t('Tools.n-up-pdf.nupButton')}
-              </>
-            )}
+            <LayoutGrid className="w-4 h-4 mr-2" />
+            {t('Tools.n-up-pdf.nupButton')}
           </Button>
         </Card>
       )}
+
+      <StagedLoadingOverlay
+        stage={stagedProcessing.stage}
+        progress={stagedProcessing.progress}
+        stageProgress={stagedProcessing.stageProgress}
+        message={stagedProcessing.message}
+        error={stagedProcessing.error}
+      />
 
       {status === 'success' && resultBlob && (
         <Card className="p-6 space-y-4">

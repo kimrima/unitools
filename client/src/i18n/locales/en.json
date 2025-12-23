@@ -1229,13 +1229,15 @@
       "successMessage": "PDF resized successfully."
     },
     "n-up-pdf": {
-      "title": "N-up PDF",
-      "description": "Print multiple PDF pages on a single sheet (2-up, 4-up layout).",
+      "title": "PDF Multi-Page Layout",
+      "description": "Combine multiple PDF pages onto a single sheet to save paper. Print 2, 4, 6, or 9 pages per sheet.",
       "shortDesc": "Multiple pages per sheet",
       "pagesPerSheet": "Pages per Sheet",
       "pages": "pages",
-      "nupButton": "Create N-up PDF",
-      "successMessage": "N-up PDF created successfully."
+      "nupButton": "Create Multi-Page PDF",
+      "successMessage": "Multi-page layout PDF created successfully.",
+      "explanation": "This tool shrinks and arranges multiple pages onto a single sheet, perfect for handouts, reviewing documents, or saving paper when printing.",
+      "layoutPreview": "Layout Preview"
     },
     "instagram-line-break": {
       "title": "Instagram Line Break Generator",

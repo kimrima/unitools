@@ -1236,12 +1236,14 @@
     },
     "n-up-pdf": {
       "title": "PDF 모아찍기",
-      "description": "한 장에 여러 PDF 페이지를 배치하세요 (2페이지, 4페이지 모아찍기).",
+      "description": "한 장에 여러 PDF 페이지를 배치하여 용지를 절약하세요. 한 장에 2, 4, 6, 9페이지 배치 가능.",
       "shortDesc": "여러 페이지 한 장에",
       "pagesPerSheet": "한 장당 페이지 수",
       "pages": "페이지",
       "nupButton": "모아찍기 PDF 생성",
-      "successMessage": "모아찍기 PDF가 생성되었습니다."
+      "successMessage": "모아찍기 PDF가 생성되었습니다.",
+      "explanation": "여러 페이지를 축소하여 한 장에 배치합니다. 유인물 제작, 문서 검토, 인쇄 시 용지 절약에 유용합니다.",
+      "layoutPreview": "레이아웃 미리보기"
     },
     "instagram-line-break": {
       "title": "인스타그램 줄바꿈 생성기",
