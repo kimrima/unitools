@@ -25,11 +25,11 @@ import {
   ChevronDown,
   Menu,
   X,
-  Search,
   Dices,
 } from 'lucide-react';
 import { useState } from 'react';
 import { getToolsByCategory } from '@/data/tools';
+import HeaderSearchBar from './HeaderSearchBar';
 
 const categories = [
   { id: 'pdf', icon: FileText, label: 'PDF Tools' },
@@ -132,6 +132,8 @@ export default function Header() {
           </nav>
 
           <div className="flex items-center gap-3">
+            <HeaderSearchBar />
+
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="sm" className="gap-1.5 font-semibold" data-testid="button-language">
@@ -153,13 +155,6 @@ export default function Header() {
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
-
-            <Link href={localizedPath('/all-tools')}>
-              <Button size="sm" className="font-bold" data-testid="button-search-header">
-                <Search className="w-4 h-4 mr-2" />
-                {t('Common.nav.search', { defaultValue: 'Search' })}
-              </Button>
-            </Link>
 
             <Button
               variant="ghost"
