@@ -1,13 +1,14 @@
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFileHandler } from '@/hooks/useFileHandler';
+import { useStagedProcessing } from '@/hooks/useStagedProcessing';
 import { addPageNumbers, type PageNumberOptions } from '@/lib/engines/pdfAddPageNumbers';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
+import { StagedLoadingOverlay } from '@/components/StagedLoadingOverlay';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
-import { FileText, Download, Loader2, CheckCircle } from 'lucide-react';
+import { FileText, Download, CheckCircle } from 'lucide-react';
 import { FileUploadZone } from '@/components/tool-ui';
 
 type Position = PageNumberOptions['position'];
@@ -21,16 +22,23 @@ export default function AddPageNumbersTool() {
     files,
     status,
     error,
-    progress,
     resultBlob,
     addFiles,
     setStatus,
     setError,
     setResult,
-    setProgress,
     downloadResult,
-    reset,
+    reset: resetHandler,
   } = useFileHandler({ accept: '.pdf', multiple: false });
+
+  const stagedProcessing = useStagedProcessing({
+    minDuration: 3000,
+    stages: [
+      { name: 'analyzing', duration: 800, message: t('Common.stages.analyzingDocument', { defaultValue: 'Analyzing document...' }) },
+      { name: 'processing', duration: 1400, message: t('Common.stages.addingPageNumbers', { defaultValue: 'Adding page numbers...' }) },
+      { name: 'optimizing', duration: 800, message: t('Common.stages.finalizingDocument', { defaultValue: 'Finalizing document...' }) },
+    ],
+  });
 
   const handleFilesFromDropzone = useCallback((fileList: FileList) => {
     addFiles(fileList);
@@ -40,30 +48,34 @@ export default function AddPageNumbersTool() {
     if (files.length === 0 || !files[0].arrayBuffer) return;
 
     setStatus('processing');
-    setProgress(0);
     setError(null);
 
     try {
-      const resultBlob = await addPageNumbers(
-        files[0].arrayBuffer,
-        { position, format },
-        (prog) => {
-          setProgress(prog.percentage);
-        }
-      );
-
-      setResult(resultBlob);
+      await stagedProcessing.runStagedProcessing(async () => {
+        const result = await addPageNumbers(
+          files[0].arrayBuffer!,
+          { position, format }
+        );
+        setResult(result);
+        return result;
+      });
+      setStatus('success');
     } catch {
       setError({ code: 'ADD_PAGE_NUMBERS_FAILED' });
       setStatus('error');
     }
-  }, [files, position, format, setStatus, setProgress, setError, setResult]);
+  }, [files, position, format, setStatus, setError, setResult, stagedProcessing]);
 
   const handleDownload = useCallback(() => {
     const originalName = files[0]?.file.name || 'document.pdf';
     const baseName = originalName.replace('.pdf', '');
     downloadResult(`unitools_${baseName}_numbered.pdf`);
   }, [files, downloadResult]);
+
+  const reset = useCallback(() => {
+    resetHandler();
+    stagedProcessing.reset();
+  }, [resetHandler, stagedProcessing]);
 
   const formatFileSize = useCallback((bytes: number): string => {
     const k = 1024;
@@ -143,15 +155,13 @@ export default function AddPageNumbersTool() {
         </div>
       )}
 
-      {status === 'processing' && (
-        <div className="space-y-6 py-8">
-          <div className="flex flex-col items-center gap-4">
-            <Loader2 className="w-12 h-12 animate-spin text-primary" />
-            <p className="font-medium">{t('Common.workflow.processing')}</p>
-          </div>
-          <Progress value={progress} className="h-2" data-testid="progress-bar" />
-        </div>
-      )}
+      <StagedLoadingOverlay
+        stage={stagedProcessing.stage}
+        progress={stagedProcessing.progress}
+        stageProgress={stagedProcessing.stageProgress}
+        message={stagedProcessing.message}
+        error={stagedProcessing.error}
+      />
 
       {status === 'success' && resultBlob && (
         <div className="flex flex-col items-center gap-6 py-8">

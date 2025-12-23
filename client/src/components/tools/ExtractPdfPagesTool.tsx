@@ -1,11 +1,12 @@
 import { useCallback, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFileHandler } from '@/hooks/useFileHandler';
+import { useStagedProcessing } from '@/hooks/useStagedProcessing';
 import { extractPages } from '@/lib/engines/pdfPageOps';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
-import { FileText, Download, Loader2, CheckCircle, FileOutput } from 'lucide-react';
+import { StagedLoadingOverlay } from '@/components/StagedLoadingOverlay';
+import { FileText, Download, CheckCircle, FileOutput } from 'lucide-react';
 import { PDFDocument } from 'pdf-lib';
 import { FileUploadZone } from '@/components/tool-ui';
 
@@ -18,16 +19,23 @@ export default function ExtractPdfPagesTool() {
     files,
     status,
     error,
-    progress,
     resultBlob,
     addFiles,
     setStatus,
     setError,
     setResult,
-    setProgress,
     downloadResult,
-    reset,
+    reset: resetHandler,
   } = useFileHandler({ accept: '.pdf', multiple: false });
+
+  const stagedProcessing = useStagedProcessing({
+    minDuration: 3000,
+    stages: [
+      { name: 'analyzing', duration: 800, message: t('Common.stages.analyzingDocument', { defaultValue: 'Analyzing document...' }) },
+      { name: 'processing', duration: 1400, message: t('Common.stages.extractingPages', { defaultValue: 'Extracting pages...' }) },
+      { name: 'optimizing', duration: 800, message: t('Common.stages.finalizingDocument', { defaultValue: 'Finalizing document...' }) },
+    ],
+  });
 
   useEffect(() => {
     async function loadPageCount() {
@@ -60,26 +68,32 @@ export default function ExtractPdfPagesTool() {
     if (files.length === 0 || !files[0].arrayBuffer || selectedPages.length === 0) return;
 
     setStatus('processing');
-    setProgress(0);
     setError(null);
 
     try {
-      const resultBlob = await extractPages(files[0].arrayBuffer, selectedPages, (prog) => {
-        setProgress(prog.percentage);
+      await stagedProcessing.runStagedProcessing(async () => {
+        const result = await extractPages(files[0].arrayBuffer!, selectedPages);
+        setResult(result);
+        return result;
       });
-
-      setResult(resultBlob);
+      setStatus('success');
     } catch {
       setError({ code: 'EXTRACT_PAGES_FAILED' });
       setStatus('error');
     }
-  }, [files, selectedPages, setStatus, setProgress, setError, setResult]);
+  }, [files, selectedPages, setStatus, setError, setResult, stagedProcessing]);
 
   const handleDownload = useCallback(() => {
     const originalName = files[0]?.file.name || 'document.pdf';
     const baseName = originalName.replace('.pdf', '');
     downloadResult(`unitools_${baseName}_extracted.pdf`);
   }, [files, downloadResult]);
+
+  const reset = useCallback(() => {
+    resetHandler();
+    stagedProcessing.reset();
+    setSelectedPages([]);
+  }, [resetHandler, stagedProcessing]);
 
   const formatFileSize = useCallback((bytes: number): string => {
     const k = 1024;
@@ -162,15 +176,13 @@ export default function ExtractPdfPagesTool() {
         </div>
       )}
 
-      {status === 'processing' && (
-        <div className="space-y-6 py-8">
-          <div className="flex flex-col items-center gap-4">
-            <Loader2 className="w-12 h-12 animate-spin text-primary" />
-            <p className="font-medium">{t('Common.workflow.processing')}</p>
-          </div>
-          <Progress value={progress} className="h-2" data-testid="progress-bar" />
-        </div>
-      )}
+      <StagedLoadingOverlay
+        stage={stagedProcessing.stage}
+        progress={stagedProcessing.progress}
+        stageProgress={stagedProcessing.stageProgress}
+        message={stagedProcessing.message}
+        error={stagedProcessing.error}
+      />
 
       {status === 'success' && resultBlob && (
         <div className="flex flex-col items-center gap-6 py-8">

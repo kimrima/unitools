@@ -1,12 +1,13 @@
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFileHandler } from '@/hooks/useFileHandler';
+import { useStagedProcessing } from '@/hooks/useStagedProcessing';
 import { rotatePdf, type RotationAngle } from '@/lib/engines/pdfRotate';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
+import { StagedLoadingOverlay } from '@/components/StagedLoadingOverlay';
 import { FileUploadZone } from '@/components/tool-ui';
-import { FileText, Download, Loader2, CheckCircle, RotateCw } from 'lucide-react';
+import { FileText, Download, CheckCircle, RotateCw } from 'lucide-react';
 
 export default function RotatePdfTool() {
   const { t } = useTranslation();
@@ -16,16 +17,23 @@ export default function RotatePdfTool() {
     files,
     status,
     error,
-    progress,
     resultBlob,
     addFiles,
     setStatus,
     setError,
     setResult,
-    setProgress,
     downloadResult,
-    reset,
+    reset: resetHandler,
   } = useFileHandler({ accept: '.pdf', multiple: false });
+
+  const stagedProcessing = useStagedProcessing({
+    minDuration: 3000,
+    stages: [
+      { name: 'analyzing', duration: 800, message: t('Common.stages.analyzingDocument', { defaultValue: 'Analyzing document...' }) },
+      { name: 'processing', duration: 1400, message: t('Common.stages.rotatingPages', { defaultValue: 'Rotating pages...' }) },
+      { name: 'optimizing', duration: 800, message: t('Common.stages.finalizingDocument', { defaultValue: 'Finalizing document...' }) },
+    ],
+  });
 
   const handleFilesFromDropzone = useCallback((fileList: FileList) => {
     if (fileList.length > 0) {
@@ -37,26 +45,31 @@ export default function RotatePdfTool() {
     if (files.length === 0 || !files[0].arrayBuffer) return;
 
     setStatus('processing');
-    setProgress(0);
     setError(null);
 
     try {
-      const rotatedBlob = await rotatePdf(files[0].arrayBuffer, rotationAngle, undefined, (prog) => {
-        setProgress(prog.percentage);
+      await stagedProcessing.runStagedProcessing(async () => {
+        const rotatedBlob = await rotatePdf(files[0].arrayBuffer!, rotationAngle);
+        setResult(rotatedBlob);
+        return rotatedBlob;
       });
-
-      setResult(rotatedBlob);
+      setStatus('success');
     } catch {
       setError({ code: 'ROTATION_FAILED' });
       setStatus('error');
     }
-  }, [files, rotationAngle, setStatus, setProgress, setError, setResult]);
+  }, [files, rotationAngle, setStatus, setError, setResult, stagedProcessing]);
 
   const handleDownload = useCallback(() => {
     const originalName = files[0]?.file.name || 'document.pdf';
     const baseName = originalName.replace('.pdf', '');
     downloadResult(`unitools_${baseName}_rotated.pdf`);
   }, [files, downloadResult]);
+
+  const reset = useCallback(() => {
+    resetHandler();
+    stagedProcessing.reset();
+  }, [resetHandler, stagedProcessing]);
 
   const formatFileSize = useCallback((bytes: number): string => {
     const k = 1024;
@@ -122,15 +135,13 @@ export default function RotatePdfTool() {
         </div>
       )}
 
-      {status === 'processing' && (
-        <div className="space-y-6 py-8">
-          <div className="flex flex-col items-center gap-4">
-            <Loader2 className="w-12 h-12 animate-spin text-primary" />
-            <p className="font-medium">{t('Common.workflow.processing')}</p>
-          </div>
-          <Progress value={progress} className="h-2" data-testid="progress-bar" />
-        </div>
-      )}
+      <StagedLoadingOverlay
+        stage={stagedProcessing.stage}
+        progress={stagedProcessing.progress}
+        stageProgress={stagedProcessing.stageProgress}
+        message={stagedProcessing.message}
+        error={stagedProcessing.error}
+      />
 
       {status === 'success' && resultBlob && (
         <div className="flex flex-col items-center gap-6 py-8">

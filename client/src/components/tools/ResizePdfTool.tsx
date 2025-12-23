@@ -1,12 +1,13 @@
 import { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PDFDocument, PageSizes } from 'pdf-lib';
+import { useStagedProcessing } from '@/hooks/useStagedProcessing';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { Progress } from '@/components/ui/progress';
+import { StagedLoadingOverlay } from '@/components/StagedLoadingOverlay';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { FileText, Download, Loader2, CheckCircle, Maximize, Trash2 } from 'lucide-react';
+import { FileText, Download, CheckCircle, Maximize, Trash2 } from 'lucide-react';
 import { FileUploadZone } from '@/components/tool-ui';
 
 type ToolStatus = 'idle' | 'processing' | 'success' | 'error';
@@ -25,11 +26,19 @@ export default function ResizePdfTool() {
   const { t } = useTranslation();
   const [file, setFile] = useState<File | null>(null);
   const [status, setStatus] = useState<ToolStatus>('idle');
-  const [progress, setProgress] = useState(0);
   const [error, setError] = useState<{ code: string } | null>(null);
   const [resultBlob, setResultBlob] = useState<Blob | null>(null);
   const [targetSize, setTargetSize] = useState('A4');
   const [orientation, setOrientation] = useState<'portrait' | 'landscape'>('portrait');
+
+  const stagedProcessing = useStagedProcessing({
+    minDuration: 3000,
+    stages: [
+      { name: 'analyzing', duration: 800, message: t('Common.stages.analyzingDocument', { defaultValue: 'Analyzing document...' }) },
+      { name: 'processing', duration: 1400, message: t('Common.stages.resizingPages', { defaultValue: 'Resizing pages...' }) },
+      { name: 'optimizing', duration: 800, message: t('Common.stages.finalizingDocument', { defaultValue: 'Finalizing document...' }) },
+    ],
+  });
 
   const handleFilesFromDropzone = useCallback((fileList: FileList) => {
     const selectedFile = fileList[0];
@@ -45,54 +54,52 @@ export default function ResizePdfTool() {
     if (!file) return;
 
     setStatus('processing');
-    setProgress(10);
     setError(null);
 
     try {
-      const arrayBuffer = await file.arrayBuffer();
-      setProgress(30);
+      await stagedProcessing.runStagedProcessing(async () => {
+        const arrayBuffer = await file.arrayBuffer();
 
-      const srcDoc = await PDFDocument.load(arrayBuffer);
-      const newDoc = await PDFDocument.create();
-      
-      let [targetWidth, targetHeight] = PAGE_SIZES[targetSize] || PageSizes.A4;
-      if (orientation === 'landscape') {
-        [targetWidth, targetHeight] = [targetHeight, targetWidth];
-      }
-
-      const pages = srcDoc.getPages();
-      
-      for (let i = 0; i < pages.length; i++) {
-        const srcPage = pages[i];
-        const { width: srcWidth, height: srcHeight } = srcPage.getSize();
+        const srcDoc = await PDFDocument.load(arrayBuffer);
+        const newDoc = await PDFDocument.create();
         
-        const [embeddedPage] = await newDoc.embedPages([srcPage]);
-        const newPage = newDoc.addPage([targetWidth, targetHeight]);
+        let [targetWidth, targetHeight] = PAGE_SIZES[targetSize] || PageSizes.A4;
+        if (orientation === 'landscape') {
+          [targetWidth, targetHeight] = [targetHeight, targetWidth];
+        }
+
+        const pages = srcDoc.getPages();
         
-        const scaleX = targetWidth / srcWidth;
-        const scaleY = targetHeight / srcHeight;
-        const scale = Math.min(scaleX, scaleY);
-        
-        const scaledWidth = srcWidth * scale;
-        const scaledHeight = srcHeight * scale;
-        const x = (targetWidth - scaledWidth) / 2;
-        const y = (targetHeight - scaledHeight) / 2;
+        for (let i = 0; i < pages.length; i++) {
+          const srcPage = pages[i];
+          const { width: srcWidth, height: srcHeight } = srcPage.getSize();
+          
+          const [embeddedPage] = await newDoc.embedPages([srcPage]);
+          const newPage = newDoc.addPage([targetWidth, targetHeight]);
+          
+          const scaleX = targetWidth / srcWidth;
+          const scaleY = targetHeight / srcHeight;
+          const scale = Math.min(scaleX, scaleY);
+          
+          const scaledWidth = srcWidth * scale;
+          const scaledHeight = srcHeight * scale;
+          const x = (targetWidth - scaledWidth) / 2;
+          const y = (targetHeight - scaledHeight) / 2;
 
-        newPage.drawPage(embeddedPage, {
-          x,
-          y,
-          width: scaledWidth,
-          height: scaledHeight,
-        });
+          newPage.drawPage(embeddedPage, {
+            x,
+            y,
+            width: scaledWidth,
+            height: scaledHeight,
+          });
+        }
 
-        setProgress(30 + (60 * (i + 1) / pages.length));
-      }
-
-      const pdfBytes = await newDoc.save();
-      const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-      setResultBlob(blob);
+        const pdfBytes = await newDoc.save();
+        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+        setResultBlob(blob);
+        return blob;
+      });
       setStatus('success');
-      setProgress(100);
     } catch {
       setError({ code: 'RESIZE_FAILED' });
       setStatus('error');
@@ -109,6 +116,13 @@ export default function ResizePdfTool() {
     URL.revokeObjectURL(url);
   };
 
+  const reset = () => {
+    setFile(null);
+    setResultBlob(null);
+    setStatus('idle');
+    stagedProcessing.reset();
+  };
+
   return (
     <div className="space-y-6">
       {!file && (
@@ -119,7 +133,7 @@ export default function ResizePdfTool() {
         />
       )}
 
-      {file && status !== 'success' && (
+      {file && status === 'idle' && (
         <Card className="p-6 space-y-6">
           <div className="flex items-center gap-3">
             <FileText className="w-8 h-8 text-primary" />
@@ -132,10 +146,7 @@ export default function ResizePdfTool() {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => {
-                setFile(null);
-                setResultBlob(null);
-              }}
+              onClick={reset}
               data-testid="button-remove-file"
             >
               <Trash2 className="w-4 h-4" />
@@ -170,15 +181,6 @@ export default function ResizePdfTool() {
             </div>
           </div>
 
-          {status === 'processing' && (
-            <div className="space-y-2">
-              <Progress value={progress} />
-              <p className="text-sm text-center text-muted-foreground">
-                {t('Common.processing')} {Math.round(progress)}%
-              </p>
-            </div>
-          )}
-
           {error && (
             <p className="text-sm text-destructive">{t(`Errors.${error.code}`)}</p>
           )}
@@ -186,55 +188,43 @@ export default function ResizePdfTool() {
           <Button
             className="w-full"
             onClick={handleResize}
-            disabled={status === 'processing'}
             data-testid="button-resize"
           >
-            {status === 'processing' ? (
-              <>
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                {t('Common.processing')}
-              </>
-            ) : (
-              <>
-                <Maximize className="w-4 h-4 mr-2" />
-                {t('Tools.resize-pdf.resizeButton')}
-              </>
-            )}
+            <Maximize className="w-4 h-4 mr-2" />
+            {t('Tools.resize-pdf.resizeButton')}
           </Button>
         </Card>
       )}
 
+      <StagedLoadingOverlay
+        stage={stagedProcessing.stage}
+        progress={stagedProcessing.progress}
+        stageProgress={stagedProcessing.stageProgress}
+        message={stagedProcessing.message}
+        error={stagedProcessing.error}
+      />
+
       {status === 'success' && resultBlob && (
-        <Card className="p-6 space-y-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center">
-              <CheckCircle className="w-5 h-5 text-green-500" />
-            </div>
-            <div>
-              <p className="font-medium">{t('Common.success')}</p>
-              <p className="text-sm text-muted-foreground">
-                {t('Tools.resize-pdf.successMessage')}
-              </p>
-            </div>
+        <div className="flex flex-col items-center gap-6 py-8">
+          <div className="w-20 h-20 rounded-full bg-green-500/10 flex items-center justify-center">
+            <CheckCircle className="w-10 h-10 text-green-500" />
           </div>
-          <div className="flex gap-2">
-            <Button onClick={handleDownload} className="flex-1" data-testid="button-download">
-              <Download className="w-4 h-4 mr-2" />
+          <div className="text-center">
+            <h3 className="text-xl font-semibold mb-2">{t('Common.workflow.processingComplete')}</h3>
+            <p className="text-sm text-muted-foreground">
+              {t('Tools.resize-pdf.successMessage')}
+            </p>
+          </div>
+          <div className="flex gap-3">
+            <Button size="lg" onClick={handleDownload} data-testid="button-download">
+              <Download className="w-5 h-5 mr-2" />
               {t('Common.download')}
             </Button>
-            <Button
-              variant="outline"
-              onClick={() => {
-                setFile(null);
-                setResultBlob(null);
-                setStatus('idle');
-              }}
-              data-testid="button-new"
-            >
+            <Button variant="outline" size="lg" onClick={reset} data-testid="button-new">
               {t('Common.processAnother')}
             </Button>
           </div>
-        </Card>
+        </div>
       )}
     </div>
   );

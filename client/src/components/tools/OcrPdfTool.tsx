@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { PDFDocument } from 'pdf-lib';
 import * as pdfjs from 'pdfjs-dist';
 import { createWorker, Worker } from 'tesseract.js';
+import { useStagedProcessing } from '@/hooks/useStagedProcessing';
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   'pdfjs-dist/build/pdf.worker.min.mjs',
@@ -12,9 +13,9 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { Progress } from '@/components/ui/progress';
+import { StagedLoadingOverlay } from '@/components/StagedLoadingOverlay';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { FileText, Download, Loader2, CheckCircle, Scan, Trash2, Copy, Info } from 'lucide-react';
+import { FileText, Download, CheckCircle, Scan, Trash2, Copy, Info } from 'lucide-react';
 import { FileUploadZone } from '@/components/tool-ui';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
@@ -36,13 +37,20 @@ export default function OcrPdfTool() {
   const { toast } = useToast();
   const [file, setFile] = useState<File | null>(null);
   const [status, setStatus] = useState<ToolStatus>('idle');
-  const [progress, setProgress] = useState(0);
-  const [progressText, setProgressText] = useState('');
   const [error, setError] = useState<{ code: string } | null>(null);
   const [resultBlob, setResultBlob] = useState<Blob | null>(null);
   const [extractedText, setExtractedText] = useState('');
   const [language, setLanguage] = useState('eng');
   const workerRef = useRef<Worker | null>(null);
+
+  const stagedProcessing = useStagedProcessing({
+    minDuration: 5000,
+    stages: [
+      { name: 'analyzing', duration: 1500, message: t('Common.stages.initializingOcr', { defaultValue: 'Initializing OCR engine...' }) },
+      { name: 'processing', duration: 2500, message: t('Common.stages.recognizingText', { defaultValue: 'Recognizing text...' }) },
+      { name: 'optimizing', duration: 1000, message: t('Common.stages.finalizingDocument', { defaultValue: 'Finalizing document...' }) },
+    ],
+  });
 
   useEffect(() => {
     return () => {
@@ -66,94 +74,76 @@ export default function OcrPdfTool() {
     if (!file) return;
 
     setStatus('processing');
-    setProgress(5);
-    setProgressText(t('Tools.ocr-pdf.loadingPdf'));
     setError(null);
 
     try {
-      setProgressText(t('Tools.ocr-pdf.initializingOcr', { defaultValue: 'Initializing OCR engine...' }));
-      
-      const worker = await createWorker(language, 1, {
-        logger: (m) => {
-          if (m.status === 'recognizing text') {
-            setProgress(25 + (60 * m.progress));
+      await stagedProcessing.runStagedProcessing(async () => {
+        const worker = await createWorker(language, 1);
+        workerRef.current = worker;
+
+        const arrayBuffer = await file.arrayBuffer();
+        const pdfData = new Uint8Array(arrayBuffer);
+        
+        const pdf = await pdfjs.getDocument({ data: pdfData }).promise;
+        const totalPages = pdf.numPages;
+        
+        const newPdfDoc = await PDFDocument.create();
+        const scale = 2;
+        const allExtractedText: string[] = [];
+
+        for (let i = 1; i <= totalPages; i++) {
+          const page = await pdf.getPage(i);
+          const viewport = page.getViewport({ scale });
+          
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          if (!ctx) throw new Error('Canvas context not available');
+          
+          canvas.width = viewport.width;
+          canvas.height = viewport.height;
+
+          await page.render({
+            canvasContext: ctx,
+            viewport,
+            canvas,
+          } as any).promise;
+
+          const imageData = canvas.toDataURL('image/png');
+          
+          const { data: { text } } = await worker.recognize(imageData);
+          
+          if (text.trim()) {
+            allExtractedText.push(`--- Page ${i} ---\n${text.trim()}`);
           }
+
+          const pngResponse = await fetch(imageData);
+          const pngBytes = new Uint8Array(await pngResponse.arrayBuffer());
+          const pngImage = await newPdfDoc.embedPng(pngBytes);
+          
+          const pageWidth = viewport.width / scale;
+          const pageHeight = viewport.height / scale;
+          const newPage = newPdfDoc.addPage([pageWidth, pageHeight]);
+          
+          newPage.drawImage(pngImage, {
+            x: 0,
+            y: 0,
+            width: pageWidth,
+            height: pageHeight,
+          });
         }
+        
+        const extractedTextContent = allExtractedText.join('\n\n');
+
+        await worker.terminate();
+        workerRef.current = null;
+
+        const pdfBytes = await newPdfDoc.save();
+        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+        setResultBlob(blob);
+        setExtractedText(extractedTextContent);
+        return blob;
       });
-      workerRef.current = worker;
-
-      const arrayBuffer = await file.arrayBuffer();
-      const pdfData = new Uint8Array(arrayBuffer);
-      
-      setProgressText(t('Tools.ocr-pdf.loadingPdf'));
-      const pdf = await pdfjs.getDocument({ data: pdfData }).promise;
-      const totalPages = pdf.numPages;
-      
-      const newPdfDoc = await PDFDocument.create();
-      const scale = 2;
-      const allExtractedText: string[] = [];
-
-      for (let i = 1; i <= totalPages; i++) {
-        setProgressText(t('Tools.ocr-pdf.processingPage', { current: i, total: totalPages }));
-        
-        const page = await pdf.getPage(i);
-        const viewport = page.getViewport({ scale });
-        
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        if (!ctx) throw new Error('Canvas context not available');
-        
-        canvas.width = viewport.width;
-        canvas.height = viewport.height;
-
-        await page.render({
-          canvasContext: ctx,
-          viewport,
-          canvas,
-        } as any).promise;
-
-        setProgress(5 + (20 * i / totalPages));
-        
-        const imageData = canvas.toDataURL('image/png');
-        
-        setProgressText(t('Tools.ocr-pdf.recognizing', { current: i, total: totalPages }));
-        
-        const { data: { text } } = await worker.recognize(imageData);
-        
-        if (text.trim()) {
-          allExtractedText.push(`--- Page ${i} ---\n${text.trim()}`);
-        }
-
-        const pngResponse = await fetch(imageData);
-        const pngBytes = new Uint8Array(await pngResponse.arrayBuffer());
-        const pngImage = await newPdfDoc.embedPng(pngBytes);
-        
-        const pageWidth = viewport.width / scale;
-        const pageHeight = viewport.height / scale;
-        const newPage = newPdfDoc.addPage([pageWidth, pageHeight]);
-        
-        newPage.drawImage(pngImage, {
-          x: 0,
-          y: 0,
-          width: pageWidth,
-          height: pageHeight,
-        });
-
-        setProgress(25 + (60 * i / totalPages));
-      }
-      
-      const extractedTextContent = allExtractedText.join('\n\n');
-
-      await worker.terminate();
-      workerRef.current = null;
-
-      setProgressText(t('Tools.ocr-pdf.saving'));
-      const pdfBytes = await newPdfDoc.save();
-      const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-      setResultBlob(blob);
-      setExtractedText(extractedTextContent);
       setStatus('success');
-      setProgress(100);
     } catch (err) {
       console.error('OCR error:', err);
       if (workerRef.current) {
@@ -173,6 +163,14 @@ export default function OcrPdfTool() {
     a.download = file.name.replace('.pdf', '_ocr.pdf');
     a.click();
     URL.revokeObjectURL(url);
+  };
+
+  const reset = () => {
+    setFile(null);
+    setResultBlob(null);
+    setExtractedText('');
+    setStatus('idle');
+    stagedProcessing.reset();
   };
 
   return (
@@ -198,7 +196,7 @@ export default function OcrPdfTool() {
         </>
       )}
 
-      {file && status !== 'success' && (
+      {file && status === 'idle' && (
         <Card className="p-6 space-y-6">
           <div className="flex items-center gap-3">
             <FileText className="w-8 h-8 text-primary" />
@@ -211,10 +209,7 @@ export default function OcrPdfTool() {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => {
-                setFile(null);
-                setResultBlob(null);
-              }}
+              onClick={reset}
               data-testid="button-remove-file"
             >
               <Trash2 className="w-4 h-4" />
@@ -235,15 +230,6 @@ export default function OcrPdfTool() {
             </Select>
           </div>
 
-          {status === 'processing' && (
-            <div className="space-y-2">
-              <Progress value={progress} />
-              <p className="text-sm text-center text-muted-foreground">
-                {progressText}
-              </p>
-            </div>
-          )}
-
           {error && (
             <p className="text-sm text-destructive">{t(`Errors.${error.code}`)}</p>
           )}
@@ -251,32 +237,30 @@ export default function OcrPdfTool() {
           <Button
             className="w-full"
             onClick={handleOcr}
-            disabled={status === 'processing'}
             data-testid="button-ocr"
           >
-            {status === 'processing' ? (
-              <>
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                {t('Common.processing')}
-              </>
-            ) : (
-              <>
-                <Scan className="w-4 h-4 mr-2" />
-                {t('Tools.ocr-pdf.ocrButton')}
-              </>
-            )}
+            <Scan className="w-4 h-4 mr-2" />
+            {t('Tools.ocr-pdf.ocrButton')}
           </Button>
         </Card>
       )}
 
+      <StagedLoadingOverlay
+        stage={stagedProcessing.stage}
+        progress={stagedProcessing.progress}
+        stageProgress={stagedProcessing.stageProgress}
+        message={stagedProcessing.message}
+        error={stagedProcessing.error}
+      />
+
       {status === 'success' && resultBlob && (
-        <Card className="p-6 space-y-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center">
-              <CheckCircle className="w-5 h-5 text-green-500" />
+        <div className="space-y-6">
+          <div className="flex flex-col items-center gap-4 py-4">
+            <div className="w-16 h-16 rounded-full bg-green-500/10 flex items-center justify-center">
+              <CheckCircle className="w-8 h-8 text-green-500" />
             </div>
-            <div>
-              <p className="font-medium">{t('Common.success')}</p>
+            <div className="text-center">
+              <h3 className="text-xl font-semibold">{t('Common.workflow.processingComplete')}</h3>
               <p className="text-sm text-muted-foreground">
                 {t('Tools.ocr-pdf.successMessage')}
               </p>
@@ -284,7 +268,7 @@ export default function OcrPdfTool() {
           </div>
           
           {extractedText && (
-            <div className="space-y-2">
+            <Card className="p-4 space-y-2">
               <div className="flex items-center justify-between">
                 <Label>{t('Tools.ocr-pdf.extractedText', { defaultValue: 'Extracted Text' })}</Label>
                 <Button
@@ -310,28 +294,19 @@ export default function OcrPdfTool() {
                 className="font-mono text-sm"
                 data-testid="textarea-extracted-text"
               />
-            </div>
+            </Card>
           )}
           
-          <div className="flex gap-2">
-            <Button onClick={handleDownload} className="flex-1" data-testid="button-download">
-              <Download className="w-4 h-4 mr-2" />
+          <div className="flex gap-3">
+            <Button size="lg" onClick={handleDownload} className="flex-1" data-testid="button-download">
+              <Download className="w-5 h-5 mr-2" />
               {t('Common.download')}
             </Button>
-            <Button
-              variant="outline"
-              onClick={() => {
-                setFile(null);
-                setResultBlob(null);
-                setExtractedText('');
-                setStatus('idle');
-              }}
-              data-testid="button-new"
-            >
+            <Button variant="outline" size="lg" onClick={reset} data-testid="button-new">
               {t('Common.processAnother')}
             </Button>
           </div>
-        </Card>
+        </div>
       )}
     </div>
   );

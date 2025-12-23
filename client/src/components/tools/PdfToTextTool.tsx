@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as pdfjs from 'pdfjs-dist';
+import { useStagedProcessing } from '@/hooks/useStagedProcessing';
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   'pdfjs-dist/build/pdf.worker.min.mjs',
@@ -10,8 +11,8 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { Progress } from '@/components/ui/progress';
-import { FileText, Download, Loader2, CheckCircle, Copy, Trash2 } from 'lucide-react';
+import { StagedLoadingOverlay } from '@/components/StagedLoadingOverlay';
+import { FileText, Download, CheckCircle, Copy, Trash2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { FileUploadZone } from '@/components/tool-ui';
 
@@ -22,9 +23,17 @@ export default function PdfToTextTool() {
   const { toast } = useToast();
   const [file, setFile] = useState<File | null>(null);
   const [status, setStatus] = useState<ToolStatus>('idle');
-  const [progress, setProgress] = useState(0);
   const [error, setError] = useState<{ code: string } | null>(null);
   const [extractedText, setExtractedText] = useState('');
+
+  const stagedProcessing = useStagedProcessing({
+    minDuration: 3000,
+    stages: [
+      { name: 'analyzing', duration: 800, message: t('Common.stages.analyzingDocument', { defaultValue: 'Analyzing document...' }) },
+      { name: 'processing', duration: 1400, message: t('Common.stages.extractingText', { defaultValue: 'Extracting text...' }) },
+      { name: 'optimizing', duration: 800, message: t('Common.stages.finalizingOutput', { defaultValue: 'Finalizing output...' }) },
+    ],
+  });
 
   const handleFilesFromDropzone = useCallback((fileList: FileList) => {
     const selectedFile = fileList[0];
@@ -40,29 +49,29 @@ export default function PdfToTextTool() {
     if (!file) return;
 
     setStatus('processing');
-    setProgress(10);
     setError(null);
 
     try {
-      const arrayBuffer = await file.arrayBuffer();
-      const pdf = await pdfjs.getDocument({ data: arrayBuffer }).promise;
-      const totalPages = pdf.numPages;
-      let fullText = '';
+      await stagedProcessing.runStagedProcessing(async () => {
+        const arrayBuffer = await file.arrayBuffer();
+        const pdf = await pdfjs.getDocument({ data: arrayBuffer }).promise;
+        const totalPages = pdf.numPages;
+        let fullText = '';
 
-      for (let i = 1; i <= totalPages; i++) {
-        const page = await pdf.getPage(i);
-        const textContent = await page.getTextContent();
-        const pageText = textContent.items
-          .map((item: any) => item.str)
-          .join(' ');
-        
-        fullText += `--- Page ${i} ---\n${pageText}\n\n`;
-        setProgress(10 + (80 * i / totalPages));
-      }
+        for (let i = 1; i <= totalPages; i++) {
+          const page = await pdf.getPage(i);
+          const textContent = await page.getTextContent();
+          const pageText = textContent.items
+            .map((item: any) => item.str)
+            .join(' ');
+          
+          fullText += `--- Page ${i} ---\n${pageText}\n\n`;
+        }
 
-      setExtractedText(fullText.trim());
+        setExtractedText(fullText.trim());
+        return fullText;
+      });
       setStatus('success');
-      setProgress(100);
     } catch {
       setError({ code: 'EXTRACTION_FAILED' });
       setStatus('error');
@@ -96,6 +105,13 @@ export default function PdfToTextTool() {
     URL.revokeObjectURL(url);
   };
 
+  const reset = () => {
+    setFile(null);
+    setExtractedText('');
+    setStatus('idle');
+    stagedProcessing.reset();
+  };
+
   return (
     <div className="space-y-6">
       {!file && (
@@ -106,7 +122,7 @@ export default function PdfToTextTool() {
         />
       )}
 
-      {file && status !== 'success' && (
+      {file && status === 'idle' && (
         <Card className="p-6 space-y-4">
           <div className="flex items-center gap-3">
             <FileText className="w-8 h-8 text-primary" />
@@ -119,24 +135,12 @@ export default function PdfToTextTool() {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => {
-                setFile(null);
-                setExtractedText('');
-              }}
+              onClick={reset}
               data-testid="button-remove-file"
             >
               <Trash2 className="w-4 h-4" />
             </Button>
           </div>
-
-          {status === 'processing' && (
-            <div className="space-y-2">
-              <Progress value={progress} />
-              <p className="text-sm text-center text-muted-foreground">
-                {t('Common.processing')} {Math.round(progress)}%
-              </p>
-            </div>
-          )}
 
           {error && (
             <p className="text-sm text-destructive">{t(`Errors.${error.code}`)}</p>
@@ -145,39 +149,35 @@ export default function PdfToTextTool() {
           <Button
             className="w-full"
             onClick={handleExtract}
-            disabled={status === 'processing'}
             data-testid="button-extract"
           >
-            {status === 'processing' ? (
-              <>
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                {t('Common.processing')}
-              </>
-            ) : (
-              <>
-                <FileText className="w-4 h-4 mr-2" />
-                {t('Tools.pdf-to-text.extractButton')}
-              </>
-            )}
+            <FileText className="w-4 h-4 mr-2" />
+            {t('Tools.pdf-to-text.extractButton')}
           </Button>
         </Card>
       )}
 
+      <StagedLoadingOverlay
+        stage={stagedProcessing.stage}
+        progress={stagedProcessing.progress}
+        stageProgress={stagedProcessing.stageProgress}
+        message={stagedProcessing.message}
+        error={stagedProcessing.error}
+      />
+
       {status === 'success' && extractedText && (
         <div className="space-y-4">
-          <Card className="p-4">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center">
-                <CheckCircle className="w-5 h-5 text-green-500" />
-              </div>
-              <div className="flex-1">
-                <p className="font-medium">{t('Common.success')}</p>
-                <p className="text-sm text-muted-foreground">
-                  {t('Tools.pdf-to-text.successMessage')}
-                </p>
-              </div>
+          <div className="flex flex-col items-center gap-4 py-4">
+            <div className="w-16 h-16 rounded-full bg-green-500/10 flex items-center justify-center">
+              <CheckCircle className="w-8 h-8 text-green-500" />
             </div>
-          </Card>
+            <div className="text-center">
+              <h3 className="text-xl font-semibold">{t('Common.workflow.processingComplete')}</h3>
+              <p className="text-sm text-muted-foreground">
+                {t('Tools.pdf-to-text.successMessage')}
+              </p>
+            </div>
+          </div>
 
           <Card className="p-4 space-y-4">
             <Textarea
@@ -196,15 +196,7 @@ export default function PdfToTextTool() {
                 <Download className="w-4 h-4 mr-2" />
                 {t('Common.download')}
               </Button>
-              <Button
-                variant="outline"
-                onClick={() => {
-                  setFile(null);
-                  setExtractedText('');
-                  setStatus('idle');
-                }}
-                data-testid="button-new"
-              >
+              <Button variant="outline" onClick={reset} data-testid="button-new">
                 {t('Common.processAnother')}
               </Button>
             </div>

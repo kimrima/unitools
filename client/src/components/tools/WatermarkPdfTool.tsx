@@ -1,14 +1,15 @@
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFileHandler } from '@/hooks/useFileHandler';
+import { useStagedProcessing } from '@/hooks/useStagedProcessing';
 import { addWatermark } from '@/lib/engines/pdfWatermark';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
-import { Progress } from '@/components/ui/progress';
-import { FileText, Download, Loader2, CheckCircle } from 'lucide-react';
+import { StagedLoadingOverlay } from '@/components/StagedLoadingOverlay';
+import { FileText, Download, CheckCircle } from 'lucide-react';
 import { FileUploadZone } from '@/components/tool-ui';
 
 export default function WatermarkPdfTool() {
@@ -21,16 +22,23 @@ export default function WatermarkPdfTool() {
     files,
     status,
     error,
-    progress,
     resultBlob,
     addFiles,
     setStatus,
     setError,
     setResult,
-    setProgress,
     downloadResult,
-    reset,
+    reset: resetHandler,
   } = useFileHandler({ accept: '.pdf', multiple: false });
+
+  const stagedProcessing = useStagedProcessing({
+    minDuration: 3000,
+    stages: [
+      { name: 'analyzing', duration: 800, message: t('Common.stages.analyzingDocument', { defaultValue: 'Analyzing document...' }) },
+      { name: 'processing', duration: 1400, message: t('Common.stages.addingWatermark', { defaultValue: 'Adding watermark...' }) },
+      { name: 'optimizing', duration: 800, message: t('Common.stages.finalizingDocument', { defaultValue: 'Finalizing document...' }) },
+    ],
+  });
 
   const handleFilesFromDropzone = useCallback((fileList: FileList) => {
     addFiles(fileList);
@@ -40,36 +48,40 @@ export default function WatermarkPdfTool() {
     if (files.length === 0 || !files[0].arrayBuffer || !watermarkText.trim()) return;
 
     setStatus('processing');
-    setProgress(0);
     setError(null);
 
     try {
-      const watermarkedBlob = await addWatermark(
-        files[0].arrayBuffer,
-        {
-          text: watermarkText,
-          opacity: opacity[0] / 100,
-          fontSize: fontSize[0],
-          position: 'diagonal',
-          rotation: 45,
-        },
-        (prog) => {
-          setProgress(prog.percentage);
-        }
-      );
-
-      setResult(watermarkedBlob);
+      await stagedProcessing.runStagedProcessing(async () => {
+        const watermarkedBlob = await addWatermark(
+          files[0].arrayBuffer!,
+          {
+            text: watermarkText,
+            opacity: opacity[0] / 100,
+            fontSize: fontSize[0],
+            position: 'diagonal',
+            rotation: 45,
+          }
+        );
+        setResult(watermarkedBlob);
+        return watermarkedBlob;
+      });
+      setStatus('success');
     } catch {
       setError({ code: 'WATERMARK_FAILED' });
       setStatus('error');
     }
-  }, [files, watermarkText, opacity, fontSize, setStatus, setProgress, setError, setResult]);
+  }, [files, watermarkText, opacity, fontSize, setStatus, setError, setResult, stagedProcessing]);
 
   const handleDownload = useCallback(() => {
     const originalName = files[0]?.file.name || 'document.pdf';
     const baseName = originalName.replace('.pdf', '');
     downloadResult(`unitools_${baseName}_watermarked.pdf`);
   }, [files, downloadResult]);
+
+  const reset = useCallback(() => {
+    resetHandler();
+    stagedProcessing.reset();
+  }, [resetHandler, stagedProcessing]);
 
   const formatFileSize = useCallback((bytes: number): string => {
     const k = 1024;
@@ -159,15 +171,13 @@ export default function WatermarkPdfTool() {
         </div>
       )}
 
-      {status === 'processing' && (
-        <div className="space-y-6 py-8">
-          <div className="flex flex-col items-center gap-4">
-            <Loader2 className="w-12 h-12 animate-spin text-primary" />
-            <p className="font-medium">{t('Common.workflow.processing')}</p>
-          </div>
-          <Progress value={progress} className="h-2" data-testid="progress-bar" />
-        </div>
-      )}
+      <StagedLoadingOverlay
+        stage={stagedProcessing.stage}
+        progress={stagedProcessing.progress}
+        stageProgress={stagedProcessing.stageProgress}
+        message={stagedProcessing.message}
+        error={stagedProcessing.error}
+      />
 
       {status === 'success' && resultBlob && (
         <div className="flex flex-col items-center gap-6 py-8">
