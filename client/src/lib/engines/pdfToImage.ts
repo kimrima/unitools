@@ -27,6 +27,36 @@ export class PdfToImageError extends Error {
   }
 }
 
+async function waitForImageDecoding(page: pdfjsLib.PDFPageProxy): Promise<void> {
+  // Get operator list to find all image references
+  const opList = await page.getOperatorList();
+  
+  const imagePromises: Promise<void>[] = [];
+  
+  // OPS.paintImageXObject = 85
+  // OPS.paintImageMaskXObject = 83  
+  // OPS.paintImageXObjectRepeat = 88
+  for (let i = 0; i < opList.fnArray.length; i++) {
+    const fn = opList.fnArray[i];
+    if (fn === 85 || fn === 83 || fn === 88) {
+      const args = opList.argsArray[i];
+      if (args && args[0]) {
+        const objId = args[0];
+        imagePromises.push(
+          new Promise<void>((resolve) => {
+            // page.objs.get will call the callback when the object is ready
+            page.objs.get(objId, () => resolve());
+          })
+        );
+      }
+    }
+  }
+  
+  if (imagePromises.length > 0) {
+    await Promise.all(imagePromises);
+  }
+}
+
 export async function pdfToImages(
   pdfBuffer: ArrayBuffer,
   options: PdfToImageOptions,
@@ -35,12 +65,16 @@ export async function pdfToImages(
   const { format, quality = 0.92, scale = 2 } = options;
 
   try {
-    // Disable offscreen canvas to force synchronous image processing in main thread
-    // This helps with PDFs containing images that fail to decode asynchronously
+    // Configure pdf.js for better image handling
     const pdf = await pdfjsLib.getDocument({ 
       data: pdfBuffer,
+      // Disable offscreen canvas for more reliable image decoding
       isOffscreenCanvasSupported: false,
+      // Disable streaming to ensure all data is loaded
+      disableStream: true,
+      disableAutoFetch: false,
     }).promise;
+    
     const totalPages = pdf.numPages;
     const images: Blob[] = [];
 
@@ -54,42 +88,12 @@ export async function pdfToImages(
       const page = await pdf.getPage(pageNum);
       const viewport = page.getViewport({ scale });
 
-      // Get operator list first to ensure all page resources are processed
-      // This forces pdf.js to decode all images before we render
-      const opList = await page.getOperatorList();
-      
-      // Wait for all page objects (images) to be fully loaded
-      // The commonObjs and objs contain decoded image data
-      const objsToWait: Promise<unknown>[] = [];
-      
-      // Check each operator for image references and ensure they're loaded
-      for (let i = 0; i < opList.fnArray.length; i++) {
-        const fn = opList.fnArray[i];
-        // OPS.paintImageXObject = 85, OPS.paintImageMaskXObject = 83
-        if (fn === 85 || fn === 83) {
-          const args = opList.argsArray[i];
-          if (args && args[0]) {
-            const objId = args[0];
-            // Try to get the object, which forces it to be decoded
-            try {
-              const objPromise = new Promise<void>((resolve) => {
-                page.objs.get(objId, () => resolve());
-              });
-              objsToWait.push(objPromise);
-            } catch {
-              // Object might already be loaded or not exist
-            }
-          }
-        }
-      }
-      
-      // Wait for all image objects to be loaded
-      if (objsToWait.length > 0) {
-        await Promise.all(objsToWait);
-      }
+      // Wait for all images on this page to be decoded
+      await waitForImageDecoding(page);
 
       const canvas = document.createElement('canvas');
-      const context = canvas.getContext('2d');
+      // Use willReadFrequently for better performance with toBlob
+      const context = canvas.getContext('2d', { willReadFrequently: true });
       if (!context) {
         throw new PdfToImageError('CANVAS_ERROR', 'Failed to get canvas context');
       }
@@ -97,13 +101,13 @@ export async function pdfToImages(
       canvas.width = viewport.width;
       canvas.height = viewport.height;
 
-      // Fill with white background for JPEG format (prevents transparency issues)
+      // Fill with white background for JPEG format
       if (format === 'jpeg') {
         context.fillStyle = '#FFFFFF';
         context.fillRect(0, 0, canvas.width, canvas.height);
       }
 
-      // Use 'print' intent to ensure all images with soft masks are fully rendered
+      // Render with print intent for complete image rendering
       const renderContext = {
         canvasContext: context,
         viewport,
@@ -111,9 +115,12 @@ export async function pdfToImages(
         intent: 'print' as const,
       };
       
-      // Render the page
       const renderTask = page.render(renderContext);
       await renderTask.promise;
+      
+      // Wait for any asynchronous image decoding to complete
+      // Some PDFs have images that decode asynchronously after render completes
+      await new Promise<void>(resolve => setTimeout(resolve, 1000));
 
       const mimeType = format === 'png' ? 'image/png' : 'image/jpeg';
       const blob = await new Promise<Blob>((resolve, reject) => {
