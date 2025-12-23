@@ -2638,7 +2638,7 @@ export function getRelatedTools(toolId: string): Tool[] {
   
   return tool.relatedTools
     .map((id) => allTools.find((t) => t.id === id))
-    .filter((t): t is Tool => t !== undefined);
+    .filter((t): t is Tool => t !== undefined && t.implemented);
 }
 
 export function getToolById(toolId: string): Tool | undefined {
