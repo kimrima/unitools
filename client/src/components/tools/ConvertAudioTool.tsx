@@ -115,16 +115,16 @@ export default function ConvertAudioTool({ toolId: propToolId }: ConvertAudioToo
       
       switch (toolId) {
         case 'boost-audio':
-          processResult = await boostAudio(uploadedFile, { volume: boostLevel / 100 }, progressCallback);
+          processResult = await boostAudio({ file: uploadedFile, boostLevel }, progressCallback);
           break;
         case 'reverse-audio':
-          processResult = await reverseAudio(uploadedFile, progressCallback);
+          processResult = await reverseAudio({ file: uploadedFile }, progressCallback);
           break;
         case 'audio-bitrate':
-          processResult = await changeAudioBitrate(uploadedFile, { bitrate }, progressCallback);
+          processResult = await changeAudioBitrate({ file: uploadedFile, bitrate }, progressCallback);
           break;
         default:
-          processResult = await convertAudio(uploadedFile, { outputFormat }, progressCallback);
+          processResult = await convertAudio(uploadedFile, { format: outputFormat }, progressCallback);
       }
       
       setResult(processResult);
@@ -139,27 +139,27 @@ export default function ConvertAudioTool({ toolId: propToolId }: ConvertAudioToo
   }, [uploadedFile, toolId, outputFormat, boostLevel, bitrate, setStatus, setProgress, setError]);
 
   const handleDownload = useCallback(() => {
-    if (!result) return;
-    const baseName = result.originalFile.name.substring(0, result.originalFile.name.lastIndexOf('.'));
+    if (!result || !uploadedFile) return;
+    const baseName = uploadedFile.name.substring(0, uploadedFile.name.lastIndexOf('.'));
     let ext = 'mp3';
     let prefix = 'converted';
     
-    if ('newFormat' in result && result.newFormat) {
-      ext = result.newFormat;
+    if ('format' in result && result.format) {
+      ext = result.format;
       prefix = 'converted';
     } else if (toolId === 'boost-audio') {
-      ext = result.originalFile.name.split('.').pop() || 'mp3';
+      ext = uploadedFile.name.split('.').pop() || 'mp3';
       prefix = 'boosted';
     } else if (toolId === 'reverse-audio') {
-      ext = result.originalFile.name.split('.').pop() || 'mp3';
+      ext = uploadedFile.name.split('.').pop() || 'mp3';
       prefix = 'reversed';
     } else if (toolId === 'audio-bitrate') {
-      ext = result.originalFile.name.split('.').pop() || 'mp3';
+      ext = uploadedFile.name.split('.').pop() || 'mp3';
       prefix = `${bitrate}`;
     }
     
     downloadBlob(result.outputBlob, `unitools_${prefix}_${baseName}.${ext}`);
-  }, [result, toolId, bitrate]);
+  }, [result, toolId, bitrate, uploadedFile]);
 
   const reset = useCallback(() => {
     resetHandler();
@@ -327,7 +327,7 @@ export default function ConvertAudioTool({ toolId: propToolId }: ConvertAudioToo
             <div className="flex items-center justify-between gap-2 flex-wrap">
               <div>
                 <p className="font-medium text-green-700 dark:text-green-300">{t('Common.messages.complete')}</p>
-                <p className="text-sm text-green-600 dark:text-green-400">{formatFileSize(result.originalSize)} → {formatFileSize(result.outputSize)}</p>
+                <p className="text-sm text-green-600 dark:text-green-400">{uploadedFile && formatFileSize(uploadedFile.size)} → {formatFileSize(result.outputSize)}</p>
               </div>
               <Button onClick={handleDownload} data-testid="button-download">
                 <Download className="w-4 h-4 mr-2" />
