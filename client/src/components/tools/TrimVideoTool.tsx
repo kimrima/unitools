@@ -33,7 +33,7 @@ export default function TrimVideoTool() {
     setError,
     setProgress,
     reset: resetHandler,
-  } = useFileHandler({ accept: 'video/*', multiple: false, maxSizeBytes: 500 * 1024 * 1024 });
+  } = useFileHandler({ accept: 'video/*', multiple: false, maxSizeBytes: 50 * 1024 * 1024 });
 
   const formatFileSize = useCallback((bytes: number): string => {
     const data = getFileSizeData(bytes);
@@ -153,16 +153,16 @@ export default function TrimVideoTool() {
         {t('Tools.trim-video.instructions')}
       </div>
 
-      <Card className="border-blue-200 bg-blue-50/50 dark:bg-blue-950/20 dark:border-blue-800">
+      <Card className="border-yellow-200 bg-yellow-50/50 dark:bg-yellow-950/20 dark:border-yellow-800">
         <CardContent className="p-4">
           <div className="flex items-start gap-3">
-            <Video className="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
+            <AlertTriangle className="w-5 h-5 text-yellow-600 dark:text-yellow-400 flex-shrink-0 mt-0.5" />
             <div className="text-sm">
-              <p className="font-medium text-blue-800 dark:text-blue-200">
-                {t('Common.messages.videoFileSizeLimit')}
+              <p className="font-medium text-yellow-800 dark:text-yellow-200">
+                {t('Common.messages.videoFileSizeLimit')} | {t('Common.messages.recommendedVideoLength')}
               </p>
-              <p className="text-blue-700 dark:text-blue-300 mt-1">
-                {t('Common.messages.fileSizeLimitNotice')} {t('Common.messages.recommendedVideoLength')}
+              <p className="text-yellow-700 dark:text-yellow-300 mt-1">
+                {t('Common.messages.qualityDegradationNotice')} {t('Common.messages.largeFileRecommendation')}
               </p>
             </div>
           </div>
