@@ -182,6 +182,9 @@ const CalculatorTool = lazy(() => import('@/components/tools/CalculatorTool'));
 const WhiteNoiseTool = lazy(() => import('@/components/tools/WhiteNoiseTool'));
 const RandomNameTool = lazy(() => import('@/components/tools/RandomNameTool'));
 const MetronomeTool = lazy(() => import('@/components/tools/MetronomeTool'));
+const ImageMosaicTool = lazy(() => import('@/components/tools/ImageMosaicTool'));
+const ShadowAddTool = lazy(() => import('@/components/tools/ShadowAddTool'));
+const RemoveExifTool = lazy(() => import('@/components/tools/RemoveExifTool'));
 
 const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element>> = {
   'merge-pdf': MergePdfTool,
@@ -225,10 +228,11 @@ const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element
   'svg-to-png': ConvertImageTool,
   'bulk-convert-image': ConvertImageTool,
   'image-brightness': GrayscaleFilterTool,
-  'image-mosaic': ImageWatermarkTool,
+  'image-mosaic': ImageMosaicTool,
   'image-text': ImageWatermarkTool,
-  'remove-exif': CompressImageTool,
-  'image-shadow': RoundCornersTool,
+  'remove-exif': RemoveExifTool,
+  'image-shadow': ShadowAddTool,
+  'add-shadow': ShadowAddTool,
   'image-joiner': ResizeImageTool,
   'image-border': RoundCornersTool,
   'image-opacity': GrayscaleFilterTool,
