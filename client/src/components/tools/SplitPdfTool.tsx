@@ -58,11 +58,16 @@ export default function SplitPdfTool() {
 
   const handleFilesFromDropzone = useCallback(async (fileList: FileList) => {
     if (fileList.length > 0) {
+      const file = fileList[0];
+      if (!(file instanceof Blob)) {
+        setError({ code: 'INVALID_FILE_TYPE' });
+        return;
+      }
+      
       await addFiles(fileList);
       setSplitResults([]);
       setShowResults(false);
       
-      const file = fileList[0];
       const reader = new FileReader();
       reader.onload = async () => {
         try {
@@ -72,9 +77,12 @@ export default function SplitPdfTool() {
           setPageCount(0);
         }
       };
+      reader.onerror = () => {
+        setPageCount(0);
+      };
       reader.readAsArrayBuffer(file);
     }
-  }, [addFiles]);
+  }, [addFiles, setError]);
 
   const handleSplit = useCallback(async () => {
     if (files.length === 0 || !files[0].arrayBuffer) {
