@@ -20,6 +20,7 @@ export default function GlobalSearch({ isSearching, setIsSearching }: GlobalSear
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [location] = useLocation();
+  const prevLocationRef = useRef(location);
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -44,9 +45,12 @@ export default function GlobalSearch({ isSearching, setIsSearching }: GlobalSear
   }, [isSearching]);
 
   useEffect(() => {
-    setIsSearching(false);
-    setQuery('');
-    setShowResults(false);
+    if (prevLocationRef.current !== location) {
+      prevLocationRef.current = location;
+      setIsSearching(false);
+      setQuery('');
+      setShowResults(false);
+    }
   }, [location, setIsSearching]);
 
   useEffect(() => {
