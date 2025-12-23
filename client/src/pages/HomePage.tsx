@@ -10,34 +10,34 @@ import {
   ArrowRight,
   FileText,
   Image,
-  ImagePlus,
   Film,
   Type,
   Share2,
   Code,
   Calculator,
+  Dices,
 } from 'lucide-react';
 
 const categoryColors: Record<string, { bg: string; icon: string; iconBg: string }> = {
   pdf: { bg: 'bg-purple-50 dark:bg-purple-950/50', icon: 'text-purple-600 dark:text-purple-400', iconBg: 'bg-purple-100 dark:bg-purple-900/50' },
-  imageEdit: { bg: 'bg-teal-50 dark:bg-teal-950/50', icon: 'text-teal-600 dark:text-teal-400', iconBg: 'bg-teal-100 dark:bg-teal-900/50' },
-  imageConvert: { bg: 'bg-rose-50 dark:bg-rose-950/50', icon: 'text-rose-600 dark:text-rose-400', iconBg: 'bg-rose-100 dark:bg-rose-900/50' },
+  image: { bg: 'bg-teal-50 dark:bg-teal-950/50', icon: 'text-teal-600 dark:text-teal-400', iconBg: 'bg-teal-100 dark:bg-teal-900/50' },
   videoAudio: { bg: 'bg-orange-50 dark:bg-orange-950/50', icon: 'text-orange-600 dark:text-orange-400', iconBg: 'bg-orange-100 dark:bg-orange-900/50' },
   text: { bg: 'bg-green-50 dark:bg-green-950/50', icon: 'text-green-600 dark:text-green-400', iconBg: 'bg-green-100 dark:bg-green-900/50' },
   social: { bg: 'bg-pink-50 dark:bg-pink-950/50', icon: 'text-pink-600 dark:text-pink-400', iconBg: 'bg-pink-100 dark:bg-pink-900/50' },
   developer: { bg: 'bg-cyan-50 dark:bg-cyan-950/50', icon: 'text-cyan-600 dark:text-cyan-400', iconBg: 'bg-cyan-100 dark:bg-cyan-900/50' },
   calculator: { bg: 'bg-blue-50 dark:bg-blue-950/50', icon: 'text-blue-600 dark:text-blue-400', iconBg: 'bg-blue-100 dark:bg-blue-900/50' },
+  funMisc: { bg: 'bg-amber-50 dark:bg-amber-950/50', icon: 'text-amber-600 dark:text-amber-400', iconBg: 'bg-amber-100 dark:bg-amber-900/50' },
 };
 
 const categoryIcons: Record<string, typeof FileText> = {
   pdf: FileText,
-  imageEdit: Image,
-  imageConvert: ImagePlus,
+  image: Image,
   videoAudio: Film,
   text: Type,
   social: Share2,
   developer: Code,
   calculator: Calculator,
+  funMisc: Dices,
 };
 
 export default function HomePage() {

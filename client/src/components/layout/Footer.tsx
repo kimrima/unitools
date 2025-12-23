@@ -3,7 +3,7 @@ import { Link } from 'wouter';
 import { useLocalizedPath } from '@/components/LocaleProvider';
 import { allTools } from '@/data/tools';
 
-const categoryIds = ['pdf', 'imageEdit', 'imageConvert', 'videoAudio', 'text', 'social', 'developer', 'calculator'];
+const categoryIds = ['pdf', 'image', 'videoAudio', 'text', 'social', 'developer', 'calculator', 'funMisc'];
 const miscCategoryId = 'misc';
 
 export default function Footer() {

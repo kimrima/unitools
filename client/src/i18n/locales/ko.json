@@ -6,13 +6,13 @@
     "nav": {
       "home": "홈",
       "pdf": "PDF 도구",
-      "imageConvert": "이미지 변환",
-      "imageEdit": "이미지 편집",
+      "image": "이미지",
       "videoAudio": "비디오/오디오",
       "text": "텍스트 가공",
       "social": "소셜 미디어",
       "developer": "개발자 도구",
-      "calculator": "계산기"
+      "calculator": "계산기",
+      "funMisc": "재미&기타"
     },
     "actions": {
       "upload": "파일 업로드",
@@ -252,13 +252,9 @@
       "name": "PDF 도구",
       "description": "PDF 변환, 병합, 분할 등 다양한 PDF 관련 도구"
     },
-    "imageConvert": {
-      "name": "이미지 변환",
-      "description": "다양한 이미지 포맷 간 변환 도구"
-    },
-    "imageEdit": {
-      "name": "이미지 편집",
-      "description": "이미지 크기 조정, 자르기, 필터 적용 등"
+    "image": {
+      "name": "이미지",
+      "description": "이미지 변환, 편집, 크기 조정, 필터 적용 등"
     },
     "videoAudio": {
       "name": "비디오/오디오",
@@ -282,6 +278,10 @@
     },
     "misc": {
       "name": "재미 & 기타",
+      "description": "재미있는 도구, 랜덤 생성기, 유용한 유틸리티"
+    },
+    "funMisc": {
+      "name": "재미&기타",
       "description": "재미있는 도구, 랜덤 생성기, 유용한 유틸리티"
     }
   },

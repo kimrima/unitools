@@ -6,13 +6,13 @@
     "nav": {
       "home": "ホーム",
       "pdf": "PDFツール",
-      "imageConvert": "画像変換",
-      "imageEdit": "画像編集",
+      "image": "画像",
       "videoAudio": "動画/音声",
       "text": "テキストツール",
       "social": "ソーシャルメディア",
       "developer": "開発者ツール",
-      "calculator": "電卓"
+      "calculator": "電卓",
+      "funMisc": "楽しみ＆その他"
     },
     "actions": {
       "upload": "ファイルをアップロード",
@@ -94,13 +94,9 @@
       "name": "PDFツール",
       "description": "PDFの変換、結合、分割など"
     },
-    "imageConvert": {
-      "name": "画像変換",
-      "description": "様々な画像フォーマット間の変換"
-    },
-    "imageEdit": {
-      "name": "画像編集",
-      "description": "リサイズ、クロップ、フィルター適用など"
+    "image": {
+      "name": "画像",
+      "description": "画像変換、編集、リサイズ、フィルター適用など"
     },
     "videoAudio": {
       "name": "動画/音声",
@@ -121,6 +117,10 @@
     "calculator": {
       "name": "電卓",
       "description": "日常の計算のための様々な電卓"
+    },
+    "funMisc": {
+      "name": "楽しみ＆その他",
+      "description": "楽しいツール、ランダム生成器、便利なユーティリティ"
     }
   }
 }

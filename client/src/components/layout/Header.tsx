@@ -16,7 +16,6 @@ import {
 import {
   FileText,
   Image,
-  ImagePlus,
   Film,
   Type,
   Share2,
@@ -27,19 +26,20 @@ import {
   Menu,
   X,
   Search,
+  Dices,
 } from 'lucide-react';
 import { useState } from 'react';
 import { getToolsByCategory } from '@/data/tools';
 
 const categories = [
   { id: 'pdf', icon: FileText, label: 'PDF Tools' },
-  { id: 'imageEdit', icon: Image, label: 'Image Tools' },
-  { id: 'imageConvert', icon: ImagePlus, label: 'Image Converter' },
+  { id: 'image', icon: Image, label: 'Image Tools' },
   { id: 'videoAudio', icon: Film, label: 'Video Tools' },
   { id: 'text', icon: Type, label: 'Text' },
   { id: 'social', icon: Share2, label: 'Social Media' },
   { id: 'developer', icon: Code, label: 'Dev & Security' },
   { id: 'calculator', icon: Calculator, label: 'Calculators' },
+  { id: 'funMisc', icon: Dices, label: 'Fun & Misc' },
 ];
 
 const languages = [

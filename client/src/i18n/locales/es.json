@@ -6,13 +6,13 @@
     "nav": {
       "home": "Inicio",
       "pdf": "Herramientas PDF",
-      "imageConvert": "Convertir Imagenes",
-      "imageEdit": "Editar Imagenes",
+      "image": "Imagen",
       "videoAudio": "Video/Audio",
       "text": "Herramientas de Texto",
       "social": "Redes Sociales",
       "developer": "Herramientas de Desarrollador",
-      "calculator": "Calculadoras"
+      "calculator": "Calculadoras",
+      "funMisc": "Diversión y Otros"
     },
     "actions": {
       "upload": "Subir Archivo",
@@ -94,13 +94,9 @@
       "name": "Herramientas PDF",
       "description": "Convertir, fusionar, dividir y mas herramientas PDF"
     },
-    "imageConvert": {
-      "name": "Convertir Imagenes",
-      "description": "Convertir entre varios formatos de imagen"
-    },
-    "imageEdit": {
-      "name": "Editar Imagenes",
-      "description": "Redimensionar, recortar, aplicar filtros y mas"
+    "image": {
+      "name": "Imagen",
+      "description": "Conversión, edición, redimensionamiento y filtros de imagen"
     },
     "videoAudio": {
       "name": "Video/Audio",
@@ -121,6 +117,10 @@
     "calculator": {
       "name": "Calculadoras",
       "description": "Varias calculadoras para calculos cotidianos"
+    },
+    "funMisc": {
+      "name": "Diversión y Otros",
+      "description": "Herramientas divertidas, generadores aleatorios y utilidades"
     }
   }
 }

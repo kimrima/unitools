@@ -17,17 +17,11 @@ const categoryColors: Record<string, { bg: string; iconBg: string; icon: string;
     icon: 'text-purple-600 dark:text-purple-400',
     headerBg: 'from-purple-100/80 via-purple-50/50 to-background dark:from-purple-950/50 dark:via-purple-950/20 dark:to-background'
   },
-  imageEdit: { 
+  image: { 
     bg: 'bg-teal-50 dark:bg-teal-950/30', 
     iconBg: 'bg-teal-100 dark:bg-teal-900/50', 
     icon: 'text-teal-600 dark:text-teal-400',
     headerBg: 'from-teal-100/80 via-teal-50/50 to-background dark:from-teal-950/50 dark:via-teal-950/20 dark:to-background'
-  },
-  imageConvert: { 
-    bg: 'bg-rose-50 dark:bg-rose-950/30', 
-    iconBg: 'bg-rose-100 dark:bg-rose-900/50', 
-    icon: 'text-rose-600 dark:text-rose-400',
-    headerBg: 'from-rose-100/80 via-rose-50/50 to-background dark:from-rose-950/50 dark:via-rose-950/20 dark:to-background'
   },
   videoAudio: { 
     bg: 'bg-orange-50 dark:bg-orange-950/30', 
@@ -58,6 +52,12 @@ const categoryColors: Record<string, { bg: string; iconBg: string; icon: string;
     iconBg: 'bg-blue-100 dark:bg-blue-900/50', 
     icon: 'text-blue-600 dark:text-blue-400',
     headerBg: 'from-blue-100/80 via-blue-50/50 to-background dark:from-blue-950/50 dark:via-blue-950/20 dark:to-background'
+  },
+  funMisc: { 
+    bg: 'bg-amber-50 dark:bg-amber-950/30', 
+    iconBg: 'bg-amber-100 dark:bg-amber-900/50', 
+    icon: 'text-amber-600 dark:text-amber-400',
+    headerBg: 'from-amber-100/80 via-amber-50/50 to-background dark:from-amber-950/50 dark:via-amber-950/20 dark:to-background'
   },
 };
 

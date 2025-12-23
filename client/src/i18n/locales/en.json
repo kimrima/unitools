@@ -6,13 +6,13 @@
     "nav": {
       "home": "Home",
       "pdf": "PDF Tools",
-      "imageConvert": "Image Convert",
-      "imageEdit": "Image Edit",
+      "image": "Image",
       "videoAudio": "Video/Audio",
       "text": "Text Tools",
       "social": "Social Media",
       "developer": "Developer Tools",
-      "calculator": "Calculators"
+      "calculator": "Calculators",
+      "funMisc": "Fun & Misc"
     },
     "actions": {
       "upload": "Upload File",
@@ -246,13 +246,9 @@
       "name": "PDF Tools",
       "description": "Convert, merge, split and more PDF tools"
     },
-    "imageConvert": {
-      "name": "Image Convert",
-      "description": "Convert between various image formats"
-    },
-    "imageEdit": {
-      "name": "Image Edit",
-      "description": "Resize, crop, apply filters and more"
+    "image": {
+      "name": "Image",
+      "description": "Image conversion, editing, resize, crop and filters"
     },
     "videoAudio": {
       "name": "Video/Audio",
@@ -275,6 +271,10 @@
       "description": "Various calculators for everyday calculations"
     },
     "misc": {
+      "name": "Fun & Misc",
+      "description": "Fun tools, randomizers, and useful utilities"
+    },
+    "funMisc": {
       "name": "Fun & Misc",
       "description": "Fun tools, randomizers, and useful utilities"
     }

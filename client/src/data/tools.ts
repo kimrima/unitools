@@ -142,13 +142,13 @@ export interface Category {
 
 export const categories: Category[] = [
   { id: 'pdf', icon: FileText, toolCount: 32 },
-  { id: 'imageConvert', icon: Image, toolCount: 10 },
-  { id: 'imageEdit', icon: ImagePlus, toolCount: 23 },
+  { id: 'image', icon: Image, toolCount: 30 },
   { id: 'videoAudio', icon: Film, toolCount: 20 },
   { id: 'text', icon: Type, toolCount: 29 },
   { id: 'social', icon: Share2, toolCount: 20 },
   { id: 'developer', icon: Code, toolCount: 20 },
   { id: 'calculator', icon: Calculator, toolCount: 23 },
+  { id: 'funMisc', icon: Dices, toolCount: 10 },
 ];
 
 export const allTools: Tool[] = [
@@ -517,7 +517,7 @@ export const allTools: Tool[] = [
   // Image Convert Tools (10 tools)
   { 
     id: 'jpg-to-png', 
-    category: 'imageConvert', 
+    category: 'image', 
     icon: RefreshCw, 
     implemented: true,
     usageCount: 67890,
@@ -529,7 +529,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'png-to-jpg', 
-    category: 'imageConvert', 
+    category: 'image', 
     icon: RefreshCw, 
     implemented: true,
     usageCount: 54320,
@@ -541,7 +541,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'heic-to-jpg', 
-    category: 'imageConvert', 
+    category: 'image', 
     icon: Smartphone, 
     implemented: true,
     usageCount: 156780,
@@ -553,7 +553,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'webp-converter', 
-    category: 'imageConvert', 
+    category: 'image', 
     icon: Globe, 
     implemented: true,
     usageCount: 89450,
@@ -565,7 +565,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'svg-to-png', 
-    category: 'imageConvert', 
+    category: 'image', 
     icon: RefreshCw, 
     implemented: true,
     usageCount: 45670,
@@ -577,7 +577,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'convert-image', 
-    category: 'imageConvert', 
+    category: 'image', 
     icon: RefreshCw, 
     implemented: true,
     usageCount: 89450,
@@ -589,7 +589,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'bulk-convert-image', 
-    category: 'imageConvert', 
+    category: 'image', 
     icon: Layers, 
     implemented: true,
     usageCount: 34560,
@@ -601,7 +601,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'webp-to-jpg', 
-    category: 'imageConvert', 
+    category: 'image', 
     icon: RefreshCw, 
     implemented: true,
     usageCount: 45670,
@@ -613,7 +613,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'webp-to-png', 
-    category: 'imageConvert', 
+    category: 'image', 
     icon: RefreshCw, 
     implemented: true,
     usageCount: 38920,
@@ -625,7 +625,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'gif-to-png', 
-    category: 'imageConvert', 
+    category: 'image', 
     icon: RefreshCw, 
     implemented: true,
     usageCount: 28340,
@@ -639,7 +639,7 @@ export const allTools: Tool[] = [
   // Image Edit Tools (20 tools)
   { 
     id: 'compress-image', 
-    category: 'imageEdit', 
+    category: 'image', 
     icon: Minimize2, 
     implemented: true,
     usageCount: 156340,
@@ -651,7 +651,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'resize-image', 
-    category: 'imageEdit', 
+    category: 'image', 
     icon: Maximize2, 
     implemented: true,
     usageCount: 98340,
@@ -663,7 +663,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'crop-image', 
-    category: 'imageEdit', 
+    category: 'image', 
     icon: Crop, 
     implemented: true,
     usageCount: 76780,
@@ -675,7 +675,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'rotate-image', 
-    category: 'imageEdit', 
+    category: 'image', 
     icon: RotateCw, 
     implemented: true,
     usageCount: 54320,
@@ -687,7 +687,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'flip-image', 
-    category: 'imageEdit', 
+    category: 'image', 
     icon: FlipHorizontal, 
     implemented: true,
     usageCount: 43210,
@@ -699,7 +699,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'image-upscaler', 
-    category: 'imageEdit', 
+    category: 'image', 
     icon: Sparkles, 
     implemented: false,
     usageCount: 87650,
@@ -711,7 +711,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'canvas-size', 
-    category: 'imageEdit', 
+    category: 'image', 
     icon: Move, 
     implemented: true,
     usageCount: 32450,
@@ -723,7 +723,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'remove-background', 
-    category: 'imageEdit', 
+    category: 'image', 
     icon: Wand2, 
     implemented: false,
     usageCount: 234560,
@@ -735,7 +735,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'image-mosaic', 
-    category: 'imageEdit', 
+    category: 'image', 
     icon: Grid, 
     implemented: true,
     usageCount: 45670,
@@ -747,7 +747,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'image-watermark', 
-    category: 'imageEdit', 
+    category: 'image', 
     icon: Stamp, 
     implemented: true,
     usageCount: 67890,
@@ -759,7 +759,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'image-brightness', 
-    category: 'imageEdit', 
+    category: 'image', 
     icon: Sun, 
     implemented: true,
     usageCount: 54320,
@@ -771,7 +771,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'grayscale-filter', 
-    category: 'imageEdit', 
+    category: 'image', 
     icon: Contrast, 
     implemented: true,
     usageCount: 43210,
@@ -783,7 +783,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'image-text', 
-    category: 'imageEdit', 
+    category: 'image', 
     icon: PenTool, 
     implemented: true,
     usageCount: 56780,
@@ -795,7 +795,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'remove-exif', 
-    category: 'imageEdit', 
+    category: 'image', 
     icon: Eraser, 
     implemented: true,
     usageCount: 34560,
@@ -807,7 +807,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'round-corners', 
-    category: 'imageEdit', 
+    category: 'image', 
     icon: Square, 
     implemented: true,
     usageCount: 45670,
@@ -819,7 +819,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'image-shadow', 
-    category: 'imageEdit', 
+    category: 'image', 
     icon: Droplet, 
     implemented: true,
     usageCount: 32450,
@@ -831,7 +831,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'color-picker', 
-    category: 'imageEdit', 
+    category: 'image', 
     icon: Pipette, 
     implemented: true,
     usageCount: 43210,
@@ -843,7 +843,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'image-joiner', 
-    category: 'imageEdit', 
+    category: 'image', 
     icon: Blend, 
     implemented: true,
     usageCount: 56780,
@@ -855,7 +855,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'create-gif', 
-    category: 'imageEdit', 
+    category: 'image', 
     icon: Film, 
     implemented: true,
     usageCount: 67890,
@@ -867,7 +867,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'favicon-generator', 
-    category: 'imageEdit', 
+    category: 'image', 
     icon: Globe, 
     implemented: true,
     usageCount: 34560,
@@ -2225,7 +2225,7 @@ export const allTools: Tool[] = [
   // Misc & Fun Tools - Text & Style
   { 
     id: 'fancy-text', 
-    category: 'misc', 
+    category: 'funMisc', 
     icon: Sparkles, 
     implemented: true,
     usageCount: 2345678,
@@ -2237,7 +2237,7 @@ export const allTools: Tool[] = [
   },
     { 
     id: 'morse-code', 
-    category: 'misc', 
+    category: 'funMisc', 
     icon: Activity, 
     implemented: true,
     usageCount: 876543,
@@ -2249,7 +2249,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'binary-text', 
-    category: 'misc', 
+    category: 'funMisc', 
     icon: Binary, 
     implemented: true,
     usageCount: 654321,
@@ -2261,7 +2261,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'zalgo-text', 
-    category: 'misc', 
+    category: 'funMisc', 
     icon: Zap, 
     implemented: true,
     usageCount: 543210,
@@ -2275,7 +2275,7 @@ export const allTools: Tool[] = [
   // Misc & Fun Tools - Randomizers
   { 
     id: 'random-choice', 
-    category: 'misc', 
+    category: 'funMisc', 
     icon: Shuffle, 
     implemented: true,
     usageCount: 1876543,
@@ -2287,7 +2287,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'wheel-of-fortune', 
-    category: 'misc', 
+    category: 'funMisc', 
     icon: Disc, 
     implemented: true,
     usageCount: 1567890,
@@ -2299,7 +2299,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'dice-roller', 
-    category: 'misc', 
+    category: 'funMisc', 
     icon: Dices, 
     implemented: true,
     usageCount: 1234567,
@@ -2311,7 +2311,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'coin-flipper', 
-    category: 'misc', 
+    category: 'funMisc', 
     icon: CircleDollarSign, 
     implemented: true,
     usageCount: 1123456,
@@ -2323,7 +2323,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'random-name', 
-    category: 'misc', 
+    category: 'funMisc', 
     icon: Users, 
     implemented: true,
     usageCount: 876543,
@@ -2337,7 +2337,7 @@ export const allTools: Tool[] = [
   // Misc & Fun Tools - Internet Utilities
   { 
     id: 'speed-test', 
-    category: 'misc', 
+    category: 'funMisc', 
     icon: Wifi, 
     implemented: true,
     usageCount: 2345678,
@@ -2349,7 +2349,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'user-agent', 
-    category: 'misc', 
+    category: 'funMisc', 
     icon: Monitor, 
     implemented: true,
     usageCount: 543210,
@@ -2361,7 +2361,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'redirect-checker', 
-    category: 'misc', 
+    category: 'funMisc', 
     icon: LinkIcon, 
     implemented: true,
     usageCount: 432109,
@@ -2373,7 +2373,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'screen-resolution', 
-    category: 'misc', 
+    category: 'funMisc', 
     icon: Monitor, 
     implemented: true,
     usageCount: 654321,
@@ -2387,7 +2387,7 @@ export const allTools: Tool[] = [
   // Misc & Fun Tools - Misc Widgets
   { 
     id: 'metronome', 
-    category: 'misc', 
+    category: 'funMisc', 
     icon: Timer, 
     implemented: true,
     usageCount: 876543,
@@ -2399,7 +2399,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'white-noise', 
-    category: 'misc', 
+    category: 'funMisc', 
     icon: Headphones, 
     implemented: true,
     usageCount: 1234567,
@@ -2411,7 +2411,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'morse-flasher', 
-    category: 'misc', 
+    category: 'funMisc', 
     icon: Flashlight, 
     implemented: true,
     usageCount: 345678,
@@ -2423,7 +2423,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'drawing-pad', 
-    category: 'misc', 
+    category: 'funMisc', 
     icon: Pencil, 
     implemented: true,
     usageCount: 987654,
@@ -2435,7 +2435,7 @@ export const allTools: Tool[] = [
   },
   { 
     id: 'color-contrast', 
-    category: 'misc', 
+    category: 'funMisc', 
     icon: Contrast, 
     implemented: true,
     usageCount: 543210,
