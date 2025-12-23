@@ -1,9 +1,8 @@
-import { FFmpeg } from '@ffmpeg/ffmpeg';
-import { fetchFile, toBlobURL } from '@ffmpeg/util';
-
-let ffmpeg: FFmpeg | null = null;
+let FFmpegModule: typeof import('@ffmpeg/ffmpeg') | null = null;
+let FFmpegUtilModule: typeof import('@ffmpeg/util') | null = null;
+let ffmpeg: InstanceType<typeof import('@ffmpeg/ffmpeg').FFmpeg> | null = null;
 let isLoading = false;
-let loadPromise: Promise<FFmpeg> | null = null;
+let loadPromise: Promise<any> | null = null;
 let loadFailed = false;
 let failReason = '';
 
@@ -36,8 +35,18 @@ export function getFFmpegLoadStatus(): { failed: boolean; reason: string } {
   return { failed: loadFailed, reason: failReason };
 }
 
-async function loadFFmpeg(): Promise<FFmpeg> {
-  if (ffmpeg && ffmpeg.loaded) {
+async function loadModules() {
+  if (!FFmpegModule) {
+    FFmpegModule = await import('@ffmpeg/ffmpeg');
+  }
+  if (!FFmpegUtilModule) {
+    FFmpegUtilModule = await import('@ffmpeg/util');
+  }
+  return { FFmpegModule, FFmpegUtilModule };
+}
+
+async function loadFFmpeg(): Promise<any> {
+  if (ffmpeg && (ffmpeg as any).loaded) {
     return ffmpeg;
   }
 
@@ -52,34 +61,42 @@ async function loadFFmpeg(): Promise<FFmpeg> {
   isLoading = true;
 
   loadPromise = (async () => {
-    const instance = new FFmpeg();
-    
-    const baseURL = 'https://unpkg.com/@ffmpeg/core-mt@0.12.6/dist/esm';
-
     try {
+      const { FFmpegModule, FFmpegUtilModule } = await loadModules();
+      const { FFmpeg } = FFmpegModule;
+      const { toBlobURL } = FFmpegUtilModule;
+      
+      const instance = new FFmpeg();
+      
+      const baseURL = '/ffmpeg';
+
       const timeoutPromise = new Promise<never>((_, reject) => {
-        setTimeout(() => reject(new Error('FFmpeg load timeout (60s)')), 60000);
+        setTimeout(() => reject(new Error('FFmpeg load timeout (90s)')), 90000);
       });
 
+      console.log('[FFmpeg] Fetching core files from local server...');
+      
       const coreURL = await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript');
       const wasmURL = await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm');
-      const workerURL = await toBlobURL(`${baseURL}/ffmpeg-core.worker.js`, 'text/javascript');
 
+      console.log('[FFmpeg] Loading FFmpeg instance...');
+      
       const loadPromiseInner = instance.load({
         coreURL,
         wasmURL,
-        workerURL,
       });
 
       await Promise.race([loadPromiseInner, timeoutPromise]);
       
       ffmpeg = instance;
       isLoading = false;
+      console.log('[FFmpeg] Loaded successfully');
       return instance;
     } catch (e) {
       isLoading = false;
       loadFailed = true;
       failReason = e instanceof Error ? e.message : 'Unknown error loading FFmpeg';
+      console.error('[FFmpeg] Load failed:', failReason);
       loadPromise = null;
       throw new FFmpegError('FFMPEG_LOAD_FAILED');
     }
