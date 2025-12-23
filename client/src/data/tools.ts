@@ -161,7 +161,7 @@ export const categories: Category[] = [
   { id: 'social', icon: Share2, toolCount: 20 },
   { id: 'developer', icon: Code, toolCount: 20 },
   { id: 'calculator', icon: Calculator, toolCount: 23 },
-  { id: 'funMisc', icon: Dices, toolCount: 32 },
+  { id: 'funMisc', icon: Dices, toolCount: 31 },
 ];
 
 export const allTools: Tool[] = [
@@ -2580,7 +2580,7 @@ export const allTools: Tool[] = [
     usageCount: 987654,
     rating: 4.7,
     ratingCount: 22300,
-    relatedTools: ['chosung-quiz', 'balance-game', 'pirate-barrel'],
+    relatedTools: ['chosung-quiz', 'balance-game', 'big-wheel'],
     acceptedFormats: ['text'],
     outputFormats: ['text'],
   },
@@ -2593,18 +2593,6 @@ export const allTools: Tool[] = [
     rating: 4.9,
     ratingCount: 45200,
     relatedTools: ['wheel-spinner', 'elimination-wheel', 'random-picker'],
-    acceptedFormats: ['text'],
-    outputFormats: ['text'],
-  },
-  { 
-    id: 'pirate-barrel', 
-    category: 'funMisc', 
-    icon: Swords, 
-    implemented: true,
-    usageCount: 1654321,
-    rating: 4.8,
-    ratingCount: 32100,
-    relatedTools: ['balance-game', 'ladder-game', 'big-wheel'],
     acceptedFormats: ['text'],
     outputFormats: ['text'],
   },

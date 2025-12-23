@@ -214,7 +214,6 @@ const BingoGeneratorTool = lazy(() => import('@/components/tools/BingoGeneratorT
 const StopwatchChallengeTool = lazy(() => import('@/components/tools/StopwatchChallengeTool'));
 const SilentShoutTool = lazy(() => import('@/components/tools/SilentShoutTool'));
 const BigWheelTool = lazy(() => import('@/components/tools/BigWheelTool'));
-const PirateBarrelTool = lazy(() => import('@/components/tools/PirateBarrelTool'));
 const HearingAgeTool = lazy(() => import('@/components/tools/HearingAgeTool'));
 
 const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element>> = {
@@ -405,7 +404,6 @@ const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element
   'stopwatch-challenge': StopwatchChallengeTool,
   'silent-shout': SilentShoutTool,
   'big-wheel': BigWheelTool,
-  'pirate-barrel': PirateBarrelTool,
   'hearing-age': HearingAgeTool,
 };
 

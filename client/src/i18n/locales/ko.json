@@ -2718,18 +2718,6 @@
       "spinning": "돌리는 중...",
       "winner": "당첨!"
     },
-    "pirate-barrel": {
-      "title": "해적 통 아저씨",
-      "description": "칼을 하나씩 꽂다가 해적이 튀어나오면 탈락! 스릴 넘치는 복불복 게임입니다.",
-      "shortDesc": "복불복 칼꽂기 게임",
-      "namePlaceholder": "참가자 이름",
-      "start": "게임 시작",
-      "players": "명",
-      "turn": "{{name}}의 차례",
-      "reset": "새 게임",
-      "loser": "{{name}} 탈락!",
-      "desc": "순서대로 칼을 꽂으세요. 해적이 튀어나오면 탈락!"
-    },
     "hearing-age": {
       "title": "청각 나이 테스트",
       "description": "높은 주파수 소리를 듣고 청력 나이를 측정해보세요. 나이가 들수록 고주파음이 잘 안 들립니다.",

@@ -327,24 +327,35 @@ export default function LadderGameTool() {
             </Card>
 
             <div className="flex justify-around flex-wrap gap-1">
-              {participantList.map((_, index) => (
-                <div
-                  key={index}
-                  className={`text-center p-2 rounded-md min-w-[60px] ${
-                    revealedResults.has(index) 
-                      ? 'bg-primary/10 border border-primary' 
-                      : 'bg-muted'
-                  }`}
-                >
-                  {revealedResults.has(index) ? (
-                    <span className="font-semibold text-primary text-sm">
-                      {getResultForParticipant(index)}
-                    </span>
-                  ) : (
-                    <span className="text-muted-foreground text-sm">?</span>
-                  )}
-                </div>
-              ))}
+              {participantList.map((_, positionIndex) => {
+                let isRevealed = false;
+                for (const pIndex of Array.from(revealedResults)) {
+                  const result = calculatePath(pIndex);
+                  if (result.endIndex === positionIndex) {
+                    isRevealed = true;
+                    break;
+                  }
+                }
+                
+                return (
+                  <div
+                    key={positionIndex}
+                    className={`text-center p-2 rounded-md min-w-[60px] ${
+                      isRevealed 
+                        ? 'bg-primary/10 border border-primary' 
+                        : 'bg-muted'
+                    }`}
+                  >
+                    {isRevealed ? (
+                      <span className="font-semibold text-primary text-sm">
+                        {resultList[positionIndex] || `#${positionIndex + 1}`}
+                      </span>
+                    ) : (
+                      <span className="text-muted-foreground text-sm">?</span>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
         )}
