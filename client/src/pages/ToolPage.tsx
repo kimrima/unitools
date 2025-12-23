@@ -185,6 +185,8 @@ const MetronomeTool = lazy(() => import('@/components/tools/MetronomeTool'));
 const ImageMosaicTool = lazy(() => import('@/components/tools/ImageMosaicTool'));
 const ShadowAddTool = lazy(() => import('@/components/tools/ShadowAddTool'));
 const RemoveExifTool = lazy(() => import('@/components/tools/RemoveExifTool'));
+const ImageJoinerTool = lazy(() => import('@/components/tools/ImageJoinerTool'));
+const FaviconGeneratorTool = lazy(() => import('@/components/tools/FaviconGeneratorTool'));
 
 const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element>> = {
   'merge-pdf': MergePdfTool,
@@ -233,11 +235,8 @@ const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element
   'remove-exif': RemoveExifTool,
   'image-shadow': ShadowAddTool,
   'add-shadow': ShadowAddTool,
-  'image-joiner': ResizeImageTool,
-  'image-border': RoundCornersTool,
-  'image-opacity': GrayscaleFilterTool,
-  'image-ratio': ResizeImageTool,
-  'favicon-generator': ResizeImageTool,
+  'image-joiner': ImageJoinerTool,
+  'favicon-generator': FaviconGeneratorTool,
   'canvas-size': CanvasSizeTool,
   'video-to-gif': VideoToGifTool,
   'trim-video': TrimVideoTool,
