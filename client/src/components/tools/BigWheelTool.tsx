@@ -88,7 +88,10 @@ function WheelContent() {
         setIsSpinning(false);
         const normalizedRotation = ((currentRotation % 360) + 360) % 360;
         const sliceAngle = 360 / items.length;
-        const winnerIndex = Math.floor(normalizedRotation / sliceAngle) % items.length;
+        const pointerAngle = 270;
+        const pointerOnWheel = (pointerAngle - normalizedRotation + 360) % 360;
+        const shiftedAngle = (pointerOnWheel + 90) % 360;
+        const winnerIndex = Math.min(Math.floor((shiftedAngle + 0.0001) / sliceAngle), items.length - 1);
         setWinner(items[winnerIndex].text);
         setShowConfetti(true);
         playFanfare();
