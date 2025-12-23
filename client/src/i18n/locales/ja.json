@@ -15,7 +15,9 @@
       "social": "ソーシャルメディア",
       "developer": "開発者ツール",
       "calculator": "電卓",
-      "funMisc": "楽しい＆その他"
+      "funMisc": "楽しい＆その他",
+      "search": "ツールを検索...",
+      "allTools": "すべてのツール"
     },
     "actions": {
       "upload": "ファイルをアップロード",
@@ -58,9 +60,9 @@
     },
     "messages": {
       "processing": "処理中...",
-      "complete": "完了!",
-      "error": "エラーが発生しました。",
-      "dragDrop": "ファイルをここにドラッグ＆ドロップするか、クリックして選択",
+      "complete": "完了",
+      "error": "エラーが発生しました",
+      "dragDrop": "ここにドラッグ＆ドロップ",
       "noServerUpload": "ファイルはどのサーバーにもアップロードされません。すべての処理はブラウザで直接行われます。",
       "readyToDownload": "ダウンロードの準備完了!",
       "processingComplete": "処理完了!",
@@ -128,7 +130,16 @@
       "step3Complete": "Step 3: Complete",
       "minSec": "min:sec",
       "timeExample": "e.g., 1:30 = 1 min 30 sec",
-      "total": "Total"
+      "total": "Total",
+      "showing": "表示中",
+      "all": "すべて",
+      "noResults": "検索結果が見つかりません",
+      "success": "成功!",
+      "copy": "コピー",
+      "copied": "コピーしました!",
+      "download": "ダウンロード",
+      "upload": "アップロード",
+      "selectFile": "ファイルを選択"
     },
     "errors": {
       "FILE_TOO_LARGE": "File is too large (max 50MB)",
@@ -195,21 +206,24 @@
       "categoriesTitle": "カテゴリ別ツール",
       "categoriesSubtitle": "8カテゴリ、200以上のツール",
       "popularTitle": "人気ツール",
-      "popularSubtitle": "最も人気のあるツールをチェック",
+      "popularSubtitle": "最も人気のあるツール",
       "recentTools": "最近使用したツール",
       "viewAllTools": "すべてのツールを見る",
       "exploreTitle": "すべてのツールを探索",
       "showMoreTools": "さらにツールを表示",
       "whyChoose": "UniToolsを選ぶ理由",
       "clientSideTitle": "100%クライアントサイド",
-      "clientSideDesc": "ファイルはあなたのデバイスから離れません。すべての処理はブラウザで行われ、完全なプライバシーが保たれます。",
+      "clientSideDesc": "ファイルはデバイスから離れません。完全なプライバシー。",
       "fastFreeTitle": "高速＆無料",
-      "fastFreeDesc": "アップロード待ち時間なしで即座に処理。すべてのツールが完全に無料。",
+      "fastFreeDesc": "アップロード待ち時間なし。すべて無料。",
       "multiLangTitle": "多言語",
-      "multiLangDesc": "韓国語、英語などで利用可能。さらに多くの言語が近日公開。",
+      "multiLangDesc": "韓国語、英語など対応",
       "getStarted": "今すぐ始める",
-      "getStartedDesc": "登録なしですべてのツールを無料で使用。",
-      "tools": "ツール"
+      "getStartedDesc": "登録なしで無料で使用",
+      "tools": "ツール",
+      "allToolsTitle": "すべてのツール",
+      "allToolsDesc": "すべてのツールを閲覧。処理はすべてブラウザ内で行われます。",
+      "viewAll": "すべて見る"
     },
     "tool": {
       "comingSoon": "近日公開",

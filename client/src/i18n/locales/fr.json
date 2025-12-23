@@ -15,7 +15,9 @@
       "social": "Réseaux Sociaux",
       "developer": "Outils Développeur",
       "calculator": "Calculatrices",
-      "funMisc": "Amusement et Divers"
+      "funMisc": "Amusement et Divers",
+      "search": "Rechercher des outils...",
+      "allTools": "Tous les outils"
     },
     "actions": {
       "upload": "Télécharger fichier",
@@ -57,10 +59,10 @@
       "voted": "Voté"
     },
     "messages": {
-      "processing": "Traitement en cours...",
-      "complete": "Terminé!",
-      "error": "Une erreur s'est produite.",
-      "dragDrop": "Glissez-déposez des fichiers ici ou cliquez pour sélectionner",
+      "processing": "Traitement...",
+      "complete": "Terminé",
+      "error": "Une erreur s'est produite",
+      "dragDrop": "Glissez-déposez ici",
       "noServerUpload": "Les fichiers ne sont pas téléchargés sur un serveur. Tout se passe dans votre navigateur.",
       "readyToDownload": "Prêt à télécharger!",
       "processingComplete": "Traitement terminé!",
@@ -128,7 +130,16 @@
       "step3Complete": "Step 3: Complete",
       "minSec": "min:sec",
       "timeExample": "e.g., 1:30 = 1 min 30 sec",
-      "total": "Total"
+      "total": "Total",
+      "showing": "Affichage",
+      "all": "Tous",
+      "noResults": "Aucun résultat trouvé",
+      "success": "Succès!",
+      "copy": "Copier",
+      "copied": "Copié!",
+      "download": "Télécharger",
+      "upload": "Téléverser",
+      "selectFile": "Sélectionner fichier"
     },
     "errors": {
       "FILE_TOO_LARGE": "File is too large (max 50MB)",
@@ -202,14 +213,17 @@
       "showMoreTools": "Voir plus d'outils",
       "whyChoose": "Pourquoi choisir UniTools",
       "clientSideTitle": "100% côté client",
-      "clientSideDesc": "Les fichiers ne quittent jamais votre appareil. Tout le traitement se fait dans votre navigateur.",
+      "clientSideDesc": "Les fichiers ne quittent jamais votre appareil. Confidentialité totale.",
       "fastFreeTitle": "Rapide et gratuit",
-      "fastFreeDesc": "Traitement instantané sans attente. Tous les outils sont gratuits.",
+      "fastFreeDesc": "Pas d'attente de téléchargement. Tout gratuit.",
       "multiLangTitle": "Multilingue",
-      "multiLangDesc": "Disponible en coréen, anglais et plus de langues bientôt.",
+      "multiLangDesc": "Disponible en coréen, anglais et plus",
       "getStarted": "Commencez maintenant",
-      "getStartedDesc": "Utilisez tous les outils gratuitement sans inscription.",
-      "tools": "outils"
+      "getStartedDesc": "Utilisez gratuitement sans inscription",
+      "tools": "outils",
+      "allToolsTitle": "Tous les outils",
+      "allToolsDesc": "Parcourir tous les outils. Tout le traitement se fait dans votre navigateur.",
+      "viewAll": "Voir tout"
     },
     "tool": {
       "comingSoon": "Bientôt",
