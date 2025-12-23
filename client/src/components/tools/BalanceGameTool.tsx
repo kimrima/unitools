@@ -8,7 +8,7 @@ import { Progress } from '@/components/ui/progress';
 import { FullscreenWrapper } from './FullscreenWrapper';
 import { 
   RotateCcw, Trash2,
-  ThumbsUp, Sparkles, ChevronLeft, ChevronRight, Play, Zap
+  ThumbsUp, Sparkles, ChevronLeft, ChevronRight, Play, Zap, Trophy, ListChecks
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -17,6 +17,12 @@ interface Question {
   optionB: string;
   votesA: number;
   votesB: number;
+}
+
+interface UserChoice {
+  question: string;
+  choice: 'A' | 'B';
+  chosenOption: string;
 }
 
 const EXAMPLE_QUESTIONS_KO: Question[] = [
@@ -33,6 +39,8 @@ const EXAMPLE_QUESTIONS_EN: Question[] = [
   { optionA: '$1M but 10 years jail', optionB: 'Stay as you are', votesA: 0, votesB: 0 },
 ];
 
+type GamePhase = 'setup' | 'playing' | 'results';
+
 export default function BalanceGameTool() {
   const { t, i18n } = useTranslation();
 
@@ -41,8 +49,9 @@ export default function BalanceGameTool() {
   const [hasVoted, setHasVoted] = useState(false);
   const [inputA, setInputA] = useState('');
   const [inputB, setInputB] = useState('');
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [gamePhase, setGamePhase] = useState<GamePhase>('setup');
   const [selectedOption, setSelectedOption] = useState<'A' | 'B' | null>(null);
+  const [userChoices, setUserChoices] = useState<UserChoice[]>([]);
 
   const currentQuestion = questions[currentIndex];
   const totalVotes = currentQuestion ? currentQuestion.votesA + currentQuestion.votesB : 0;
@@ -59,6 +68,21 @@ export default function BalanceGameTool() {
     setQuestions(updated);
     setSelectedOption(option);
     setHasVoted(true);
+    
+    const newChoice: UserChoice = {
+      question: `${currentQuestion.optionA} vs ${currentQuestion.optionB}`,
+      choice: option,
+      chosenOption: option === 'A' ? currentQuestion.optionA : currentQuestion.optionB
+    };
+    setUserChoices(prev => {
+      const existing = prev.findIndex((_, i) => i === currentIndex);
+      if (existing >= 0) {
+        const copy = [...prev];
+        copy[existing] = newChoice;
+        return copy;
+      }
+      return [...prev, newChoice];
+    });
   };
 
   const nextQuestion = () => {
@@ -66,6 +90,8 @@ export default function BalanceGameTool() {
       setCurrentIndex(currentIndex + 1);
       setHasVoted(false);
       setSelectedOption(null);
+    } else {
+      setGamePhase('results');
     }
   };
 
@@ -105,7 +131,7 @@ export default function BalanceGameTool() {
       setHasVoted(false);
     } else {
       setQuestions([]);
-      setIsPlaying(false);
+      setGamePhase('setup');
     }
   };
 
@@ -113,19 +139,31 @@ export default function BalanceGameTool() {
     setQuestions(questions.map(q => ({ ...q, votesA: 0, votesB: 0 })));
     setHasVoted(false);
     setSelectedOption(null);
+    setUserChoices([]);
   };
 
   const startGame = () => {
     if (questions.length > 0) {
-      setIsPlaying(true);
+      setGamePhase('playing');
       setCurrentIndex(0);
       setHasVoted(false);
       setSelectedOption(null);
+      setUserChoices([]);
     }
   };
 
   const goBack = () => {
-    setIsPlaying(false);
+    setGamePhase('setup');
+    setUserChoices([]);
+  };
+
+  const playAgain = () => {
+    setGamePhase('playing');
+    setCurrentIndex(0);
+    setHasVoted(false);
+    setSelectedOption(null);
+    setUserChoices([]);
+    resetVotes();
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, isB: boolean) => {
@@ -140,7 +178,7 @@ export default function BalanceGameTool() {
     <FullscreenWrapper>
       <div className="space-y-6">
         <AnimatePresence mode="wait">
-          {!isPlaying ? (
+          {gamePhase === 'setup' && (
             <motion.div 
               key="setup"
               initial={{ opacity: 0 }}
@@ -243,7 +281,9 @@ export default function BalanceGameTool() {
                 </div>
               )}
             </motion.div>
-          ) : (
+          )}
+
+          {gamePhase === 'playing' && (
             <motion.div
               key="playing"
               initial={{ opacity: 0 }}
@@ -282,9 +322,7 @@ export default function BalanceGameTool() {
               </div>
 
               <div className="grid md:grid-cols-2 gap-4">
-                <motion.div
-                  whileTap={{ scale: hasVoted ? 1 : 0.98 }}
-                >
+                <motion.div whileTap={{ scale: hasVoted ? 1 : 0.98 }}>
                   <Button
                     variant={hasVoted ? "secondary" : "outline"}
                     className={`w-full h-auto min-h-[150px] p-6 text-xl font-bold flex flex-col gap-4 relative overflow-visible ${
@@ -318,9 +356,7 @@ export default function BalanceGameTool() {
                   </Button>
                 </motion.div>
 
-                <motion.div
-                  whileTap={{ scale: hasVoted ? 1 : 0.98 }}
-                >
+                <motion.div whileTap={{ scale: hasVoted ? 1 : 0.98 }}>
                   <Button
                     variant={hasVoted ? "secondary" : "outline"}
                     className={`w-full h-auto min-h-[150px] p-6 text-xl font-bold flex flex-col gap-4 relative overflow-visible ${
@@ -379,14 +415,23 @@ export default function BalanceGameTool() {
                 )}
 
                 <Button
-                  variant="outline"
+                  variant={hasVoted && currentIndex === questions.length - 1 ? "default" : "outline"}
                   onClick={nextQuestion}
-                  disabled={currentIndex === questions.length - 1}
+                  disabled={!hasVoted}
                   className="gap-2"
                   data-testid="button-next"
                 >
-                  {t('Tools.balance-game.next', '다음')}
-                  <ChevronRight className="w-4 h-4" />
+                  {currentIndex === questions.length - 1 ? (
+                    <>
+                      <ListChecks className="w-4 h-4" />
+                      결과 보기
+                    </>
+                  ) : (
+                    <>
+                      {t('Tools.balance-game.next', '다음')}
+                      <ChevronRight className="w-4 h-4" />
+                    </>
+                  )}
                 </Button>
               </div>
 
@@ -395,6 +440,50 @@ export default function BalanceGameTool() {
                   {t('Tools.balance-game.totalVotes', '총 {{count}}명 투표', { count: totalVotes })}
                 </p>
               )}
+            </motion.div>
+          )}
+
+          {gamePhase === 'results' && (
+            <motion.div
+              key="results"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0 }}
+              className="space-y-6"
+            >
+              <div className="text-center space-y-2">
+                <Trophy className="w-16 h-16 mx-auto text-yellow-500" />
+                <h2 className="text-2xl font-bold">게임 완료!</h2>
+                <p className="text-muted-foreground">당신의 선택 결과입니다</p>
+              </div>
+
+              <Card>
+                <CardContent className="p-4 space-y-3">
+                  <h3 className="font-semibold text-lg mb-4">내 선택 목록</h3>
+                  {userChoices.map((choice, index) => (
+                    <div key={index} className="flex items-center gap-3 p-3 bg-muted rounded-md">
+                      <Badge variant="outline" className="shrink-0">{index + 1}</Badge>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm text-muted-foreground truncate">{choice.question}</p>
+                        <p className="font-medium text-primary">{choice.chosenOption}</p>
+                      </div>
+                      <Badge className={choice.choice === 'A' ? 'bg-blue-500' : 'bg-purple-500'}>
+                        {choice.choice}
+                      </Badge>
+                    </div>
+                  ))}
+                </CardContent>
+              </Card>
+
+              <div className="flex gap-4 flex-wrap">
+                <Button onClick={playAgain} className="flex-1 gap-2">
+                  <RotateCcw className="w-4 h-4" />
+                  다시 하기
+                </Button>
+                <Button variant="outline" onClick={goBack} className="flex-1">
+                  새 게임
+                </Button>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>

@@ -2561,7 +2561,13 @@
       "prev": "이전",
       "next": "다음",
       "voteAgain": "다시 투표",
-      "totalVotes": "총 {{count}}명 투표"
+      "totalVotes": "총 {{count}}명 투표",
+      "loadExamples": "예시"
+    },
+    "tournament-game": {
+      "title": "이상형 월드컵",
+      "description": "토너먼트 방식으로 최고를 뽑아보세요! 4강, 8강, 16강, 32강 지원.",
+      "shortDesc": "토너먼트 우승자 뽑기"
     },
     "chosung-quiz": {
       "title": "초성 퀴즈",

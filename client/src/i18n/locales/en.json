@@ -2555,7 +2555,13 @@
       "prev": "Prev",
       "next": "Next",
       "voteAgain": "Vote Again",
-      "totalVotes": "Total {{count}} votes"
+      "totalVotes": "Total {{count}} votes",
+      "loadExamples": "Examples"
+    },
+    "tournament-game": {
+      "title": "Tournament Game",
+      "description": "Pick your favorite through tournament brackets! Supports 4, 8, 16, 32 rounds.",
+      "shortDesc": "Tournament bracket picker"
     },
     "chosung-quiz": {
       "title": "Korean Initial Quiz",
