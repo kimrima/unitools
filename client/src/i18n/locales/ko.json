@@ -49,7 +49,9 @@
       "confirm": "확인",
       "back": "뒤로",
       "next": "다음",
-      "finish": "완료"
+      "finish": "완료",
+      "vote": "투표",
+      "voted": "투표함"
     },
     "messages": {
       "processing": "처리 중...",
@@ -147,7 +149,8 @@
       "VALIDATION_FAILED": "유효성 검사 실패",
       "EXTRACT_FAILED": "PDF에서 텍스트 추출에 실패했습니다",
       "NUP_FAILED": "다중 페이지 레이아웃 생성에 실패했습니다",
-      "COPY_FAILED": "클립보드에 복사하지 못했습니다"
+      "COPY_FAILED": "클립보드에 복사하지 못했습니다",
+      "categoryNotFound": "카테고리를 찾을 수 없습니다"
     },
     "units": {
       "bytes": "Bytes",
@@ -175,7 +178,14 @@
       "titlePart3": "만드는 무료 도구",
       "trustFree": "무료",
       "trustNoUpload": "서버 업로드 없음",
-      "trustMultiLang": "다국어"
+      "trustMultiLang": "다국어",
+      "featurePrivacy": "100% 클라이언트 처리",
+      "featureFree": "완전 무료",
+      "featureNoSignup": "회원가입 불필요"
+    },
+    "category": {
+      "availableTools": "사용 가능한 도구",
+      "comingSoon": "곧 출시 예정"
     },
     "home": {
       "categoriesTitle": "카테고리별 도구",
@@ -210,7 +220,8 @@
       "privacyNote": "파일은 브라우저에서 직접 처리되며 서버로 전송되지 않습니다.",
       "voteForFeature": "이 기능에 투표하기",
       "voted": "투표해 주셔서 감사합니다!",
-      "voteCount": "{{count}}명이 이 기능을 원합니다"
+      "voteCount": "{{count}}명이 이 기능을 원합니다",
+      "uses": "회 사용"
     },
     "search": {
       "placeholder": "도구 검색 (예: PDF, 이미지, 비디오)...",

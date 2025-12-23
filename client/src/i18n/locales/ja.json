@@ -25,7 +25,18 @@
       "selectFiles": "ファイルを選択",
       "addMore": "追加",
       "remove": "削除",
-      "clear": "すべてクリア"
+      "clear": "すべてクリア",
+      "cancel": "キャンセル",
+      "vote": "投票",
+      "voted": "投票済み"
+    },
+    "errors": {
+      "categoryNotFound": "カテゴリーが見つかりません"
+    },
+    "stages": {
+      "analyzing": "分析中",
+      "processing": "処理中",
+      "optimizing": "最適化中"
     },
     "messages": {
       "processing": "処理中...",
@@ -53,14 +64,24 @@
       "titlePart2": "一箇所で",
       "trustFree": "無料",
       "trustNoUpload": "サーバーアップロードなし",
-      "trustMultiLang": "多言語"
+      "trustMultiLang": "多言語",
+      "featurePrivacy": "100%クライアントサイド処理",
+      "featureFree": "完全無料",
+      "featureNoSignup": "登録不要"
+    },
+    "category": {
+      "availableTools": "利用可能なツール",
+      "comingSoon": "近日公開"
     },
     "home": {
       "categoriesTitle": "カテゴリー別ツール",
       "categoriesSubtitle": "8カテゴリー、200以上のツール",
       "popularTitle": "人気ツール",
+      "popularSubtitle": "最高のツールを無料でお試しください。",
       "recentTools": "最近使用したツール",
       "viewAllTools": "すべてのツールを見る",
+      "exploreTitle": "すべてのツールを探索",
+      "showMoreTools": "もっと見る",
       "whyChoose": "UniToolsを選ぶ理由",
       "clientSideTitle": "100%クライアントサイド",
       "clientSideDesc": "ファイルはデバイスから離れません。すべての処理はブラウザで行われ、完全なプライバシーが保護されます。",
@@ -82,7 +103,8 @@
       "privacyNote": "ファイルはブラウザで直接処理され、サーバーにアップロードされることはありません。",
       "voteForFeature": "この機能に投票する",
       "voted": "投票ありがとうございます!",
-      "voteCount": "{{count}}人がこの機能を望んでいます"
+      "voteCount": "{{count}}人がこの機能を望んでいます",
+      "uses": "回使用"
     },
     "search": {
       "placeholder": "ツールを検索 (例: PDF、画像、動画)...",

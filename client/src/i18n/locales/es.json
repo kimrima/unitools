@@ -25,7 +25,18 @@
       "selectFiles": "Seleccionar Archivos",
       "addMore": "Agregar Mas",
       "remove": "Eliminar",
-      "clear": "Limpiar Todo"
+      "clear": "Limpiar Todo",
+      "cancel": "Cancelar",
+      "vote": "Votar",
+      "voted": "Votado"
+    },
+    "errors": {
+      "categoryNotFound": "Categoría no encontrada"
+    },
+    "stages": {
+      "analyzing": "Analizando",
+      "processing": "Procesando",
+      "optimizing": "Optimizando"
     },
     "messages": {
       "processing": "Procesando...",
@@ -53,14 +64,24 @@
       "titlePart2": "En Un Solo Lugar",
       "trustFree": "Gratis",
       "trustNoUpload": "Sin Subida al Servidor",
-      "trustMultiLang": "Multiidioma"
+      "trustMultiLang": "Multiidioma",
+      "featurePrivacy": "100% Procesamiento del Lado del Cliente",
+      "featureFree": "Completamente Gratis",
+      "featureNoSignup": "Sin Registro Requerido"
+    },
+    "category": {
+      "availableTools": "Herramientas Disponibles",
+      "comingSoon": "Próximamente"
     },
     "home": {
       "categoriesTitle": "Herramientas por Categoria",
       "categoriesSubtitle": "8 categorias, 200+ herramientas",
       "popularTitle": "Herramientas Populares",
+      "popularSubtitle": "Lo mejor de lo mejor. Todo gratis.",
       "recentTools": "Usadas Recientemente",
       "viewAllTools": "Ver Todas las Herramientas",
+      "exploreTitle": "Explorar Todas las Herramientas",
+      "showMoreTools": "Mostrar Más Herramientas",
       "whyChoose": "Por Que Elegir UniTools",
       "clientSideTitle": "100% Del Lado del Cliente",
       "clientSideDesc": "Los archivos nunca salen de tu dispositivo. Todo el procesamiento ocurre en tu navegador para privacidad completa.",
@@ -82,7 +103,8 @@
       "privacyNote": "Los archivos se procesan directamente en tu navegador y nunca se suben a ningun servidor.",
       "voteForFeature": "Votar por esta funcion",
       "voted": "Gracias por votar!",
-      "voteCount": "{{count}} personas quieren esta funcion"
+      "voteCount": "{{count}} personas quieren esta funcion",
+      "uses": "usos"
     },
     "search": {
       "placeholder": "Buscar herramientas (ej., PDF, Imagen, Video)...",

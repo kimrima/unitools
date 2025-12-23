@@ -49,7 +49,9 @@
       "confirm": "Confirm",
       "back": "Back",
       "next": "Next",
-      "finish": "Finish"
+      "finish": "Finish",
+      "vote": "Vote",
+      "voted": "Voted"
     },
     "messages": {
       "processing": "Processing...",
@@ -147,7 +149,8 @@
       "VALIDATION_FAILED": "Validation failed",
       "EXTRACT_FAILED": "Failed to extract text from PDF",
       "NUP_FAILED": "Failed to create multi-page layout",
-      "COPY_FAILED": "Failed to copy to clipboard"
+      "COPY_FAILED": "Failed to copy to clipboard",
+      "categoryNotFound": "Category not found"
     },
     "units": {
       "bytes": "Bytes",
@@ -175,14 +178,24 @@
       "titlePart3": "Simple",
       "trustFree": "Free",
       "trustNoUpload": "No Server Upload",
-      "trustMultiLang": "Multi-language"
+      "trustMultiLang": "Multi-language",
+      "featurePrivacy": "100% Client-Side Processing",
+      "featureFree": "Completely Free",
+      "featureNoSignup": "No Sign-up Required"
+    },
+    "category": {
+      "availableTools": "Available Tools",
+      "comingSoon": "Coming Soon"
     },
     "home": {
       "categoriesTitle": "Tools by Category",
       "categoriesSubtitle": "8 categories, 200+ tools",
-      "popularTitle": "Popular Tools",
+      "popularTitle": "Our Most Popular Tools",
+      "popularSubtitle": "The best of the best. All free, no catch.",
       "recentTools": "Recently Used",
       "viewAllTools": "View All Tools",
+      "exploreTitle": "Explore All Tools",
+      "showMoreTools": "Show More Tools",
       "whyChoose": "Why Choose UniTools",
       "clientSideTitle": "100% Client-Side",
       "clientSideDesc": "Files never leave your device. All processing happens in your browser for complete privacy.",
@@ -204,7 +217,8 @@
       "privacyNote": "Files are processed directly in your browser and never uploaded to any server.",
       "voteForFeature": "Vote for this feature",
       "voted": "Thanks for voting!",
-      "voteCount": "{{count}} people want this feature"
+      "voteCount": "{{count}} people want this feature",
+      "uses": "uses"
     },
     "search": {
       "placeholder": "Search tools (e.g., PDF, Image, Video)...",
