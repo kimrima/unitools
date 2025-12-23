@@ -972,16 +972,9 @@
       "placeholder": "Enter lines to shuffle..."
     },
     "binary-converter": {
-      "title": "Binary Converter",
-      "description": "Convert text to binary (0s and 1s) and vice versa.",
-      "shortDesc": "Text to binary",
-      "instructions": "Enter text to convert to binary or binary to decode to text.",
-      "textToBinary": "Text to Binary",
-      "binaryToText": "Binary to Text",
-      "textLabel": "Text",
-      "binaryLabel": "Binary",
-      "textPlaceholder": "Enter text to convert to binary...",
-      "binaryPlaceholder": "Enter binary code (e.g., 01001000 01101001)..."
+      "title": "Convertisseur Binaire",
+      "description": "Convertit texte en binaire.",
+      "shortDesc": "Texte en binaire"
     },
     "morse-code": {
       "title": "Morse Code Converter",
@@ -1079,9 +1072,9 @@
       "shortDesc": "Faire pivoter pages PDF"
     },
     "delete-pdf-pages": {
-      "title": "Delete PDF Pages",
-      "description": "Remove unwanted pages from your PDF files.",
-      "shortDesc": "Remove pages from PDF"
+      "title": "Supprimer Pages PDF",
+      "description": "Supprime les pages indésirables du PDF.",
+      "shortDesc": "Supprimer pages du PDF"
     },
     "extract-pdf-pages": {
       "title": "Extraire Pages PDF",
@@ -1089,9 +1082,9 @@
       "shortDesc": "Extraire pages PDF"
     },
     "organize-pdf": {
-      "title": "Organize PDF",
-      "description": "Reorder, rotate, and organize PDF pages with drag and drop.",
-      "shortDesc": "Rearrange PDF pages"
+      "title": "Organiser PDF",
+      "description": "Réorganise les pages du PDF.",
+      "shortDesc": "Réorganiser pages PDF"
     },
     "protect-pdf": {
       "title": "Protect PDF",
@@ -1113,23 +1106,14 @@
       "noPasswordNeeded": "Try unlocking without password"
     },
     "sign-pdf": {
-      "title": "Sign PDF",
-      "description": "Add digital signatures to your PDF documents.",
-      "shortDesc": "Add signature to PDF",
-      "drawSignature": "Draw",
-      "typeSignature": "Type",
-      "typePlaceholder": "Type your signature",
-      "pageNumber": "Page Number",
-      "signatureSize": "Signature Size",
-      "positionX": "Horizontal Position",
-      "positionY": "Vertical Position",
-      "signButton": "Sign PDF",
-      "successMessage": "Your PDF has been signed successfully."
+      "title": "Signer PDF",
+      "description": "Ajoute une signature au PDF.",
+      "shortDesc": "Ajouter signature au PDF"
     },
     "watermark-pdf": {
-      "title": "Watermark PDF",
-      "description": "Add text or image watermarks to PDF files.",
-      "shortDesc": "Add watermark to PDF"
+      "title": "Filigrane PDF",
+      "description": "Ajoute un filigrane au PDF.",
+      "shortDesc": "Ajouter filigrane"
     },
     "edit-pdf": {
       "title": "Edit PDF",
@@ -1137,18 +1121,9 @@
       "shortDesc": "Edit PDF content"
     },
     "ocr-pdf": {
-      "title": "OCR PDF (Scanned Documents)",
-      "description": "Extract text from scanned PDFs or image-based PDFs using optical character recognition. Supports Korean, English, Japanese, Chinese, Spanish, French, and German.",
-      "shortDesc": "Extract text from scanned PDF",
-      "language": "OCR Language",
-      "ocrButton": "Start OCR",
-      "loadingPdf": "Loading PDF...",
-      "processingPage": "Processing page {{current}} of {{total}}...",
-      "recognizing": "Recognizing text on page {{current}} of {{total}}...",
-      "saving": "Saving PDF...",
-      "successMessage": "OCR completed. Text layer added to PDF.",
-      "explanation": "Use this tool for scanned documents or image-based PDFs where text cannot be selected. The OCR engine recognizes text from images and makes it searchable and copyable.",
-      "textExtractHint": "For PDFs where you can already select text, use the PDF Text Extraction tool for faster and more accurate results."
+      "title": "OCR PDF (Documents Numérisés)",
+      "description": "Extrait le texte des PDF numérisés.",
+      "shortDesc": "Extraire texte numérisé"
     },
     "repair-pdf": {
       "title": "Repair PDF",
@@ -1161,12 +1136,9 @@
       "shortDesc": "Optimize PDF for web"
     },
     "pdf-to-text": {
-      "title": "PDF to Text",
-      "description": "Extract text content from PDF files and save as plain text.",
-      "shortDesc": "Extract text from PDF",
-      "extractButton": "Extract Text",
-      "successMessage": "Text extracted successfully.",
-      "copiedMessage": "Text copied to clipboard."
+      "title": "PDF en Texte",
+      "description": "Extrait le texte du PDF.",
+      "shortDesc": "Extraire texte du PDF"
     },
     "html-to-pdf": {
       "title": "HTML to PDF",
@@ -1174,38 +1146,24 @@
       "shortDesc": "Convert HTML to PDF"
     },
     "add-page-numbers": {
-      "title": "Add Page Numbers",
-      "description": "Automatically add page numbers to all pages of your PDF.",
-      "shortDesc": "Number PDF pages"
+      "title": "Ajouter Numéros de Page",
+      "description": "Numérote les pages du PDF.",
+      "shortDesc": "Numéroter pages"
     },
     "crop-pdf": {
-      "title": "Crop PDF",
-      "description": "Remove margins and white space from PDF pages.",
-      "shortDesc": "Trim PDF margins",
-      "marginTop": "Top Margin",
-      "marginRight": "Right Margin",
-      "marginBottom": "Bottom Margin",
-      "marginLeft": "Left Margin",
-      "cropButton": "Crop PDF",
-      "successMessage": "PDF cropped successfully."
+      "title": "Rogner PDF",
+      "description": "Rogne les marges du PDF.",
+      "shortDesc": "Rogner PDF"
     },
     "grayscale-pdf": {
-      "title": "Grayscale PDF",
-      "description": "Convert color PDF to black and white to save on printing costs.",
-      "shortDesc": "Convert PDF to grayscale",
-      "convertButton": "Convert to Grayscale",
-      "successMessage": "PDF converted to grayscale successfully."
+      "title": "PDF Niveaux de Gris",
+      "description": "Convertit le PDF en niveaux de gris.",
+      "shortDesc": "Convertir en gris"
     },
     "resize-pdf": {
-      "title": "Resize PDF",
-      "description": "Change PDF page size from A4 to Letter, A3, or other formats.",
-      "shortDesc": "Change PDF page size",
-      "pageSize": "Target Page Size",
-      "orientation": "Orientation",
-      "portrait": "Portrait",
-      "landscape": "Landscape",
-      "resizeButton": "Resize PDF",
-      "successMessage": "PDF resized successfully."
+      "title": "Redimensionner PDF",
+      "description": "Change la taille de page du PDF.",
+      "shortDesc": "Changer taille PDF"
     },
     "n-up-pdf": {
       "title": "PDF Multi-Page Layout",
@@ -1289,33 +1247,14 @@
       "shortDesc": "Créer code-barres"
     },
     "url-shortener": {
-      "title": "URL Shortener",
-      "description": "Shorten long URLs into compact, shareable links.",
-      "shortDesc": "Shorten URLs",
-      "notice": "This is a demo. Shortened URLs are generated locally and won't actually redirect.",
-      "longUrlLabel": "Long URL",
-      "longUrlPlaceholder": "Enter the URL to shorten...",
-      "customAliasLabel": "Custom Alias (optional)",
-      "customAliasPlaceholder": "my-custom-link",
-      "customAliasHint": "Letters, numbers, hyphens, and underscores only",
-      "generate": "Shorten URL",
-      "shortUrlLabel": "Shortened URL",
-      "generated": "Short URL generated!",
-      "testLink": "Test Original Link",
-      "invalidUrl": "Please enter a valid URL"
+      "title": "Raccourcisseur d'URL",
+      "description": "Raccourcit les URLs.",
+      "shortDesc": "Raccourcir URLs"
     },
     "utm-builder": {
-      "title": "UTM Builder",
-      "description": "Create trackable marketing URLs with UTM parameters for Google Analytics.",
-      "shortDesc": "Build UTM links",
-      "baseUrlLabel": "Website URL",
-      "sourceLabel": "Campaign Source (utm_source)",
-      "mediumLabel": "Campaign Medium (utm_medium)",
-      "campaignLabel": "Campaign Name (utm_campaign)",
-      "termLabel": "Campaign Term (utm_term)",
-      "contentLabel": "Campaign Content (utm_content)",
-      "resultLabel": "Generated URL",
-      "resultPlaceholder": "Your UTM URL will appear here"
+      "title": "Constructeur UTM",
+      "description": "Crée des liens UTM.",
+      "shortDesc": "Créer liens UTM"
     },
     "ad-banner-guide": {
       "title": "Ad Banner Size Guide",
@@ -1338,39 +1277,14 @@
       "sizeLabel": "Size"
     },
     "email-signature": {
-      "title": "Email Signature Builder",
-      "description": "Create professional HTML email signatures for Outlook, Gmail, and more.",
-      "shortDesc": "Create email signatures",
-      "nameLabel": "Full Name",
-      "namePlaceholder": "John Smith",
-      "titleLabel": "Job Title",
-      "titlePlaceholder": "Marketing Manager",
-      "companyLabel": "Company",
-      "companyPlaceholder": "Acme Inc.",
-      "emailLabel": "Email",
-      "emailPlaceholder": "john@example.com",
-      "phoneLabel": "Phone",
-      "phonePlaceholder": "+1 234-567-8900",
-      "websiteLabel": "Website",
-      "websitePlaceholder": "www.example.com",
-      "colorLabel": "Accent Color",
-      "previewLabel": "Preview",
-      "copyHtml": "Copy HTML",
-      "htmlCopied": "HTML copied to clipboard!",
-      "instructions": "Copy the HTML and paste it into your email client's signature settings."
+      "title": "Créateur de Signature Email",
+      "description": "Crée des signatures email.",
+      "shortDesc": "Signature email"
     },
     "random-picker": {
-      "title": "Random Picker",
-      "description": "Randomly pick winners from a list of names for giveaways and contests.",
-      "shortDesc": "Pick random winners",
-      "inputLabel": "Names / Items",
-      "placeholder": "Enter names (one per line)...",
-      "countLabel": "Winners",
-      "pick": "Pick Winners",
-      "resultLabel": "Winners",
-      "winnersTitle": "Winners",
-      "picked": "{{count}} winner(s) selected!",
-      "noResult": "Enter names and click Pick"
+      "title": "Sélecteur Aléatoire",
+      "description": "Choisit des gagnants au hasard.",
+      "shortDesc": "Sélection aléatoire"
     },
     "fake-profile": {
       "title": "Fake Profile Generator",
@@ -1387,12 +1301,9 @@
       "noProfiles": "Click Generate to create profiles"
     },
     "kaomoji-collection": {
-      "title": "Kaomoji Collection",
-      "description": "Browse and copy Japanese text emoticons for your messages.",
-      "shortDesc": "Text emoticons",
-      "searchPlaceholder": "Search categories...",
-      "all": "All",
-      "copied": "Kaomoji copied!"
+      "title": "Collection de Kaomoji",
+      "description": "Émoticônes texte.",
+      "shortDesc": "Kaomoji"
     },
     "timezone-converter": {
       "title": "Convertisseur de Fuseau Horaire",
@@ -1410,22 +1321,9 @@
       "shortDesc": "Générer hash MD5"
     },
     "aes-encryption": {
-      "title": "AES Encryption/Decryption",
-      "description": "Encrypt and decrypt text using AES-256 encryption with a secure password.",
-      "shortDesc": "Encrypt/decrypt text",
-      "encrypt": "Encrypt",
-      "decrypt": "Decrypt",
-      "textLabel": "Text",
-      "textPlaceholder": "Enter text to encrypt or decrypt...",
-      "passwordLabel": "Password",
-      "passwordPlaceholder": "Enter encryption password...",
-      "resultLabel": "Result",
-      "encryptedLabel": "Encrypted Text",
-      "decryptedLabel": "Decrypted Text",
-      "encryptBtn": "Encrypt",
-      "decryptBtn": "Decrypt",
-      "copied": "Copied!",
-      "decryptError": "Decryption failed. Check your password and encrypted text."
+      "title": "Chiffrement/Déchiffrement AES",
+      "description": "Chiffre/déchiffre le texte.",
+      "shortDesc": "Chiffrement AES"
     },
     "bcrypt-generator": {
       "title": "BCrypt Hash Generator",
@@ -1442,16 +1340,9 @@
       "simulationNotice": "This is a simulation using SHA-256 iterations. For production, use a server-side BCrypt library."
     },
     "html-minifier": {
-      "title": "HTML Minifier",
-      "description": "Minify HTML code by removing whitespace, comments, and optimizing structure.",
-      "shortDesc": "Minify HTML code",
-      "inputLabel": "HTML Code",
-      "placeholder": "Paste your HTML code here...",
-      "outputLabel": "Minified HTML",
-      "minify": "Minify",
-      "removeComments": "Remove Comments",
-      "collapseWhitespace": "Collapse Whitespace",
-      "removeEmptyAttr": "Remove Empty Attributes"
+      "title": "Minifieur HTML",
+      "description": "Minifie le code HTML.",
+      "shortDesc": "Minifier HTML"
     },
     "css-minifier": {
       "title": "Minifieur CSS",
@@ -1464,17 +1355,9 @@
       "shortDesc": "Minifier JavaScript"
     },
     "sql-formatter": {
-      "title": "SQL Formatter",
-      "description": "Format and beautify SQL queries for better readability.",
-      "shortDesc": "Format SQL queries",
-      "inputLabel": "SQL Query",
-      "placeholder": "Paste your SQL query here...",
-      "outputLabel": "Formatted SQL",
-      "indentLabel": "Indent Size",
-      "spaces": "spaces",
-      "format": "Format",
-      "minify": "Minify",
-      "empty": "Enter SQL query to format"
+      "title": "Formateur SQL",
+      "description": "Formate les requêtes SQL.",
+      "shortDesc": "Formater SQL"
     },
     "password-generator": {
       "title": "Générateur de Mot de Passe",
@@ -1487,18 +1370,9 @@
       "shortDesc": "Générer UUID"
     },
     "jwt-decoder": {
-      "title": "JWT Decoder",
-      "description": "Decode and inspect JSON Web Tokens (JWT) without verification.",
-      "shortDesc": "Decode JWT tokens",
-      "inputLabel": "JWT Token",
-      "placeholder": "Paste your JWT token here...",
-      "invalidFormat": "Invalid JWT format. Token should have 3 parts separated by dots.",
-      "parseError": "Failed to parse JWT token.",
-      "expired": "Expired",
-      "valid": "Valid",
-      "expiresAt": "Expires",
-      "issuedAt": "Issued",
-      "empty": "Paste a JWT token to decode"
+      "title": "Décodeur JWT",
+      "description": "Décode les tokens JWT.",
+      "shortDesc": "Décoder JWT"
     },
     "cron-generator": {
       "title": "Cron Expression Generator",
@@ -1540,30 +1414,14 @@
       "invalidIpv6": "Invalid IPv6 address (must be IPv4-mapped)"
     },
     "what-is-my-ip": {
-      "title": "What Is My IP",
-      "description": "Find your public IP address and location information.",
-      "shortDesc": "Find your IP",
-      "yourIp": "Your Public IP Address",
-      "location": "Location",
-      "timezone": "Timezone",
-      "isp": "ISP / Organization",
-      "refresh": "Refresh",
-      "retry": "Try Again",
-      "error": "Failed to fetch IP information"
+      "title": "Quelle est mon IP ?",
+      "description": "Trouve votre IP.",
+      "shortDesc": "Voir votre IP"
     },
     "http-header-analyzer": {
-      "title": "HTTP Header Analyzer",
-      "description": "Analyze HTTP response headers from any URL.",
-      "shortDesc": "Analyze HTTP headers",
-      "urlLabel": "URL",
-      "placeholder": "Enter URL (e.g., example.com)",
-      "analyze": "Analyze",
-      "headersLabel": "Response Headers",
-      "openUrl": "Open URL",
-      "empty": "Enter a URL to analyze its HTTP headers",
-      "notice": "Due to browser security (CORS), only CORS-enabled sites can be analyzed.",
-      "corsError": "CORS restriction prevented header retrieval",
-      "corsNote": "Most sites block cross-origin requests for security"
+      "title": "Analyseur d'En-têtes HTTP",
+      "description": "Analyse les en-têtes HTTP.",
+      "shortDesc": "Analyser en-têtes"
     },
     "epoch-converter": {
       "title": "Epoch/Unix Time Converter",
@@ -1603,19 +1461,9 @@
       "shortDesc": "Calculer intérêt composé"
     },
     "salary-converter": {
-      "title": "Salary Converter",
-      "description": "Convert salary between hourly, weekly, monthly, and yearly rates.",
-      "shortDesc": "Convert salary periods",
-      "amount": "Amount",
-      "payPeriod": "Pay Period",
-      "hoursPerWeek": "Hours per Week",
-      "weeksPerYear": "Weeks per Year",
-      "yearly": "Yearly",
-      "monthly": "Monthly",
-      "biweekly": "Bi-Weekly",
-      "weekly": "Weekly",
-      "daily": "Daily",
-      "hourly": "Hourly"
+      "title": "Convertisseur de Salaire",
+      "description": "Convertit les périodes de salaire.",
+      "shortDesc": "Convertir salaire"
     },
     "sales-tax-calculator": {
       "title": "Calculatrice de Taxes",
@@ -1638,42 +1486,24 @@
       "imperial": "Imperial"
     },
     "temperature-converter": {
-      "title": "Temperature Converter",
-      "description": "Convert between Celsius, Fahrenheit, and Kelvin.",
-      "shortDesc": "Convert temperatures",
-      "celsius": "Celsius",
-      "fahrenheit": "Fahrenheit",
-      "kelvin": "Kelvin",
-      "freezing": "Water freezing point",
-      "boiling": "Water boiling point",
-      "same": "Same in both scales"
+      "title": "Convertisseur de Température",
+      "description": "Convertit les températures.",
+      "shortDesc": "Convertir température"
     },
     "area-converter": {
-      "title": "Area Converter",
-      "description": "Convert between square meters, feet, acres, and hectares.",
-      "shortDesc": "Convert area units",
-      "value": "Value",
-      "from": "From",
-      "to": "To",
-      "result": "Result"
+      "title": "Convertisseur de Surface",
+      "description": "Convertit les unités de surface.",
+      "shortDesc": "Convertir surface"
     },
     "volume-converter": {
-      "title": "Volume Converter",
-      "description": "Convert between liters, gallons, cups, and other volume units.",
-      "shortDesc": "Convert volume units",
-      "value": "Value",
-      "from": "From",
-      "to": "To",
-      "result": "Result"
+      "title": "Convertisseur de Volume",
+      "description": "Convertit les unités de volume.",
+      "shortDesc": "Convertir volume"
     },
     "speed-converter": {
-      "title": "Speed Converter",
-      "description": "Convert between km/h, mph, m/s, and knots.",
-      "shortDesc": "Convert speed units",
-      "kmh": "Kilometers per hour",
-      "mph": "Miles per hour",
-      "mps": "Meters per second",
-      "knots": "Knots"
+      "title": "Convertisseur de Vitesse",
+      "description": "Convertit les unités de vitesse.",
+      "shortDesc": "Convertir vitesse"
     },
     "bmi-calculator": {
       "title": "Calculatrice d'IMC",
@@ -1740,33 +1570,14 @@
       "fallAsleepInfo": "Includes {{minutes}} minutes to fall asleep."
     },
     "days-counter": {
-      "title": "Days Counter",
-      "description": "Count days between two dates or until a specific date.",
-      "shortDesc": "Count days between dates",
-      "startDate": "Start Date",
-      "endDate": "End Date",
-      "days": "days",
-      "weeks": "weeks",
-      "months": "months",
-      "years": "years",
-      "daysAgo": "Days ago",
-      "daysUntil": "Days until"
+      "title": "Compteur de Jours",
+      "description": "Compte les jours entre dates.",
+      "shortDesc": "Compter jours"
     },
     "date-calculator": {
-      "title": "Date Calculator",
-      "description": "Add or subtract days, weeks, months, or years from a date.",
-      "shortDesc": "Add/subtract from dates",
-      "startDate": "Start Date",
-      "direction": "Direction",
-      "add": "Add",
-      "subtract": "Subtract",
-      "amount": "Amount",
-      "unit": "Unit",
-      "days": "Days",
-      "weeks": "Weeks",
-      "months": "Months",
-      "years": "Years",
-      "resultDate": "Result Date"
+      "title": "Calculatrice de Dates",
+      "description": "Ajoute/soustrait des dates.",
+      "shortDesc": "Calculer dates"
     },
     "random-number": {
       "title": "Générateur de nombres aléatoires",
@@ -1782,26 +1593,9 @@
       "tooManyUnique": "Cannot generate that many unique numbers in this range"
     },
     "probability-calculator": {
-      "title": "Probability Calculator",
-      "description": "Calculate probabilities for single and multiple events.",
-      "shortDesc": "Calculate probabilities",
-      "single": "Single Event",
-      "multiple": "Multiple Events",
-      "odds": "Odds",
-      "favorable": "Favorable Outcomes",
-      "total": "Total Outcomes",
-      "probability": "Probability",
-      "percentage": "Percentage",
-      "oddsRatio": "Odds Ratio",
-      "probA": "P(A)",
-      "probB": "P(B)",
-      "aAndB": "P(A and B)",
-      "aOrB": "P(A or B)",
-      "notA": "P(not A)",
-      "neither": "P(neither)",
-      "oddsFor": "Odds For",
-      "oddsAgainst": "Odds Against",
-      "impliedProbability": "Implied Probability"
+      "title": "Calculatrice de Probabilité",
+      "description": "Calcule les probabilités.",
+      "shortDesc": "Calculer probabilité"
     },
     "gpa-calculator": {
       "title": "Calculatrice de GPA",
@@ -1809,9 +1603,9 @@
       "shortDesc": "Calculer GPA"
     },
     "scientific-calculator": {
-      "title": "Scientific Calculator",
-      "description": "Perform advanced mathematical calculations including trigonometry and logarithms.",
-      "shortDesc": "Advanced math calculator"
+      "title": "Calculatrice Scientifique",
+      "description": "Calculatrice mathématique avancée.",
+      "shortDesc": "Calculatrice avancée"
     },
     "binary-text": {
       "title": "Binary to Text Converter",
@@ -1819,12 +1613,9 @@
       "shortDesc": "Binary text conversion"
     },
     "coin-flip": {
-      "title": "Coin Flip",
-      "description": "Flip a virtual coin for random heads or tails results.",
-      "shortDesc": "Virtual coin flip",
-      "heads": "Heads",
-      "tails": "Tails",
-      "flip": "Flip Coin"
+      "title": "Pile ou Face",
+      "description": "Lancer de pièce virtuel.",
+      "shortDesc": "Lancer pièce"
     },
     "random-color": {
       "title": "Random Color Generator",
@@ -1855,22 +1646,9 @@
       "shortDesc": "Test de vitesse de frappe"
     },
     "screen-info": {
-      "title": "Screen Info",
-      "description": "Check screen resolution, viewport size, and browser info.",
-      "shortDesc": "Screen and browser info",
-      "display": "Display",
-      "browser": "Browser & System",
-      "screenResolution": "Screen Resolution",
-      "viewportSize": "Viewport Size",
-      "pixelRatio": "Pixel Ratio",
-      "colorDepth": "Color Depth",
-      "orientation": "Orientation",
-      "language": "Language",
-      "platform": "Platform",
-      "touchSupport": "Touch Support",
-      "onlineStatus": "Online Status",
-      "cookiesEnabled": "Cookies Enabled",
-      "userAgent": "User Agent"
+      "title": "Info Écran",
+      "description": "Informations écran et navigateur.",
+      "shortDesc": "Info écran"
     },
     "color-contrast": {
       "title": "Color Contrast Checker",
@@ -1878,14 +1656,9 @@
       "shortDesc": "Check accessibility contrast"
     },
     "dice-roller": {
-      "title": "Dice Roller",
-      "description": "Roll virtual dice with customizable sides and quantity.",
-      "shortDesc": "Virtual dice roller",
-      "diceType": "Dice Type",
-      "diceCount": "Number of Dice",
-      "rollButton": "Roll Dice",
-      "total": "Total",
-      "history": "Roll History"
+      "title": "Lancer de Dés",
+      "description": "Lanceur de dés virtuel.",
+      "shortDesc": "Lancer dés"
     },
     "drawing-pad": {
       "title": "Drawing Pad",
@@ -1972,35 +1745,14 @@
       "shortDesc": "Divination"
     },
     "love-calculator": {
-      "title": "Love Calculator",
-      "description": "Calculate the love compatibility between two people.",
-      "shortDesc": "Love compatibility test",
-      "name1": "Your Name",
-      "name2": "Partner's Name",
-      "enterName": "Enter name",
-      "calculate": "Calculate Love",
-      "perfect": "Perfect Match!",
-      "great": "Great Chemistry!",
-      "good": "Good Potential!",
-      "possible": "Possible Match",
-      "tryAgain": "Maybe Just Friends?"
+      "title": "Calculatrice d'Amour",
+      "description": "Test de compatibilité amoureuse.",
+      "shortDesc": "Test d'amour"
     },
     "breathing-exercise": {
-      "478": "4-7-8 Technique",
-      "title": "Breathing Exercise",
-      "description": "Guided breathing exercises for stress relief and focus improvement.",
-      "shortDesc": "Meditation breathing guide",
-      "pattern": "Breathing Pattern",
-      "relaxed": "Relaxed (4-4)",
-      "box": "Box Breathing (4-4-4-4)",
-      "calm": "Calming (4-2-6)",
-      "inhale": "Inhale",
-      "hold": "Hold",
-      "exhale": "Exhale",
-      "ready": "Prêt",
-      "start": "Start",
-      "stop": "Arrêter",
-      "cycles": "Completed Cycles"
+      "title": "Exercice de Respiration",
+      "description": "Guide de respiration méditative.",
+      "shortDesc": "Guide respiration"
     },
     "pomodoro-timer": {
       "title": "Minuteur Pomodoro",
@@ -2044,95 +1796,34 @@
       "newGame": "New Game"
     },
     "quotes-generator": {
-      "title": "Quotes Generator",
-      "description": "Display inspirational quotes and sayings randomly.",
-      "shortDesc": "Random quote generator",
-      "newQuote": "New Quote"
+      "title": "Générateur de Citations",
+      "description": "Génère des citations aléatoires.",
+      "shortDesc": "Générer citations"
     },
     "flip-text": {
-      "title": "Flip Text",
-      "description": "Flip your text upside down for a fun effect.",
-      "shortDesc": "Upside-down text generator",
-      "input": "Original Text",
-      "output": "Flipped Text",
-      "placeholder": "Enter text here..."
+      "title": "Inverser Texte",
+      "description": "Générateur de texte inversé.",
+      "shortDesc": "Inverser texte"
     },
     "emoji-search": {
-      "title": "Emoji Search",
-      "description": "Find and copy emojis from various categories.",
-      "shortDesc": "Find and copy emojis",
-      "smileys": "Smileys",
-      "gestures": "Gestures",
-      "animals": "Animals",
-      "food": "Food",
-      "activities": "Activities",
-      "objects": "Objects",
-      "symbols": "Symbols",
-      "clickToCopy": "Click an emoji to copy"
+      "title": "Recherche d'Emojis",
+      "description": "Trouve et copie des emojis.",
+      "shortDesc": "Chercher emojis"
     },
     "yes-no-generator": {
-      "title": "Yes/No Generator",
-      "description": "Generate a random yes or no answer when you can't decide.",
-      "shortDesc": "Random decision helper",
-      "question": "Question",
-      "placeholder": "Enter your question...",
-      "decide": "Decide for Me",
-      "yes": "Yes",
-      "no": "No",
-      "maybe": "Maybe",
-      "history": "History"
+      "title": "Générateur Oui/Non",
+      "description": "Aide à la décision aléatoire.",
+      "shortDesc": "Oui ou Non"
     },
     "elimination-wheel": {
-      "title": "Elimination Wheel",
-      "description": "Find the last one standing! Each round eliminates one person until only the winner remains.",
-      "shortDesc": "Last one standing game",
-      "participants": "Participants (one per line)",
-      "participantsPlaceholder": "Enter names, one per line",
-      "participantCount": "{{count}} participants",
-      "startGame": "Start Elimination Game",
-      "spinning": "Spinning...",
-      "eliminate": "Eliminate!",
-      "eliminated": "Eliminated!",
-      "remaining": "Remaining",
-      "eliminatedList": "Eliminated",
-      "noOneYet": "No one eliminated yet",
-      "winner": "Winner!",
-      "restart": "Restart",
-      "howToPlay": "How to Play",
-      "rule1": "1. Spin the wheel to eliminate one person",
-      "rule2": "2. The eliminated person is removed from the wheel",
-      "rule3": "3. Continue until only one person remains",
-      "rule4": "4. The last person standing is the winner!"
+      "title": "Roue d'Élimination",
+      "description": "Jeu du dernier debout.",
+      "shortDesc": "Dernier debout"
     },
     "team-picker": {
-      "title": "Team Picker",
-      "description": "Randomly divide participants into fair teams. Perfect for sports, games, and group activities.",
-      "shortDesc": "Random team assignment",
-      "participants": "Participants (one per line)",
-      "placeholder": "Enter names, one per line\n\nExample:\nAlice\nBob\nCharlie\nDavid",
-      "teamCount": "Number of Teams",
-      "teams": "Teams",
-      "people": "people",
-      "members": "members",
-      "generateTeams": "Generate Teams",
-      "shuffling": "Shuffling...",
-      "reset": "Réinitialiser",
-      "noTeamsYet": "No teams yet",
-      "addParticipants": "Add participants and click \"Generate Teams\" to randomly divide them into teams",
-      "useCases": "Use Cases",
-      "useCase1": "Sports team drafts",
-      "useCase2": "School group projects",
-      "useCase3": "Office team building",
-      "useCase4": "Game night teams",
-      "features": "Features",
-      "feature1": "Fair random distribution",
-      "feature2": "Up to 8 teams",
-      "feature3": "Copy results instantly",
-      "feature4": "Re-shuffle anytime",
-      "tips": "Tips",
-      "tip1": "Enter one name per line",
-      "tip2": "Shuffle multiple times for different results",
-      "tip3": "Copy and share with your group"
+      "title": "Sélecteur d'Équipes",
+      "description": "Attribution aléatoire d'équipes.",
+      "shortDesc": "Former équipes"
     },
     "liar-game": {
       "title": "Liar Game",
@@ -2234,48 +1925,14 @@
       "shortDesc": "Test de clics par seconde"
     },
     "bingo-generator": {
-      "title": "Bingo Generator",
-      "description": "Create custom bingo boards for any occasion! Perfect for events.",
-      "shortDesc": "Custom bingo maker",
-      "items": "Bingo items (one per line)",
-      "placeholder": "Enter items, one per line\n\nExample:\nApple\nBanana\nStrawberry\nWatermelon\n...",
-      "gridSize": "Grid Size",
-      "generate": "Generate Bingo",
-      "needMore": "Need {{count}} more items",
-      "howToUse": "How to Use",
-      "step1": "Enter items for the bingo board, one per line.",
-      "step2": "Select the grid size (3x3, 4x4, 5x5).",
-      "step3": "Click cells to mark them.",
-      "step4": "Complete a row, column, or diagonal for Bingo!",
-      "ideas": "Bingo Ideas",
-      "idea1": "Stream bingo: Things viewers should do",
-      "idea2": "Travel bingo: Things to do while traveling",
-      "idea3": "Meeting bingo: Common meeting phrases",
-      "idea4": "New Year bingo: Goals for the year",
-      "bingo": "Bingo!",
-      "shuffle": "Shuffle",
-      "reset": "Réinitialiser",
-      "clickToMark": "Click to mark"
+      "title": "Générateur de Bingo",
+      "description": "Créateur de bingo personnalisé.",
+      "shortDesc": "Créer bingo"
     },
     "stopwatch-challenge": {
-      "title": "Stopwatch Challenge",
-      "description": "Can you stop exactly at the target time? Test your timing!",
-      "shortDesc": "Stop at exact time",
-      "best": "Best",
-      "target": "Target",
-      "seconds": "seconds",
-      "instructions": "Stop exactly at {{target}} seconds!",
-      "start": "Start",
-      "stop": "Arrêter",
-      "reset": "Réinitialiser",
-      "difference": "Difference",
-      "diff": "Diff",
-      "history": "History",
-      "perfect": "Perfect!",
-      "excellent": "Excellent!",
-      "great": "Great!",
-      "good": "Good",
-      "tryAgain": "Try Again!"
+      "title": "Défi du Chronomètre",
+      "description": "Arrêtez au moment exact.",
+      "shortDesc": "Défi chrono"
     },
     "memory-game": {
       "title": "Jeu de Mémoire",
@@ -2283,25 +1940,9 @@
       "shortDesc": "Jeu de mémoire"
     },
     "silent-shout": {
-      "title": "Silent Shout",
-      "description": "Read lips to guess the word! Perfect for headphone games.",
-      "shortDesc": "Lip reading game",
-      "setupDesc": "Add words and start the game! Players wearing headphones guess by lip reading.",
-      "addSingle": "Add Single",
-      "bulkAdd": "Bulk Add",
-      "bulkHint": "One word per line",
-      "bulkPlaceholder": "Apple\nBanana\nStrawberry\nWatermelon",
-      "parseBulk": "Add All",
-      "wordList": "Word List",
-      "wordPlaceholder": "Enter word",
-      "start": "Start Game",
-      "back": "Back to List",
-      "fontSize": "Font Size",
-      "clickToReveal": "Click to reveal word",
-      "prev": "Prev",
-      "next": "Suivant",
-      "hide": "Hide",
-      "show": "Show"
+      "title": "Cri Silencieux",
+      "description": "Jeu de lecture labiale.",
+      "shortDesc": "Lecture labiale"
     },
     "big-wheel": {
       "title": "Grande Roue",
@@ -2339,34 +1980,34 @@
       "shortDesc": "Dés virtuels"
     },
     "korean-initial-quiz": {
-      "title": "Quiz d'Initiales Coréennes",
-      "description": "Devinez le mot par les initiales coréennes.",
-      "shortDesc": "Deviner par initiales"
+      "title": "Quiz Initiales Coréennes",
+      "description": "Devinez à partir des initiales.",
+      "shortDesc": "Quiz initiales"
     },
     "random-color-generator": {
       "title": "Générateur de Couleur Aléatoire",
-      "description": "Générez des couleurs aléatoires avec codes hex.",
-      "shortDesc": "Générer couleur aléatoire"
+      "description": "Génère des couleurs aléatoires.",
+      "shortDesc": "Couleur aléatoire"
     },
     "lorem-ipsum-generator": {
       "title": "Générateur Lorem Ipsum",
-      "description": "Générez du texte de remplissage pour le design.",
-      "shortDesc": "Générer texte de remplissage"
+      "description": "Génère du texte fictif.",
+      "shortDesc": "Texte fictif"
     },
     "aes-encrypt": {
       "title": "Chiffrement/Déchiffrement AES",
-      "description": "Chiffrez et déchiffrez du texte avec AES.",
-      "shortDesc": "Chiffrer/Déchiffrer texte"
+      "description": "Chiffre/déchiffre le texte.",
+      "shortDesc": "Chiffrement AES"
     },
     "base64-encoder": {
       "title": "Encodeur Base64",
-      "description": "Encodez et décodez du texte en Base64.",
-      "shortDesc": "Encoder/Décoder Base64"
+      "description": "Encodage Base64.",
+      "shortDesc": "Encoder Base64"
     },
     "bcrypt-hash": {
       "title": "Générateur Hash BCrypt",
-      "description": "Générez des hashes BCrypt pour mots de passe.",
-      "shortDesc": "Générer hash BCrypt"
+      "description": "Génère des hash BCrypt.",
+      "shortDesc": "Hash BCrypt"
     },
     "html-beautifier": {
       "title": "Embellisseur HTML",
@@ -2507,6 +2148,126 @@
       "title": "Créateur de Photo de Profil",
       "description": "Crée des photos de profil circulaires pour les réseaux sociaux.",
       "shortDesc": "Créer photo de profil"
+    },
+    "pdf-multi-page-layout": {
+      "title": "Mise en Page Multiple PDF",
+      "description": "Plusieurs pages par feuille.",
+      "shortDesc": "Pages multiples"
+    },
+    "base64-text-converter": {
+      "title": "Convertisseur Base64",
+      "description": "Encode/décode Base64.",
+      "shortDesc": "Conversion Base64"
+    },
+    "html-entity-converter": {
+      "title": "Convertisseur Entités HTML",
+      "description": "Convertit les entités HTML.",
+      "shortDesc": "Entités HTML"
+    },
+    "text-shuffler": {
+      "title": "Mélangeur de Texte",
+      "description": "Mélange le texte aléatoirement.",
+      "shortDesc": "Mélanger texte"
+    },
+    "morse-code-converter": {
+      "title": "Convertisseur Code Morse",
+      "description": "Convertit en code Morse.",
+      "shortDesc": "Code Morse"
+    },
+    "text-diff-checker": {
+      "title": "Comparateur de Textes",
+      "description": "Compare deux textes.",
+      "shortDesc": "Comparer textes"
+    },
+    "word-frequency-analyzer": {
+      "title": "Analyseur de Fréquence",
+      "description": "Analyse la fréquence des mots.",
+      "shortDesc": "Fréquence des mots"
+    },
+    "web-page-text-extractor": {
+      "title": "Extracteur de Texte Web",
+      "description": "Extrait le texte HTML.",
+      "shortDesc": "Extraire texte HTML"
+    },
+    "video-title-length-checker": {
+      "title": "Vérificateur de Longueur de Titre",
+      "description": "Optimise la longueur du titre.",
+      "shortDesc": "Optimiser titre"
+    },
+    "ad-banner-size-guide": {
+      "title": "Guide des Tailles de Bannières",
+      "description": "Référence des tailles de pub.",
+      "shortDesc": "Tailles de pub"
+    },
+    "simple-logo-generator": {
+      "title": "Générateur de Logos",
+      "description": "Crée des logos simples.",
+      "shortDesc": "Créer logos"
+    },
+    "email-signature-builder": {
+      "title": "Créateur de Signature Email",
+      "description": "Crée des signatures email.",
+      "shortDesc": "Signature email"
+    },
+    "fake-profile-generator": {
+      "title": "Générateur de Faux Profils",
+      "description": "Génère des profils de test.",
+      "shortDesc": "Profils de test"
+    },
+    "bcrypt-hash-generator": {
+      "title": "Générateur Hash BCrypt",
+      "description": "Génère des hash BCrypt.",
+      "shortDesc": "Hash BCrypt"
+    },
+    "cron-expression-generator": {
+      "title": "Générateur d'Expressions Cron",
+      "description": "Génère des expressions cron.",
+      "shortDesc": "Expressions cron"
+    },
+    "ipv4-to-ipv6-converter": {
+      "title": "Convertisseur IPv4 vers IPv6",
+      "description": "Convertit les adresses IP.",
+      "shortDesc": "Convertir IP"
+    },
+    "epoch-unix-time-converter": {
+      "title": "Convertisseur Temps Unix",
+      "description": "Convertit les horodatages.",
+      "shortDesc": "Temps Unix"
+    },
+    "metric-imperial-converter": {
+      "title": "Convertisseur Métrique/Impérial",
+      "description": "Convertit entre systèmes.",
+      "shortDesc": "Métrique et Impérial"
+    },
+    "bmr-tdee-calculator": {
+      "title": "Calculatrice BMR et TDEE",
+      "description": "Calcule le taux métabolique.",
+      "shortDesc": "Calculer métabolisme"
+    },
+    "pregnancy-due-date-calculator": {
+      "title": "Calculatrice Date d'Accouchement",
+      "description": "Calcule la date prévue.",
+      "shortDesc": "Date d'accouchement"
+    },
+    "sleep-cycle-calculator": {
+      "title": "Calculatrice Cycle de Sommeil",
+      "description": "Calcule les temps de sommeil.",
+      "shortDesc": "Cycle de sommeil"
+    },
+    "reaction-time-test": {
+      "title": "Test de Temps de Réaction",
+      "description": "Mesure la vitesse de réaction.",
+      "shortDesc": "Mesurer réaction"
+    },
+    "number-guessing-game": {
+      "title": "Jeu de Devinette de Nombres",
+      "description": "Jeu de devinette de nombres.",
+      "shortDesc": "Deviner nombres"
+    },
+    "hearing-age-test": {
+      "title": "Test d'Âge Auditif",
+      "description": "Test de fréquence auditive.",
+      "shortDesc": "Test auditif"
     }
   }
 }
