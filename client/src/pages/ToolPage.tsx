@@ -102,6 +102,7 @@ const VideoMetadataTool = lazy(() => import('@/components/tools/VideoMetadataToo
 const CharacterCountTool = lazy(() => import('@/components/tools/CharacterCountTool'));
 const CaseConverterTool = lazy(() => import('@/components/tools/CaseConverterTool'));
 const ImageOcrTool = lazy(() => import('@/components/tools/ImageOcrTool'));
+const PdfTextExtractTool = lazy(() => import('@/components/tools/PdfTextExtractTool'));
 const TextProcessingTool = lazy(() => import('@/components/tools/TextProcessingTool'));
 const JsonFormatterTool = lazy(() => import('@/components/tools/JsonFormatterTool'));
 const Base64Tool = lazy(() => import('@/components/tools/Base64Tool'));
@@ -250,7 +251,7 @@ const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element
   'voice-recorder': VoiceRecorderTool,
   'screen-recorder': ScreenRecorderTool,
   'image-ocr': ImageOcrTool,
-  'pdf-text-extract': ImageOcrTool,
+  'pdf-text-extract': PdfTextExtractTool,
   'character-count': CharacterCountTool,
   'case-converter': CaseConverterTool,
   'line-break-remover': TextProcessingTool,

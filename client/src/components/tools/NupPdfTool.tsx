@@ -205,7 +205,7 @@ export default function NupPdfTool() {
           </div>
 
           {error && (
-            <p className="text-sm text-destructive">{t(`Errors.${error.code}`)}</p>
+            <p className="text-sm text-destructive" data-testid="text-error">{t(`Common.errors.${error.code}`, { defaultValue: t('Common.messages.error') })}</p>
           )}
 
           <Button

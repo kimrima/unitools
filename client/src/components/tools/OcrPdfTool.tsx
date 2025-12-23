@@ -14,7 +14,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { FileText, Download, Loader2, CheckCircle, Scan, Trash2, Copy } from 'lucide-react';
+import { FileText, Download, Loader2, CheckCircle, Scan, Trash2, Copy, Info } from 'lucide-react';
 import { FileUploadZone } from '@/components/tool-ui';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
@@ -178,11 +178,24 @@ export default function OcrPdfTool() {
   return (
     <div className="space-y-6">
       {!file && (
-        <FileUploadZone
-          onFileSelect={handleFilesFromDropzone}
-          accept="application/pdf"
-          multiple={false}
-        />
+        <>
+          <div className="p-4 bg-muted/30 rounded-lg flex items-start gap-3">
+            <Info className="w-5 h-5 text-muted-foreground shrink-0 mt-0.5" />
+            <div className="space-y-1">
+              <p className="text-sm text-muted-foreground">
+                {t('Tools.ocr-pdf.explanation', 'Use this tool for scanned documents or image-based PDFs where text cannot be selected. The OCR engine recognizes text from images and makes it searchable and copyable.')}
+              </p>
+              <p className="text-sm text-muted-foreground">
+                {t('Tools.ocr-pdf.textExtractHint', 'For PDFs where you can already select text, use the PDF Text Extraction tool for faster and more accurate results.')}
+              </p>
+            </div>
+          </div>
+          <FileUploadZone
+            onFileSelect={handleFilesFromDropzone}
+            accept="application/pdf"
+            multiple={false}
+          />
+        </>
       )}
 
       {file && status !== 'success' && (

@@ -114,7 +114,10 @@
       "FFMPEG_LOAD_FAILED": "Failed to load FFmpeg",
       "INVALID_VIDEO": "Invalid video file",
       "WORKER_ERROR": "Worker error occurred",
-      "VALIDATION_FAILED": "Validation failed"
+      "VALIDATION_FAILED": "Validation failed",
+      "EXTRACT_FAILED": "Failed to extract text from PDF",
+      "NUP_FAILED": "Failed to create multi-page layout",
+      "COPY_FAILED": "Failed to copy to clipboard"
     },
     "units": {
       "bytes": "Bytes",
@@ -751,9 +754,15 @@
     },
     "pdf-text-extract": {
       "title": "PDF Text Extraction",
-      "description": "Extract all text content from PDF documents.",
+      "description": "Extract selectable text from PDF documents. Works with PDFs created from Word, web pages, or text documents.",
       "shortDesc": "Extract PDF text",
-      "instructions": "Upload a PDF file to extract its text content."
+      "instructions": "Upload a PDF file to extract its text content.",
+      "explanation": "This tool extracts selectable text that is embedded in PDF files. It works for PDFs created from text documents, Word files, or web pages.",
+      "ocrHint": "For scanned documents or image-based PDFs where text cannot be selected, use the OCR PDF tool instead.",
+      "extractButton": "Extract Text",
+      "successMessage": "Text extracted successfully.",
+      "copiedMessage": "Text copied to clipboard.",
+      "resultLabel": "Extracted Text"
     },
     "character-count": {
       "title": "Character Counter",
@@ -1160,8 +1169,8 @@
       "shortDesc": "Edit PDF content"
     },
     "ocr-pdf": {
-      "title": "OCR PDF",
-      "description": "Extract text from scanned PDFs using optical character recognition.",
+      "title": "OCR PDF (Scanned Documents)",
+      "description": "Extract text from scanned PDFs or image-based PDFs using optical character recognition. Supports Korean, English, Japanese, Chinese, Spanish, French, and German.",
       "shortDesc": "Extract text from scanned PDF",
       "language": "OCR Language",
       "ocrButton": "Start OCR",
@@ -1169,7 +1178,9 @@
       "processingPage": "Processing page {{current}} of {{total}}...",
       "recognizing": "Recognizing text on page {{current}} of {{total}}...",
       "saving": "Saving PDF...",
-      "successMessage": "OCR completed. Text layer added to PDF."
+      "successMessage": "OCR completed. Text layer added to PDF.",
+      "explanation": "Use this tool for scanned documents or image-based PDFs where text cannot be selected. The OCR engine recognizes text from images and makes it searchable and copyable.",
+      "textExtractHint": "For PDFs where you can already select text, use the PDF Text Extraction tool for faster and more accurate results."
     },
     "repair-pdf": {
       "title": "Repair PDF",
