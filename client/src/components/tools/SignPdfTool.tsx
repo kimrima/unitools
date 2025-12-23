@@ -223,7 +223,7 @@ export default function SignPdfTool() {
     setError(null);
 
     try {
-      await stagedProcessing.runStagedProcessing(async () => {
+      const result = await stagedProcessing.runStagedProcessing(async () => {
         const arrayBuffer = await file.arrayBuffer();
         const pdfDoc = await PDFDocument.load(arrayBuffer);
         const pages = pdfDoc.getPages();
@@ -247,8 +247,10 @@ export default function SignPdfTool() {
         const pdfBytes = await pdfDoc.save();
         return new Blob([pdfBytes], { type: 'application/pdf' });
       });
-      setResultBlob(stagedProcessing.result as Blob);
-      setStatus('success');
+      if (result) {
+        setResultBlob(result as Blob);
+        setStatus('success');
+      }
     } catch {
       setError({ code: 'SIGNING_FAILED' });
       setStatus('error');
