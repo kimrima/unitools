@@ -191,13 +191,22 @@ export default function PdfToImageTool() {
 
       {status === 'processing' && (
         <Card className="p-8">
-          <div className="flex flex-col items-center gap-4">
-            <Loader2 className="w-12 h-12 text-primary animate-spin" />
-            <div className="text-center">
-              <p className="font-medium">{t('Common.messages.processing')}</p>
-              <p className="text-sm text-muted-foreground mt-1">{Math.round(progress)}%</p>
+          <div className="flex flex-col items-center gap-6">
+            <div className="relative">
+              <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center">
+                <Loader2 className="w-10 h-10 text-primary animate-spin" />
+              </div>
+              <div className="absolute -bottom-1 -right-1 bg-background rounded-full px-2 py-0.5 border text-xs font-medium">
+                {Math.round(progress)}%
+              </div>
             </div>
-            <Progress value={progress} className="w-full max-w-xs" />
+            <div className="text-center">
+              <p className="font-medium text-lg">{t('Common.messages.processing')}</p>
+              <p className="text-sm text-muted-foreground mt-1">
+                {t('Common.workflow.convertingPages', { defaultValue: 'Converting PDF pages to images...' })}
+              </p>
+            </div>
+            <Progress value={progress} className="w-full max-w-sm h-2" />
           </div>
         </Card>
       )}

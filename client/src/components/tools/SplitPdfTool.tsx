@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFileHandler, type FileHandlerError } from '@/hooks/useFileHandler';
 import { useStagedProcessing } from '@/hooks/useStagedProcessing';
@@ -25,6 +25,22 @@ export default function SplitPdfTool() {
     setError,
     reset: resetHandler,
   } = useFileHandler({ accept: '.pdf', multiple: false });
+
+  useEffect(() => {
+    async function loadPageCount() {
+      if (files.length > 0 && files[0].arrayBuffer) {
+        try {
+          const count = await getPdfPageCount(files[0].arrayBuffer);
+          setPageCount(count);
+        } catch {
+          setPageCount(0);
+        }
+      } else {
+        setPageCount(0);
+      }
+    }
+    loadPageCount();
+  }, [files]);
 
   const stagedProcessing = useStagedProcessing({
     minDuration: 3000,
@@ -64,23 +80,11 @@ export default function SplitPdfTool() {
         return;
       }
       
-      await addFiles(fileList);
       setSplitResults([]);
       setShowResults(false);
+      setPageCount(0);
       
-      const reader = new FileReader();
-      reader.onload = async () => {
-        try {
-          const count = await getPdfPageCount(reader.result as ArrayBuffer);
-          setPageCount(count);
-        } catch {
-          setPageCount(0);
-        }
-      };
-      reader.onerror = () => {
-        setPageCount(0);
-      };
-      reader.readAsArrayBuffer(file);
+      await addFiles(fileList);
     }
   }, [addFiles, setError]);
 
