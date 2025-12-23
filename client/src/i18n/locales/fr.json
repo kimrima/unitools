@@ -287,6 +287,13 @@
       "relatedToolsSubtitle": "Explorez plus d'outils gratuits",
       "reviews": "avis",
       "users": "utilisateurs"
+    },
+    "allTools": "Tous les outils",
+    "allToolsPage": {
+      "title": "Tous les outils",
+      "subtitle": "200+ outils en ligne gratuits",
+      "showing": "Affichage",
+      "tools": "outils"
     }
   },
   "Categories": {
@@ -1013,14 +1020,14 @@
       "shortDesc": "Calculer pourcentages"
     },
     "pdf-to-png": {
-      "title": "PDF to PNG",
-      "description": "Convert PDF files to high-quality PNG images with transparency support.",
-      "shortDesc": "Convert PDF to PNG images"
+      "title": "PDF en PNG",
+      "description": "Convertit les fichiers PDF en images PNG.",
+      "shortDesc": "Convertir PDF en PNG"
     },
     "png-to-pdf": {
-      "title": "PNG to PDF",
-      "description": "Convert PNG images to a single PDF file.",
-      "shortDesc": "Convert PNG images to PDF"
+      "title": "PNG en PDF",
+      "description": "Convertit les images PNG en fichier PDF.",
+      "shortDesc": "Convertir PNG en PDF"
     },
     "pdf-to-word": {
       "title": "PDF to Word",
@@ -1053,9 +1060,9 @@
       "shortDesc": "Convert PPTX to PDF"
     },
     "rotate-pdf": {
-      "title": "Rotate PDF",
-      "description": "Rotate PDF pages to any angle (90, 180, 270 degrees).",
-      "shortDesc": "Rotate PDF pages"
+      "title": "Faire Pivoter PDF",
+      "description": "Fait pivoter les pages du PDF.",
+      "shortDesc": "Faire pivoter pages PDF"
     },
     "delete-pdf-pages": {
       "title": "Delete PDF Pages",
@@ -1063,9 +1070,9 @@
       "shortDesc": "Remove pages from PDF"
     },
     "extract-pdf-pages": {
-      "title": "Extract PDF Pages",
-      "description": "Extract specific pages from a PDF to create a new file.",
-      "shortDesc": "Extract pages from PDF"
+      "title": "Extraire Pages PDF",
+      "description": "Extrait des pages spécifiques du PDF.",
+      "shortDesc": "Extraire pages PDF"
     },
     "organize-pdf": {
       "title": "Organize PDF",
@@ -1530,16 +1537,9 @@
       "shortDesc": "Générateur de mot de passe sécurisé"
     },
     "uuid-generator": {
-      "title": "UUID/GUID Generator",
-      "description": "Generate universally unique identifiers (UUID v4, GUID, NanoID).",
-      "shortDesc": "Generate UUIDs",
-      "typeLabel": "Type",
-      "countLabel": "Count",
-      "generate": "Generate",
-      "resultLabel": "Generated IDs",
-      "copyAll": "Copy All",
-      "copied": "Copied!",
-      "allCopied": "All IDs copied!"
+      "title": "Générateur UUID",
+      "description": "Génère des UUIDs uniques.",
+      "shortDesc": "Générer UUID"
     },
     "jwt-decoder": {
       "title": "JWT Decoder",
@@ -1638,11 +1638,9 @@
       "milliseconds": "Milliseconds"
     },
     "color-converter": {
-      "title": "Color Converter",
-      "description": "Convert colors between HEX, RGB, HSL, and CMYK formats.",
-      "shortDesc": "Convert color formats",
-      "pickColor": "Pick or Enter Color",
-      "copied": "Color value copied!"
+      "title": "Convertisseur de Couleur",
+      "description": "Convertit les codes couleur entre formats.",
+      "shortDesc": "Convertir codes couleur"
     },
     "tip-calculator": {
       "title": "Calculatrice de Pourboire",
@@ -2335,15 +2333,9 @@
       "tryAgain": "Try Again!"
     },
     "memory-game": {
-      "title": "Memory Game",
-      "description": "Find matching card pairs! Test your memory and focus.",
-      "shortDesc": "Card matching game",
-      "best": "Best",
-      "moves": "moves",
-      "start": "Start",
-      "complete": "Terminé!",
-      "result": "{{moves}} moves, {{time}}",
-      "playAgain": "Play Again"
+      "title": "Jeu de Mémoire",
+      "description": "Jeu de mémoire.",
+      "shortDesc": "Jeu de mémoire"
     },
     "silent-shout": {
       "title": "Silent Shout",
@@ -2485,6 +2477,81 @@
       "title": "Binaire en Texte",
       "description": "Convertissez le code binaire en texte.",
       "shortDesc": "Convertir du binaire"
+    },
+    "pdf-watermark": {
+      "title": "Filigrane PDF",
+      "description": "Ajoute un filigrane au PDF.",
+      "shortDesc": "Ajouter filigrane au PDF"
+    },
+    "pdf-password": {
+      "title": "Mot de Passe PDF",
+      "description": "Ajoute une protection par mot de passe au PDF.",
+      "shortDesc": "Protéger PDF"
+    },
+    "pdf-unlock": {
+      "title": "Déverrouiller PDF",
+      "description": "Supprime le mot de passe du PDF.",
+      "shortDesc": "Déverrouiller PDF"
+    },
+    "pdf-ocr": {
+      "title": "PDF OCR",
+      "description": "Extrait le texte des PDFs numérisés.",
+      "shortDesc": "Texte de PDF numérisé"
+    },
+    "rotate-video": {
+      "title": "Faire Pivoter Vidéo",
+      "description": "Fait pivoter la vidéo de 90, 180 ou 270 degrés.",
+      "shortDesc": "Faire pivoter vidéo"
+    },
+    "json-validator": {
+      "title": "Validateur JSON",
+      "description": "Valide la syntaxe des données JSON.",
+      "shortDesc": "Valider JSON"
+    },
+    "timestamp-converter": {
+      "title": "Convertisseur de Timestamp",
+      "description": "Convertit les timestamps UNIX et dates.",
+      "shortDesc": "Convertir timestamp"
+    },
+    "gradient-generator": {
+      "title": "Générateur de Dégradé",
+      "description": "Génère des dégradés CSS.",
+      "shortDesc": "Générer dégradé"
+    },
+    "fraction-calculator": {
+      "title": "Calculatrice de Fractions",
+      "description": "Effectue des calculs avec des fractions.",
+      "shortDesc": "Calculer fractions"
+    },
+    "fuel-cost-calculator": {
+      "title": "Calculatrice de Carburant",
+      "description": "Calcule le coût du carburant du voyage.",
+      "shortDesc": "Calculer carburant"
+    },
+    "mortgage-calculator": {
+      "title": "Calculatrice Hypothécaire",
+      "description": "Calcule les paiements hypothécaires.",
+      "shortDesc": "Calculer hypothèque"
+    },
+    "lucky-draw": {
+      "title": "Tirage au Sort",
+      "description": "Sélectionne des gagnants au hasard.",
+      "shortDesc": "Sélectionner gagnants"
+    },
+    "name-picker": {
+      "title": "Sélecteur de Noms",
+      "description": "Sélectionne des noms au hasard dans une liste.",
+      "shortDesc": "Sélectionner nom"
+    },
+    "team-generator": {
+      "title": "Générateur d'Équipes",
+      "description": "Divise les membres en équipes au hasard.",
+      "shortDesc": "Générer équipes"
+    },
+    "reaction-test": {
+      "title": "Test de Réaction",
+      "description": "Teste votre vitesse de réaction.",
+      "shortDesc": "Tester réaction"
     }
   }
 }

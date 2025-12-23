@@ -287,6 +287,13 @@
       "relatedToolsSubtitle": "さらに無料ツールを探索",
       "reviews": "レビュー",
       "users": "ユーザー"
+    },
+    "allTools": "すべてのツール",
+    "allToolsPage": {
+      "title": "すべてのツール",
+      "subtitle": "200以上の無料オンラインツール",
+      "showing": "表示中",
+      "tools": "ツール"
     }
   },
   "Categories": {
@@ -911,17 +918,9 @@
       "encodedPlaceholder": "Enter HTML entities like &lt;div&gt;..."
     },
     "diff-checker": {
-      "title": "Text Diff Checker",
-      "description": "Compare two texts and highlight the differences.",
-      "shortDesc": "Compare texts",
-      "instructions": "Paste two texts to compare and see differences highlighted.",
-      "text1Label": "Original Text",
-      "text2Label": "Modified Text",
-      "text1Placeholder": "Paste original text...",
-      "text2Placeholder": "Paste modified text...",
-      "added": "Added",
-      "removed": "Removed",
-      "unchanged": "Unchanged"
+      "title": "差分チェッカー",
+      "description": "2つのテキストの違いを比較します。",
+      "shortDesc": "テキストを比較"
     },
     "word-frequency": {
       "title": "Word Frequency Analyzer",
@@ -963,16 +962,9 @@
       "binaryPlaceholder": "Enter binary code (e.g., 01001000 01101001)..."
     },
     "morse-code": {
-      "title": "Morse Code Converter",
-      "description": "Convert text to Morse code and Morse code to text.",
-      "shortDesc": "Morse code",
-      "instructions": "Enter text to convert to Morse code.",
-      "textToMorse": "Text to Morse",
-      "morseToText": "Morse to Text",
-      "textLabel": "Text",
-      "morseLabel": "Morse Code",
-      "textPlaceholder": "Enter text to convert to morse code...",
-      "morsePlaceholder": "Enter morse code (e.g., .... . .-.. .-.. ---)..."
+      "title": "モールス符号",
+      "description": "テキストをモールス符号に変換します。",
+      "shortDesc": "モールス符号に変換"
     },
     "web-text-extract": {
       "title": "Web Page Text Extractor",
@@ -1013,14 +1005,14 @@
       "shortDesc": "パーセントを計算"
     },
     "pdf-to-png": {
-      "title": "PDF to PNG",
-      "description": "Convert PDF files to high-quality PNG images with transparency support.",
-      "shortDesc": "Convert PDF to PNG images"
+      "title": "PDFからPNG",
+      "description": "PDFファイルをPNG画像に変換します。",
+      "shortDesc": "PDFをPNGに変換"
     },
     "png-to-pdf": {
-      "title": "PNG to PDF",
-      "description": "Convert PNG images to a single PDF file.",
-      "shortDesc": "Convert PNG images to PDF"
+      "title": "PNGからPDF",
+      "description": "PNG画像をPDFファイルに変換します。",
+      "shortDesc": "PNGをPDFに変換"
     },
     "pdf-to-word": {
       "title": "PDF to Word",
@@ -1053,9 +1045,9 @@
       "shortDesc": "Convert PPTX to PDF"
     },
     "rotate-pdf": {
-      "title": "Rotate PDF",
-      "description": "Rotate PDF pages to any angle (90, 180, 270 degrees).",
-      "shortDesc": "Rotate PDF pages"
+      "title": "PDFを回転",
+      "description": "PDFページを回転します。",
+      "shortDesc": "PDFページを回転"
     },
     "delete-pdf-pages": {
       "title": "Delete PDF Pages",
@@ -1063,9 +1055,9 @@
       "shortDesc": "Remove pages from PDF"
     },
     "extract-pdf-pages": {
-      "title": "Extract PDF Pages",
-      "description": "Extract specific pages from a PDF to create a new file.",
-      "shortDesc": "Extract pages from PDF"
+      "title": "PDFページ抽出",
+      "description": "PDFから特定のページを抽出します。",
+      "shortDesc": "PDFページを抽出"
     },
     "organize-pdf": {
       "title": "Organize PDF",
@@ -1153,9 +1145,9 @@
       "shortDesc": "Convert HTML to PDF"
     },
     "add-page-numbers": {
-      "title": "Add Page Numbers",
-      "description": "Automatically add page numbers to all pages of your PDF.",
-      "shortDesc": "Number PDF pages"
+      "title": "ページ番号追加",
+      "description": "PDFにページ番号を追加します。",
+      "shortDesc": "ページ番号を追加"
     },
     "crop-pdf": {
       "title": "Crop PDF",
@@ -1267,15 +1259,9 @@
       "noImage": "Upload an image to split"
     },
     "youtube-thumbnail": {
-      "title": "YouTube Thumbnail Downloader",
-      "description": "Download YouTube video thumbnails in all available resolutions.",
-      "shortDesc": "Get YouTube thumbnails",
-      "urlLabel": "YouTube Video URL",
-      "urlPlaceholder": "Paste YouTube URL or video ID...",
-      "extract": "Extract Thumbnails",
-      "openVideo": "Open Video",
-      "invalidUrl": "Invalid YouTube URL or video ID",
-      "noVideo": "Enter a YouTube URL to get thumbnails"
+      "title": "YouTubeサムネイル",
+      "description": "YouTubeサムネイルを作成します。",
+      "shortDesc": "サムネイルを作成"
     },
     "twitter-char-count": {
       "title": "Twitter/X Character Counter",
@@ -1386,26 +1372,9 @@
       "sizeLabel": "Size"
     },
     "email-signature": {
-      "title": "Email Signature Builder",
-      "description": "Create professional HTML email signatures for Outlook, Gmail, and more.",
-      "shortDesc": "Create email signatures",
-      "nameLabel": "Full Name",
-      "namePlaceholder": "John Smith",
-      "titleLabel": "Job Title",
-      "titlePlaceholder": "Marketing Manager",
-      "companyLabel": "Company",
-      "companyPlaceholder": "Acme Inc.",
-      "emailLabel": "Email",
-      "emailPlaceholder": "john@example.com",
-      "phoneLabel": "Phone",
-      "phonePlaceholder": "+1 234-567-8900",
-      "websiteLabel": "Website",
-      "websitePlaceholder": "www.example.com",
-      "colorLabel": "Accent Color",
-      "previewLabel": "Preview",
-      "copyHtml": "Copy HTML",
-      "htmlCopied": "HTML copied to clipboard!",
-      "instructions": "Copy the HTML and paste it into your email client's signature settings."
+      "title": "メール署名",
+      "description": "メール署名を作成します。",
+      "shortDesc": "メール署名を作成"
     },
     "random-picker": {
       "title": "Random Picker",
@@ -1530,16 +1499,9 @@
       "shortDesc": "安全なパスワードを生成"
     },
     "uuid-generator": {
-      "title": "UUID/GUID Generator",
-      "description": "Generate universally unique identifiers (UUID v4, GUID, NanoID).",
-      "shortDesc": "Generate UUIDs",
-      "typeLabel": "Type",
-      "countLabel": "Count",
-      "generate": "Generate",
-      "resultLabel": "Generated IDs",
-      "copyAll": "Copy All",
-      "copied": "Copied!",
-      "allCopied": "All IDs copied!"
+      "title": "UUID生成",
+      "description": "一意のUUIDを生成します。",
+      "shortDesc": "UUIDを生成"
     },
     "jwt-decoder": {
       "title": "JWT Decoder",
@@ -1638,11 +1600,9 @@
       "milliseconds": "Milliseconds"
     },
     "color-converter": {
-      "title": "Color Converter",
-      "description": "Convert colors between HEX, RGB, HSL, and CMYK formats.",
-      "shortDesc": "Convert color formats",
-      "pickColor": "Pick or Enter Color",
-      "copied": "Color value copied!"
+      "title": "カラー変換",
+      "description": "色コードを異なる形式間で変換します。",
+      "shortDesc": "色コードを変換"
     },
     "tip-calculator": {
       "title": "チップ計算機",
@@ -1866,9 +1826,9 @@
       "shortDesc": "GPAを計算"
     },
     "scientific-calculator": {
-      "title": "Scientific Calculator",
-      "description": "Perform advanced mathematical calculations including trigonometry and logarithms.",
-      "shortDesc": "Advanced math calculator"
+      "title": "関数電卓",
+      "description": "高度な数学計算を行います。",
+      "shortDesc": "関数電卓"
     },
     "binary-text": {
       "title": "Binary to Text Converter",
@@ -2335,15 +2295,9 @@
       "tryAgain": "Try Again!"
     },
     "memory-game": {
-      "title": "Memory Game",
-      "description": "Find matching card pairs! Test your memory and focus.",
-      "shortDesc": "Card matching game",
-      "best": "Best",
-      "moves": "moves",
-      "start": "Start",
-      "complete": "完了!",
-      "result": "{{moves}} moves, {{time}}",
-      "playAgain": "Play Again"
+      "title": "メモリーゲーム",
+      "description": "記憶力ゲーム。",
+      "shortDesc": "記憶力ゲーム"
     },
     "silent-shout": {
       "title": "Silent Shout",
@@ -2485,6 +2439,426 @@
       "title": "バイナリからテキスト",
       "description": "バイナリコードをテキストに変換します。",
       "shortDesc": "バイナリから変換"
+    },
+    "pdf-watermark": {
+      "title": "PDF透かし",
+      "description": "PDFに透かしを追加します。",
+      "shortDesc": "PDFに透かしを追加"
+    },
+    "pdf-password": {
+      "title": "PDFパスワード",
+      "description": "PDFにパスワード保護を追加します。",
+      "shortDesc": "PDFを保護"
+    },
+    "pdf-unlock": {
+      "title": "PDFロック解除",
+      "description": "PDFからパスワードを削除します。",
+      "shortDesc": "PDFのロックを解除"
+    },
+    "pdf-ocr": {
+      "title": "PDF OCR",
+      "description": "スキャンされたPDFからテキストを抽出します。",
+      "shortDesc": "スキャンPDFからテキスト"
+    },
+    "pdf-page-reorder": {
+      "title": "PDFページ並び替え",
+      "description": "PDFのページ順序を変更します。",
+      "shortDesc": "ページを並び替え"
+    },
+    "pdf-multi-page-layout": {
+      "title": "PDF複数ページレイアウト",
+      "description": "1ページに複数のPDFページを配置します。",
+      "shortDesc": "複数ページレイアウト"
+    },
+    "gif-to-jpg": {
+      "title": "GIFからJPG",
+      "description": "GIF画像をJPG形式に変換します。",
+      "shortDesc": "GIFをJPGに変換"
+    },
+    "bmp-to-jpg": {
+      "title": "BMPからJPG",
+      "description": "BMP画像をJPG形式に変換します。",
+      "shortDesc": "BMPをJPGに変換"
+    },
+    "tiff-to-jpg": {
+      "title": "TIFFからJPG",
+      "description": "TIFF画像をJPG形式に変換します。",
+      "shortDesc": "TIFFをJPGに変換"
+    },
+    "ico-to-png": {
+      "title": "ICOからPNG",
+      "description": "ICOファイルをPNG画像に変換します。",
+      "shortDesc": "ICOをPNGに変換"
+    },
+    "rotate-video": {
+      "title": "動画を回転",
+      "description": "動画を90、180、270度回転します。",
+      "shortDesc": "動画を回転"
+    },
+    "split-video": {
+      "title": "動画を分割",
+      "description": "動画を複数の部分に分割します。",
+      "shortDesc": "動画を分割"
+    },
+    "join-video": {
+      "title": "動画を結合",
+      "description": "複数の動画を1つに結合します。",
+      "shortDesc": "動画を結合"
+    },
+    "video-watermark": {
+      "title": "動画透かし",
+      "description": "動画に透かしを追加します。",
+      "shortDesc": "動画に透かし追加"
+    },
+    "add-audio-to-video": {
+      "title": "動画に音声追加",
+      "description": "動画に音声トラックを追加します。",
+      "shortDesc": "動画に音声追加"
+    },
+    "add-subtitle": {
+      "title": "字幕を追加",
+      "description": "動画に字幕を追加します。",
+      "shortDesc": "字幕を追加"
+    },
+    "change-audio-speed": {
+      "title": "音声速度変更",
+      "description": "音声の再生速度を変更します。",
+      "shortDesc": "音声速度を変更"
+    },
+    "fade-audio": {
+      "title": "音声フェード",
+      "description": "音声にフェードイン/フェードアウト効果を追加します。",
+      "shortDesc": "音声フェード効果"
+    },
+    "normalize-audio": {
+      "title": "音声正規化",
+      "description": "音声レベルを正規化します。",
+      "shortDesc": "音声を正規化"
+    },
+    "json-validator": {
+      "title": "JSONバリデーター",
+      "description": "JSONデータの構文を検証します。",
+      "shortDesc": "JSONを検証"
+    },
+    "timestamp-converter": {
+      "title": "タイムスタンプ変換",
+      "description": "UNIXタイムスタンプと日付を変換します。",
+      "shortDesc": "タイムスタンプを変換"
+    },
+    "ip-lookup": {
+      "title": "IP検索",
+      "description": "IPアドレスの情報を検索します。",
+      "shortDesc": "IP情報を検索"
+    },
+    "html-to-markdown": {
+      "title": "HTMLからMarkdown",
+      "description": "HTMLをMarkdown形式に変換します。",
+      "shortDesc": "HTMLをMarkdownに"
+    },
+    "markdown-to-html": {
+      "title": "MarkdownからHTML",
+      "description": "MarkdownをHTMLに変換します。",
+      "shortDesc": "MarkdownをHTMLに"
+    },
+    "css-generator": {
+      "title": "CSSジェネレーター",
+      "description": "CSSコードを生成します。",
+      "shortDesc": "CSSを生成"
+    },
+    "gradient-generator": {
+      "title": "グラデーション生成",
+      "description": "CSSグラデーションを生成します。",
+      "shortDesc": "グラデーションを生成"
+    },
+    "box-shadow-generator": {
+      "title": "ボックスシャドウ生成",
+      "description": "CSSボックスシャドウを生成します。",
+      "shortDesc": "ボックスシャドウを生成"
+    },
+    "text-shadow-generator": {
+      "title": "テキストシャドウ生成",
+      "description": "CSSテキストシャドウを生成します。",
+      "shortDesc": "テキストシャドウを生成"
+    },
+    "border-radius-generator": {
+      "title": "ボーダー半径生成",
+      "description": "CSS境界線の丸みを生成します。",
+      "shortDesc": "ボーダー半径を生成"
+    },
+    "code-beautifier": {
+      "title": "コード整形",
+      "description": "コードをフォーマットして読みやすくします。",
+      "shortDesc": "コードを整形"
+    },
+    "number-to-words": {
+      "title": "数字を単語に",
+      "description": "数字を単語表記に変換します。",
+      "shortDesc": "数字を単語に変換"
+    },
+    "text-to-hex": {
+      "title": "テキストから16進数",
+      "description": "テキストを16進数に変換します。",
+      "shortDesc": "16進数に変換"
+    },
+    "hex-to-text": {
+      "title": "16進数からテキスト",
+      "description": "16進数をテキストに変換します。",
+      "shortDesc": "16進数から変換"
+    },
+    "text-to-ascii": {
+      "title": "テキストからASCII",
+      "description": "テキストをASCIIコードに変換します。",
+      "shortDesc": "ASCIIに変換"
+    },
+    "ascii-to-text": {
+      "title": "ASCIIからテキスト",
+      "description": "ASCIIコードをテキストに変換します。",
+      "shortDesc": "ASCIIから変換"
+    },
+    "roman-numerals": {
+      "title": "ローマ数字変換",
+      "description": "アラビア数字とローマ数字を変換します。",
+      "shortDesc": "ローマ数字に変換"
+    },
+    "nato-phonetic": {
+      "title": "NATOフォネティック",
+      "description": "テキストをNATOフォネティックアルファベットに変換します。",
+      "shortDesc": "NATOに変換"
+    },
+    "fraction-calculator": {
+      "title": "分数計算機",
+      "description": "分数の計算を行います。",
+      "shortDesc": "分数を計算"
+    },
+    "fuel-cost-calculator": {
+      "title": "燃料費計算機",
+      "description": "旅行の燃料費を計算します。",
+      "shortDesc": "燃料費を計算"
+    },
+    "electricity-calculator": {
+      "title": "電気代計算機",
+      "description": "電気代を計算します。",
+      "shortDesc": "電気代を計算"
+    },
+    "mortgage-calculator": {
+      "title": "住宅ローン計算機",
+      "description": "住宅ローンの支払いを計算します。",
+      "shortDesc": "住宅ローンを計算"
+    },
+    "retirement-calculator": {
+      "title": "退職計算機",
+      "description": "退職貯蓄を計算します。",
+      "shortDesc": "退職貯蓄を計算"
+    },
+    "investment-calculator": {
+      "title": "投資計算機",
+      "description": "投資収益を計算します。",
+      "shortDesc": "投資を計算"
+    },
+    "savings-goal-calculator": {
+      "title": "貯蓄目標計算機",
+      "description": "貯蓄目標を計算します。",
+      "shortDesc": "貯蓄目標を計算"
+    },
+    "vat-calculator": {
+      "title": "VAT計算機",
+      "description": "付加価値税を計算します。",
+      "shortDesc": "VATを計算"
+    },
+    "margin-calculator": {
+      "title": "マージン計算機",
+      "description": "利益マージンを計算します。",
+      "shortDesc": "マージンを計算"
+    },
+    "speed-distance-time": {
+      "title": "速度距離時間",
+      "description": "速度、距離、時間を計算します。",
+      "shortDesc": "速度を計算"
+    },
+    "matrix-calculator": {
+      "title": "行列計算機",
+      "description": "行列の計算を行います。",
+      "shortDesc": "行列を計算"
+    },
+    "number-base-converter": {
+      "title": "進数変換",
+      "description": "異なる基数間で数値を変換します。",
+      "shortDesc": "進数を変換"
+    },
+    "lucky-draw": {
+      "title": "抽選",
+      "description": "ランダムに当選者を選びます。",
+      "shortDesc": "当選者を選択"
+    },
+    "name-picker": {
+      "title": "名前選択",
+      "description": "リストからランダムに名前を選びます。",
+      "shortDesc": "名前を選択"
+    },
+    "team-generator": {
+      "title": "チーム生成",
+      "description": "メンバーをランダムにチームに分けます。",
+      "shortDesc": "チームを生成"
+    },
+    "yes-no-picker": {
+      "title": "はい/いいえ選択",
+      "description": "はいかいいえをランダムに選びます。",
+      "shortDesc": "はい/いいえ"
+    },
+    "random-quote": {
+      "title": "ランダム名言",
+      "description": "ランダムな名言を表示します。",
+      "shortDesc": "名言を表示"
+    },
+    "decision-maker": {
+      "title": "決定メーカー",
+      "description": "選択肢からランダムに決定します。",
+      "shortDesc": "決定を下す"
+    },
+    "reaction-test": {
+      "title": "反応テスト",
+      "description": "反応速度をテストします。",
+      "shortDesc": "反応をテスト"
+    },
+    "aim-trainer": {
+      "title": "エイムトレーナー",
+      "description": "マウス精度を練習します。",
+      "shortDesc": "エイム練習"
+    },
+    "number-memory": {
+      "title": "数字記憶",
+      "description": "数字を覚えるゲーム。",
+      "shortDesc": "数字を記憶"
+    },
+    "sequence-memory": {
+      "title": "シーケンス記憶",
+      "description": "パターンを覚えるゲーム。",
+      "shortDesc": "パターンを記憶"
+    },
+    "chimp-test": {
+      "title": "チンパンジーテスト",
+      "description": "チンパンジーテストに挑戦。",
+      "shortDesc": "チンパンジーテスト"
+    },
+    "color-blindness-test": {
+      "title": "色覚テスト",
+      "description": "色覚をテストします。",
+      "shortDesc": "色覚テスト"
+    },
+    "hearing-test": {
+      "title": "聴力テスト",
+      "description": "聴力をテストします。",
+      "shortDesc": "聴力テスト"
+    },
+    "daily-checklist": {
+      "title": "毎日チェックリスト",
+      "description": "毎日のタスクを管理します。",
+      "shortDesc": "毎日のタスク"
+    },
+    "habit-tracker": {
+      "title": "習慣トラッカー",
+      "description": "習慣を追跡します。",
+      "shortDesc": "習慣を追跡"
+    },
+    "note-taking": {
+      "title": "メモ帳",
+      "description": "メモを取ります。",
+      "shortDesc": "メモを取る"
+    },
+    "sticky-notes": {
+      "title": "付箋",
+      "description": "付箋メモを作成します。",
+      "shortDesc": "付箋メモ"
+    },
+    "mind-map": {
+      "title": "マインドマップ",
+      "description": "マインドマップを作成します。",
+      "shortDesc": "マインドマップ"
+    },
+    "flashcards": {
+      "title": "フラッシュカード",
+      "description": "学習用フラッシュカード。",
+      "shortDesc": "フラッシュカード"
+    },
+    "quiz-maker": {
+      "title": "クイズメーカー",
+      "description": "クイズを作成します。",
+      "shortDesc": "クイズを作成"
+    },
+    "calendar": {
+      "title": "カレンダー",
+      "description": "カレンダーを表示します。",
+      "shortDesc": "カレンダー"
+    },
+    "world-clock": {
+      "title": "世界時計",
+      "description": "世界各地の時刻を表示します。",
+      "shortDesc": "世界時計"
+    },
+    "weather": {
+      "title": "天気",
+      "description": "現在の天気を表示します。",
+      "shortDesc": "天気"
+    },
+    "invoice-generator": {
+      "title": "請求書生成",
+      "description": "請求書を作成します。",
+      "shortDesc": "請求書を作成"
+    },
+    "receipt-generator": {
+      "title": "領収書生成",
+      "description": "領収書を作成します。",
+      "shortDesc": "領収書を作成"
+    },
+    "business-card-maker": {
+      "title": "名刺作成",
+      "description": "名刺をデザインします。",
+      "shortDesc": "名刺を作成"
+    },
+    "signature-generator": {
+      "title": "署名生成",
+      "description": "電子署名を作成します。",
+      "shortDesc": "署名を作成"
+    },
+    "resume-builder": {
+      "title": "履歴書作成",
+      "description": "履歴書を作成します。",
+      "shortDesc": "履歴書を作成"
+    },
+    "cover-letter-generator": {
+      "title": "カバーレター生成",
+      "description": "カバーレターを作成します。",
+      "shortDesc": "カバーレターを作成"
+    },
+    "social-media-post": {
+      "title": "SNS投稿",
+      "description": "SNS用の投稿を作成します。",
+      "shortDesc": "SNS投稿を作成"
+    },
+    "instagram-post": {
+      "title": "Instagram投稿",
+      "description": "Instagram用の画像を作成します。",
+      "shortDesc": "Instagram画像を作成"
+    },
+    "twitter-header": {
+      "title": "Twitterヘッダー",
+      "description": "Twitterヘッダー画像を作成します。",
+      "shortDesc": "Twitterヘッダーを作成"
+    },
+    "facebook-cover": {
+      "title": "Facebookカバー",
+      "description": "Facebookカバー画像を作成します。",
+      "shortDesc": "Facebookカバーを作成"
+    },
+    "linkedin-banner": {
+      "title": "LinkedInバナー",
+      "description": "LinkedInバナー画像を作成します。",
+      "shortDesc": "LinkedInバナーを作成"
+    },
+    "zoom-background": {
+      "title": "Zoom背景",
+      "description": "Zoomバーチャル背景を作成します。",
+      "shortDesc": "Zoom背景を作成"
     }
   }
 }
