@@ -6,7 +6,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Slider } from '@/components/ui/slider';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { FullscreenWrapper } from './FullscreenWrapper';
 import { 
   VolumeX, Play, X, Zap, Check, SkipForward, Trophy, RotateCcw, Timer, Clock
@@ -17,21 +16,12 @@ import { playClick, playFanfare } from '@/lib/sounds';
 const EXAMPLE_WORDS_KO = ['아이스크림', '스마트폰', '에어컨', '초콜릿', '자전거', '피아노', '냉장고', '헬리콥터', '해바라기', '트램펄린'];
 const EXAMPLE_WORDS_EN = ['Ice Cream', 'Smartphone', 'Sunglasses', 'Chocolate', 'Bicycle', 'Piano', 'Refrigerator', 'Helicopter', 'Sunflower', 'Trampoline'];
 
-const TIME_OPTIONS = [
-  { value: '0', label: '무제한' },
-  { value: '30', label: '0:30' },
-  { value: '60', label: '1:00' },
-  { value: '90', label: '1:30' },
-  { value: '120', label: '2:00' },
-  { value: '180', label: '3:00' },
-];
-
 export default function SilentShoutTool() {
   const { t, i18n } = useTranslation();
 
   const [words, setWords] = useState<string[]>([]);
   const [inputText, setInputText] = useState('');
-  const [timeLimit, setTimeLimit] = useState('60');
+  const [timeLimitInput, setTimeLimitInput] = useState('60');
   const [fontSize, setFontSize] = useState([80]);
   
   const [isReady, setIsReady] = useState(false);
@@ -44,12 +34,12 @@ export default function SilentShoutTool() {
   const [passedWords, setPassedWords] = useState<string[]>([]);
   const [isGameOver, setIsGameOver] = useState(false);
   const [isAllCorrect, setIsAllCorrect] = useState(false);
+  const [initialTimeLimit, setInitialTimeLimit] = useState(60);
   
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const startTimeRef = useRef<number>(0);
 
   const currentWord = remainingWords[currentIndex];
-  const hasTimeLimit = parseInt(timeLimit) > 0;
 
   const addWords = (text: string) => {
     const parts = text.split(/[,\n]+/).map(s => s.trim()).filter(s => s && !words.includes(s));
@@ -85,10 +75,12 @@ export default function SilentShoutTool() {
 
   const prepareGame = useCallback(() => {
     if (words.length < 3) return;
+    const timeVal = Math.max(10, parseInt(timeLimitInput) || 60);
     
     setRemainingWords(shuffleArray(words));
     setCurrentIndex(0);
-    setTimeLeft(hasTimeLimit ? parseInt(timeLimit) : 0);
+    setTimeLeft(timeVal);
+    setInitialTimeLimit(timeVal);
     setElapsedTime(0);
     setCorrectCount(0);
     setPassedWords([]);
@@ -97,7 +89,7 @@ export default function SilentShoutTool() {
     setIsPlaying(false);
     setIsReady(true);
     playClick();
-  }, [words, timeLimit, hasTimeLimit]);
+  }, [words, timeLimitInput]);
 
   const startGame = useCallback(() => {
     startTimeRef.current = Date.now();
@@ -162,17 +154,15 @@ export default function SilentShoutTool() {
   useEffect(() => {
     if (isPlaying && !isGameOver) {
       timerRef.current = setInterval(() => {
-        if (hasTimeLimit) {
-          setTimeLeft(prev => {
-            if (prev <= 1) {
-              endGame(false);
-              return 0;
-            }
-            return prev - 1;
-          });
-        }
+        setTimeLeft(prev => {
+          if (prev <= 1) {
+            endGame(false);
+            return 0;
+          }
+          return prev - 1;
+        });
         setElapsedTime((Date.now() - startTimeRef.current) / 1000);
-      }, 100);
+      }, 1000);
     }
 
     return () => {
@@ -180,7 +170,7 @@ export default function SilentShoutTool() {
         clearInterval(timerRef.current);
       }
     };
-  }, [isPlaying, isGameOver, endGame, hasTimeLimit]);
+  }, [isPlaying, isGameOver, endGame]);
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -267,20 +257,17 @@ export default function SilentShoutTool() {
                     <div className="space-y-2">
                       <Label className="flex items-center gap-1">
                         <Timer className="w-4 h-4" />
-                        {t('Tools.silent-shout.timeLimit', '제한 시간')}
+                        {t('Tools.silent-shout.timeLimit', '제한 시간 (초)')}
                       </Label>
-                      <Select value={timeLimit} onValueChange={setTimeLimit}>
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {TIME_OPTIONS.map(opt => (
-                            <SelectItem key={opt.value} value={opt.value}>
-                              {opt.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      <Input
+                        type="number"
+                        min="10"
+                        max="600"
+                        value={timeLimitInput}
+                        onChange={(e) => setTimeLimitInput(e.target.value)}
+                        placeholder="60"
+                        data-testid="input-time-limit"
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label>{t('Tools.silent-shout.fontSize', '글자 크기')}</Label>
@@ -334,7 +321,7 @@ export default function SilentShoutTool() {
                         {t('Tools.silent-shout.readyTitle', '준비 완료')}
                       </h2>
                       <p className="text-muted-foreground">
-                        {words.length}개 제시어 | {hasTimeLimit ? `제한시간 ${formatTime(parseInt(timeLimit))}` : '무제한'}
+                        {words.length}개 제시어 | 제한시간 {formatTime(initialTimeLimit)}
                       </p>
                     </div>
                     
@@ -368,22 +355,13 @@ export default function SilentShoutTool() {
               className="space-y-6"
             >
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  {hasTimeLimit ? (
-                    <Badge 
-                      variant={timeLeft <= 10 ? "destructive" : "outline"} 
-                      className={`text-xl px-4 py-2 font-mono ${timeLeft <= 10 ? 'animate-pulse' : ''}`}
-                    >
-                      <Timer className="w-5 h-5 mr-2" />
-                      {formatTime(timeLeft)}
-                    </Badge>
-                  ) : (
-                    <Badge variant="outline" className="text-xl px-4 py-2 font-mono">
-                      <Clock className="w-5 h-5 mr-2" />
-                      {formatTime(elapsedTime)}
-                    </Badge>
-                  )}
-                </div>
+                <Badge 
+                  variant={timeLeft <= 10 ? "destructive" : "outline"} 
+                  className={`text-xl px-4 py-2 font-mono ${timeLeft <= 10 ? 'animate-pulse' : ''}`}
+                >
+                  <Timer className="w-5 h-5 mr-2" />
+                  {formatTime(timeLeft)}
+                </Badge>
                 <div className="flex items-center gap-2">
                   <Badge variant="default" className="gap-1">
                     <Check className="w-3 h-3" />
