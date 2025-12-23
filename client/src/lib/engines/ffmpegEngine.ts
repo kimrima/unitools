@@ -1,10 +1,27 @@
-let FFmpegModule: typeof import('@ffmpeg/ffmpeg') | null = null;
-let FFmpegUtilModule: typeof import('@ffmpeg/util') | null = null;
-let ffmpeg: InstanceType<typeof import('@ffmpeg/ffmpeg').FFmpeg> | null = null;
+declare global {
+  interface Window {
+    FFmpeg: {
+      createFFmpeg: (options?: { log?: boolean; corePath?: string }) => FFmpegInstance;
+      fetchFile: (file: File | Blob | string) => Promise<Uint8Array>;
+    };
+  }
+}
+
+interface FFmpegInstance {
+  load: () => Promise<void>;
+  isLoaded: () => boolean;
+  run: (...args: string[]) => Promise<void>;
+  FS: (method: string, ...args: any[]) => any;
+  setProgress: (callback: (progress: { ratio: number }) => void) => void;
+  exit: () => void;
+}
+
+let ffmpeg: FFmpegInstance | null = null;
 let isLoading = false;
-let loadPromise: Promise<any> | null = null;
+let loadPromise: Promise<FFmpegInstance> | null = null;
 let loadFailed = false;
 let failReason = '';
+let scriptLoaded = false;
 
 export type FFmpegErrorCode = 
   | 'NO_FILE_PROVIDED'
@@ -35,18 +52,28 @@ export function getFFmpegLoadStatus(): { failed: boolean; reason: string } {
   return { failed: loadFailed, reason: failReason };
 }
 
-async function loadModules() {
-  if (!FFmpegModule) {
-    FFmpegModule = await import('@ffmpeg/ffmpeg');
-  }
-  if (!FFmpegUtilModule) {
-    FFmpegUtilModule = await import('@ffmpeg/util');
-  }
-  return { FFmpegModule, FFmpegUtilModule };
+async function loadScript(): Promise<void> {
+  if (scriptLoaded) return;
+  
+  return new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = 'https://unpkg.com/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js';
+    script.crossOrigin = 'anonymous';
+    script.onload = () => {
+      scriptLoaded = true;
+      console.log('[FFmpeg] Script loaded from CDN');
+      resolve();
+    };
+    script.onerror = (e) => {
+      console.error('[FFmpeg] Script load error:', e);
+      reject(new Error('Failed to load FFmpeg script'));
+    };
+    document.head.appendChild(script);
+  });
 }
 
-async function loadFFmpeg(): Promise<any> {
-  if (ffmpeg && (ffmpeg as any).loaded) {
+async function loadFFmpeg(): Promise<FFmpegInstance> {
+  if (ffmpeg && ffmpeg.isLoaded()) {
     return ffmpeg;
   }
 
@@ -62,31 +89,29 @@ async function loadFFmpeg(): Promise<any> {
 
   loadPromise = (async () => {
     try {
-      const { FFmpegModule, FFmpegUtilModule } = await loadModules();
-      const { FFmpeg } = FFmpegModule;
-      const { toBlobURL } = FFmpegUtilModule;
+      console.log('[FFmpeg] Loading script...');
+      await loadScript();
       
-      const instance = new FFmpeg();
-      
-      const baseURL = '/ffmpeg';
+      if (!window.FFmpeg) {
+        throw new Error('FFmpeg global not found after script load');
+      }
 
+      const { createFFmpeg } = window.FFmpeg;
+      
+      console.log('[FFmpeg] Creating instance...');
+      const instance = createFFmpeg({
+        log: true,
+        mainName: 'main',
+        corePath: 'https://unpkg.com/@ffmpeg/core-st@0.11.1/dist/ffmpeg-core.js'
+      });
+
+      console.log('[FFmpeg] Loading WASM...');
+      
       const timeoutPromise = new Promise<never>((_, reject) => {
-        setTimeout(() => reject(new Error('FFmpeg load timeout (90s)')), 90000);
+        setTimeout(() => reject(new Error('FFmpeg load timeout (180s)')), 180000);
       });
 
-      console.log('[FFmpeg] Fetching core files from local server...');
-      
-      const coreURL = await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript');
-      const wasmURL = await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm');
-
-      console.log('[FFmpeg] Loading FFmpeg instance...');
-      
-      const loadPromiseInner = instance.load({
-        coreURL,
-        wasmURL,
-      });
-
-      await Promise.race([loadPromiseInner, timeoutPromise]);
+      await Promise.race([instance.load(), timeoutPromise]);
       
       ffmpeg = instance;
       isLoading = false;
@@ -103,6 +128,13 @@ async function loadFFmpeg(): Promise<any> {
   })();
 
   return loadPromise;
+}
+
+async function fetchFile(file: File): Promise<Uint8Array> {
+  if (window.FFmpeg?.fetchFile) {
+    return window.FFmpeg.fetchFile(file);
+  }
+  return new Uint8Array(await file.arrayBuffer());
 }
 
 function getFileExtension(filename: string): string {
@@ -139,7 +171,7 @@ export async function trimVideo(
   const { startTime, endTime } = options;
   const duration = endTime - startTime;
 
-  let ff: FFmpeg;
+  let ff: FFmpegInstance;
   try {
     ff = await loadFFmpeg();
   } catch (e) {
@@ -148,8 +180,8 @@ export async function trimVideo(
   }
 
   if (onProgress) {
-    ff.on('progress', ({ progress }) => {
-      onProgress(Math.round(progress * 100));
+    ff.setProgress(({ ratio }) => {
+      onProgress(Math.round(ratio * 100));
     });
   }
 
@@ -157,21 +189,21 @@ export async function trimVideo(
   const outputFileName = 'output.mp4';
 
   try {
-    await ff.writeFile(inputFileName, await fetchFile(file));
+    ff.FS('writeFile', inputFileName, await fetchFile(file));
 
-    await ff.exec([
+    await ff.run(
       '-i', inputFileName,
       '-ss', startTime.toString(),
       '-t', duration.toString(),
       '-c', 'copy',
       outputFileName
-    ]);
+    );
 
-    const data = await ff.readFile(outputFileName);
-    const outputBlob = new Blob([data], { type: 'video/mp4' });
+    const data = ff.FS('readFile', outputFileName);
+    const outputBlob = new Blob([data.buffer], { type: 'video/mp4' });
 
-    await ff.deleteFile(inputFileName);
-    await ff.deleteFile(outputFileName);
+    ff.FS('unlink', inputFileName);
+    ff.FS('unlink', outputFileName);
 
     return {
       originalFile: file,
@@ -200,7 +232,7 @@ export async function muteVideo(
     throw new FFmpegError('NO_FILE_PROVIDED');
   }
 
-  let ff: FFmpeg;
+  let ff: FFmpegInstance;
   try {
     ff = await loadFFmpeg();
   } catch (e) {
@@ -209,8 +241,8 @@ export async function muteVideo(
   }
 
   if (onProgress) {
-    ff.on('progress', ({ progress }) => {
-      onProgress(Math.round(progress * 100));
+    ff.setProgress(({ ratio }) => {
+      onProgress(Math.round(ratio * 100));
     });
   }
 
@@ -218,20 +250,20 @@ export async function muteVideo(
   const outputFileName = 'output.mp4';
 
   try {
-    await ff.writeFile(inputFileName, await fetchFile(file));
+    ff.FS('writeFile', inputFileName, await fetchFile(file));
 
-    await ff.exec([
+    await ff.run(
       '-i', inputFileName,
       '-c:v', 'copy',
       '-an',
       outputFileName
-    ]);
+    );
 
-    const data = await ff.readFile(outputFileName);
-    const outputBlob = new Blob([data], { type: 'video/mp4' });
+    const data = ff.FS('readFile', outputFileName);
+    const outputBlob = new Blob([data.buffer], { type: 'video/mp4' });
 
-    await ff.deleteFile(inputFileName);
-    await ff.deleteFile(outputFileName);
+    ff.FS('unlink', inputFileName);
+    ff.FS('unlink', outputFileName);
 
     return {
       originalFile: file,
@@ -260,7 +292,7 @@ export async function extractAudio(
     throw new FFmpegError('NO_FILE_PROVIDED');
   }
 
-  let ff: FFmpeg;
+  let ff: FFmpegInstance;
   try {
     ff = await loadFFmpeg();
   } catch (e) {
@@ -269,8 +301,8 @@ export async function extractAudio(
   }
 
   if (onProgress) {
-    ff.on('progress', ({ progress }) => {
-      onProgress(Math.round(progress * 100));
+    ff.setProgress(({ ratio }) => {
+      onProgress(Math.round(ratio * 100));
     });
   }
 
@@ -278,93 +310,21 @@ export async function extractAudio(
   const outputFileName = 'output.mp3';
 
   try {
-    await ff.writeFile(inputFileName, await fetchFile(file));
+    ff.FS('writeFile', inputFileName, await fetchFile(file));
 
-    await ff.exec([
+    await ff.run(
       '-i', inputFileName,
       '-vn',
       '-acodec', 'libmp3lame',
       '-q:a', '2',
       outputFileName
-    ]);
+    );
 
-    const data = await ff.readFile(outputFileName);
-    const outputBlob = new Blob([data], { type: 'audio/mpeg' });
+    const data = ff.FS('readFile', outputFileName);
+    const outputBlob = new Blob([data.buffer], { type: 'audio/mp3' });
 
-    await ff.deleteFile(inputFileName);
-    await ff.deleteFile(outputFileName);
-
-    return {
-      originalFile: file,
-      outputBlob,
-      originalSize: file.size,
-      outputSize: outputBlob.size,
-    };
-  } catch (e) {
-    if (e instanceof FFmpegError) throw e;
-    throw new FFmpegError('PROCESSING_FAILED', file.name);
-  }
-}
-
-export interface VideoSpeedOptions {
-  speed: number;
-}
-
-export interface VideoSpeedResult {
-  originalFile: File;
-  outputBlob: Blob;
-  originalSize: number;
-  outputSize: number;
-}
-
-export async function changeVideoSpeed(
-  file: File,
-  options: VideoSpeedOptions,
-  onProgress?: ProgressCallback
-): Promise<VideoSpeedResult> {
-  if (!file) {
-    throw new FFmpegError('NO_FILE_PROVIDED');
-  }
-
-  const { speed } = options;
-
-  let ff: FFmpeg;
-  try {
-    ff = await loadFFmpeg();
-  } catch (e) {
-    if (e instanceof FFmpegError) throw e;
-    throw new FFmpegError('FFMPEG_LOAD_FAILED');
-  }
-
-  if (onProgress) {
-    ff.on('progress', ({ progress }) => {
-      onProgress(Math.round(progress * 100));
-    });
-  }
-
-  const inputFileName = 'input' + getFileExtension(file.name);
-  const outputFileName = 'output.mp4';
-
-  try {
-    await ff.writeFile(inputFileName, await fetchFile(file));
-
-    const videoFilter = `setpts=${(1/speed).toFixed(2)}*PTS`;
-    const audioFilter = `atempo=${speed}`;
-
-    await ff.exec([
-      '-i', inputFileName,
-      '-filter:v', videoFilter,
-      '-filter:a', audioFilter,
-      '-c:v', 'libx264',
-      '-c:a', 'aac',
-      outputFileName
-    ]);
-
-    const data = await ff.readFile(outputFileName);
-    const outputBlob = new Blob([data], { type: 'video/mp4' });
-
-    await ff.deleteFile(inputFileName);
-    await ff.deleteFile(outputFileName);
+    ff.FS('unlink', inputFileName);
+    ff.FS('unlink', outputFileName);
 
     return {
       originalFile: file,
@@ -379,7 +339,7 @@ export async function changeVideoSpeed(
 }
 
 export interface CompressVideoOptions {
-  quality: 'low' | 'medium' | 'high';
+  quality: 'high' | 'medium' | 'low';
 }
 
 export interface CompressVideoResult {
@@ -399,11 +359,7 @@ export async function compressVideo(
     throw new FFmpegError('NO_FILE_PROVIDED');
   }
 
-  const { quality } = options;
-  const crfMap = { low: 35, medium: 28, high: 23 };
-  const crf = crfMap[quality];
-
-  let ff: FFmpeg;
+  let ff: FFmpegInstance;
   try {
     ff = await loadFFmpeg();
   } catch (e) {
@@ -412,39 +368,263 @@ export async function compressVideo(
   }
 
   if (onProgress) {
-    ff.on('progress', ({ progress }) => {
-      onProgress(Math.round(progress * 100));
+    ff.setProgress(({ ratio }) => {
+      onProgress(Math.round(ratio * 100));
     });
   }
+
+  const crfValues = {
+    high: '23',
+    medium: '28',
+    low: '35'
+  };
 
   const inputFileName = 'input' + getFileExtension(file.name);
   const outputFileName = 'output.mp4';
 
   try {
-    await ff.writeFile(inputFileName, await fetchFile(file));
+    ff.FS('writeFile', inputFileName, await fetchFile(file));
 
-    await ff.exec([
+    await ff.run(
       '-i', inputFileName,
       '-c:v', 'libx264',
-      '-crf', crf.toString(),
+      '-crf', crfValues[options.quality],
       '-preset', 'fast',
       '-c:a', 'aac',
       '-b:a', '128k',
       outputFileName
-    ]);
+    );
 
-    const data = await ff.readFile(outputFileName);
-    const outputBlob = new Blob([data], { type: 'video/mp4' });
+    const data = ff.FS('readFile', outputFileName);
+    const outputBlob = new Blob([data.buffer], { type: 'video/mp4' });
 
-    await ff.deleteFile(inputFileName);
-    await ff.deleteFile(outputFileName);
+    ff.FS('unlink', inputFileName);
+    ff.FS('unlink', outputFileName);
 
     return {
       originalFile: file,
       outputBlob,
       originalSize: file.size,
       outputSize: outputBlob.size,
-      compressionRatio: Math.round((1 - outputBlob.size / file.size) * 100),
+      compressionRatio: file.size / outputBlob.size,
+    };
+  } catch (e) {
+    if (e instanceof FFmpegError) throw e;
+    throw new FFmpegError('PROCESSING_FAILED', file.name);
+  }
+}
+
+export interface ConvertVideoOptions {
+  format: 'mp4' | 'webm' | 'avi' | 'mov' | 'mkv';
+}
+
+export interface ConvertVideoResult {
+  originalFile: File;
+  outputBlob: Blob;
+  originalSize: number;
+  outputSize: number;
+  format: string;
+}
+
+export async function convertVideo(
+  file: File,
+  options: ConvertVideoOptions,
+  onProgress?: ProgressCallback
+): Promise<ConvertVideoResult> {
+  if (!file) {
+    throw new FFmpegError('NO_FILE_PROVIDED');
+  }
+
+  let ff: FFmpegInstance;
+  try {
+    ff = await loadFFmpeg();
+  } catch (e) {
+    if (e instanceof FFmpegError) throw e;
+    throw new FFmpegError('FFMPEG_LOAD_FAILED');
+  }
+
+  if (onProgress) {
+    ff.setProgress(({ ratio }) => {
+      onProgress(Math.round(ratio * 100));
+    });
+  }
+
+  const formatSettings: Record<string, { ext: string; mime: string; args: string[] }> = {
+    mp4: { ext: 'mp4', mime: 'video/mp4', args: ['-c:v', 'libx264', '-c:a', 'aac'] },
+    webm: { ext: 'webm', mime: 'video/webm', args: ['-c:v', 'libvpx', '-c:a', 'libvorbis'] },
+    avi: { ext: 'avi', mime: 'video/avi', args: ['-c:v', 'mpeg4', '-c:a', 'mp3'] },
+    mov: { ext: 'mov', mime: 'video/quicktime', args: ['-c:v', 'libx264', '-c:a', 'aac'] },
+    mkv: { ext: 'mkv', mime: 'video/x-matroska', args: ['-c:v', 'libx264', '-c:a', 'aac'] },
+  };
+
+  const settings = formatSettings[options.format];
+  const inputFileName = 'input' + getFileExtension(file.name);
+  const outputFileName = 'output.' + settings.ext;
+
+  try {
+    ff.FS('writeFile', inputFileName, await fetchFile(file));
+
+    await ff.run(
+      '-i', inputFileName,
+      ...settings.args,
+      outputFileName
+    );
+
+    const data = ff.FS('readFile', outputFileName);
+    const outputBlob = new Blob([data.buffer], { type: settings.mime });
+
+    ff.FS('unlink', inputFileName);
+    ff.FS('unlink', outputFileName);
+
+    return {
+      originalFile: file,
+      outputBlob,
+      originalSize: file.size,
+      outputSize: outputBlob.size,
+      format: options.format,
+    };
+  } catch (e) {
+    if (e instanceof FFmpegError) throw e;
+    throw new FFmpegError('PROCESSING_FAILED', file.name);
+  }
+}
+
+export interface VideoToGifOptions {
+  startTime?: number;
+  duration?: number;
+  fps?: number;
+  width?: number;
+}
+
+export interface VideoToGifResult {
+  originalFile: File;
+  outputBlob: Blob;
+  originalSize: number;
+  outputSize: number;
+}
+
+export async function videoToGif(
+  file: File,
+  options: VideoToGifOptions = {},
+  onProgress?: ProgressCallback
+): Promise<VideoToGifResult> {
+  if (!file) {
+    throw new FFmpegError('NO_FILE_PROVIDED');
+  }
+
+  let ff: FFmpegInstance;
+  try {
+    ff = await loadFFmpeg();
+  } catch (e) {
+    if (e instanceof FFmpegError) throw e;
+    throw new FFmpegError('FFMPEG_LOAD_FAILED');
+  }
+
+  if (onProgress) {
+    ff.setProgress(({ ratio }) => {
+      onProgress(Math.round(ratio * 100));
+    });
+  }
+
+  const { startTime = 0, duration = 5, fps = 10, width = 320 } = options;
+  const inputFileName = 'input' + getFileExtension(file.name);
+  const outputFileName = 'output.gif';
+
+  try {
+    ff.FS('writeFile', inputFileName, await fetchFile(file));
+
+    const filterStr = `fps=${fps},scale=${width}:-1:flags=lanczos`;
+
+    await ff.run(
+      '-i', inputFileName,
+      '-ss', startTime.toString(),
+      '-t', duration.toString(),
+      '-vf', filterStr,
+      outputFileName
+    );
+
+    const data = ff.FS('readFile', outputFileName);
+    const outputBlob = new Blob([data.buffer], { type: 'image/gif' });
+
+    ff.FS('unlink', inputFileName);
+    ff.FS('unlink', outputFileName);
+
+    return {
+      originalFile: file,
+      outputBlob,
+      originalSize: file.size,
+      outputSize: outputBlob.size,
+    };
+  } catch (e) {
+    if (e instanceof FFmpegError) throw e;
+    throw new FFmpegError('PROCESSING_FAILED', file.name);
+  }
+}
+
+export interface RotateVideoOptions {
+  rotation: 90 | 180 | 270;
+}
+
+export interface RotateVideoResult {
+  originalFile: File;
+  outputBlob: Blob;
+  originalSize: number;
+  outputSize: number;
+}
+
+export async function rotateVideo(
+  file: File,
+  options: RotateVideoOptions,
+  onProgress?: ProgressCallback
+): Promise<RotateVideoResult> {
+  if (!file) {
+    throw new FFmpegError('NO_FILE_PROVIDED');
+  }
+
+  let ff: FFmpegInstance;
+  try {
+    ff = await loadFFmpeg();
+  } catch (e) {
+    if (e instanceof FFmpegError) throw e;
+    throw new FFmpegError('FFMPEG_LOAD_FAILED');
+  }
+
+  if (onProgress) {
+    ff.setProgress(({ ratio }) => {
+      onProgress(Math.round(ratio * 100));
+    });
+  }
+
+  const transposeValues: Record<number, string> = {
+    90: 'transpose=1',
+    180: 'transpose=1,transpose=1',
+    270: 'transpose=2',
+  };
+
+  const inputFileName = 'input' + getFileExtension(file.name);
+  const outputFileName = 'output.mp4';
+
+  try {
+    ff.FS('writeFile', inputFileName, await fetchFile(file));
+
+    await ff.run(
+      '-i', inputFileName,
+      '-vf', transposeValues[options.rotation],
+      '-c:a', 'copy',
+      outputFileName
+    );
+
+    const data = ff.FS('readFile', outputFileName);
+    const outputBlob = new Blob([data.buffer], { type: 'video/mp4' });
+
+    ff.FS('unlink', inputFileName);
+    ff.FS('unlink', outputFileName);
+
+    return {
+      originalFile: file,
+      outputBlob,
+      originalSize: file.size,
+      outputSize: outputBlob.size,
     };
   } catch (e) {
     if (e instanceof FFmpegError) throw e;
@@ -453,8 +633,7 @@ export async function compressVideo(
 }
 
 export interface FlipVideoOptions {
-  horizontal: boolean;
-  vertical: boolean;
+  direction: 'horizontal' | 'vertical';
 }
 
 export interface FlipVideoResult {
@@ -473,9 +652,7 @@ export async function flipVideo(
     throw new FFmpegError('NO_FILE_PROVIDED');
   }
 
-  const { horizontal, vertical } = options;
-
-  let ff: FFmpeg;
+  let ff: FFmpegInstance;
   try {
     ff = await loadFFmpeg();
   } catch (e) {
@@ -484,40 +661,111 @@ export async function flipVideo(
   }
 
   if (onProgress) {
-    ff.on('progress', ({ progress }) => {
-      onProgress(Math.round(progress * 100));
+    ff.setProgress(({ ratio }) => {
+      onProgress(Math.round(ratio * 100));
     });
   }
 
+  const filterValue = options.direction === 'horizontal' ? 'hflip' : 'vflip';
   const inputFileName = 'input' + getFileExtension(file.name);
   const outputFileName = 'output.mp4';
 
   try {
-    await ff.writeFile(inputFileName, await fetchFile(file));
+    ff.FS('writeFile', inputFileName, await fetchFile(file));
 
-    let filter = '';
-    if (horizontal && vertical) {
-      filter = 'hflip,vflip';
-    } else if (horizontal) {
-      filter = 'hflip';
-    } else if (vertical) {
-      filter = 'vflip';
-    } else {
-      filter = 'null';
-    }
-
-    await ff.exec([
+    await ff.run(
       '-i', inputFileName,
-      '-vf', filter,
+      '-vf', filterValue,
       '-c:a', 'copy',
       outputFileName
-    ]);
+    );
 
-    const data = await ff.readFile(outputFileName);
-    const outputBlob = new Blob([data], { type: 'video/mp4' });
+    const data = ff.FS('readFile', outputFileName);
+    const outputBlob = new Blob([data.buffer], { type: 'video/mp4' });
 
-    await ff.deleteFile(inputFileName);
-    await ff.deleteFile(outputFileName);
+    ff.FS('unlink', inputFileName);
+    ff.FS('unlink', outputFileName);
+
+    return {
+      originalFile: file,
+      outputBlob,
+      originalSize: file.size,
+      outputSize: outputBlob.size,
+    };
+  } catch (e) {
+    if (e instanceof FFmpegError) throw e;
+    throw new FFmpegError('PROCESSING_FAILED', file.name);
+  }
+}
+
+export interface AddWatermarkOptions {
+  text: string;
+  position?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | 'center';
+  fontSize?: number;
+  color?: string;
+}
+
+export interface AddWatermarkResult {
+  originalFile: File;
+  outputBlob: Blob;
+  originalSize: number;
+  outputSize: number;
+}
+
+export async function addWatermark(
+  file: File,
+  options: AddWatermarkOptions,
+  onProgress?: ProgressCallback
+): Promise<AddWatermarkResult> {
+  if (!file) {
+    throw new FFmpegError('NO_FILE_PROVIDED');
+  }
+
+  let ff: FFmpegInstance;
+  try {
+    ff = await loadFFmpeg();
+  } catch (e) {
+    if (e instanceof FFmpegError) throw e;
+    throw new FFmpegError('FFMPEG_LOAD_FAILED');
+  }
+
+  if (onProgress) {
+    ff.setProgress(({ ratio }) => {
+      onProgress(Math.round(ratio * 100));
+    });
+  }
+
+  const { text, position = 'bottom-right', fontSize = 24, color = 'white' } = options;
+
+  const positionCoords: Record<string, { x: string; y: string }> = {
+    'top-left': { x: '10', y: '10' },
+    'top-right': { x: '(w-text_w-10)', y: '10' },
+    'bottom-left': { x: '10', y: '(h-text_h-10)' },
+    'bottom-right': { x: '(w-text_w-10)', y: '(h-text_h-10)' },
+    'center': { x: '(w-text_w)/2', y: '(h-text_h)/2' },
+  };
+
+  const pos = positionCoords[position];
+  const inputFileName = 'input' + getFileExtension(file.name);
+  const outputFileName = 'output.mp4';
+
+  try {
+    ff.FS('writeFile', inputFileName, await fetchFile(file));
+
+    const filterStr = `drawtext=text='${text}':x=${pos.x}:y=${pos.y}:fontsize=${fontSize}:fontcolor=${color}`;
+
+    await ff.run(
+      '-i', inputFileName,
+      '-vf', filterStr,
+      '-c:a', 'copy',
+      outputFileName
+    );
+
+    const data = ff.FS('readFile', outputFileName);
+    const outputBlob = new Blob([data.buffer], { type: 'video/mp4' });
+
+    ff.FS('unlink', inputFileName);
+    ff.FS('unlink', outputFileName);
 
     return {
       originalFile: file,
@@ -534,6 +782,7 @@ export async function flipVideo(
 export interface ResizeVideoOptions {
   width: number;
   height: number;
+  maintainAspectRatio?: boolean;
 }
 
 export interface ResizeVideoResult {
@@ -552,9 +801,7 @@ export async function resizeVideo(
     throw new FFmpegError('NO_FILE_PROVIDED');
   }
 
-  const { width, height } = options;
-
-  let ff: FFmpeg;
+  let ff: FFmpegInstance;
   try {
     ff = await loadFFmpeg();
   } catch (e) {
@@ -563,29 +810,34 @@ export async function resizeVideo(
   }
 
   if (onProgress) {
-    ff.on('progress', ({ progress }) => {
-      onProgress(Math.round(progress * 100));
+    ff.setProgress(({ ratio }) => {
+      onProgress(Math.round(ratio * 100));
     });
   }
 
+  const { width, height, maintainAspectRatio = true } = options;
   const inputFileName = 'input' + getFileExtension(file.name);
   const outputFileName = 'output.mp4';
 
   try {
-    await ff.writeFile(inputFileName, await fetchFile(file));
+    ff.FS('writeFile', inputFileName, await fetchFile(file));
 
-    await ff.exec([
+    const scaleFilter = maintainAspectRatio 
+      ? `scale=${width}:${height}:force_original_aspect_ratio=decrease,pad=${width}:${height}:(ow-iw)/2:(oh-ih)/2`
+      : `scale=${width}:${height}`;
+
+    await ff.run(
       '-i', inputFileName,
-      '-vf', `scale=${width}:${height}`,
+      '-vf', scaleFilter,
       '-c:a', 'copy',
       outputFileName
-    ]);
+    );
 
-    const data = await ff.readFile(outputFileName);
-    const outputBlob = new Blob([data], { type: 'video/mp4' });
+    const data = ff.FS('readFile', outputFileName);
+    const outputBlob = new Blob([data.buffer], { type: 'video/mp4' });
 
-    await ff.deleteFile(inputFileName);
-    await ff.deleteFile(outputFileName);
+    ff.FS('unlink', inputFileName);
+    ff.FS('unlink', outputFileName);
 
     return {
       originalFile: file,
@@ -599,29 +851,27 @@ export async function resizeVideo(
   }
 }
 
-export interface ConvertVideoOptions {
-  outputFormat: 'mp4' | 'webm';
+export interface ChangeSpeedOptions {
+  speed: number;
 }
 
-export interface ConvertVideoResult {
+export interface ChangeSpeedResult {
   originalFile: File;
   outputBlob: Blob;
   originalSize: number;
   outputSize: number;
 }
 
-export async function convertVideo(
+export async function changeSpeed(
   file: File,
-  options: ConvertVideoOptions,
+  options: ChangeSpeedOptions,
   onProgress?: ProgressCallback
-): Promise<ConvertVideoResult> {
+): Promise<ChangeSpeedResult> {
   if (!file) {
     throw new FFmpegError('NO_FILE_PROVIDED');
   }
 
-  const { outputFormat } = options;
-
-  let ff: FFmpeg;
+  let ff: FFmpegInstance;
   try {
     ff = await loadFFmpeg();
   } catch (e) {
@@ -630,41 +880,117 @@ export async function convertVideo(
   }
 
   if (onProgress) {
-    ff.on('progress', ({ progress }) => {
-      onProgress(Math.round(progress * 100));
+    ff.setProgress(({ ratio }) => {
+      onProgress(Math.round(ratio * 100));
     });
   }
 
+  const { speed } = options;
   const inputFileName = 'input' + getFileExtension(file.name);
-  const outputFileName = `output.${outputFormat}`;
-  const mimeType = outputFormat === 'mp4' ? 'video/mp4' : 'video/webm';
+  const outputFileName = 'output.mp4';
 
   try {
-    await ff.writeFile(inputFileName, await fetchFile(file));
+    ff.FS('writeFile', inputFileName, await fetchFile(file));
 
-    const args = ['-i', inputFileName];
-    
-    if (outputFormat === 'webm') {
-      args.push('-c:v', 'libvpx', '-c:a', 'libvorbis');
-    } else {
-      args.push('-c:v', 'libx264', '-c:a', 'aac');
-    }
-    
-    args.push(outputFileName);
+    const pts = 1 / speed;
+    const atempo = speed > 2 ? '2.0,atempo=' + (speed / 2) : speed < 0.5 ? '0.5,atempo=' + (speed * 2) : speed.toString();
 
-    await ff.exec(args);
+    await ff.run(
+      '-i', inputFileName,
+      '-filter:v', `setpts=${pts}*PTS`,
+      '-filter:a', `atempo=${atempo}`,
+      outputFileName
+    );
 
-    const data = await ff.readFile(outputFileName);
-    const outputBlob = new Blob([data], { type: mimeType });
+    const data = ff.FS('readFile', outputFileName);
+    const outputBlob = new Blob([data.buffer], { type: 'video/mp4' });
 
-    await ff.deleteFile(inputFileName);
-    await ff.deleteFile(outputFileName);
+    ff.FS('unlink', inputFileName);
+    ff.FS('unlink', outputFileName);
 
     return {
       originalFile: file,
       outputBlob,
       originalSize: file.size,
       outputSize: outputBlob.size,
+    };
+  } catch (e) {
+    if (e instanceof FFmpegError) throw e;
+    throw new FFmpegError('PROCESSING_FAILED', file.name);
+  }
+}
+
+export interface ConvertAudioOptions {
+  format: 'mp3' | 'wav' | 'ogg' | 'aac' | 'flac';
+  bitrate?: string;
+}
+
+export interface ConvertAudioResult {
+  originalFile: File;
+  outputBlob: Blob;
+  originalSize: number;
+  outputSize: number;
+  format: string;
+}
+
+export async function convertAudio(
+  file: File,
+  options: ConvertAudioOptions,
+  onProgress?: ProgressCallback
+): Promise<ConvertAudioResult> {
+  if (!file) {
+    throw new FFmpegError('NO_FILE_PROVIDED');
+  }
+
+  let ff: FFmpegInstance;
+  try {
+    ff = await loadFFmpeg();
+  } catch (e) {
+    if (e instanceof FFmpegError) throw e;
+    throw new FFmpegError('FFMPEG_LOAD_FAILED');
+  }
+
+  if (onProgress) {
+    ff.setProgress(({ ratio }) => {
+      onProgress(Math.round(ratio * 100));
+    });
+  }
+
+  const formatSettings: Record<string, { ext: string; mime: string; codec: string }> = {
+    mp3: { ext: 'mp3', mime: 'audio/mp3', codec: 'libmp3lame' },
+    wav: { ext: 'wav', mime: 'audio/wav', codec: 'pcm_s16le' },
+    ogg: { ext: 'ogg', mime: 'audio/ogg', codec: 'libvorbis' },
+    aac: { ext: 'aac', mime: 'audio/aac', codec: 'aac' },
+    flac: { ext: 'flac', mime: 'audio/flac', codec: 'flac' },
+  };
+
+  const settings = formatSettings[options.format];
+  const inputFileName = 'input' + getFileExtension(file.name);
+  const outputFileName = 'output.' + settings.ext;
+
+  try {
+    ff.FS('writeFile', inputFileName, await fetchFile(file));
+
+    const args = ['-i', inputFileName, '-acodec', settings.codec];
+    if (options.bitrate) {
+      args.push('-b:a', options.bitrate);
+    }
+    args.push(outputFileName);
+
+    await ff.run(...args);
+
+    const data = ff.FS('readFile', outputFileName);
+    const outputBlob = new Blob([data.buffer], { type: settings.mime });
+
+    ff.FS('unlink', inputFileName);
+    ff.FS('unlink', outputFileName);
+
+    return {
+      originalFile: file,
+      outputBlob,
+      originalSize: file.size,
+      outputSize: outputBlob.size,
+      format: options.format,
     };
   } catch (e) {
     if (e instanceof FFmpegError) throw e;
@@ -696,7 +1022,7 @@ export async function trimAudio(
   const { startTime, endTime } = options;
   const duration = endTime - startTime;
 
-  let ff: FFmpeg;
+  let ff: FFmpegInstance;
   try {
     ff = await loadFFmpeg();
   } catch (e) {
@@ -705,31 +1031,31 @@ export async function trimAudio(
   }
 
   if (onProgress) {
-    ff.on('progress', ({ progress }) => {
-      onProgress(Math.round(progress * 100));
+    ff.setProgress(({ ratio }) => {
+      onProgress(Math.round(ratio * 100));
     });
   }
 
-  const inputFileName = 'input' + getFileExtension(file.name);
-  const outputFileName = 'output.mp3';
+  const ext = getFileExtension(file.name);
+  const inputFileName = 'input' + ext;
+  const outputFileName = 'output' + ext;
 
   try {
-    await ff.writeFile(inputFileName, await fetchFile(file));
+    ff.FS('writeFile', inputFileName, await fetchFile(file));
 
-    await ff.exec([
+    await ff.run(
       '-i', inputFileName,
       '-ss', startTime.toString(),
       '-t', duration.toString(),
-      '-acodec', 'libmp3lame',
-      '-q:a', '2',
+      '-c', 'copy',
       outputFileName
-    ]);
+    );
 
-    const data = await ff.readFile(outputFileName);
-    const outputBlob = new Blob([data], { type: 'audio/mpeg' });
+    const data = ff.FS('readFile', outputFileName);
+    const outputBlob = new Blob([data.buffer], { type: file.type });
 
-    await ff.deleteFile(inputFileName);
-    await ff.deleteFile(outputFileName);
+    ff.FS('unlink', inputFileName);
+    ff.FS('unlink', outputFileName);
 
     return {
       originalFile: file,
@@ -743,20 +1069,24 @@ export async function trimAudio(
   }
 }
 
-export interface JoinAudioResult {
-  outputBlob: Blob;
-  totalSize: number;
+export interface MergeAudioOptions {
+  files: File[];
 }
 
-export async function joinAudio(
+export interface MergeAudioResult {
+  outputBlob: Blob;
+  outputSize: number;
+}
+
+export async function mergeAudio(
   files: File[],
   onProgress?: ProgressCallback
-): Promise<JoinAudioResult> {
-  if (!files || files.length === 0) {
+): Promise<MergeAudioResult> {
+  if (!files || files.length < 2) {
     throw new FFmpegError('NO_FILE_PROVIDED');
   }
 
-  let ff: FFmpeg;
+  let ff: FFmpegInstance;
   try {
     ff = await loadFFmpeg();
   } catch (e) {
@@ -765,45 +1095,45 @@ export async function joinAudio(
   }
 
   if (onProgress) {
-    ff.on('progress', ({ progress }) => {
-      onProgress(Math.round(progress * 100));
+    ff.setProgress(({ ratio }) => {
+      onProgress(Math.round(ratio * 100));
     });
   }
 
-  const outputFileName = 'output.mp3';
+  const ext = getFileExtension(files[0].name);
+  const outputFileName = 'output' + ext;
 
   try {
     let concatList = '';
     for (let i = 0; i < files.length; i++) {
-      const inputFileName = `input${i}${getFileExtension(files[i].name)}`;
-      await ff.writeFile(inputFileName, await fetchFile(files[i]));
-      concatList += `file '${inputFileName}'\n`;
+      const inputName = `input${i}${getFileExtension(files[i].name)}`;
+      ff.FS('writeFile', inputName, await fetchFile(files[i]));
+      concatList += `file '${inputName}'\n`;
     }
+    
+    ff.FS('writeFile', 'concat.txt', new TextEncoder().encode(concatList));
 
-    await ff.writeFile('concat.txt', concatList);
-
-    await ff.exec([
+    await ff.run(
       '-f', 'concat',
       '-safe', '0',
       '-i', 'concat.txt',
-      '-acodec', 'libmp3lame',
-      '-q:a', '2',
+      '-c', 'copy',
       outputFileName
-    ]);
+    );
 
-    const data = await ff.readFile(outputFileName);
-    const outputBlob = new Blob([data], { type: 'audio/mpeg' });
+    const data = ff.FS('readFile', outputFileName);
+    const outputBlob = new Blob([data.buffer], { type: files[0].type });
 
     for (let i = 0; i < files.length; i++) {
-      const inputFileName = `input${i}${getFileExtension(files[i].name)}`;
-      await ff.deleteFile(inputFileName);
+      const inputName = `input${i}${getFileExtension(files[i].name)}`;
+      ff.FS('unlink', inputName);
     }
-    await ff.deleteFile('concat.txt');
-    await ff.deleteFile(outputFileName);
+    ff.FS('unlink', 'concat.txt');
+    ff.FS('unlink', outputFileName);
 
     return {
       outputBlob,
-      totalSize: files.reduce((acc, f) => acc + f.size, 0),
+      outputSize: outputBlob.size,
     };
   } catch (e) {
     if (e instanceof FFmpegError) throw e;
@@ -811,138 +1141,59 @@ export async function joinAudio(
   }
 }
 
-export interface ConvertAudioOptions {
-  outputFormat: 'mp3' | 'wav' | 'ogg';
-}
-
-export interface ConvertAudioResult {
-  originalFile: File;
-  outputBlob: Blob;
-  originalSize: number;
-  outputSize: number;
-}
-
-export async function convertAudio(
-  file: File,
-  options: ConvertAudioOptions,
-  onProgress?: ProgressCallback
-): Promise<ConvertAudioResult> {
-  if (!file) {
-    throw new FFmpegError('NO_FILE_PROVIDED');
-  }
-
-  const { outputFormat } = options;
-
-  let ff: FFmpeg;
-  try {
-    ff = await loadFFmpeg();
-  } catch (e) {
-    if (e instanceof FFmpegError) throw e;
-    throw new FFmpegError('FFMPEG_LOAD_FAILED');
-  }
-
-  if (onProgress) {
-    ff.on('progress', ({ progress }) => {
-      onProgress(Math.round(progress * 100));
-    });
-  }
-
-  const inputFileName = 'input' + getFileExtension(file.name);
-  const outputFileName = `output.${outputFormat}`;
-  const mimeTypes: Record<string, string> = {
-    mp3: 'audio/mpeg',
-    wav: 'audio/wav',
-    ogg: 'audio/ogg'
-  };
-
-  try {
-    await ff.writeFile(inputFileName, await fetchFile(file));
-
-    const args = ['-i', inputFileName];
-    
-    if (outputFormat === 'mp3') {
-      args.push('-acodec', 'libmp3lame', '-q:a', '2');
-    } else if (outputFormat === 'ogg') {
-      args.push('-acodec', 'libvorbis', '-q:a', '4');
-    }
-    
-    args.push(outputFileName);
-
-    await ff.exec(args);
-
-    const data = await ff.readFile(outputFileName);
-    const outputBlob = new Blob([data], { type: mimeTypes[outputFormat] });
-
-    await ff.deleteFile(inputFileName);
-    await ff.deleteFile(outputFileName);
-
-    return {
-      originalFile: file,
-      outputBlob,
-      originalSize: file.size,
-      outputSize: outputBlob.size,
-    };
-  } catch (e) {
-    if (e instanceof FFmpegError) throw e;
-    throw new FFmpegError('PROCESSING_FAILED', file.name);
-  }
-}
-
-export interface BoostAudioOptions {
+export interface AdjustVolumeOptions {
   volume: number;
 }
 
-export interface BoostAudioResult {
+export interface AdjustVolumeResult {
   originalFile: File;
   outputBlob: Blob;
   originalSize: number;
   outputSize: number;
 }
 
-export async function boostAudio(
+export async function adjustVolume(
   file: File,
-  options: BoostAudioOptions,
+  options: AdjustVolumeOptions,
   onProgress?: ProgressCallback
-): Promise<BoostAudioResult> {
+): Promise<AdjustVolumeResult> {
   if (!file) {
     throw new FFmpegError('NO_FILE_PROVIDED');
+  }
+
+  let ff: FFmpegInstance;
+  try {
+    ff = await loadFFmpeg();
+  } catch (e) {
+    if (e instanceof FFmpegError) throw e;
+    throw new FFmpegError('FFMPEG_LOAD_FAILED');
+  }
+
+  if (onProgress) {
+    ff.setProgress(({ ratio }) => {
+      onProgress(Math.round(ratio * 100));
+    });
   }
 
   const { volume } = options;
-
-  let ff: FFmpeg;
-  try {
-    ff = await loadFFmpeg();
-  } catch (e) {
-    if (e instanceof FFmpegError) throw e;
-    throw new FFmpegError('FFMPEG_LOAD_FAILED');
-  }
-
-  if (onProgress) {
-    ff.on('progress', ({ progress }) => {
-      onProgress(Math.round(progress * 100));
-    });
-  }
-
-  const inputFileName = 'input' + getFileExtension(file.name);
-  const outputFileName = 'output.mp3';
+  const ext = getFileExtension(file.name);
+  const inputFileName = 'input' + ext;
+  const outputFileName = 'output' + ext;
 
   try {
-    await ff.writeFile(inputFileName, await fetchFile(file));
+    ff.FS('writeFile', inputFileName, await fetchFile(file));
 
-    await ff.exec([
+    await ff.run(
       '-i', inputFileName,
       '-af', `volume=${volume}`,
-      '-acodec', 'libmp3lame',
-      '-q:a', '2',
       outputFileName
-    ]);
+    );
 
-    const data = await ff.readFile(outputFileName);
-    const outputBlob = new Blob([data], { type: 'audio/mpeg' });
+    const data = ff.FS('readFile', outputFileName);
+    const outputBlob = new Blob([data.buffer], { type: file.type });
 
-    await ff.deleteFile(inputFileName);
-    await ff.deleteFile(outputFileName);
+    ff.FS('unlink', inputFileName);
+    ff.FS('unlink', outputFileName);
 
     return {
       originalFile: file,
@@ -956,22 +1207,24 @@ export async function boostAudio(
   }
 }
 
-export interface ReverseAudioResult {
-  originalFile: File;
+export interface MergeVideoOptions {
+  files: File[];
+}
+
+export interface MergeVideoResult {
   outputBlob: Blob;
-  originalSize: number;
   outputSize: number;
 }
 
-export async function reverseAudio(
-  file: File,
+export async function mergeVideo(
+  files: File[],
   onProgress?: ProgressCallback
-): Promise<ReverseAudioResult> {
-  if (!file) {
+): Promise<MergeVideoResult> {
+  if (!files || files.length < 2) {
     throw new FFmpegError('NO_FILE_PROVIDED');
   }
 
-  let ff: FFmpeg;
+  let ff: FFmpegInstance;
   try {
     ff = await loadFFmpeg();
   } catch (e) {
@@ -980,66 +1233,73 @@ export async function reverseAudio(
   }
 
   if (onProgress) {
-    ff.on('progress', ({ progress }) => {
-      onProgress(Math.round(progress * 100));
+    ff.setProgress(({ ratio }) => {
+      onProgress(Math.round(ratio * 100));
     });
   }
 
-  const inputFileName = 'input' + getFileExtension(file.name);
-  const outputFileName = 'output.mp3';
+  const outputFileName = 'output.mp4';
 
   try {
-    await ff.writeFile(inputFileName, await fetchFile(file));
+    let concatList = '';
+    for (let i = 0; i < files.length; i++) {
+      const inputName = `input${i}${getFileExtension(files[i].name)}`;
+      ff.FS('writeFile', inputName, await fetchFile(files[i]));
+      concatList += `file '${inputName}'\n`;
+    }
+    
+    ff.FS('writeFile', 'concat.txt', new TextEncoder().encode(concatList));
 
-    await ff.exec([
-      '-i', inputFileName,
-      '-af', 'areverse',
-      '-acodec', 'libmp3lame',
-      '-q:a', '2',
+    await ff.run(
+      '-f', 'concat',
+      '-safe', '0',
+      '-i', 'concat.txt',
+      '-c', 'copy',
       outputFileName
-    ]);
+    );
 
-    const data = await ff.readFile(outputFileName);
-    const outputBlob = new Blob([data], { type: 'audio/mpeg' });
+    const data = ff.FS('readFile', outputFileName);
+    const outputBlob = new Blob([data.buffer], { type: 'video/mp4' });
 
-    await ff.deleteFile(inputFileName);
-    await ff.deleteFile(outputFileName);
+    for (let i = 0; i < files.length; i++) {
+      const inputName = `input${i}${getFileExtension(files[i].name)}`;
+      ff.FS('unlink', inputName);
+    }
+    ff.FS('unlink', 'concat.txt');
+    ff.FS('unlink', outputFileName);
 
     return {
-      originalFile: file,
       outputBlob,
-      originalSize: file.size,
       outputSize: outputBlob.size,
     };
   } catch (e) {
     if (e instanceof FFmpegError) throw e;
-    throw new FFmpegError('PROCESSING_FAILED', file.name);
+    throw new FFmpegError('PROCESSING_FAILED');
   }
 }
 
-export interface AudioBitrateOptions {
-  bitrate: '64k' | '128k' | '192k' | '256k' | '320k';
+export interface AddAudioToVideoOptions {
+  video: File;
+  audio: File;
+  replaceOriginalAudio?: boolean;
 }
 
-export interface AudioBitrateResult {
-  originalFile: File;
+export interface AddAudioToVideoResult {
   outputBlob: Blob;
-  originalSize: number;
   outputSize: number;
 }
 
-export async function changeAudioBitrate(
-  file: File,
-  options: AudioBitrateOptions,
+export async function addAudioToVideo(
+  options: AddAudioToVideoOptions,
   onProgress?: ProgressCallback
-): Promise<AudioBitrateResult> {
-  if (!file) {
+): Promise<AddAudioToVideoResult> {
+  const { video, audio, replaceOriginalAudio = true } = options;
+  
+  if (!video || !audio) {
     throw new FFmpegError('NO_FILE_PROVIDED');
   }
 
-  const { bitrate } = options;
-
-  let ff: FFmpeg;
+  let ff: FFmpegInstance;
   try {
     ff = await loadFFmpeg();
   } catch (e) {
@@ -1048,105 +1308,56 @@ export async function changeAudioBitrate(
   }
 
   if (onProgress) {
-    ff.on('progress', ({ progress }) => {
-      onProgress(Math.round(progress * 100));
+    ff.setProgress(({ ratio }) => {
+      onProgress(Math.round(ratio * 100));
     });
   }
 
-  const inputFileName = 'input' + getFileExtension(file.name);
-  const outputFileName = 'output.mp3';
+  const videoFileName = 'video' + getFileExtension(video.name);
+  const audioFileName = 'audio' + getFileExtension(audio.name);
+  const outputFileName = 'output.mp4';
 
   try {
-    await ff.writeFile(inputFileName, await fetchFile(file));
+    ff.FS('writeFile', videoFileName, await fetchFile(video));
+    ff.FS('writeFile', audioFileName, await fetchFile(audio));
 
-    await ff.exec([
-      '-i', inputFileName,
-      '-acodec', 'libmp3lame',
-      '-b:a', bitrate,
-      outputFileName
-    ]);
+    if (replaceOriginalAudio) {
+      await ff.run(
+        '-i', videoFileName,
+        '-i', audioFileName,
+        '-c:v', 'copy',
+        '-map', '0:v:0',
+        '-map', '1:a:0',
+        '-shortest',
+        outputFileName
+      );
+    } else {
+      await ff.run(
+        '-i', videoFileName,
+        '-i', audioFileName,
+        '-filter_complex', '[0:a][1:a]amerge=inputs=2[a]',
+        '-map', '0:v',
+        '-map', '[a]',
+        '-c:v', 'copy',
+        '-ac', '2',
+        '-shortest',
+        outputFileName
+      );
+    }
 
-    const data = await ff.readFile(outputFileName);
-    const outputBlob = new Blob([data], { type: 'audio/mpeg' });
+    const data = ff.FS('readFile', outputFileName);
+    const outputBlob = new Blob([data.buffer], { type: 'video/mp4' });
 
-    await ff.deleteFile(inputFileName);
-    await ff.deleteFile(outputFileName);
+    ff.FS('unlink', videoFileName);
+    ff.FS('unlink', audioFileName);
+    ff.FS('unlink', outputFileName);
 
     return {
-      originalFile: file,
       outputBlob,
-      originalSize: file.size,
       outputSize: outputBlob.size,
     };
   } catch (e) {
     if (e instanceof FFmpegError) throw e;
-    throw new FFmpegError('PROCESSING_FAILED', file.name);
+    throw new FFmpegError('PROCESSING_FAILED');
   }
 }
-
-export interface VideoCaptureOptions {
-  timestamp: number;
-  format: 'jpg' | 'png';
-}
-
-export interface VideoCaptureResult {
-  originalFile: File;
-  outputBlob: Blob;
-}
-
-export async function captureVideoFrame(
-  file: File,
-  options: VideoCaptureOptions,
-  onProgress?: ProgressCallback
-): Promise<VideoCaptureResult> {
-  if (!file) {
-    throw new FFmpegError('NO_FILE_PROVIDED');
-  }
-
-  const { timestamp, format } = options;
-
-  let ff: FFmpeg;
-  try {
-    ff = await loadFFmpeg();
-  } catch (e) {
-    if (e instanceof FFmpegError) throw e;
-    throw new FFmpegError('FFMPEG_LOAD_FAILED');
-  }
-
-  if (onProgress) {
-    ff.on('progress', ({ progress }) => {
-      onProgress(Math.round(progress * 100));
-    });
-  }
-
-  const inputFileName = 'input' + getFileExtension(file.name);
-  const outputFileName = `output.${format}`;
-  const mimeType = format === 'jpg' ? 'image/jpeg' : 'image/png';
-
-  try {
-    await ff.writeFile(inputFileName, await fetchFile(file));
-
-    await ff.exec([
-      '-i', inputFileName,
-      '-ss', timestamp.toString(),
-      '-vframes', '1',
-      outputFileName
-    ]);
-
-    const data = await ff.readFile(outputFileName);
-    const outputBlob = new Blob([data], { type: mimeType });
-
-    await ff.deleteFile(inputFileName);
-    await ff.deleteFile(outputFileName);
-
-    return {
-      originalFile: file,
-      outputBlob,
-    };
-  } catch (e) {
-    if (e instanceof FFmpegError) throw e;
-    throw new FFmpegError('PROCESSING_FAILED', file.name);
-  }
-}
-
-export { getBaseName, getFileExtension };
