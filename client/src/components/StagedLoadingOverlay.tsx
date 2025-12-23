@@ -46,7 +46,7 @@ export function StagedLoadingOverlay({
     }
   };
 
-  if (stage === 'idle') return null;
+  if (stage === 'idle' || stage === 'complete' || stage === 'error') return null;
 
   return (
     <div className="w-full max-w-lg mx-auto py-12 px-4">
