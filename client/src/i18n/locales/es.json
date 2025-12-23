@@ -9,13 +9,13 @@
     "nav": {
       "home": "홈",
       "pdf": "Herramientas PDF",
-      "image": "Imagen",
-      "videoAudio": "Video/Audio",
-      "text": "Herramientas de Texto",
-      "social": "Redes Sociales",
-      "developer": "Herramientas de Desarrollador",
-      "calculator": "Calculadoras",
-      "funMisc": "Diversión y Otros"
+      "image": "이미지",
+      "videoAudio": "비디오/오디오",
+      "text": "텍스트 가공",
+      "social": "소셜 미디어",
+      "developer": "개발자 도구",
+      "calculator": "계산기",
+      "funMisc": "재미&기타"
     },
     "actions": {
       "upload": "파일 업로드",
@@ -57,103 +57,103 @@
       "voted": "투표함"
     },
     "messages": {
-      "processing": "처리 중...",
-      "complete": "완료!",
-      "error": "오류가 발생했습니다.",
-      "dragDrop": "파일을 여기에 끌어다 놓거나 클릭하여 선택하세요",
-      "noServerUpload": "파일은 서버에 업로드되지 않습니다. 모든 처리는 브라우저에서 직접 수행됩니다.",
-      "readyToDownload": "다운로드 준비 완료!",
-      "processingComplete": "처리 완료!",
-      "ready": "준비됨",
-      "relatedTools": "이런 도구도 추천해요",
-      "allFormats": "모든 형식",
-      "processingTip": "파일이 브라우저에서 안전하게 처리됩니다. 데이터가 서버로 전송되지 않습니다.",
-      "privacyTitle": "개인정보가 보호됩니다!",
-      "privacyNote": "모든 파일은 브라우저에서 직접 처리되며 서버로 전송되지 않습니다.",
-      "comingSoon": "더 많은 도구가 곧 추가됩니다!",
-      "loading": "로딩 중...",
-      "processingFile": "파일 처리 중...",
-      "mergingPdfs": "PDF를 합치고 있습니다...",
-      "splittingPdf": "PDF를 나누고 있습니다...",
-      "compressingImage": "이미지를 압축하고 있습니다...",
-      "convertingImage": "이미지를 변환하고 있습니다...",
-      "convertingVideo": "비디오를 변환하고 있습니다...",
-      "loadingFFmpeg": "처리 엔진을 로딩하고 있습니다...",
-      "filesSelected": "개 파일 선택됨",
-      "noFilesSelected": "선택된 파일이 없습니다",
-      "originalSize": "원본 크기",
-      "compressedSize": "압축 후 크기",
-      "savedPercent": "절약률",
-      "quality": "품질",
-      "maxWidth": "최대 너비/높이",
-      "pages": "페이지",
-      "pagesCreated": "개 파일 생성됨",
-      "targetFormat": "변환 포맷",
-      "fps": "FPS (초당 프레임)",
-      "width": "너비",
-      "startTime": "시작 시간",
-      "duration": "길이",
-      "seconds": "초",
-      "browserNotSupported": "브라우저 지원 안됨",
-      "ffmpegNotSupported": "이 기능은 고급 브라우저 기능을 사용합니다. Chrome 또는 Firefox 최신 버전을 사용해 주세요.",
-      "extractingAudio": "오디오를 추출하고 있습니다...",
-      "compressingVideo": "비디오를 압축하고 있습니다...",
-      "endTime": "종료 시간",
-      "qualityLow": "낮음 (작은 파일)",
-      "qualityMedium": "보통 (균형)",
-      "qualityHigh": "높음 (고품질)",
-      "reduced": "감소",
-      "outputFormat": "출력 포맷",
-      "recordingComplete": "녹음 완료!",
-      "microphonePermissionDenied": "마이크 접근 거부됨",
-      "microphonePermissionRequired": "이 기능을 사용하려면 브라우저 설정에서 마이크 접근을 허용해 주세요.",
-      "screenPermissionDenied": "화면 접근 거부됨",
-      "screenPermissionRequired": "이 기능을 사용하려면 브라우저 설정에서 화면 녹화를 허용해 주세요.",
-      "screenRecordingNotSupported": "이 브라우저에서는 화면 녹화가 지원되지 않습니다.",
-      "includeAudio": "마이크 오디오 포함",
-      "fileType": "파일 유형",
-      "fileSize": "파일 크기",
-      "resolution": "해상도",
-      "aspectRatio": "화면 비율",
-      "videoFileSizeLimit": "최대 파일 크기: 50MB",
-      "audioFileSizeLimit": "최대 파일 크기: 50MB",
-      "fileSizeLimitNotice": "브라우저에서 직접 처리하므로 파일 크기에 제한이 있습니다.",
-      "largeFileRecommendation": "큰 파일은 데스크톱 프로그램(VLC, Handbrake 등)을 사용하세요.",
-      "recommendedVideoLength": "권장: 30초 미만의 비디오",
-      "qualityDegradationNotice": "브라우저 처리 특성상 출력 화질이 다소 저하될 수 있습니다.",
-      "step1Loading": "1단계: 처리 엔진 준비",
-      "step2Processing": "2단계: 오디오 처리 중",
-      "step2VideoProcessing": "2단계: 비디오 처리 중",
-      "step2AudioExtract": "2단계: 오디오 추출 중",
-      "step3Complete": "3단계: 완료",
-      "minSec": "분:초",
-      "timeExample": "예: 1:30 = 1분 30초",
-      "total": "전체"
+      "processing": "Procesando...",
+      "complete": "¡Completado!",
+      "error": "Ocurrió un error.",
+      "dragDrop": "Arrastra y suelta archivos aquí o haz clic para seleccionar",
+      "noServerUpload": "Los archivos no se cargan en ningún servidor. Todo el procesamiento se realiza directamente en tu navegador.",
+      "readyToDownload": "¡Listo para descargar!",
+      "processingComplete": "¡Procesamiento completado!",
+      "ready": "Listo",
+      "relatedTools": "También te recomendamos estas herramientas",
+      "allFormats": "Todos los formatos",
+      "processingTip": "Los archivos se procesan de forma segura en tu navegador. Los datos no se envían a ningún servidor.",
+      "privacyTitle": "¡Tu privacidad está protegida!",
+      "privacyNote": "Todos los archivos se procesan directamente en tu navegador y nunca se envían a un servidor.",
+      "comingSoon": "¡Se agregarán más herramientas pronto!",
+      "loading": "Cargando...",
+      "processingFile": "Procesando archivo...",
+      "mergingPdfs": "Fusionando PDFs...",
+      "splittingPdf": "Dividiendo PDF...",
+      "compressingImage": "Comprimiendo imagen...",
+      "convertingImage": "Convirtiendo imagen...",
+      "convertingVideo": "Convirtiendo video...",
+      "loadingFFmpeg": "Cargando motor de procesamiento...",
+      "filesSelected": "archivos seleccionados",
+      "noFilesSelected": "No hay archivos seleccionados",
+      "originalSize": "Tamaño original",
+      "compressedSize": "Tamaño comprimido",
+      "savedPercent": "Tasa de ahorro",
+      "quality": "Calidad",
+      "maxWidth": "Ancho/Altura máximo",
+      "pages": "Página",
+      "pagesCreated": "archivos creados",
+      "targetFormat": "Formato de conversión",
+      "fps": "FPS (fotogramas por segundo)",
+      "width": "Ancho",
+      "startTime": "Hora de inicio",
+      "duration": "Duración",
+      "seconds": "Segundo",
+      "browserNotSupported": "Navegador no compatible",
+      "ffmpegNotSupported": "Esta función utiliza funciones avanzadas del navegador. Utiliza la última versión de Chrome o Firefox.",
+      "extractingAudio": "Extrayendo audio...",
+      "compressingVideo": "Comprimiendo video...",
+      "endTime": "Hora de finalización",
+      "qualityLow": "Bajo (archivo pequeño)",
+      "qualityMedium": "Medio (equilibrado)",
+      "qualityHigh": "Alto (alta calidad)",
+      "reduced": "Reducido",
+      "outputFormat": "Formato de salida",
+      "recordingComplete": "¡Grabación completada!",
+      "microphonePermissionDenied": "Acceso al micrófono denegado",
+      "microphonePermissionRequired": "Para usar esta función, permita el acceso al micrófono en la configuración del navegador.",
+      "screenPermissionDenied": "Acceso a la pantalla denegado",
+      "screenPermissionRequired": "Para usar esta función, permita la grabación de pantalla en la configuración del navegador.",
+      "screenRecordingNotSupported": "La grabación de pantalla no es compatible con este navegador.",
+      "includeAudio": "Incluir audio del micrófono",
+      "fileType": "Tipo de archivo",
+      "fileSize": "Tamaño del archivo",
+      "resolution": "Resolución",
+      "aspectRatio": "Relación de aspecto",
+      "videoFileSizeLimit": "Tamaño máximo de archivo: 50MB",
+      "audioFileSizeLimit": "Tamaño máximo de archivo: 50MB",
+      "fileSizeLimitNotice": "Hay un límite de tamaño de archivo porque el procesamiento se realiza directamente en el navegador.",
+      "largeFileRecommendation": "Para archivos grandes, utiliza un programa de escritorio como VLC o Handbrake.",
+      "recommendedVideoLength": "Recomendado: video de menos de 30 segundos",
+      "qualityDegradationNotice": "La calidad de salida puede degradarse ligeramente debido a la naturaleza del procesamiento del navegador.",
+      "step1Loading": "Paso 1: Preparar motor de procesamiento",
+      "step2Processing": "Paso 2: Procesando audio",
+      "step2VideoProcessing": "Paso 2: Procesando video",
+      "step2AudioExtract": "Paso 2: Extrayendo audio",
+      "step3Complete": "Paso 3: Completado",
+      "minSec": "min:seg",
+      "timeExample": "Ejemplo: 1:30 = 1 minuto 30 segundos",
+      "total": "Total"
     },
     "errors": {
-      "FILE_TOO_LARGE": "파일이 너무 큽니다 (최대 50MB)",
-      "NO_FILES_SELECTED": "파일을 선택해주세요",
-      "NO_FILES_PROVIDED": "파일이 제공되지 않았습니다",
-      "NO_FILE_PROVIDED": "파일이 제공되지 않았습니다",
-      "FAILED_TO_PROCESS_PDF": "PDF 처리 실패",
-      "COMPRESSION_FAILED": "압축 실패",
-      "NEED_MORE_FILES": "최소 2개 이상의 파일이 필요합니다",
-      "PROCESSING_FAILED": "처리 실패",
-      "INVALID_FILE_TYPE": "지원하지 않는 파일 형식입니다",
-      "INVALID_PDF": "유효하지 않은 PDF 파일입니다",
-      "INVALID_PAGE_RANGE": "유효하지 않은 페이지 범위입니다",
-      "INVALID_IMAGE": "유효하지 않은 이미지 파일입니다",
-      "CANVAS_NOT_SUPPORTED": "캔버스를 지원하지 않습니다",
-      "CONVERSION_FAILED": "변환 실패",
-      "FFMPEG_LOAD_FAILED": "FFmpeg 로드에 실패했습니다. 페이지를 새로고침하고 다시 시도해 주세요.",
-      "SHAREDARRAYBUFFER_NOT_AVAILABLE": "이 기능은 SharedArrayBuffer가 필요합니다. Chrome 또는 Firefox를 사용해 주세요.",
-      "INVALID_VIDEO": "유효하지 않은 비디오 파일입니다",
-      "WORKER_ERROR": "워커 오류가 발생했습니다",
-      "VALIDATION_FAILED": "유효성 검사 실패",
-      "EXTRACT_FAILED": "PDF에서 텍스트 추출에 실패했습니다",
-      "NUP_FAILED": "다중 페이지 레이아웃 생성에 실패했습니다",
-      "COPY_FAILED": "클립보드에 복사하지 못했습니다",
-      "categoryNotFound": "카테고리를 찾을 수 없습니다"
+      "FILE_TOO_LARGE": "El archivo es demasiado grande (máximo 50MB)",
+      "NO_FILES_SELECTED": "Por favor selecciona un archivo",
+      "NO_FILES_PROVIDED": "No se proporcionó ningún archivo",
+      "NO_FILE_PROVIDED": "No se proporcionó ningún archivo",
+      "FAILED_TO_PROCESS_PDF": "Error al procesar PDF",
+      "COMPRESSION_FAILED": "Error de compresión",
+      "NEED_MORE_FILES": "Se necesitan al menos 2 archivos",
+      "PROCESSING_FAILED": "Error de procesamiento",
+      "INVALID_FILE_TYPE": "Formato de archivo no compatible",
+      "INVALID_PDF": "Archivo PDF no válido",
+      "INVALID_PAGE_RANGE": "Rango de página no válido",
+      "INVALID_IMAGE": "Archivo de imagen no válido",
+      "CANVAS_NOT_SUPPORTED": "Canvas no es compatible",
+      "CONVERSION_FAILED": "Error de conversión",
+      "FFMPEG_LOAD_FAILED": "Error al cargar FFmpeg. Actualiza la página e intenta de nuevo.",
+      "SHAREDARRAYBUFFER_NOT_AVAILABLE": "Esta función requiere SharedArrayBuffer. Utiliza Chrome o Firefox.",
+      "INVALID_VIDEO": "Archivo de video no válido",
+      "WORKER_ERROR": "Error de worker",
+      "VALIDATION_FAILED": "Error de validación",
+      "EXTRACT_FAILED": "Error al extraer texto de PDF",
+      "NUP_FAILED": "Error al crear diseño de múltiples páginas",
+      "COPY_FAILED": "Error al copiar al portapapeles",
+      "categoryNotFound": "Categoría no encontrada"
     },
     "units": {
       "bytes": "Bytes",
@@ -162,131 +162,131 @@
       "gb": "GB"
     },
     "footer": {
-      "about": "소개",
-      "privacy": "개인정보 보호",
-      "terms": "이용약관",
-      "contact": "문의하기",
-      "allRightsReserved": "모든 권리 보유",
-      "trustClientSide": "100% 클라이언트 처리",
-      "trustClientSideDesc": "파일이 서버로 전송되지 않습니다",
-      "trustFreeTools": "200개 이상 도구",
-      "trustFreeToolsDesc": "모두 무료, 가입 불필요",
-      "trustMultiLang": "다국어 지원",
-      "trustMultiLangDesc": "한국어, 영어 및 더 많은 언어"
+      "about": "Acerca de",
+      "privacy": "Privacidad",
+      "terms": "Términos de servicio",
+      "contact": "Contáctenos",
+      "allRightsReserved": "Todos los derechos reservados",
+      "trustClientSide": "Procesamiento 100% cliente",
+      "trustClientSideDesc": "Los archivos no se envían a ningún servidor",
+      "trustFreeTools": "200+ Herramientas",
+      "trustFreeToolsDesc": "Todo gratis, sin registro",
+      "trustMultiLang": "Soporte multilingüe",
+      "trustMultiLangDesc": "Coreano, inglés y más idiomas"
     },
     "hero": {
-      "badge": "200개 이상 무료 도구",
-      "titlePart1": "모든 작업을",
-      "titlePart2": "간편하게",
-      "titlePart3": "만드는 무료 도구",
-      "trustFree": "무료",
-      "trustNoUpload": "서버 업로드 없음",
+      "badge": "200+ herramientas gratuitas",
+      "titlePart1": "Todos tus trabajos",
+      "titlePart2": "Fácilmente",
+      "titlePart3": "Herramientas gratuitas",
+      "trustFree": "Gratis",
+      "trustNoUpload": "Sin carga de servidor",
       "trustMultiLang": "다국어",
-      "featurePrivacy": "100% 클라이언트 처리",
-      "featureFree": "완전 무료",
-      "featureNoSignup": "회원가입 불필요"
+      "featurePrivacy": "Procesamiento 100% cliente",
+      "featureFree": "Completamente gratis",
+      "featureNoSignup": "Sin registro requerido"
     },
     "category": {
-      "availableTools": "사용 가능한 도구",
-      "comingSoon": "곧 출시 예정"
+      "availableTools": "Herramientas disponibles",
+      "comingSoon": "Próximamente"
     },
     "home": {
-      "categoriesTitle": "카테고리별 도구",
-      "categoriesSubtitle": "8개 카테고리, 200개 이상 도구",
-      "popularTitle": "인기 도구",
-      "popularSubtitle": "가장 인기 있는 도구를 확인하세요",
-      "recentTools": "최근 사용한 도구",
-      "viewAllTools": "모든 도구 보기",
-      "exploreTitle": "모든 도구 탐색",
-      "showMoreTools": "더 많은 도구 보기",
-      "allToolsTitle": "전체 도구",
-      "allToolsDesc": "모든 도구를 탐색하세요. 모든 처리는 브라우저에서 직접 수행됩니다.",
-      "whyChoose": "UniTools를 선택하는 이유",
-      "clientSideTitle": "100% 클라이언트 처리",
-      "clientSideDesc": "파일이 서버로 전송되지 않습니다. 모든 처리는 브라우저에서 직접 수행되어 개인정보가 안전합니다.",
-      "fastFreeTitle": "빠르고 무료",
-      "fastFreeDesc": "업로드/다운로드 대기 시간 없이 즉시 처리됩니다. 모든 도구를 무료로 사용하세요.",
-      "multiLangTitle": "다국어 지원",
-      "multiLangDesc": "한국어, 영어 등 다양한 언어로 사용할 수 있습니다. 더 많은 언어가 추가될 예정입니다.",
-      "getStarted": "지금 바로 시작하세요",
-      "getStartedDesc": "회원가입 없이 모든 도구를 무료로 사용할 수 있습니다.",
+      "categoriesTitle": "Herramientas por categoría",
+      "categoriesSubtitle": "8 categorías, 200+ herramientas",
+      "popularTitle": "Herramientas populares",
+      "popularSubtitle": "Consulta las herramientas más populares",
+      "recentTools": "Herramientas utilizadas recientemente",
+      "viewAllTools": "Ver todas las herramientas",
+      "exploreTitle": "Explorar todas las herramientas",
+      "showMoreTools": "Ver más herramientas",
+      "allToolsTitle": "Todas las herramientas",
+      "allToolsDesc": "Explora todas las herramientas. Todo el procesamiento se realiza directamente en tu navegador.",
+      "whyChoose": "Por qué elegir UniTools",
+      "clientSideTitle": "Procesamiento 100% cliente",
+      "clientSideDesc": "Los archivos no se envían a ningún servidor. Todo el procesamiento se realiza en tu navegador para privacidad completa.",
+      "fastFreeTitle": "Rápido y gratis",
+      "fastFreeDesc": "Procesamiento instantáneo sin esperas. Usa todas las herramientas de forma gratuita.",
+      "multiLangTitle": "Soporte multilingüe",
+      "multiLangDesc": "Disponible en coreano, inglés y más idiomas. Se agregarán más idiomas próximamente.",
+      "getStarted": "Comienza ahora",
+      "getStartedDesc": "Usa todas las herramientas gratis sin registrarte.",
       "tools": "개",
-      "viewAll": "전체 보기"
+      "viewAll": "Ver todo"
     },
     "tool": {
-      "comingSoon": "개발 중",
-      "comingSoonTitle": "준비 중입니다",
-      "comingSoonDesc": "\"{{toolId}}\" 기능은 현재 개발 중입니다. 곧 사용하실 수 있습니다!",
-      "notFound": "도구를 찾을 수 없습니다",
-      "notFoundDesc": "\"{{toolId}}\" 도구가 존재하지 않습니다.",
-      "goHome": "홈으로 돌아가기",
-      "privacyNote": "파일은 브라우저에서 직접 처리되며 서버로 전송되지 않습니다.",
-      "voteForFeature": "이 기능에 투표하기",
-      "voted": "투표해 주셔서 감사합니다!",
-      "voteCount": "{{count}}명이 이 기능을 원합니다",
-      "uses": "회 사용"
+      "comingSoon": "En desarrollo",
+      "comingSoonTitle": "Proximamente",
+      "comingSoonDesc": "La función \"{{toolId}}\" está actualmente en desarrollo. ¡Estará disponible pronto!",
+      "notFound": "Herramienta no encontrada",
+      "notFoundDesc": "La herramienta \"{{toolId}}\" no existe.",
+      "goHome": "Ir al inicio",
+      "privacyNote": "Los archivos se procesan directamente en tu navegador y nunca se envían a un servidor.",
+      "voteForFeature": "Votar por esta función",
+      "voted": "¡Gracias por votar!",
+      "voteCount": "{{count}} personas quieren esta función",
+      "uses": "usos"
     },
     "search": {
-      "placeholder": "도구 검색 (예: PDF, 이미지, 비디오)...",
-      "noResults": "\"{{query}}\"에 해당하는 도구를 찾을 수 없습니다"
+      "placeholder": "Buscar herramientas (ej., PDF, Imagen, Video)...",
+      "noResults": "No se encontraron herramientas para \"{{query}}\""
     },
     "workflow": {
       "upload": "파일 선택",
       "options": "설정",
-      "processing": "처리 중",
+      "processing": "Procesando",
       "complete": "완료",
-      "dropFilesHere": "파일을 여기에 끌어다 놓으세요",
-      "orClickToBrowse": "또는 클릭하여 파일 선택",
-      "maxFilesInfo": "최대 {{maxFiles}}개 파일, 각 {{maxSize}}",
-      "filesSelected": "{{count}}개 파일 선택됨",
-      "percentComplete": "{{percent}}% 완료",
-      "processingComplete": "처리 완료!",
+      "dropFilesHere": "Arrastra archivos aquí",
+      "orClickToBrowse": "O haz clic para seleccionar",
+      "maxFilesInfo": "Máximo {{maxFiles}} archivos, cada uno de {{maxSize}}",
+      "filesSelected": "{{count}} archivos seleccionados",
+      "percentComplete": "{{percent}}% completado",
+      "processingComplete": "¡Procesamiento completado!",
       "download": "다운로드",
-      "startOver": "다시 하기",
-      "adSlot": "광고 영역",
+      "startOver": "Empezar de nuevo",
+      "adSlot": "Área de anuncios",
       "selectFiles": "파일 선택",
-      "inDevelopment": "개발 중"
+      "inDevelopment": "En desarrollo"
     },
     "share": {
-      "title": "친구에게 공유하기",
-      "helpOthers": "이 유용한 도구를 친구들에게 알려주세요!",
-      "defaultTitle": "UniTools - 무료 온라인 도구",
-      "defaultDescription": "이 유용한 온라인 도구를 사용해 보세요!",
-      "linkCopied": "링크가 복사되었습니다!",
-      "linkCopiedDesc": "다른 사람과 이 링크를 공유하세요.",
-      "copied": "복사됨!",
-      "copyLink": "링크 복사",
-      "more": "더보기"
+      "title": "Compartir con amigos",
+      "helpOthers": "¡Cuéntale a tus amigos sobre esta herramienta útil!",
+      "defaultTitle": "UniTools - Herramientas en línea gratuitas",
+      "defaultDescription": "¡Prueba esta herramienta en línea útil!",
+      "linkCopied": "¡Enlace copiado!",
+      "linkCopiedDesc": "Comparte este enlace con otros.",
+      "copied": "¡Copiado!",
+      "copyLink": "Copiar enlace",
+      "more": "Más"
     },
     "stages": {
-      "analyzing": "분석 중",
-      "processing": "처리 중",
-      "optimizing": "최적화 중",
-      "analyzingFiles": "파일 분석 중...",
-      "convertingFormat": "형식 변환 중...",
-      "optimizingOutput": "출력 최적화 중...",
-      "readingPdf": "PDF 구조 읽는 중...",
-      "mergingPages": "페이지 병합 중...",
-      "finalizingDocument": "문서 마무리 중...",
-      "compressingPdf": "PDF 압축 중...",
-      "splittingPdf": "PDF 분할 중...",
-      "processingImage": "이미지 처리 중...",
-      "applyingFilter": "필터 적용 중...",
-      "resizingImage": "이미지 크기 조정 중...",
-      "croppingImage": "이미지 자르기 중...",
-      "loadingEngine": "처리 엔진 로딩 중...",
-      "processingVideo": "비디오 처리 중...",
-      "processingAudio": "오디오 처리 중...",
-      "preparingOutput": "결과 준비 중..."
+      "analyzing": "Analizando",
+      "processing": "Procesando",
+      "optimizing": "Optimizando",
+      "analyzingFiles": "Analizando archivos...",
+      "convertingFormat": "Convirtiendo formato...",
+      "optimizingOutput": "Optimizando salida...",
+      "readingPdf": "Leyendo estructura de PDF...",
+      "mergingPages": "Fusionando páginas...",
+      "finalizingDocument": "Finalizando documento...",
+      "compressingPdf": "Comprimiendo PDF...",
+      "splittingPdf": "Dividiendo PDF...",
+      "processingImage": "Procesando imagen...",
+      "applyingFilter": "Aplicando filtro...",
+      "resizingImage": "Redimensionando imagen...",
+      "croppingImage": "Recortando imagen...",
+      "loadingEngine": "Cargando motor de procesamiento...",
+      "processingVideo": "Procesando video...",
+      "processingAudio": "Procesando audio...",
+      "preparingOutput": "Preparando resultado..."
     },
     "seo": {
-      "howToUse": "사용 방법",
-      "features": "주요 기능",
-      "faq": "자주 묻는 질문",
-      "relatedTools": "이 도구도 사용해보세요",
-      "relatedToolsSubtitle": "더 많은 기능을 무료로 이용하세요",
-      "reviews": "리뷰",
-      "users": "사용자"
+      "howToUse": "Cómo usar",
+      "features": "Características",
+      "faq": "Preguntas frecuentes",
+      "relatedTools": "También prueba estas herramientas",
+      "relatedToolsSubtitle": "Usa más funciones gratis",
+      "reviews": "Reseñas",
+      "users": "Usuarios"
     }
   },
   "Categories": {
@@ -295,27 +295,27 @@
       "description": "Herramientas PDF para conversión, fusión, división y más"
     },
     "image": {
-      "name": "Imagen",
+      "name": "이미지",
       "description": "Conversión, edición, cambio de tamaño, filtros de imagen, etc."
     },
     "videoAudio": {
-      "name": "Video/Audio",
+      "name": "비디오/오디오",
       "description": "Conversión y edición de archivos de video y audio"
     },
     "text": {
-      "name": "Herramientas de Texto",
+      "name": "텍스트 가공",
       "description": "Herramientas de conversión, formato y análisis de texto"
     },
     "social": {
-      "name": "Redes Sociales",
+      "name": "소셜 미디어",
       "description": "Descarga y optimización de contenido de redes sociales"
     },
     "developer": {
-      "name": "Herramientas de Desarrollador",
+      "name": "개발자 도구",
       "description": "Formateadores de código, codificadores, generadores de hash, etc."
     },
     "calculator": {
-      "name": "Calculadoras",
+      "name": "계산기",
       "description": "Varias calculadoras para cálculos cotidianos"
     },
     "misc": {
@@ -323,145 +323,145 @@
       "description": "Herramientas divertidas, generadores aleatorios, utilidades"
     },
     "funMisc": {
-      "name": "Diversión y Otros",
+      "name": "재미&기타",
       "description": "Herramientas divertidas, generadores aleatorios, utilidades"
     }
   },
   "Legal": {
     "about": {
-      "title": "UniTools 소개",
-      "intro": "UniTools는 일상적인 디지털 작업을 위한 200개 이상의 브라우저 기반 도구를 제공하는 종합 온라인 유틸리티 플랫폼입니다. 우리의 미션은 빠르고 안전하며 개인정보를 존중하는 무료 도구를 제공하는 것입니다.",
+      "title": "Acerca de UniTools",
+      "intro": "UniTools es una plataforma integral de utilidades en línea que proporciona más de 200 herramientas basadas en navegador para tareas digitales diarias. Nuestra misión es proporcionar herramientas gratuitas que sean rápidas, seguras y respetuosas con la privacidad.",
       "mission": {
-        "title": "우리의 미션",
-        "desc": "모든 필수 디지털 도구를 하나의 플랫폼에 통합하여 간단한 작업을 위해 여러 웹사이트를 방문할 필요를 없애는 것입니다."
+        "title": "Nuestra misión",
+        "desc": "Integrar todas las herramientas digitales esenciales en una plataforma para eliminar la necesidad de visitar múltiples sitios web para tareas simples."
       },
       "privacy": {
-        "title": "개인정보 우선",
-        "desc": "모든 파일 처리는 브라우저에서 직접 이루어집니다. 파일이 기기를 떠나지 않으며 서버에 업로드되지 않습니다."
+        "title": "Privacidad primero",
+        "desc": "Todo el procesamiento de archivos se realiza directamente en el navegador. Los archivos nunca dejan tu dispositivo ni se cargan en un servidor."
       },
       "speed": {
-        "title": "초고속 처리",
-        "desc": "클라이언트 측 처리로 업로드나 다운로드 대기 시간 없이 즉각적인 결과를 얻을 수 있습니다."
+        "title": "Procesamiento ultrarrápido",
+        "desc": "El procesamiento del lado del cliente proporciona resultados instantáneos sin esperas de carga o descarga."
       },
       "global": {
-        "title": "글로벌 접근",
-        "desc": "다국어 지원으로 전 세계 어디서나 사용 가능하며, 모든 국가의 사용자에 맞게 최적화되어 있습니다."
+        "title": "Acceso global",
+        "desc": "Disponible en todo el mundo con soporte multilingüe, optimizado para usuarios de todos los países."
       },
       "whyUs": {
-        "title": "왜 UniTools인가요?",
-        "item1": "100% 무료 - 숨겨진 비용, 구독료, 프리미엄 기능 없음",
-        "item2": "회원가입 불필요 - 계정 생성 없이 모든 도구 즉시 사용",
-        "item3": "개인정보 보장 - 파일은 로컬에서 처리되며 서버에 저장되지 않음",
-        "item4": "오프라인 작동 - 많은 도구가 인터넷 연결 없이도 작동"
+        "title": "¿Por qué UniTools?",
+        "item1": "100% gratis - sin costos ocultos, suscripciones o características premium",
+        "item2": "Sin registro requerido - usa todas las herramientas al instante sin crear una cuenta",
+        "item3": "Privacidad garantizada - los archivos se procesan localmente y nunca se almacenan en un servidor",
+        "item4": "Funciona sin conexión - muchas herramientas funcionan sin conexión a Internet"
       },
       "tools": {
-        "title": "200개 이상의 도구가 손끝에",
-        "desc": "PDF 조작부터 이미지 편집, 비디오 변환, 개발자 유틸리티, 계산기, 재미있는 생성기까지 - UniTools에는 필요한 모든 것이 한 곳에 있습니다."
+        "title": "200+ herramientas al alcance de tu mano",
+        "desc": "Desde manipulación de PDF hasta edición de imágenes, conversión de video, utilidades para desarrolladores, calculadoras y generadores divertidos - UniTools tiene todo lo que necesitas en un solo lugar."
       }
     },
     "privacy": {
-      "title": "개인정보처리방침",
-      "lastUpdated": "최종 수정일",
+      "title": "Política de privacidad",
+      "lastUpdated": "Última actualización",
       "highlight": {
-        "title": "개인정보 보호가 최우선입니다",
-        "desc": "모든 파일 처리는 클라이언트 사이드 기술을 사용하여 브라우저 내에서 완전히 이루어집니다. 파일, 데이터, 개인정보는 절대로 서버에 업로드되거나 저장되지 않습니다."
+        "title": "La privacidad es nuestra prioridad número uno",
+        "desc": "Todo el procesamiento de archivos se realiza completamente dentro del navegador usando tecnología del lado del cliente. Los archivos, datos e información personal nunca se cargan ni se almacenan en un servidor."
       },
       "noServer": {
-        "title": "100% 클라이언트 사이드 처리",
-        "desc": "UniTools는 WebAssembly와 브라우저 기반 기술을 사용하여 모든 파일을 기기에서 로컬로 처리합니다. 이는 다음을 의미합니다:",
-        "item1": "파일이 컴퓨터나 모바일 기기를 절대 떠나지 않습니다",
-        "item2": "파일 처리 중 데이터가 서버로 전송되지 않습니다",
-        "item3": "작업이 완전히 비공개로 안전하게 유지됩니다"
+        "title": "Procesamiento 100% del lado del cliente",
+        "desc": "UniTools utiliza WebAssembly y tecnología basada en navegador para procesar todos los archivos localmente en tu dispositivo. Esto significa:",
+        "item1": "Los archivos nunca dejan tu computadora o dispositivo móvil",
+        "item2": "Los datos no se envían a ningún servidor durante el procesamiento de archivos",
+        "item3": "Tu trabajo se mantiene completamente privado y seguro"
       },
       "dataCollection": {
-        "title": "수집하는 정보",
-        "desc": "서비스 개선과 사용 패턴 파악에 필요한 최소한의 데이터만 수집합니다.",
+        "title": "Información que recopilamos",
+        "desc": "Solo recopilamos el mínimo de datos necesarios para mejorar el servicio y entender los patrones de uso.",
         "analytics": {
-          "title": "분석 데이터",
-          "desc": "어떤 도구가 가장 인기 있는지, 사용자가 사이트를 어떻게 탐색하는지 이해하기 위해 개인정보를 존중하는 분석을 사용합니다. 이 데이터는 익명이며 개인 사용자를 추적할 수 없습니다."
+          "title": "Datos de análisis",
+          "desc": "Usamos análisis respetuosos con la privacidad para entender qué herramientas son más populares y cómo los usuarios navegan por el sitio. Estos datos son anónimos y no podemos rastrear a usuarios individuales."
         },
         "cookies": {
-          "title": "쿠키",
-          "desc": "언어 설정과 테마 설정을 기억하기 위해 필수 쿠키를 사용합니다. 이 쿠키는 신원이나 탐색 행동을 추적하지 않습니다."
+          "title": "Cookies",
+          "desc": "Utilizamos cookies esenciales para recordar tu idioma y preferencias de tema. Estas cookies no rastrean tu identidad o comportamiento de navegación."
         }
       },
       "thirdParty": {
-        "title": "제3자 서비스",
-        "desc": "서비스를 무료로 유지하기 위해 Google AdSense를 통해 광고를 표시합니다. Google은 탐색 기록에 따라 맞춤 광고를 제공하기 위해 쿠키를 사용할 수 있습니다. Google 광고 설정에서 맞춤 광고를 거부할 수 있습니다."
+        "title": "Servicios de terceros",
+        "desc": "Mostramos anuncios a través de Google AdSense para mantener el servicio gratuito. Google puede usar cookies para ofrecer anuncios personalizados basados en tu historial de navegación. Puedes optar por no recibir anuncios personalizados en la configuración de anuncios de Google."
       },
       "changes": {
-        "title": "방침 변경",
-        "desc": "이 개인정보처리방침은 수시로 업데이트될 수 있습니다. 모든 변경 사항은 이 페이지에 수정된 날짜와 함께 반영됩니다."
+        "title": "Cambios de política",
+        "desc": "Esta política de privacidad puede actualizarse periódicamente. Todos los cambios se reflejarán en esta página con la fecha de modificación."
       },
       "contact": {
-        "title": "문의하기",
-        "desc": "개인정보 관행에 대한 질문이 있으시면 문의 페이지를 통해 연락해 주세요."
+        "title": "Contáctenos",
+        "desc": "Si tienes preguntas sobre nuestras prácticas de privacidad, contáctanos a través de la página de contacto."
       }
     },
     "terms": {
-      "title": "이용약관",
+      "title": "Términos de servicio",
       "acceptance": {
-        "title": "이용약관 동의",
-        "desc": "UniTools에 접근하고 사용함으로써 이 이용약관에 구속되는 것에 동의합니다. 이 약관에 동의하지 않으면 서비스를 사용하지 마십시오."
+        "title": "Aceptación de los términos de servicio",
+        "desc": "Al acceder y usar UniTools, aceptas estar vinculado por estos términos de servicio. Si no aceptas estos términos, no uses el servicio."
       },
       "description": {
-        "title": "서비스 설명",
-        "desc": "UniTools는 파일 변환, 편집 및 다양한 유틸리티 기능을 위한 무료 온라인 도구를 제공합니다. 모든 처리는 브라우저에서 클라이언트 측으로 수행됩니다."
+        "title": "Descripción del servicio",
+        "desc": "UniTools proporciona herramientas en línea gratuitas para conversión de archivos, edición y varias funciones de utilidad. Todo el procesamiento se realiza del lado del cliente en el navegador."
       },
       "use": {
-        "title": "허용된 사용",
-        "desc": "UniTools를 합법적인 목적으로만 이 약관에 따라 사용하는 것에 동의합니다. 다음을 하지 않는 것에 동의합니다:",
-        "item1": "불법적이거나 무단인 목적으로 서비스를 사용하는 것",
-        "item2": "시스템의 취약점을 탐색, 스캔 또는 테스트하려는 시도",
-        "item3": "서비스나 서버를 방해하거나 교란하는 것",
-        "item4": "허가 없이 자동화된 시스템으로 서비스에 접근하는 것"
+        "title": "Uso permitido",
+        "desc": "Aceptas usar UniTools solo para fines legales de conformidad con estos términos. Aceptas no:",
+        "item1": "Usar el servicio para fines ilegales o no autorizados",
+        "item2": "Intentar explorar, escanear o probar vulnerabilidades del sistema",
+        "item3": "Interrumpir o interferir con el servicio o los servidores",
+        "item4": "Acceder al servicio con sistemas automatizados sin permiso"
       },
       "ip": {
-        "title": "지적 재산권",
-        "desc": "UniTools 이름, 로고 및 이 웹사이트의 모든 콘텐츠는 저작권 및 상표법으로 보호됩니다. 명시적인 서면 허가 없이 브랜딩을 사용할 수 없습니다."
+        "title": "Propiedad intelectual",
+        "desc": "El nombre UniTools, logotipo y todo el contenido de este sitio web están protegidos por leyes de derechos de autor y marcas. No puedes usar el branding sin permiso escrito explícito."
       },
       "disclaimer": {
-        "title": "보증 부인",
-        "desc": "UniTools는 명시적이든 묵시적이든 어떠한 보증 없이 '있는 그대로' 제공됩니다. 서비스가 중단 없이, 오류 없이, 또는 유해한 구성 요소 없이 제공된다는 것을 보장하지 않습니다."
+        "title": "Descargo de responsabilidad",
+        "desc": "UniTools se proporciona \"tal cual\" sin garantías expresas o implícitas. No garantizamos que el servicio se proporcione sin interrupciones, errores o componentes dañinos."
       },
       "liability": {
-        "title": "책임 제한",
-        "desc": "UniTools는 서비스 사용 또는 사용 불능으로 인한 간접적, 부수적, 특별, 결과적 또는 징벌적 손해에 대해 책임지지 않습니다."
+        "title": "Limitación de responsabilidad",
+        "desc": "UniTools no es responsable de daños indirectos, incidentales, especiales, consecuentes o punitivos que resulten del uso o la imposibilidad de usar el servicio."
       },
       "changes": {
-        "title": "약관 변경",
-        "desc": "언제든지 이 약관을 수정할 권리를 보유합니다. 변경 후 UniTools의 계속 사용은 새 약관의 수락을 의미합니다."
+        "title": "Cambios de términos",
+        "desc": "Nos reservamos el derecho de modificar estos términos en cualquier momento. El uso continuado de UniTools después de cambios significa la aceptación de los nuevos términos."
       },
       "governing": {
-        "title": "준거법",
-        "desc": "이 약관은 해당 국제법 및 규정에 따라 해석되고 적용됩니다."
+        "title": "Ley aplicable",
+        "desc": "Estos términos se interpretarán y aplicarán de conformidad con las leyes internacionales y regulaciones aplicables."
       }
     },
     "contact": {
-      "title": "문의하기",
+      "title": "Contáctenos",
       "subtitle": "질문, 제안 또는 피드백이 있으신가요? 언제든 연락해 주세요!",
       "form": {
-        "title": "메시지 보내기",
-        "name": "이름",
-        "email": "이메일 주소",
-        "subject": "제목",
-        "message": "메시지",
-        "submit": "메시지 보내기"
+        "title": "Enviar mensaje",
+        "name": "Nombre",
+        "email": "Correo electrónico",
+        "subject": "Asunto",
+        "message": "Mensaje",
+        "submit": "Enviar mensaje"
       },
       "info": {
         "email": {
           "title": "이메일"
         },
         "response": {
-          "title": "응답 시간",
-          "desc": "일반적으로 24-48시간 내에 답변드립니다"
+          "title": "Tiempo de respuesta",
+          "desc": "Generalmente respondemos dentro de 24-48 horas"
         }
       },
       "success": {
-        "title": "메시지 전송됨!",
-        "desc": "문의해 주셔서 감사합니다. 최대한 빨리 답변드리겠습니다."
+        "title": "¡Mensaje enviado!",
+        "desc": "Gracias por ponerte en contacto. Responderemos lo antes posible."
       },
-      "sendAnother": "다른 메시지 보내기"
+      "sendAnother": "Enviar otro mensaje"
     }
   },
   "Tools": {
@@ -493,47 +493,47 @@
       "shortDesc": "Reducir tamaño de PDF"
     },
     "png-to-jpg": {
-      "title": "Convertir PNG a JPG",
-      "description": "Convierte imágenes PNG a formato JPG.",
-      "shortDesc": "Convertir PNG a JPG"
+      "title": "PNG를 JPG로 변환",
+      "description": "PNG 이미지를 JPG 포맷으로 변환하세요.",
+      "shortDesc": "PNG를 JPG로 변환"
     },
     "jpg-to-png": {
-      "title": "Convertir JPG a PNG",
-      "description": "Convierte imágenes JPG a formato PNG.",
-      "shortDesc": "Convertir JPG a PNG"
+      "title": "JPG를 PNG로 변환",
+      "description": "JPG 이미지를 PNG 포맷으로 변환하세요.",
+      "shortDesc": "JPG를 PNG로 변환"
     },
     "webp-to-jpg": {
-      "title": "Convertir WebP a JPG",
-      "description": "Convierte imágenes WebP a formato JPG.",
-      "shortDesc": "Convertir WebP a JPG"
+      "title": "WebP를 JPG로 변환",
+      "description": "WebP 이미지를 JPG 포맷으로 변환하세요.",
+      "shortDesc": "WebP를 JPG로 변환"
     },
     "resize-image": {
-      "title": "Cambiar Tamaño de Imagen",
-      "description": "Ajusta el ancho y alto de la imagen al tamaño deseado.",
-      "shortDesc": "Cambiar tamaño de imagen"
+      "title": "이미지 크기 조정",
+      "description": "이미지의 너비와 높이를 원하는 크기로 조정하세요.",
+      "shortDesc": "이미지 크기 변경"
     },
     "crop-image": {
-      "title": "Recortar Imagen",
-      "description": "Recorta la área que deseas de la imagen.",
-      "shortDesc": "Recortar área de imagen"
+      "title": "이미지 자르기",
+      "description": "이미지에서 원하는 영역만 잘라내세요.",
+      "shortDesc": "이미지 영역 자르기"
     },
     "compress-image": {
-      "title": "Comprimir Imagen",
-      "description": "Reduce el tamaño del archivo de imagen para optimizar para web.",
-      "shortDesc": "Reducir tamaño de imagen",
+      "title": "이미지 압축",
+      "description": "이미지 파일 크기를 줄여 웹에 최적화하세요.",
+      "shortDesc": "이미지 파일 크기 줄이기",
       "instructions": "압축할 이미지 파일을 선택하세요. 품질과 최대 크기를 조절할 수 있습니다."
     },
     "convert-image": {
-      "title": "Convertir Formato de Imagen",
-      "description": "Convierte la imagen a diferentes formatos (JPG, PNG, WebP).",
-      "shortDesc": "Convertir Formato de Imagen",
+      "title": "이미지 포맷 변환",
+      "description": "이미지를 다른 포맷(JPG, PNG, WebP)으로 변환하세요.",
+      "shortDesc": "이미지 포맷 변환",
       "instructions": "변환할 이미지 파일을 선택하고 원하는 출력 포맷을 선택하세요."
     },
     "video-to-gif": {
-      "title": "Convertir Video a GIF",
-      "description": "Convierte un archivo de video a GIF animado.",
-      "shortDesc": "Convertir Video a GIF",
-      "instructions": "Selecciona el archivo de video a convertir a GIF. Puedes ajustar FPS, tamaño, hora de inicio y duración."
+      "title": "비디오를 GIF로 변환",
+      "description": "비디오 파일을 애니메이션 GIF로 변환하세요.",
+      "shortDesc": "비디오를 GIF로 변환",
+      "instructions": "GIF로 변환할 비디오 파일을 선택하세요. FPS, 크기, 시작 시간과 길이를 조절할 수 있습니다."
     },
     "heic-to-jpg": {
       "title": "HEIC를 JPG로",
@@ -647,10 +647,10 @@
       "addImages": "이미지 추가",
       "dragHint": "이미지를 드래그하거나 클릭하여 선택",
       "imageOrder": "이미지 순서",
-      "images": "Imagen",
+      "images": "이미지",
       "frameDelay": "프레임 딜레이",
-      "quality": "품질",
-      "width": "너비",
+      "quality": "Calidad",
+      "width": "Ancho",
       "createButton": "GIF 만들기",
       "successMessage": "GIF가 생성되었습니다."
     },
@@ -793,7 +793,7 @@
       "description": "OCR 기술을 사용하여 이미지에서 텍스트를 추출합니다. 한국어, 영어, 일본어, 중국어를 지원합니다.",
       "shortDesc": "이미지에서 글자 추출",
       "instructions": "이미지를 업로드하여 텍스트를 추출하세요. 정확도를 높이려면 언어를 선택하세요.",
-      "imageLabel": "Imagen",
+      "imageLabel": "이미지",
       "textLabel": "추출된 텍스트",
       "textPlaceholder": "추출된 텍스트가 여기에 표시됩니다...",
       "extractText": "텍스트 추출",
@@ -1016,7 +1016,7 @@
       "outputLabel": "생성된 데이터",
       "textFormat": "텍스트",
       "selectField": "최소 하나의 필드를 선택하세요",
-      "fieldName": "이름",
+      "fieldName": "Nombre",
       "fieldEmail": "이메일",
       "fieldPhone": "전화번호",
       "fieldAddress": "주소",
@@ -1395,7 +1395,7 @@
       "description": "한 장에 여러 PDF 페이지를 배치하여 용지를 절약하세요. 한 장에 2, 4, 6, 9페이지 배치 가능.",
       "shortDesc": "여러 페이지 한 장에",
       "pagesPerSheet": "한 장당 페이지 수",
-      "pages": "페이지",
+      "pages": "Página",
       "nupButton": "모아찍기 PDF 생성",
       "successMessage": "모아찍기 PDF가 생성되었습니다.",
       "explanation": "여러 페이지를 축소하여 한 장에 배치합니다. 유인물 제작, 문서 검토, 인쇄 시 용지 절약에 유용합니다.",
@@ -1612,7 +1612,7 @@
       "title": "이메일 서명 빌더",
       "description": "Outlook, Gmail 등에서 사용할 전문적인 HTML 이메일 서명을 만드세요.",
       "shortDesc": "이메일 서명 만들기",
-      "nameLabel": "이름",
+      "nameLabel": "Nombre",
       "namePlaceholder": "홍길동",
       "titleLabel": "직책",
       "titlePlaceholder": "마케팅 매니저",
@@ -1662,7 +1662,7 @@
       "description": "메시지에 사용할 일본식 텍스트 이모티콘을 찾아보고 복사하세요.",
       "shortDesc": "텍스트 이모티콘",
       "searchPlaceholder": "카테고리 검색...",
-      "all": "전체",
+      "all": "Total",
       "copied": "카오모지가 복사되었습니다!"
     },
     "timezone-converter": {
@@ -1776,7 +1776,7 @@
       "title": "비밀번호 생성기",
       "description": "안전하고 강력한 무작위 비밀번호를 생성하세요.",
       "shortDesc": "안전한 비밀번호 생성",
-      "length": "길이",
+      "length": "Duración",
       "uppercase": "대문자 (A-Z)",
       "lowercase": "소문자 (a-z)",
       "numbers": "숫자 (0-9)",
@@ -1889,7 +1889,7 @@
       "timeLabel": "시간",
       "resultLabel": "결과",
       "now": "현재 시간 사용",
-      "seconds": "초",
+      "seconds": "Segundo",
       "milliseconds": "밀리초"
     },
     "color-converter": {
@@ -1984,7 +1984,7 @@
       "title": "미터법 ↔ 야드파운드법 변환",
       "description": "길이, 무게, 거리의 미터법과 야드파운드법 단위를 변환하세요.",
       "shortDesc": "미터법/야드파운드법 변환",
-      "length": "길이",
+      "length": "Duración",
       "weight": "무게",
       "distance": "거리",
       "metric": "미터법",
@@ -2219,7 +2219,7 @@
       "shortDesc": "카운트다운 타이머",
       "hours": "시간",
       "minutes": "분",
-      "seconds": "초",
+      "seconds": "Segundo",
       "start": "시작",
       "pause": "일시정지",
       "reset": "초기화",
@@ -2643,7 +2643,7 @@
       "winner": "우승",
       "champion": "우승자",
       "matchHistory": "대전 기록",
-      "playAgain": "다시 하기",
+      "playAgain": "Empezar de nuevo",
       "congratulations": "축하합니다!"
     },
     "chosung-quiz": {
@@ -2720,7 +2720,7 @@
       "gridSize": "빙고판 크기",
       "generate": "빙고판 생성",
       "needMore": "{{count}}개 더 필요합니다",
-      "howToUse": "사용 방법",
+      "howToUse": "Cómo usar",
       "step1": "빙고판에 들어갈 항목들을 한 줄에 하나씩 입력합니다.",
       "step2": "빙고판 크기를 선택합니다 (3x3, 4x4, 5x5).",
       "step3": "빙고판이 생성되면 항목을 클릭해서 표시합니다.",
@@ -2741,7 +2741,7 @@
       "shortDesc": "정확히 멈추기 도전",
       "best": "최고",
       "target": "목표",
-      "seconds": "초",
+      "seconds": "Segundo",
       "instructions": "정확히 {{target}}초에 멈춰보세요!",
       "start": "시작",
       "stop": "멈춤",
@@ -2762,9 +2762,9 @@
       "best": "최고",
       "moves": "수",
       "start": "시작하기",
-      "complete": "완료!",
+      "complete": "¡Completado!",
       "result": "{{moves}}수, {{time}}",
-      "playAgain": "다시 하기"
+      "playAgain": "Empezar de nuevo"
     },
     "silent-shout": {
       "title": "고요 속의 외침",
