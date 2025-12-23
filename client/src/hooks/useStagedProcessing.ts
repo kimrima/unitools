@@ -13,8 +13,9 @@ async function trackToolUsage(toolId?: string) {
   if (!id) return;
   
   try {
-    const locale = window.location.pathname.split('/')[1] || 'en';
-    await fetch('/api/tool-usage', {
+    const pathParts = window.location.pathname.split('/').filter(Boolean);
+    const locale = pathParts[0] || 'en';
+    await fetch('/api/events/tool-usage', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ toolId: id, locale }),

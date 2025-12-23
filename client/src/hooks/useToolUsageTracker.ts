@@ -6,7 +6,7 @@ export function useToolUsageTracker() {
 
   const trackUsage = useCallback(async (toolId: string) => {
     try {
-      await fetch('/api/tool-usage', {
+      await fetch('/api/events/tool-usage', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
