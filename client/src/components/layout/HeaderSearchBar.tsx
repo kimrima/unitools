@@ -44,7 +44,7 @@ export default function HeaderSearchBar() {
   }, []);
 
   return (
-    <div ref={containerRef} className="relative hidden sm:block w-48 md:w-56 lg:w-64">
+    <div ref={containerRef} className="relative hidden sm:block w-full max-w-xs">
       <div className="relative">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
         <Input
