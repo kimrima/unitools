@@ -2525,18 +2525,6 @@ export const allTools: Tool[] = [
     outputFormats: ['text'],
   },
   { 
-    id: 'ladder-game', 
-    category: 'funMisc', 
-    icon: Layers, 
-    implemented: true,
-    usageCount: 1432100,
-    rating: 4.7,
-    ratingCount: 28900,
-    relatedTools: ['wheel-spinner', 'random-number', 'team-picker'],
-    acceptedFormats: ['text'],
-    outputFormats: ['text'],
-  },
-  { 
     id: 'cps-test', 
     category: 'funMisc', 
     icon: MousePointer2, 

@@ -208,7 +208,6 @@ const EliminationWheelTool = lazy(() => import('@/components/tools/EliminationWh
 const TeamPickerTool = lazy(() => import('@/components/tools/TeamPickerTool'));
 const BalanceGameTool = lazy(() => import('@/components/tools/BalanceGameTool'));
 const ChosungQuizTool = lazy(() => import('@/components/tools/ChosungQuizTool'));
-const LadderGameTool = lazy(() => import('@/components/tools/LadderGameTool'));
 const CpsTestTool = lazy(() => import('@/components/tools/CpsTestTool'));
 const BingoGeneratorTool = lazy(() => import('@/components/tools/BingoGeneratorTool'));
 const StopwatchChallengeTool = lazy(() => import('@/components/tools/StopwatchChallengeTool'));
@@ -398,7 +397,6 @@ const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element
   'team-picker': TeamPickerTool,
   'balance-game': BalanceGameTool,
   'chosung-quiz': ChosungQuizTool,
-  'ladder-game': LadderGameTool,
   'cps-test': CpsTestTool,
   'bingo-generator': BingoGeneratorTool,
   'stopwatch-challenge': StopwatchChallengeTool,

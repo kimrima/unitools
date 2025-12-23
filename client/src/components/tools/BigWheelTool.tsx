@@ -97,9 +97,12 @@ function WheelContent() {
         requestAnimationFrame(animate);
       } else {
         setIsSpinning(false);
-        const finalRotation = currentRotation % 360;
+        const finalRotation = ((currentRotation % 360) + 360) % 360;
         const sliceAngle = 360 / items.length;
-        const winnerIndex = Math.floor(((360 - finalRotation + sliceAngle / 2) % 360) / sliceAngle) % items.length;
+        const pointerAngle = 270;
+        const angleOnWheel = ((pointerAngle - finalRotation) % 360 + 360) % 360;
+        const adjustedAngle = (angleOnWheel + 90) % 360;
+        const winnerIndex = Math.floor(adjustedAngle / sliceAngle) % items.length;
         setWinner(items[winnerIndex].text);
         setShowConfetti(true);
         playFanfare();
