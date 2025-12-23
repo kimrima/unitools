@@ -29,6 +29,7 @@ import {
 } from 'lucide-react';
 import { useState } from 'react';
 import { getToolsByCategory } from '@/data/tools';
+import GlobalSearch from './GlobalSearch';
 
 const categories = [
   { id: 'pdf', icon: FileText, label: 'PDF Tools' },
@@ -130,7 +131,9 @@ export default function Header() {
             })}
           </nav>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            <GlobalSearch />
+
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="sm" className="gap-1.5 font-semibold" data-testid="button-language">
