@@ -174,7 +174,7 @@ export default function TrimAudioTool() {
             
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="start-time">{t('Common.messages.startTime')} (분:초)</Label>
+                <Label htmlFor="start-time">{t('Common.messages.startTime')} ({t('Common.messages.minSec')})</Label>
                 <Input
                   id="start-time"
                   type="text"
@@ -183,10 +183,10 @@ export default function TrimAudioTool() {
                   onChange={(e) => setStartTimeStr(e.target.value)}
                   data-testid="input-start-time"
                 />
-                <p className="text-xs text-muted-foreground">예: 1:30 = 1분 30초</p>
+                <p className="text-xs text-muted-foreground">{t('Common.messages.timeExample')}</p>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="end-time">{t('Common.messages.endTime')} (분:초)</Label>
+                <Label htmlFor="end-time">{t('Common.messages.endTime')} ({t('Common.messages.minSec')})</Label>
                 <Input
                   id="end-time"
                   type="text"
@@ -195,7 +195,7 @@ export default function TrimAudioTool() {
                   onChange={(e) => setEndTimeStr(e.target.value)}
                   data-testid="input-end-time"
                 />
-                <p className="text-xs text-muted-foreground">전체: {formatTimeDisplay(audioDuration)}</p>
+                <p className="text-xs text-muted-foreground">{t('Common.messages.total')}: {formatTimeDisplay(audioDuration)}</p>
               </div>
             </div>
             <div className="text-sm text-muted-foreground">{t('Common.messages.duration')}: {(endTime - startTime).toFixed(1)}초 / {audioDuration.toFixed(1)}초</div>
@@ -203,7 +203,7 @@ export default function TrimAudioTool() {
         </Card>
       )}
 
-      {status === 'processing' && (
+      {(status === 'processing' || loadingStage === 'complete') && !result && (
         <Card>
           <CardContent className="p-4 space-y-4">
             <div className="space-y-3">
@@ -212,7 +212,7 @@ export default function TrimAudioTool() {
                   {loadingStage === 'loading-ffmpeg' ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
                 </div>
                 <span className={loadingStage === 'loading-ffmpeg' ? 'font-medium' : 'text-muted-foreground'}>
-                  1단계: FFmpeg 엔진 로딩
+                  {t('Common.messages.step1Loading')}
                 </span>
               </div>
               
@@ -221,7 +221,7 @@ export default function TrimAudioTool() {
                   {loadingStage === 'processing' ? <Loader2 className="w-4 h-4 animate-spin" /> : loadingStage === 'complete' ? <Check className="w-4 h-4" /> : <span className="text-xs">2</span>}
                 </div>
                 <span className={loadingStage === 'processing' ? 'font-medium' : 'text-muted-foreground'}>
-                  2단계: 오디오 처리 중
+                  {t('Common.messages.step2Processing')}
                 </span>
               </div>
               
@@ -230,7 +230,7 @@ export default function TrimAudioTool() {
                   {loadingStage === 'complete' ? <Check className="w-4 h-4" /> : <span className="text-xs">3</span>}
                 </div>
                 <span className={loadingStage === 'complete' ? 'font-medium' : 'text-muted-foreground'}>
-                  3단계: 완료
+                  {t('Common.messages.step3Complete')}
                 </span>
               </div>
             </div>
