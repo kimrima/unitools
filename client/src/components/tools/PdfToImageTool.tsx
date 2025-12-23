@@ -1,14 +1,15 @@
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFileHandler } from '@/hooks/useFileHandler';
+import { useStagedProcessing } from '@/hooks/useStagedProcessing';
 import { pdfToImages, pdfToZip, type ImageFormat } from '@/lib/engines/pdfToImage';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Slider } from '@/components/ui/slider';
-import { FileText, Download, Loader2, CheckCircle, Image } from 'lucide-react';
+import { StagedLoadingOverlay } from '@/components/StagedLoadingOverlay';
+import { FileText, Download, CheckCircle, Image } from 'lucide-react';
 import { FileUploadZone } from '@/components/tool-ui';
 
 export default function PdfToImageTool() {
@@ -24,13 +25,20 @@ export default function PdfToImageTool() {
     files,
     status,
     error,
-    progress,
     addFiles,
     setStatus,
     setError,
-    setProgress,
     reset: resetHandler,
   } = useFileHandler({ accept: '.pdf', multiple: false });
+
+  const stagedProcessing = useStagedProcessing({
+    minDuration: 3000,
+    stages: [
+      { name: 'analyzing', duration: 800, message: t('Common.stages.readingPdf', { defaultValue: 'Reading PDF structure...' }) },
+      { name: 'processing', duration: 1400, message: t('Common.stages.convertingImages', { defaultValue: 'Converting pages to images...' }) },
+      { name: 'optimizing', duration: 800, message: t('Common.stages.finalizingDocument', { defaultValue: 'Finalizing images...' }) },
+    ],
+  });
 
   const handleFilesFromDropzone = useCallback((fileList: FileList) => {
     addFiles(fileList);
@@ -42,33 +50,29 @@ export default function PdfToImageTool() {
     if (files.length === 0 || !files[0].arrayBuffer) return;
 
     setStatus('processing');
-    setProgress(0);
     setError(null);
 
     try {
-      const options = { format, quality: quality / 100, scale };
-      const baseName = files[0].file.name.replace('.pdf', '');
-      
-      const images = await pdfToImages(files[0].arrayBuffer, options, (prog) => {
-        setProgress(prog.percentage * 0.7);
+      await stagedProcessing.runStagedProcessing(async () => {
+        const options = { format, quality: quality / 100, scale };
+        const baseName = files[0].file.name.replace('.pdf', '');
+        
+        const images = await pdfToImages(files[0].arrayBuffer!, options);
+        setResultImages(images);
+
+        if (images.length > 1) {
+          const zip = await pdfToZip(files[0].arrayBuffer!, options, baseName);
+          setZipBlob(zip);
+        }
+
+        return images;
       });
-
-      setResultImages(images);
-
-      if (images.length > 1) {
-        const zip = await pdfToZip(files[0].arrayBuffer, options, baseName, (prog) => {
-          setProgress(70 + prog.percentage * 0.3);
-        });
-        setZipBlob(zip);
-      }
-
       setStatus('success');
-      setProgress(100);
     } catch {
       setError({ code: 'CONVERSION_FAILED' });
       setStatus('error');
     }
-  }, [files, format, quality, scale, setStatus, setProgress, setError]);
+  }, [files, format, quality, scale, setStatus, setError, stagedProcessing]);
 
   const handleDownloadSingle = useCallback((blob: Blob, index: number) => {
     const ext = format === 'png' ? 'png' : 'jpg';
@@ -94,9 +98,10 @@ export default function PdfToImageTool() {
 
   const reset = useCallback(() => {
     resetHandler();
+    stagedProcessing.reset();
     setResultImages([]);
     setZipBlob(null);
-  }, [resetHandler]);
+  }, [resetHandler, stagedProcessing]);
 
   const formatFileSize = (bytes: number): string => {
     const k = 1024;
@@ -189,27 +194,13 @@ export default function PdfToImageTool() {
         </div>
       )}
 
-      {status === 'processing' && (
-        <Card className="p-8">
-          <div className="flex flex-col items-center gap-6">
-            <div className="relative">
-              <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center">
-                <Loader2 className="w-10 h-10 text-primary animate-spin" />
-              </div>
-              <div className="absolute -bottom-1 -right-1 bg-background rounded-full px-2 py-0.5 border text-xs font-medium">
-                {Math.round(progress)}%
-              </div>
-            </div>
-            <div className="text-center">
-              <p className="font-medium text-lg">{t('Common.messages.processing')}</p>
-              <p className="text-sm text-muted-foreground mt-1">
-                {t('Common.workflow.convertingPages', { defaultValue: 'Converting PDF pages to images...' })}
-              </p>
-            </div>
-            <Progress value={progress} className="w-full max-w-sm h-2" />
-          </div>
-        </Card>
-      )}
+      <StagedLoadingOverlay
+        stage={stagedProcessing.stage}
+        progress={stagedProcessing.progress}
+        stageProgress={stagedProcessing.stageProgress}
+        message={stagedProcessing.message}
+        error={stagedProcessing.error}
+      />
 
       {status === 'success' && resultImages.length > 0 && (
         <div className="space-y-4">
