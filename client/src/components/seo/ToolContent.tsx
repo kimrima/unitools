@@ -177,6 +177,7 @@ export function ToolSEOContent({ toolId }: ToolContentProps) {
       <HowToUse toolId={toolId} />
       <ToolFeatures toolId={toolId} />
       <ToolFAQ toolId={toolId} />
+      <RelatedTools toolId={toolId} />
     </div>
   );
 }

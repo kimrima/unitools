@@ -9,6 +9,7 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { SEOHead } from '@/components/seo/SEOHead';
 import { ToolStats, ToolSEOContent } from '@/components/seo/ToolContent';
+import { ShareActions } from '@/components/ShareActions';
 import { ArrowLeft, AlertCircle, Loader2, ChevronRight, Home, ThumbsUp, Check, Star } from 'lucide-react';
 import { allTools, formatUsageCount } from '@/data/tools';
 import { useRecentTools } from '@/hooks/useRecentTools';
@@ -563,7 +564,14 @@ export default function ToolPage() {
           </CardContent>
         </Card>
 
-        <div className="mt-8 text-center">
+        <div className="mt-8">
+          <ShareActions 
+            title={toolTitle} 
+            description={toolDescription || toolShortDesc} 
+          />
+        </div>
+
+        <div className="mt-6 text-center">
           <p className="text-sm text-muted-foreground">
             {t('Common.tool.privacyNote')}
           </p>

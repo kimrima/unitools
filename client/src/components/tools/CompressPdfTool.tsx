@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { StagedLoadingOverlay } from '@/components/StagedLoadingOverlay';
 import { FileUploadZone } from '@/components/tool-ui';
-import { FileText, Download, CheckCircle } from 'lucide-react';
+import { FileText, Download, CheckCircle, Info } from 'lucide-react';
 
 export default function CompressPdfTool() {
   const { t } = useTranslation();
@@ -107,6 +107,11 @@ export default function CompressPdfTool() {
               </div>
             </div>
           </Card>
+
+          <div className="flex items-start gap-2 p-3 rounded-md bg-muted/50 text-sm text-muted-foreground">
+            <Info className="w-4 h-4 mt-0.5 shrink-0" />
+            <span>{t('Tools.compress-pdf.optimizationNote', 'PDF 구조를 최적화하여 불필요한 데이터를 제거합니다. 압축 결과는 원본 PDF의 구조에 따라 달라집니다.')}</span>
+          </div>
 
           <div className="flex gap-3">
             <Button onClick={handleCompress} className="flex-1" data-testid="button-compress">

@@ -1,15 +1,21 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFileHandler } from '@/hooks/useFileHandler';
-import { imagesToPdf } from '@/lib/engines/imageToPdf';
+import { imagesToPdf, imageToIndividualPdfs } from '@/lib/engines/imageToPdf';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
-import { Image, Download, Loader2, CheckCircle, X } from 'lucide-react';
+import { Label } from '@/components/ui/label';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Image, Download, Loader2, CheckCircle, X, FileStack, Files } from 'lucide-react';
 import { FileUploadZone } from '@/components/tool-ui';
+
+type ConversionMode = 'merge' | 'individual';
 
 export default function JpgToPdfTool() {
   const { t } = useTranslation();
+  const [mode, setMode] = useState<ConversionMode>('merge');
+  const [individualPdfs, setIndividualPdfs] = useState<Blob[]>([]);
   
   const {
     files,
@@ -37,6 +43,7 @@ export default function JpgToPdfTool() {
     setStatus('processing');
     setProgress(0);
     setError(null);
+    setIndividualPdfs([]);
 
     try {
       const buffers = files
@@ -45,20 +52,56 @@ export default function JpgToPdfTool() {
       
       const fileTypes = files.map((f) => f.file.type);
 
-      const pdfBlob = await imagesToPdf(buffers, fileTypes, (prog) => {
-        setProgress(prog.percentage);
-      });
-
-      setResult(pdfBlob);
+      if (mode === 'merge') {
+        const pdfBlob = await imagesToPdf(buffers, fileTypes, (prog) => {
+          setProgress(prog.percentage);
+        });
+        setResult(pdfBlob);
+      } else {
+        const pdfs = await imageToIndividualPdfs(buffers, fileTypes, (prog) => {
+          setProgress(prog.percentage);
+        });
+        setIndividualPdfs(pdfs);
+        setStatus('success');
+      }
     } catch {
       setError({ code: 'CONVERSION_FAILED' });
       setStatus('error');
     }
-  }, [files, setStatus, setProgress, setError, setResult]);
+  }, [files, mode, setStatus, setProgress, setError, setResult]);
 
   const handleDownload = useCallback(() => {
     downloadResult(`unitools_images_converted.pdf`);
   }, [downloadResult]);
+
+  const handleDownloadIndividual = useCallback((blob: Blob, index: number) => {
+    const originalName = files[index]?.file.name.replace(/\.[^/.]+$/, '') || `image_${index + 1}`;
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `unitools_${originalName}.pdf`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }, [files]);
+
+  const handleDownloadAllZip = useCallback(async () => {
+    if (individualPdfs.length === 0) return;
+    const JSZip = (await import('jszip')).default;
+    const zip = new JSZip();
+    
+    individualPdfs.forEach((blob, index) => {
+      const originalName = files[index]?.file.name.replace(/\.[^/.]+$/, '') || `image_${index + 1}`;
+      zip.file(`${originalName}.pdf`, blob);
+    });
+    
+    const zipBlob = await zip.generateAsync({ type: 'blob' });
+    const url = URL.createObjectURL(zipBlob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'unitools_converted_pdfs.zip';
+    a.click();
+    URL.revokeObjectURL(url);
+  }, [individualPdfs, files]);
 
   const formatFileSize = useCallback((bytes: number): string => {
     const k = 1024;
@@ -82,7 +125,7 @@ export default function JpgToPdfTool() {
           />
 
           {files.length > 0 && (
-            <div className="space-y-3">
+            <div className="space-y-4">
               <p className="text-sm font-medium">
                 {t('Common.workflow.filesSelected', { count: files.length })}
               </p>
@@ -113,6 +156,41 @@ export default function JpgToPdfTool() {
                 ))}
               </div>
 
+              {files.length > 1 && (
+                <Card className="p-4">
+                  <Label className="text-sm font-medium mb-3 block">{t('Tools.jpg-to-pdf.conversionMode', '변환 모드')}</Label>
+                  <RadioGroup
+                    value={mode}
+                    onValueChange={(value) => setMode(value as ConversionMode)}
+                    className="grid grid-cols-2 gap-3"
+                    data-testid="radio-conversion-mode"
+                  >
+                    <Label
+                      htmlFor="merge"
+                      className={`flex flex-col items-center gap-2 p-4 rounded-md border-2 cursor-pointer transition-colors ${
+                        mode === 'merge' ? 'border-primary bg-primary/5' : 'border-border'
+                      }`}
+                    >
+                      <RadioGroupItem value="merge" id="merge" className="sr-only" />
+                      <FileStack className="w-5 h-5" />
+                      <span className="text-sm font-medium">{t('Tools.jpg-to-pdf.mergeMode', '하나로 병합')}</span>
+                      <span className="text-xs text-muted-foreground text-center">{t('Tools.jpg-to-pdf.mergeDesc', '모든 이미지를 하나의 PDF로')}</span>
+                    </Label>
+                    <Label
+                      htmlFor="individual"
+                      className={`flex flex-col items-center gap-2 p-4 rounded-md border-2 cursor-pointer transition-colors ${
+                        mode === 'individual' ? 'border-primary bg-primary/5' : 'border-border'
+                      }`}
+                    >
+                      <RadioGroupItem value="individual" id="individual" className="sr-only" />
+                      <Files className="w-5 h-5" />
+                      <span className="text-sm font-medium">{t('Tools.jpg-to-pdf.individualMode', '개별 변환')}</span>
+                      <span className="text-xs text-muted-foreground text-center">{t('Tools.jpg-to-pdf.individualDesc', '각 이미지를 별도의 PDF로')}</span>
+                    </Label>
+                  </RadioGroup>
+                </Card>
+              )}
+
               <div className="flex gap-3">
                 <Button onClick={handleConvert} className="flex-1" data-testid="button-convert">
                   {t('Tools.jpg-to-pdf.title')}
@@ -136,7 +214,7 @@ export default function JpgToPdfTool() {
         </div>
       )}
 
-      {status === 'success' && resultBlob && (
+      {status === 'success' && resultBlob && mode === 'merge' && (
         <div className="flex flex-col items-center gap-6 py-8">
           <div className="w-20 h-20 rounded-full bg-green-500/10 flex items-center justify-center">
             <CheckCircle className="w-10 h-10 text-green-500" />
@@ -154,6 +232,55 @@ export default function JpgToPdfTool() {
               {t('Common.workflow.startOver')}
             </Button>
           </div>
+        </div>
+      )}
+
+      {status === 'success' && individualPdfs.length > 0 && mode === 'individual' && (
+        <div className="space-y-6">
+          <div className="flex flex-col items-center gap-4 py-4">
+            <div className="w-16 h-16 rounded-full bg-green-500/10 flex items-center justify-center">
+              <CheckCircle className="w-8 h-8 text-green-500" />
+            </div>
+            <div className="text-center">
+              <h3 className="text-xl font-semibold">{t('Common.workflow.processingComplete')}</h3>
+              <p className="text-muted-foreground">
+                {individualPdfs.length} {t('Tools.jpg-to-pdf.pdfsCreated', 'PDF 파일 생성됨')}
+              </p>
+            </div>
+          </div>
+
+          <Button onClick={handleDownloadAllZip} className="w-full" data-testid="button-download-all-zip">
+            <Download className="w-4 h-4 mr-2" />
+            {t('Common.workflow.downloadAllAsZip', 'ZIP으로 모두 다운로드')}
+          </Button>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {individualPdfs.map((blob, index) => {
+              const originalName = files[index]?.file.name.replace(/\.[^/.]+$/, '') || `image_${index + 1}`;
+              return (
+                <Card 
+                  key={index} 
+                  className="p-3 cursor-pointer hover-elevate"
+                  onClick={() => handleDownloadIndividual(blob, index)}
+                  data-testid={`card-pdf-${index}`}
+                >
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded bg-primary/10 flex items-center justify-center shrink-0">
+                      <FileStack className="w-4 h-4 text-primary" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-sm font-medium truncate">{originalName}.pdf</p>
+                      <p className="text-xs text-muted-foreground">{formatFileSize(blob.size)}</p>
+                    </div>
+                  </div>
+                </Card>
+              );
+            })}
+          </div>
+
+          <Button variant="outline" onClick={reset} className="w-full" data-testid="button-convert-more">
+            {t('Common.workflow.startOver')}
+          </Button>
         </div>
       )}
 

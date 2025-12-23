@@ -1,4 +1,4 @@
-import { PDFDocument, rgb, StandardFonts, degrees } from 'pdf-lib';
+import { PDFDocument, degrees } from 'pdf-lib';
 
 export interface WatermarkProgress {
   percentage: number;
@@ -20,6 +20,39 @@ export class PdfWatermarkError extends Error {
   }
 }
 
+async function createWatermarkImage(
+  text: string,
+  fontSize: number,
+  color: { r: number; g: number; b: number },
+  opacity: number
+): Promise<Uint8Array> {
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  if (!ctx) throw new Error('Canvas context not available');
+
+  ctx.font = `bold ${fontSize}px "Noto Sans KR", "Malgun Gothic", sans-serif`;
+  const metrics = ctx.measureText(text);
+  const textWidth = metrics.width;
+  const textHeight = fontSize * 1.2;
+
+  const padding = 20;
+  canvas.width = textWidth + padding * 2;
+  canvas.height = textHeight + padding * 2;
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  
+  ctx.font = `bold ${fontSize}px "Noto Sans KR", "Malgun Gothic", sans-serif`;
+  ctx.fillStyle = `rgba(${Math.round(color.r * 255)}, ${Math.round(color.g * 255)}, ${Math.round(color.b * 255)}, ${opacity})`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+
+  const dataUrl = canvas.toDataURL('image/png');
+  const response = await fetch(dataUrl);
+  const blob = await response.blob();
+  return new Uint8Array(await blob.arrayBuffer());
+}
+
 export async function addWatermark(
   pdfBuffer: ArrayBuffer,
   options: WatermarkOptions,
@@ -31,7 +64,6 @@ export async function addWatermark(
     opacity = 0.3,
     color = { r: 0.5, g: 0.5, b: 0.5 },
     rotation = 45,
-    position = 'diagonal',
   } = options;
 
   try {
@@ -41,7 +73,9 @@ export async function addWatermark(
       ignoreEncryption: true,
     });
 
-    const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+    const watermarkImageBytes = await createWatermarkImage(text, fontSize, color, opacity);
+    const watermarkImage = await pdfDoc.embedPng(watermarkImageBytes);
+    
     const pages = pdfDoc.getPages();
     const totalPages = pages.length;
 
@@ -51,24 +85,17 @@ export async function addWatermark(
       const page = pages[i];
       const { width, height } = page.getSize();
       
-      const textWidth = font.widthOfTextAtSize(text, fontSize);
+      const imgWidth = watermarkImage.width;
+      const imgHeight = watermarkImage.height;
+      
+      const x = (width - imgWidth) / 2;
+      const y = (height - imgHeight) / 2;
 
-      let x: number, y: number;
-      if (position === 'center' || position === 'diagonal') {
-        x = (width - textWidth) / 2;
-        y = height / 2;
-      } else {
-        x = width / 2;
-        y = height / 2;
-      }
-
-      page.drawText(text, {
+      page.drawImage(watermarkImage, {
         x,
         y,
-        size: fontSize,
-        font,
-        color: rgb(color.r, color.g, color.b),
-        opacity,
+        width: imgWidth,
+        height: imgHeight,
         rotate: degrees(rotation),
       });
 
