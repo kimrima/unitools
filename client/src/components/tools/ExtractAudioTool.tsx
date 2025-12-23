@@ -202,7 +202,7 @@ export default function ExtractAudioTool() {
                   {loadingStage === 'loading-ffmpeg' ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
                 </div>
                 <span className={loadingStage === 'loading-ffmpeg' ? 'font-medium' : 'text-muted-foreground'}>
-                  1단계: FFmpeg 엔진 로딩
+                  {t('Common.messages.step1Loading')}
                 </span>
               </div>
               
@@ -211,7 +211,7 @@ export default function ExtractAudioTool() {
                   {loadingStage === 'processing' ? <Loader2 className="w-4 h-4 animate-spin" /> : loadingStage === 'complete' ? <Check className="w-4 h-4" /> : <span className="text-xs">2</span>}
                 </div>
                 <span className={loadingStage === 'processing' ? 'font-medium' : 'text-muted-foreground'}>
-                  2단계: 오디오 추출 중
+                  {t('Common.messages.step2AudioExtract')}
                 </span>
               </div>
               
@@ -220,7 +220,7 @@ export default function ExtractAudioTool() {
                   {loadingStage === 'complete' ? <Check className="w-4 h-4" /> : <span className="text-xs">3</span>}
                 </div>
                 <span className={loadingStage === 'complete' ? 'font-medium' : 'text-muted-foreground'}>
-                  3단계: 완료
+                  {t('Common.messages.step3Complete')}
                 </span>
               </div>
             </div>
