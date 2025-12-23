@@ -8,14 +8,14 @@
     "processAnother": "다른 파일 처리",
     "nav": {
       "home": "홈",
-      "pdf": "PDF 도구",
-      "image": "이미지",
-      "videoAudio": "비디오/오디오",
-      "text": "텍스트 가공",
-      "social": "소셜 미디어",
-      "developer": "개발자 도구",
-      "calculator": "계산기",
-      "funMisc": "재미&기타"
+      "pdf": "Herramientas PDF",
+      "image": "Imagen",
+      "videoAudio": "Video/Audio",
+      "text": "Herramientas de Texto",
+      "social": "Redes Sociales",
+      "developer": "Herramientas de Desarrollador",
+      "calculator": "Calculadoras",
+      "funMisc": "Diversión y Otros"
     },
     "actions": {
       "upload": "파일 업로드",
@@ -291,40 +291,40 @@
   },
   "Categories": {
     "pdf": {
-      "name": "PDF 도구",
-      "description": "PDF 변환, 병합, 분할 등 다양한 PDF 관련 도구"
+      "name": "Herramientas PDF",
+      "description": "Herramientas PDF para conversión, fusión, división y más"
     },
     "image": {
-      "name": "이미지",
-      "description": "이미지 변환, 편집, 크기 조정, 필터 적용 등"
+      "name": "Imagen",
+      "description": "Conversión, edición, cambio de tamaño, filtros de imagen, etc."
     },
     "videoAudio": {
-      "name": "비디오/오디오",
-      "description": "비디오 및 오디오 파일 변환과 편집"
+      "name": "Video/Audio",
+      "description": "Conversión y edición de archivos de video y audio"
     },
     "text": {
-      "name": "텍스트 가공",
-      "description": "텍스트 변환, 포맷팅, 분석 도구"
+      "name": "Herramientas de Texto",
+      "description": "Herramientas de conversión, formato y análisis de texto"
     },
     "social": {
-      "name": "소셜 미디어",
-      "description": "소셜 미디어 콘텐츠 다운로드 및 최적화"
+      "name": "Redes Sociales",
+      "description": "Descarga y optimización de contenido de redes sociales"
     },
     "developer": {
-      "name": "개발자 도구",
-      "description": "코드 포맷터, 인코더, 해시 생성기 등"
+      "name": "Herramientas de Desarrollador",
+      "description": "Formateadores de código, codificadores, generadores de hash, etc."
     },
     "calculator": {
-      "name": "계산기",
-      "description": "일상적인 계산을 위한 다양한 계산기"
+      "name": "Calculadoras",
+      "description": "Varias calculadoras para cálculos cotidianos"
     },
     "misc": {
       "name": "재미 & 기타",
-      "description": "재미있는 도구, 랜덤 생성기, 유용한 유틸리티"
+      "description": "Herramientas divertidas, generadores aleatorios, utilidades"
     },
     "funMisc": {
-      "name": "재미&기타",
-      "description": "재미있는 도구, 랜덤 생성기, 유용한 유틸리티"
+      "name": "Diversión y Otros",
+      "description": "Herramientas divertidas, generadores aleatorios, utilidades"
     }
   },
   "Legal": {
@@ -466,74 +466,74 @@
   },
   "Tools": {
     "pdf-to-jpg": {
-      "title": "PDF를 JPG로 변환",
-      "description": "PDF 파일을 고화질 JPG 이미지로 즉시 변환하세요.",
-      "shortDesc": "PDF를 JPG 이미지로 변환"
+      "title": "Convertir PDF a JPG",
+      "description": "Convierte archivos PDF a imágenes JPG de alta calidad al instante.",
+      "shortDesc": "Convertir PDF a imágenes JPG"
     },
     "jpg-to-pdf": {
-      "title": "JPG를 PDF로 변환",
-      "description": "여러 JPG 이미지를 하나의 PDF 파일로 합치세요.",
-      "shortDesc": "JPG 이미지를 PDF로 변환"
+      "title": "Convertir JPG a PDF",
+      "description": "Combina múltiples imágenes JPG en un único archivo PDF.",
+      "shortDesc": "Convertir imágenes JPG a PDF"
     },
     "merge-pdf": {
-      "title": "PDF 병합",
-      "description": "여러 PDF 파일을 하나로 합치세요.",
-      "shortDesc": "여러 PDF를 하나로 병합",
-      "instructions": "합칠 PDF 파일들을 선택하세요. 드래그하여 순서를 변경할 수 있습니다."
+      "title": "Fusionar PDFs",
+      "description": "Fusiona múltiples archivos PDF en uno solo.",
+      "shortDesc": "Fusionar varios PDFs en uno",
+      "instructions": "Selecciona los archivos PDF a fusionar. Arrastra para cambiar el orden."
     },
     "split-pdf": {
-      "title": "PDF 분할",
-      "description": "PDF 파일을 여러 개의 파일로 나누세요.",
-      "shortDesc": "PDF를 여러 파일로 분할",
-      "instructions": "분할할 PDF 파일을 선택하세요. 각 페이지가 개별 파일로 분리됩니다."
+      "title": "Dividir PDF",
+      "description": "Divide un archivo PDF en múltiples archivos.",
+      "shortDesc": "Dividir PDF en varios archivos",
+      "instructions": "Selecciona el archivo PDF a dividir. Cada página se guardará como un archivo separado."
     },
     "compress-pdf": {
-      "title": "PDF 압축",
-      "description": "PDF 파일 크기를 줄여 공유하기 쉽게 만드세요.",
-      "shortDesc": "PDF 파일 크기 줄이기"
+      "title": "Comprimir PDF",
+      "description": "Reduce el tamaño del archivo PDF para compartir más fácilmente.",
+      "shortDesc": "Reducir tamaño de PDF"
     },
     "png-to-jpg": {
-      "title": "PNG를 JPG로 변환",
-      "description": "PNG 이미지를 JPG 포맷으로 변환하세요.",
-      "shortDesc": "PNG를 JPG로 변환"
+      "title": "Convertir PNG a JPG",
+      "description": "Convierte imágenes PNG a formato JPG.",
+      "shortDesc": "Convertir PNG a JPG"
     },
     "jpg-to-png": {
-      "title": "JPG를 PNG로 변환",
-      "description": "JPG 이미지를 PNG 포맷으로 변환하세요.",
-      "shortDesc": "JPG를 PNG로 변환"
+      "title": "Convertir JPG a PNG",
+      "description": "Convierte imágenes JPG a formato PNG.",
+      "shortDesc": "Convertir JPG a PNG"
     },
     "webp-to-jpg": {
-      "title": "WebP를 JPG로 변환",
-      "description": "WebP 이미지를 JPG 포맷으로 변환하세요.",
-      "shortDesc": "WebP를 JPG로 변환"
+      "title": "Convertir WebP a JPG",
+      "description": "Convierte imágenes WebP a formato JPG.",
+      "shortDesc": "Convertir WebP a JPG"
     },
     "resize-image": {
-      "title": "이미지 크기 조정",
-      "description": "이미지의 너비와 높이를 원하는 크기로 조정하세요.",
-      "shortDesc": "이미지 크기 변경"
+      "title": "Cambiar Tamaño de Imagen",
+      "description": "Ajusta el ancho y alto de la imagen al tamaño deseado.",
+      "shortDesc": "Cambiar tamaño de imagen"
     },
     "crop-image": {
-      "title": "이미지 자르기",
-      "description": "이미지에서 원하는 영역만 잘라내세요.",
-      "shortDesc": "이미지 영역 자르기"
+      "title": "Recortar Imagen",
+      "description": "Recorta la área que deseas de la imagen.",
+      "shortDesc": "Recortar área de imagen"
     },
     "compress-image": {
-      "title": "이미지 압축",
-      "description": "이미지 파일 크기를 줄여 웹에 최적화하세요.",
-      "shortDesc": "이미지 파일 크기 줄이기",
+      "title": "Comprimir Imagen",
+      "description": "Reduce el tamaño del archivo de imagen para optimizar para web.",
+      "shortDesc": "Reducir tamaño de imagen",
       "instructions": "압축할 이미지 파일을 선택하세요. 품질과 최대 크기를 조절할 수 있습니다."
     },
     "convert-image": {
-      "title": "이미지 포맷 변환",
-      "description": "이미지를 다른 포맷(JPG, PNG, WebP)으로 변환하세요.",
-      "shortDesc": "이미지 포맷 변환",
+      "title": "Convertir Formato de Imagen",
+      "description": "Convierte la imagen a diferentes formatos (JPG, PNG, WebP).",
+      "shortDesc": "Convertir Formato de Imagen",
       "instructions": "변환할 이미지 파일을 선택하고 원하는 출력 포맷을 선택하세요."
     },
     "video-to-gif": {
-      "title": "비디오를 GIF로 변환",
-      "description": "비디오 파일을 애니메이션 GIF로 변환하세요.",
-      "shortDesc": "비디오를 GIF로 변환",
-      "instructions": "GIF로 변환할 비디오 파일을 선택하세요. FPS, 크기, 시작 시간과 길이를 조절할 수 있습니다."
+      "title": "Convertir Video a GIF",
+      "description": "Convierte un archivo de video a GIF animado.",
+      "shortDesc": "Convertir Video a GIF",
+      "instructions": "Selecciona el archivo de video a convertir a GIF. Puedes ajustar FPS, tamaño, hora de inicio y duración."
     },
     "heic-to-jpg": {
       "title": "HEIC를 JPG로",
@@ -647,7 +647,7 @@
       "addImages": "이미지 추가",
       "dragHint": "이미지를 드래그하거나 클릭하여 선택",
       "imageOrder": "이미지 순서",
-      "images": "이미지",
+      "images": "Imagen",
       "frameDelay": "프레임 딜레이",
       "quality": "품질",
       "width": "너비",
@@ -793,7 +793,7 @@
       "description": "OCR 기술을 사용하여 이미지에서 텍스트를 추출합니다. 한국어, 영어, 일본어, 중국어를 지원합니다.",
       "shortDesc": "이미지에서 글자 추출",
       "instructions": "이미지를 업로드하여 텍스트를 추출하세요. 정확도를 높이려면 언어를 선택하세요.",
-      "imageLabel": "이미지",
+      "imageLabel": "Imagen",
       "textLabel": "추출된 텍스트",
       "textPlaceholder": "추출된 텍스트가 여기에 표시됩니다...",
       "extractText": "텍스트 추출",

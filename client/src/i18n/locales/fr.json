@@ -8,14 +8,14 @@
     "processAnother": "다른 파일 처리",
     "nav": {
       "home": "홈",
-      "pdf": "PDF 도구",
-      "image": "이미지",
-      "videoAudio": "비디오/오디오",
-      "text": "텍스트 가공",
-      "social": "소셜 미디어",
-      "developer": "개발자 도구",
-      "calculator": "계산기",
-      "funMisc": "재미&기타"
+      "pdf": "Outils PDF",
+      "image": "Image",
+      "videoAudio": "Vidéo/Audio",
+      "text": "Outils de Texte",
+      "social": "Réseaux Sociaux",
+      "developer": "Outils Développeur",
+      "calculator": "Calculatrices",
+      "funMisc": "Amusement et Divers"
     },
     "actions": {
       "upload": "파일 업로드",
@@ -291,31 +291,31 @@
   },
   "Categories": {
     "pdf": {
-      "name": "PDF 도구",
+      "name": "Outils PDF",
       "description": "PDF 변환, 병합, 분할 등 다양한 PDF 관련 도구"
     },
     "image": {
-      "name": "이미지",
+      "name": "Image",
       "description": "이미지 변환, 편집, 크기 조정, 필터 적용 등"
     },
     "videoAudio": {
-      "name": "비디오/오디오",
+      "name": "Vidéo/Audio",
       "description": "비디오 및 오디오 파일 변환과 편집"
     },
     "text": {
-      "name": "텍스트 가공",
+      "name": "Outils de Texte",
       "description": "텍스트 변환, 포맷팅, 분석 도구"
     },
     "social": {
-      "name": "소셜 미디어",
+      "name": "Réseaux Sociaux",
       "description": "소셜 미디어 콘텐츠 다운로드 및 최적화"
     },
     "developer": {
-      "name": "개발자 도구",
+      "name": "Outils Développeur",
       "description": "코드 포맷터, 인코더, 해시 생성기 등"
     },
     "calculator": {
-      "name": "계산기",
+      "name": "Calculatrices",
       "description": "일상적인 계산을 위한 다양한 계산기"
     },
     "misc": {
@@ -323,7 +323,7 @@
       "description": "재미있는 도구, 랜덤 생성기, 유용한 유틸리티"
     },
     "funMisc": {
-      "name": "재미&기타",
+      "name": "Amusement et Divers",
       "description": "재미있는 도구, 랜덤 생성기, 유용한 유틸리티"
     }
   },
@@ -466,31 +466,31 @@
   },
   "Tools": {
     "pdf-to-jpg": {
-      "title": "PDF를 JPG로 변환",
-      "description": "PDF 파일을 고화질 JPG 이미지로 즉시 변환하세요.",
-      "shortDesc": "PDF를 JPG 이미지로 변환"
+      "title": "Convertir PDF en JPG",
+      "description": "Convertissez des fichiers PDF en images JPG haute résolution instantanément.",
+      "shortDesc": "Convertir PDF en images JPG"
     },
     "jpg-to-pdf": {
-      "title": "JPG를 PDF로 변환",
-      "description": "여러 JPG 이미지를 하나의 PDF 파일로 합치세요.",
-      "shortDesc": "JPG 이미지를 PDF로 변환"
+      "title": "Convertir JPG en PDF",
+      "description": "Combinez plusieurs images JPG en un seul fichier PDF.",
+      "shortDesc": "Convertir des images JPG en PDF"
     },
     "merge-pdf": {
-      "title": "PDF 병합",
-      "description": "여러 PDF 파일을 하나로 합치세요.",
-      "shortDesc": "여러 PDF를 하나로 병합",
-      "instructions": "합칠 PDF 파일들을 선택하세요. 드래그하여 순서를 변경할 수 있습니다."
+      "title": "Fusionner les PDFs",
+      "description": "Fusionnez plusieurs fichiers PDF en un seul.",
+      "shortDesc": "Fusionner plusieurs PDFs en un",
+      "instructions": "Sélectionnez les fichiers PDF à fusionner. Faites glisser pour modifier l'ordre."
     },
     "split-pdf": {
-      "title": "PDF 분할",
-      "description": "PDF 파일을 여러 개의 파일로 나누세요.",
-      "shortDesc": "PDF를 여러 파일로 분할",
-      "instructions": "분할할 PDF 파일을 선택하세요. 각 페이지가 개별 파일로 분리됩니다."
+      "title": "Diviser PDF",
+      "description": "Divisez un fichier PDF en plusieurs fichiers.",
+      "shortDesc": "Diviser PDF en plusieurs fichiers",
+      "instructions": "Sélectionnez le fichier PDF à diviser. Chaque page sera enregistrée en tant que fichier séparé."
     },
     "compress-pdf": {
-      "title": "PDF 압축",
-      "description": "PDF 파일 크기를 줄여 공유하기 쉽게 만드세요.",
-      "shortDesc": "PDF 파일 크기 줄이기"
+      "title": "Compresser PDF",
+      "description": "Réduisez la taille du fichier PDF pour le partager plus facilement.",
+      "shortDesc": "Réduire la taille du PDF"
     },
     "png-to-jpg": {
       "title": "PNG를 JPG로 변환",
@@ -647,7 +647,7 @@
       "addImages": "이미지 추가",
       "dragHint": "이미지를 드래그하거나 클릭하여 선택",
       "imageOrder": "이미지 순서",
-      "images": "이미지",
+      "images": "Image",
       "frameDelay": "프레임 딜레이",
       "quality": "품질",
       "width": "너비",
@@ -793,7 +793,7 @@
       "description": "OCR 기술을 사용하여 이미지에서 텍스트를 추출합니다. 한국어, 영어, 일본어, 중국어를 지원합니다.",
       "shortDesc": "이미지에서 글자 추출",
       "instructions": "이미지를 업로드하여 텍스트를 추출하세요. 정확도를 높이려면 언어를 선택하세요.",
-      "imageLabel": "이미지",
+      "imageLabel": "Image",
       "textLabel": "추출된 텍스트",
       "textPlaceholder": "추출된 텍스트가 여기에 표시됩니다...",
       "extractText": "텍스트 추출",
