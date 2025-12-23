@@ -28,17 +28,16 @@ export default function SilentShoutTool() {
   const [fontSize, setFontSize] = useState([80]);
   
   const [isPlaying, setIsPlaying] = useState(false);
+  const [remainingWords, setRemainingWords] = useState<string[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [timeLeft, setTimeLeft] = useState(60);
   const [correctCount, setCorrectCount] = useState(0);
-  const [passCount, setPassCount] = useState(0);
+  const [passedWords, setPassedWords] = useState<string[]>([]);
   const [isGameOver, setIsGameOver] = useState(false);
-  const [showWord, setShowWord] = useState(false);
   
   const timerRef = useRef<NodeJS.Timeout | null>(null);
-  const shuffledWordsRef = useRef<string[]>([]);
 
-  const currentWord = shuffledWordsRef.current[currentIndex];
+  const currentWord = remainingWords[currentIndex];
 
   const addWords = (text: string) => {
     const parts = text.split(/[,\n]+/).map(s => s.trim()).filter(s => s && !words.includes(s));
@@ -75,38 +74,15 @@ export default function SilentShoutTool() {
   const startGame = useCallback(() => {
     if (words.length < 3) return;
     
-    shuffledWordsRef.current = shuffleArray(words);
+    setRemainingWords(shuffleArray(words));
     setCurrentIndex(0);
     setTimeLeft(parseInt(timeLimit));
     setCorrectCount(0);
-    setPassCount(0);
+    setPassedWords([]);
     setIsGameOver(false);
-    setShowWord(false);
     setIsPlaying(true);
     playClick();
   }, [words, timeLimit]);
-
-  const nextWord = useCallback(() => {
-    if (currentIndex < shuffledWordsRef.current.length - 1) {
-      setCurrentIndex(prev => prev + 1);
-      setShowWord(false);
-    } else {
-      shuffledWordsRef.current = shuffleArray(words);
-      setCurrentIndex(0);
-      setShowWord(false);
-    }
-  }, [currentIndex, words]);
-
-  const handleCorrect = useCallback(() => {
-    setCorrectCount(prev => prev + 1);
-    playClick();
-    nextWord();
-  }, [nextWord]);
-
-  const handlePass = useCallback(() => {
-    setPassCount(prev => prev + 1);
-    nextWord();
-  }, [nextWord]);
 
   const endGame = useCallback(() => {
     setIsGameOver(true);
@@ -118,13 +94,38 @@ export default function SilentShoutTool() {
     playFanfare();
   }, []);
 
+  const handleCorrect = useCallback(() => {
+    playClick();
+    setCorrectCount(prev => prev + 1);
+    
+    const newRemaining = remainingWords.filter((_, i) => i !== currentIndex);
+    
+    if (newRemaining.length === 0) {
+      endGame();
+      return;
+    }
+    
+    setRemainingWords(newRemaining);
+    setCurrentIndex(prev => prev >= newRemaining.length ? 0 : prev);
+  }, [remainingWords, currentIndex, endGame]);
+
+  const handlePass = useCallback(() => {
+    setPassedWords(prev => [...prev, currentWord]);
+    
+    if (currentIndex >= remainingWords.length - 1) {
+      setCurrentIndex(0);
+    } else {
+      setCurrentIndex(prev => prev + 1);
+    }
+  }, [currentWord, currentIndex, remainingWords.length]);
+
   const resetGame = () => {
     setIsPlaying(false);
     setIsGameOver(false);
+    setRemainingWords([]);
     setCurrentIndex(0);
     setCorrectCount(0);
-    setPassCount(0);
-    setShowWord(false);
+    setPassedWords([]);
     if (timerRef.current) {
       clearInterval(timerRef.current);
       timerRef.current = null;
@@ -286,59 +287,38 @@ export default function SilentShoutTool() {
               className="space-y-6"
             >
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <Badge 
-                    variant={timeLeft <= 10 ? "destructive" : "outline"} 
-                    className={`text-xl px-4 py-2 font-mono ${timeLeft <= 10 ? 'animate-pulse' : ''}`}
-                  >
-                    <Timer className="w-5 h-5 mr-2" />
-                    {formatTime(timeLeft)}
-                  </Badge>
-                </div>
+                <Badge 
+                  variant={timeLeft <= 10 ? "destructive" : "outline"} 
+                  className={`text-xl px-4 py-2 font-mono ${timeLeft <= 10 ? 'animate-pulse' : ''}`}
+                >
+                  <Timer className="w-5 h-5 mr-2" />
+                  {formatTime(timeLeft)}
+                </Badge>
                 <div className="flex items-center gap-2">
                   <Badge variant="default" className="gap-1">
                     <Check className="w-3 h-3" />
                     {correctCount}
                   </Badge>
-                  <Badge variant="secondary" className="gap-1">
-                    <SkipForward className="w-3 h-3" />
-                    {passCount}
+                  <Badge variant="secondary" className="gap-1 text-muted-foreground">
+                    {remainingWords.length}개 남음
                   </Badge>
                 </div>
               </div>
 
               <Card className="bg-gradient-to-br from-primary/5 to-primary/10">
                 <CardContent className="p-0">
-                  <div 
-                    className="min-h-[250px] flex items-center justify-center p-8 cursor-pointer select-none"
-                    onClick={() => setShowWord(true)}
-                  >
+                  <div className="min-h-[250px] flex items-center justify-center p-8">
                     <AnimatePresence mode="wait">
-                      {showWord ? (
-                        <motion.p 
-                          key={`word-${currentIndex}`}
-                          initial={{ scale: 0.5, opacity: 0 }}
-                          animate={{ scale: 1, opacity: 1 }}
-                          exit={{ scale: 0.5, opacity: 0 }}
-                          className="font-bold text-center break-keep text-primary"
-                          style={{ fontSize: `${fontSize}px` }}
-                        >
-                          {currentWord}
-                        </motion.p>
-                      ) : (
-                        <motion.div 
-                          key="hidden"
-                          initial={{ scale: 0.5, opacity: 0 }}
-                          animate={{ scale: 1, opacity: 1 }}
-                          exit={{ scale: 0.5, opacity: 0 }}
-                          className="text-center space-y-4"
-                        >
-                          <VolumeX className="w-20 h-20 mx-auto text-muted-foreground" />
-                          <p className="text-xl text-muted-foreground">
-                            {t('Tools.silent-shout.clickToReveal', '클릭하여 제시어 보기')}
-                          </p>
-                        </motion.div>
-                      )}
+                      <motion.p 
+                        key={currentWord}
+                        initial={{ scale: 0.5, opacity: 0, y: 20 }}
+                        animate={{ scale: 1, opacity: 1, y: 0 }}
+                        exit={{ scale: 0.5, opacity: 0, y: -20 }}
+                        className="font-bold text-center break-keep text-primary"
+                        style={{ fontSize: `${fontSize}px` }}
+                      >
+                        {currentWord}
+                      </motion.p>
                     </AnimatePresence>
                   </div>
                 </CardContent>
@@ -391,27 +371,38 @@ export default function SilentShoutTool() {
                   <Trophy className="w-20 h-20 mx-auto text-yellow-500" />
                 </motion.div>
                 <h2 className="text-3xl font-bold">
-                  {t('Tools.silent-shout.gameOver', '게임 종료!')}
+                  {remainingWords.length === 0 
+                    ? t('Tools.silent-shout.allCorrect', '전부 맞췄습니다!') 
+                    : t('Tools.silent-shout.gameOver', '게임 종료!')}
                 </h2>
               </div>
 
               <Card>
                 <CardContent className="p-6">
-                  <div className="grid grid-cols-2 gap-6 text-center">
+                  <div className="text-center space-y-4">
                     <div className="space-y-2">
-                      <div className="text-4xl font-bold text-green-500">{correctCount}</div>
+                      <div className="text-5xl font-bold text-green-500">{correctCount}</div>
                       <div className="text-muted-foreground flex items-center justify-center gap-1">
                         <Check className="w-4 h-4" />
-                        {t('Tools.silent-shout.correctCount', '정답')}
+                        {t('Tools.silent-shout.correctCount', '정답')} / {words.length}개
                       </div>
                     </div>
-                    <div className="space-y-2">
-                      <div className="text-4xl font-bold text-muted-foreground">{passCount}</div>
-                      <div className="text-muted-foreground flex items-center justify-center gap-1">
-                        <SkipForward className="w-4 h-4" />
-                        {t('Tools.silent-shout.passCount', '패스')}
+                    
+                    {passedWords.length > 0 && (
+                      <div className="pt-4 border-t">
+                        <div className="text-sm text-muted-foreground mb-2">
+                          {t('Tools.silent-shout.missedWords', '못 맞춘 단어')}
+                        </div>
+                        <div className="flex flex-wrap gap-2 justify-center">
+                          {passedWords.map((word, i) => (
+                            <Badge key={i} variant="outline">{word}</Badge>
+                          ))}
+                          {remainingWords.map((word, i) => (
+                            <Badge key={`r-${i}`} variant="outline">{word}</Badge>
+                          ))}
+                        </div>
                       </div>
-                    </div>
+                    )}
                   </div>
                 </CardContent>
               </Card>
