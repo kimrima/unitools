@@ -58,12 +58,26 @@ export async function pdfToImages(
       canvas.width = viewport.width;
       canvas.height = viewport.height;
 
+      // Fill with white background for JPEG format (prevents transparency issues)
+      if (format === 'jpeg') {
+        context.fillStyle = '#FFFFFF';
+        context.fillRect(0, 0, canvas.width, canvas.height);
+      }
+
       const renderContext = {
         canvasContext: context,
         viewport,
         canvas,
       };
-      await page.render(renderContext).promise;
+      
+      // Wait for render to complete
+      const renderTask = page.render(renderContext);
+      await renderTask.promise;
+      
+      // Critical: Wait for async image decoding to complete
+      // pdf.js can resolve the render promise before all embedded bitmap images
+      // (XObject images) are fully decoded. This delay ensures images are ready.
+      await new Promise(resolve => setTimeout(resolve, 300));
 
       const mimeType = format === 'png' ? 'image/png' : 'image/jpeg';
       const blob = await new Promise<Blob>((resolve, reject) => {
@@ -78,6 +92,9 @@ export async function pdfToImages(
       });
 
       images.push(blob);
+      
+      // Clean up page resources
+      page.cleanup();
     }
 
     onProgress?.({ percentage: 100, currentPage: totalPages, totalPages });
