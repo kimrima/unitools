@@ -49,10 +49,6 @@ export async function pdfToImages(
       const page = await pdf.getPage(pageNum);
       const viewport = page.getViewport({ scale });
 
-      // Force pre-loading of all page resources including images
-      // getOperatorList() processes all content and caches image data
-      await page.getOperatorList();
-
       const canvas = document.createElement('canvas');
       const context = canvas.getContext('2d');
       if (!context) {
@@ -68,20 +64,18 @@ export async function pdfToImages(
         context.fillRect(0, 0, canvas.width, canvas.height);
       }
 
+      // Use 'print' intent to ensure all images with soft masks are fully rendered
+      // The display renderer can skip images that aren't ready, but print waits for completion
       const renderContext = {
         canvasContext: context,
         viewport,
         canvas,
+        intent: 'print' as const,
       };
       
-      // Render the page
+      // Render the page with print intent
       const renderTask = page.render(renderContext);
       await renderTask.promise;
-      
-      // Additional wait for any remaining async image operations
-      await new Promise(resolve => requestAnimationFrame(() => {
-        requestAnimationFrame(resolve);
-      }));
 
       const mimeType = format === 'png' ? 'image/png' : 'image/jpeg';
       const blob = await new Promise<Blob>((resolve, reject) => {
