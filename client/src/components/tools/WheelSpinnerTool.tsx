@@ -53,8 +53,8 @@ export default function WheelSpinnerTool() {
         setIsSpinning(false);
         const normalizedRotation = ((currentRotation % 360) + 360) % 360;
         const sliceAngle = 360 / items.length;
-        const pointerAngle = (360 - normalizedRotation + 90) % 360;
-        const winnerIndex = Math.floor(pointerAngle / sliceAngle) % items.length;
+        const adjustedAngle = (360 - normalizedRotation) % 360;
+        const winnerIndex = Math.floor(adjustedAngle / sliceAngle) % items.length;
         setWinner(items[winnerIndex]);
       }
     };
