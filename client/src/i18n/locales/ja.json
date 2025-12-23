@@ -1204,107 +1204,44 @@
       "layoutPreview": "Layout Preview"
     },
     "instagram-line-break": {
-      "title": "Instagram Line Break Generator",
-      "description": "Create perfect line breaks for Instagram captions that won't disappear when posted.",
-      "shortDesc": "Fix Instagram line breaks",
-      "notice": "Instagram removes regular line breaks. This tool uses invisible characters to preserve your formatting.",
-      "inputLabel": "Your Caption",
-      "outputLabel": "Converted Caption",
-      "placeholder": "Enter your Instagram caption here...",
-      "outputPlaceholder": "Converted caption will appear here",
-      "convert": "Convert Line Breaks",
-      "copied": "Caption copied to clipboard!"
+      "title": "Instagram改行ジェネレーター",
+      "description": "Instagramの改行問題を解決。コピーするだけで綺麗な改行が可能。",
+      "shortDesc": "Instagram改行を追加"
     },
     "hashtag-generator": {
-      "title": "Hashtag Generator",
-      "description": "Generate popular and relevant hashtags for your social media posts.",
-      "shortDesc": "Generate hashtags",
-      "keywordsLabel": "Keywords",
-      "keywordsPlaceholder": "Enter topic or keyword...",
-      "addTag": "Add",
-      "suggestions": "Suggestions",
-      "selectedTags": "Selected Hashtags",
-      "randomSelect": "Random 10",
-      "tagsCopied": "hashtags copied!",
-      "categories": {
-        "trending": "Trending",
-        "photography": "Photography",
-        "music": "Music",
-        "food": "Food",
-        "travel": "Travel",
-        "fitness": "Fitness",
-        "business": "Business",
-        "lifestyle": "Lifestyle",
-        "aesthetic": "Aesthetic"
-      }
+      "title": "ハッシュタグジェネレーター",
+      "description": "SNS投稿に最適なハッシュタグを生成します。",
+      "shortDesc": "ハッシュタグを生成"
     },
     "instagram-font": {
-      "title": "Instagram Font Converter",
-      "description": "Convert regular text to fancy Unicode fonts for Instagram bio and captions.",
-      "shortDesc": "Fancy fonts for Instagram",
-      "inputLabel": "Your Text",
-      "placeholder": "Type something...",
-      "hint": "Enter text above to see it converted to 20+ different font styles"
+      "title": "Instagramフォント変換",
+      "description": "テキストをInstagramで使えるおしゃれなフォントに変換します。",
+      "shortDesc": "おしゃれなフォントに変換"
     },
     "tiktok-safe-zone": {
-      "title": "TikTok Safe Zone Checker",
-      "description": "Check if your video content and captions are within the safe zone for TikTok, Reels, and Shorts.",
-      "shortDesc": "Check safe zones",
-      "notice": "Red areas show where platform UI elements may cover your content. Keep important elements in the green safe zone.",
-      "platformLabel": "Platform",
-      "uploadLabel": "Upload Video Thumbnail",
-      "uploadHint": "Click to upload an image",
-      "legend": "Legend",
-      "dangerZone": "UI Overlay Zone (Avoid)",
-      "safeZone": "Safe Zone",
-      "noImage": "Upload an image to preview"
+      "title": "TikTokセーフゾーンチェッカー",
+      "description": "TikTok動画のセーフゾーンを確認してコンテンツが切れないようにします。",
+      "shortDesc": "TikTokセーフゾーン確認"
     },
     "instagram-grid": {
-      "title": "Instagram Grid Splitter",
-      "description": "Split one image into multiple parts to create a seamless Instagram grid.",
-      "shortDesc": "Split images for grid",
-      "gridLabel": "Grid Type",
-      "uploadLabel": "Upload Image",
-      "uploadHint": "Click to upload",
-      "previewLabel": "Preview",
-      "downloadAll": "すべてをダウンロード",
-      "downloaded": "All images downloaded!",
-      "uploadOrder": "Upload to Instagram in reverse order (bottom-right first)",
-      "noImage": "Upload an image to split"
+      "title": "Instagramグリッド分割",
+      "description": "画像を複数の投稿に分割してInstagramグリッドを作成します。",
+      "shortDesc": "グリッド画像を作成"
     },
     "youtube-thumbnail": {
-      "title": "YouTubeサムネイル",
-      "description": "YouTubeサムネイルを作成します。",
-      "shortDesc": "サムネイルを作成"
+      "title": "YouTubeサムネイルダウンローダー",
+      "description": "YouTube動画のサムネイル画像をダウンロードします。",
+      "shortDesc": "サムネイルをダウンロード"
     },
     "twitter-char-count": {
-      "title": "Twitter/X Character Counter",
-      "description": "Count characters for Twitter/X posts with proper URL and mention handling.",
-      "shortDesc": "Count X post characters",
-      "placeholder": "Write your post here...",
-      "remaining": "{{count}} characters remaining",
-      "over": "{{count}} characters over limit",
-      "characters": "Characters",
-      "urls": "URLs",
-      "mentions": "Mentions",
-      "hashtags": "Hashtags",
-      "urlNote": "URLs count as 23 characters regardless of actual length"
+      "title": "Twitter/X文字数カウンター",
+      "description": "ツイートの文字数をリアルタイムでカウントします。",
+      "shortDesc": "ツイート文字数をカウント"
     },
     "youtube-channel-id": {
-      "title": "YouTube Channel ID Finder",
-      "description": "Find the unique Channel ID from any YouTube channel URL.",
-      "shortDesc": "Find channel ID",
-      "urlLabel": "YouTube Channel URL",
-      "urlPlaceholder": "Paste channel URL (e.g., youtube.com/@channelname)",
-      "urlHint": "Supports /channel/, /@username, and /c/ URLs",
-      "extract": "Extract Channel ID",
-      "channelName": "Channel Name",
-      "channelIdLabel": "Channel ID",
-      "channelUrl": "Channel URL",
-      "approximateId": "Approximate ID Generated",
-      "approximateNote": "For @handles, the actual ID may differ. Use the channel page source for exact ID.",
-      "invalidUrl": "Invalid YouTube channel URL",
-      "noChannel": "Enter a YouTube channel URL"
+      "title": "YouTubeチャンネルID検索",
+      "description": "YouTubeチャンネルのIDを検索します。",
+      "shortDesc": "チャンネルIDを検索"
     },
     "video-title-length": {
       "title": "Video Title Length Checker",
@@ -2850,29 +2787,69 @@
       "shortDesc": "SNS投稿を作成"
     },
     "instagram-post": {
-      "title": "Instagram投稿",
-      "description": "Instagram用の画像を作成します。",
-      "shortDesc": "Instagram画像を作成"
+      "title": "Instagram投稿作成",
+      "description": "Instagram用の正方形画像を作成します。",
+      "shortDesc": "投稿画像を作成"
     },
     "twitter-header": {
-      "title": "Twitterヘッダー",
+      "title": "Twitterヘッダー作成",
       "description": "Twitterヘッダー画像を作成します。",
-      "shortDesc": "Twitterヘッダーを作成"
+      "shortDesc": "ヘッダーを作成"
     },
     "facebook-cover": {
-      "title": "Facebookカバー",
+      "title": "Facebookカバー作成",
       "description": "Facebookカバー画像を作成します。",
-      "shortDesc": "Facebookカバーを作成"
+      "shortDesc": "カバーを作成"
     },
     "linkedin-banner": {
-      "title": "LinkedInバナー",
+      "title": "LinkedInバナー作成",
       "description": "LinkedInバナー画像を作成します。",
-      "shortDesc": "LinkedInバナーを作成"
+      "shortDesc": "バナーを作成"
     },
     "zoom-background": {
       "title": "Zoom背景",
       "description": "Zoomバーチャル背景を作成します。",
       "shortDesc": "Zoom背景を作成"
+    },
+    "social-image-resize": {
+      "title": "SNS画像リサイズ",
+      "description": "各SNSプラットフォームに最適なサイズに画像をリサイズします。",
+      "shortDesc": "SNS用画像リサイズ"
+    },
+    "profile-picture-maker": {
+      "title": "プロフィール画像メーカー",
+      "description": "SNS用の丸いプロフィール画像を作成します。",
+      "shortDesc": "プロフィール画像を作成"
+    },
+    "youtube-banner": {
+      "title": "YouTubeバナー作成",
+      "description": "YouTubeチャンネルアート画像を作成します。",
+      "shortDesc": "チャンネルアートを作成"
+    },
+    "instagram-story": {
+      "title": "Instagramストーリー作成",
+      "description": "Instagramストーリー用の縦長画像を作成します。",
+      "shortDesc": "ストーリー画像を作成"
+    },
+    "social-link-preview": {
+      "title": "SNSリンクプレビュー",
+      "description": "URLがSNSでどのように表示されるかプレビューします。",
+      "shortDesc": "リンクプレビュー確認"
+    },
+    "emoji-text": {
+      "title": "絵文字テキスト変換",
+      "description": "テキストを絵文字アートに変換します。",
+      "shortDesc": "絵文字アートに変換"
+    },
+    "unicode-text": {
+      "title": "Unicode装飾テキスト",
+      "description": "テキストを装飾されたUnicode文字に変換します。",
+      "shortDesc": "装飾テキストに変換"
+    },
+    "bio-generator": {
+      "title": "SNSプロフィール生成",
+      "description": "SNSプロフィール用の自己紹介文を生成します。",
+      "shortDesc": "プロフィール文を生成"
     }
   }
 }

@@ -1219,113 +1219,44 @@
       "layoutPreview": "Layout Preview"
     },
     "instagram-line-break": {
-      "title": "Instagram Line Break Generator",
-      "description": "Create perfect line breaks for Instagram captions that won't disappear when posted.",
-      "shortDesc": "Fix Instagram line breaks",
-      "notice": "Instagram removes regular line breaks. This tool uses invisible characters to preserve your formatting.",
-      "inputLabel": "Your Caption",
-      "outputLabel": "Converted Caption",
-      "placeholder": "Enter your Instagram caption here...",
-      "outputPlaceholder": "Converted caption will appear here",
-      "convert": "Convert Line Breaks",
-      "copied": "Caption copied to clipboard!"
+      "title": "Générateur de Sauts de Ligne Instagram",
+      "description": "Résout le problème des sauts de ligne sur Instagram. Copiez et collez simplement.",
+      "shortDesc": "Ajouter des sauts de ligne Instagram"
     },
     "hashtag-generator": {
-      "title": "Hashtag Generator",
-      "description": "Generate popular and relevant hashtags for your social media posts.",
-      "shortDesc": "Generate hashtags",
-      "keywordsLabel": "Keywords",
-      "keywordsPlaceholder": "Enter topic or keyword...",
-      "addTag": "Add",
-      "suggestions": "Suggestions",
-      "selectedTags": "Selected Hashtags",
-      "randomSelect": "Random 10",
-      "tagsCopied": "hashtags copied!",
-      "categories": {
-        "trending": "Trending",
-        "photography": "Photography",
-        "music": "Music",
-        "food": "Food",
-        "travel": "Travel",
-        "fitness": "Fitness",
-        "business": "Business",
-        "lifestyle": "Lifestyle",
-        "aesthetic": "Aesthetic"
-      }
+      "title": "Générateur de Hashtags",
+      "description": "Génère des hashtags optimaux pour les publications sur les réseaux sociaux.",
+      "shortDesc": "Générer des hashtags"
     },
     "instagram-font": {
-      "title": "Instagram Font Converter",
-      "description": "Convert regular text to fancy Unicode fonts for Instagram bio and captions.",
-      "shortDesc": "Fancy fonts for Instagram",
-      "inputLabel": "Your Text",
-      "placeholder": "Type something...",
-      "hint": "Enter text above to see it converted to 20+ different font styles"
+      "title": "Convertisseur de Polices Instagram",
+      "description": "Convertit le texte en polices élégantes pour Instagram.",
+      "shortDesc": "Convertir en polices élégantes"
     },
     "tiktok-safe-zone": {
-      "title": "TikTok Safe Zone Checker",
-      "description": "Check if your video content and captions are within the safe zone for TikTok, Reels, and Shorts.",
-      "shortDesc": "Check safe zones",
-      "notice": "Red areas show where platform UI elements may cover your content. Keep important elements in the green safe zone.",
-      "platformLabel": "Platform",
-      "uploadLabel": "Upload Video Thumbnail",
-      "uploadHint": "Click to upload an image",
-      "legend": "Legend",
-      "dangerZone": "UI Overlay Zone (Avoid)",
-      "safeZone": "Safe Zone",
-      "noImage": "Upload an image to preview"
+      "title": "Vérificateur de Zone Sûre TikTok",
+      "description": "Vérifie la zone sûre des vidéos TikTok pour éviter que le contenu soit coupé.",
+      "shortDesc": "Vérifier zone sûre TikTok"
     },
     "instagram-grid": {
-      "title": "Instagram Grid Splitter",
-      "description": "Split one image into multiple parts to create a seamless Instagram grid.",
-      "shortDesc": "Split images for grid",
-      "gridLabel": "Grid Type",
-      "uploadLabel": "Upload Image",
-      "uploadHint": "Click to upload",
-      "previewLabel": "Preview",
-      "downloadAll": "Télécharger tout",
-      "downloaded": "All images downloaded!",
-      "uploadOrder": "Upload to Instagram in reverse order (bottom-right first)",
-      "noImage": "Upload an image to split"
+      "title": "Diviseur de Grille Instagram",
+      "description": "Divise les images en plusieurs publications pour créer une grille Instagram.",
+      "shortDesc": "Créer image de grille"
     },
     "youtube-thumbnail": {
-      "title": "YouTube Thumbnail Downloader",
-      "description": "Download YouTube video thumbnails in all available resolutions.",
-      "shortDesc": "Get YouTube thumbnails",
-      "urlLabel": "YouTube Video URL",
-      "urlPlaceholder": "Paste YouTube URL or video ID...",
-      "extract": "Extract Thumbnails",
-      "openVideo": "Open Video",
-      "invalidUrl": "Invalid YouTube URL or video ID",
-      "noVideo": "Enter a YouTube URL to get thumbnails"
+      "title": "Téléchargeur de Miniatures YouTube",
+      "description": "Télécharge les images miniatures des vidéos YouTube.",
+      "shortDesc": "Télécharger miniature"
     },
     "twitter-char-count": {
-      "title": "Twitter/X Character Counter",
-      "description": "Count characters for Twitter/X posts with proper URL and mention handling.",
-      "shortDesc": "Count X post characters",
-      "placeholder": "Write your post here...",
-      "remaining": "{{count}} characters remaining",
-      "over": "{{count}} characters over limit",
-      "characters": "Characters",
-      "urls": "URLs",
-      "mentions": "Mentions",
-      "hashtags": "Hashtags",
-      "urlNote": "URLs count as 23 characters regardless of actual length"
+      "title": "Compteur de Caractères Twitter/X",
+      "description": "Compte les caractères des tweets en temps réel.",
+      "shortDesc": "Compter caractères de tweet"
     },
     "youtube-channel-id": {
-      "title": "YouTube Channel ID Finder",
-      "description": "Find the unique Channel ID from any YouTube channel URL.",
-      "shortDesc": "Find channel ID",
-      "urlLabel": "YouTube Channel URL",
-      "urlPlaceholder": "Paste channel URL (e.g., youtube.com/@channelname)",
-      "urlHint": "Supports /channel/, /@username, and /c/ URLs",
-      "extract": "Extract Channel ID",
-      "channelName": "Channel Name",
-      "channelIdLabel": "Channel ID",
-      "channelUrl": "Channel URL",
-      "approximateId": "Approximate ID Generated",
-      "approximateNote": "For @handles, the actual ID may differ. Use the channel page source for exact ID.",
-      "invalidUrl": "Invalid YouTube channel URL",
-      "noChannel": "Enter a YouTube channel URL"
+      "title": "Recherche d'ID de Chaîne YouTube",
+      "description": "Recherche l'ID de la chaîne YouTube.",
+      "shortDesc": "Rechercher ID de chaîne"
     },
     "video-title-length": {
       "title": "Video Title Length Checker",
@@ -2566,6 +2497,16 @@
       "title": "Test de Réaction",
       "description": "Teste votre vitesse de réaction.",
       "shortDesc": "Tester réaction"
+    },
+    "social-image-resize": {
+      "title": "Redimensionner Image pour Réseaux Sociaux",
+      "description": "Redimensionne les images à la taille optimale pour chaque plateforme.",
+      "shortDesc": "Redimensionner pour réseaux sociaux"
+    },
+    "profile-picture-maker": {
+      "title": "Créateur de Photo de Profil",
+      "description": "Crée des photos de profil circulaires pour les réseaux sociaux.",
+      "shortDesc": "Créer photo de profil"
     }
   }
 }
