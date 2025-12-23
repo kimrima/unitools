@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import SearchBar from '@/components/layout/SearchBar';
-import { categories, getPopularTools, allTools } from '@/data/tools';
+import { categories, getPopularTools, getMostUsedTools } from '@/data/tools';
 import { 
   ArrowRight,
   FileText,
@@ -43,7 +43,8 @@ const categoryIcons: Record<string, typeof FileText> = {
 export default function HomePage() {
   const { t, i18n } = useTranslation();
   const localizedPath = useLocalizedPath();
-  const popularTools = getPopularTools();
+  const popularTools = getPopularTools(8);
+  const exploreTools = getMostUsedTools(16);
   const isKorean = i18n.language?.startsWith('ko') ?? false;
 
   return (
@@ -173,7 +174,7 @@ export default function HomePage() {
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 max-w-7xl mx-auto">
-              {allTools.filter(tool => tool.implemented).slice(0, 16).map((tool) => {
+              {exploreTools.map((tool) => {
                 const Icon = tool.icon;
                 return (
                   <Link key={tool.id} href={localizedPath(`/${tool.id}`)}>
