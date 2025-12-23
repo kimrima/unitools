@@ -203,13 +203,16 @@ Sitemap: ${baseUrl}/sitemap.xml
         return res.status(400).json({ error: 'Password required' });
       }
       
-      const envPassword = process.env.ADMIN_PASSWORD;
+      const envPassword = process.env.ADMIN_PASSWORD?.trim();
       
       if (!envPassword) {
+        console.log('ADMIN_PASSWORD not found in environment');
         return res.status(500).json({ error: 'Admin password not configured' });
       }
       
-      if (password !== envPassword) {
+      const inputPassword = password.trim();
+      if (inputPassword !== envPassword) {
+        console.log('Password mismatch');
         return res.status(401).json({ error: 'Invalid password' });
       }
       

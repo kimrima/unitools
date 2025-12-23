@@ -14,7 +14,7 @@ export function LocaleProvider({ children }: LocaleProviderProps) {
   useEffect(() => {
     const segments = location.split('/').filter(Boolean);
     
-    if (segments[0] === '자리관') {
+    if (segments[0] === '자리관' || segments[0] === 'admin') {
       return;
     }
     
