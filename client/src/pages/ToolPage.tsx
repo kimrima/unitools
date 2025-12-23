@@ -130,6 +130,9 @@ const YoutubeChannelIdTool = lazy(() => import('@/components/tools/YoutubeChanne
 const VideoTitleLengthTool = lazy(() => import('@/components/tools/VideoTitleLengthTool'));
 const BarcodeGeneratorTool = lazy(() => import('@/components/tools/BarcodeGeneratorTool'));
 const WebTextExtractTool = lazy(() => import('@/components/tools/WebTextExtractTool'));
+const PhraseSaverTool = lazy(() => import('@/components/tools/PhraseSaverTool'));
+const DictionaryTool = lazy(() => import('@/components/tools/DictionaryTool'));
+const TextToSpeechTool = lazy(() => import('@/components/tools/TextToSpeechTool'));
 const UrlShortenerTool = lazy(() => import('@/components/tools/UrlShortenerTool'));
 const AdBannerGuideTool = lazy(() => import('@/components/tools/AdBannerGuideTool'));
 const LogoGeneratorTool = lazy(() => import('@/components/tools/LogoGeneratorTool'));
@@ -307,6 +310,9 @@ const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element
   'binary-converter': BinaryConverterTool,
   'morse-code': MorseCodeTool,
   'web-text-extract': WebTextExtractTool,
+  'phrase-saver': PhraseSaverTool,
+  'dictionary': DictionaryTool,
+  'text-to-speech': TextToSpeechTool,
   'json-formatter': JsonFormatterTool,
   'instagram-line-break': InstagramLineBreakTool,
   'hashtag-generator': HashtagGeneratorTool,
