@@ -4,12 +4,15 @@ import { fetchFile, toBlobURL } from '@ffmpeg/util';
 let ffmpeg: FFmpeg | null = null;
 let isLoading = false;
 let loadPromise: Promise<FFmpeg> | null = null;
+let loadFailed = false;
+let failReason = '';
 
 export type FFmpegErrorCode = 
   | 'NO_FILE_PROVIDED'
   | 'FFMPEG_LOAD_FAILED'
   | 'PROCESSING_FAILED'
-  | 'INVALID_FILE';
+  | 'INVALID_FILE'
+  | 'SHAREDARRAYBUFFER_NOT_AVAILABLE';
 
 export class FFmpegError extends Error {
   code: FFmpegErrorCode;
@@ -25,9 +28,27 @@ export class FFmpegError extends Error {
 
 export type ProgressCallback = (progress: number) => void;
 
+export function isFFmpegSupported(): boolean {
+  return typeof SharedArrayBuffer !== 'undefined' && typeof crossOriginIsolated !== 'undefined' && crossOriginIsolated;
+}
+
+export function getFFmpegLoadStatus(): { failed: boolean; reason: string } {
+  return { failed: loadFailed, reason: failReason };
+}
+
 async function loadFFmpeg(): Promise<FFmpeg> {
+  if (!isFFmpegSupported()) {
+    loadFailed = true;
+    failReason = 'SharedArrayBuffer is not available. This browser or environment does not support FFmpeg processing.';
+    throw new FFmpegError('SHAREDARRAYBUFFER_NOT_AVAILABLE');
+  }
+
   if (ffmpeg && ffmpeg.loaded) {
     return ffmpeg;
+  }
+
+  if (loadFailed) {
+    throw new FFmpegError('FFMPEG_LOAD_FAILED');
   }
 
   if (isLoading && loadPromise) {
@@ -39,29 +60,36 @@ async function loadFFmpeg(): Promise<FFmpeg> {
   loadPromise = (async () => {
     const instance = new FFmpeg();
     
-    const baseURL = 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/esm';
+    const baseURL = 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.6/dist/esm';
 
     try {
-      await instance.load({
-        coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript'),
-        wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm'),
+      const timeoutPromise = new Promise<never>((_, reject) => {
+        setTimeout(() => reject(new Error('FFmpeg load timeout (30s)')), 30000);
       });
+
+      const coreURL = await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript');
+      const wasmURL = await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm');
+
+      const loadPromiseInner = instance.load({
+        coreURL,
+        wasmURL,
+      });
+
+      await Promise.race([loadPromiseInner, timeoutPromise]);
       
       ffmpeg = instance;
       isLoading = false;
       return instance;
-    } catch {
+    } catch (e) {
       isLoading = false;
+      loadFailed = true;
+      failReason = e instanceof Error ? e.message : 'Unknown error loading FFmpeg';
       loadPromise = null;
       throw new FFmpegError('FFMPEG_LOAD_FAILED');
     }
   })();
 
   return loadPromise;
-}
-
-export function isFFmpegSupported(): boolean {
-  return typeof SharedArrayBuffer !== 'undefined';
 }
 
 function getFileExtension(filename: string): string {
