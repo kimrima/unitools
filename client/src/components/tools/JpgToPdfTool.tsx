@@ -1,13 +1,14 @@
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFileHandler } from '@/hooks/useFileHandler';
+import { useStagedProcessing } from '@/hooks/useStagedProcessing';
 import { imagesToPdf, imageToIndividualPdfs } from '@/lib/engines/imageToPdf';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Image, Download, Loader2, CheckCircle, X, FileStack, Files } from 'lucide-react';
+import { StagedLoadingOverlay } from '@/components/StagedLoadingOverlay';
+import { Download, CheckCircle, X, FileStack, Files } from 'lucide-react';
 import { FileUploadZone } from '@/components/tool-ui';
 
 type ConversionMode = 'merge' | 'individual';
@@ -21,17 +22,24 @@ export default function JpgToPdfTool() {
     files,
     status,
     error,
-    progress,
     resultBlob,
     addFiles,
     removeFile,
     setStatus,
     setError,
     setResult,
-    setProgress,
     downloadResult,
-    reset,
+    reset: resetHandler,
   } = useFileHandler({ accept: 'image/jpeg,image/jpg,image/png', multiple: true });
+
+  const stagedProcessing = useStagedProcessing({
+    minDuration: 3000,
+    stages: [
+      { name: 'analyzing', duration: 800, message: t('Common.stages.readingImages', { defaultValue: 'Reading images...' }) },
+      { name: 'processing', duration: 1400, message: t('Common.stages.creatingPdf', { defaultValue: 'Creating PDF document...' }) },
+      { name: 'optimizing', duration: 800, message: t('Common.stages.finalizingDocument', { defaultValue: 'Finalizing document...' }) },
+    ],
+  });
 
   const handleFilesFromDropzone = useCallback((fileList: FileList) => {
     addFiles(fileList);
@@ -41,34 +49,33 @@ export default function JpgToPdfTool() {
     if (files.length === 0) return;
 
     setStatus('processing');
-    setProgress(0);
     setError(null);
     setIndividualPdfs([]);
 
     try {
-      const buffers = files
-        .map((f) => f.arrayBuffer)
-        .filter((buffer): buffer is ArrayBuffer => buffer !== null);
-      
-      const fileTypes = files.map((f) => f.file.type);
+      await stagedProcessing.runStagedProcessing(async () => {
+        const buffers = files
+          .map((f) => f.arrayBuffer)
+          .filter((buffer): buffer is ArrayBuffer => buffer !== null);
+        
+        const fileTypes = files.map((f) => f.file.type);
 
-      if (mode === 'merge') {
-        const pdfBlob = await imagesToPdf(buffers, fileTypes, (prog) => {
-          setProgress(prog.percentage);
-        });
-        setResult(pdfBlob);
-      } else {
-        const pdfs = await imageToIndividualPdfs(buffers, fileTypes, (prog) => {
-          setProgress(prog.percentage);
-        });
-        setIndividualPdfs(pdfs);
-        setStatus('success');
-      }
+        if (mode === 'merge') {
+          const pdfBlob = await imagesToPdf(buffers, fileTypes);
+          setResult(pdfBlob);
+          return pdfBlob;
+        } else {
+          const pdfs = await imageToIndividualPdfs(buffers, fileTypes);
+          setIndividualPdfs(pdfs);
+          return pdfs;
+        }
+      });
+      setStatus('success');
     } catch {
       setError({ code: 'CONVERSION_FAILED' });
       setStatus('error');
     }
-  }, [files, mode, setStatus, setProgress, setError, setResult]);
+  }, [files, mode, setStatus, setError, setResult, stagedProcessing]);
 
   const handleDownload = useCallback(() => {
     downloadResult(`unitools_images_converted.pdf`);
@@ -102,6 +109,12 @@ export default function JpgToPdfTool() {
     a.click();
     URL.revokeObjectURL(url);
   }, [individualPdfs, files]);
+
+  const reset = useCallback(() => {
+    resetHandler();
+    stagedProcessing.reset();
+    setIndividualPdfs([]);
+  }, [resetHandler, stagedProcessing]);
 
   const formatFileSize = useCallback((bytes: number): string => {
     const k = 1024;
@@ -204,15 +217,13 @@ export default function JpgToPdfTool() {
         </>
       )}
 
-      {status === 'processing' && (
-        <div className="space-y-6 py-8">
-          <div className="flex flex-col items-center gap-4">
-            <Loader2 className="w-12 h-12 animate-spin text-primary" />
-            <p className="font-medium">{t('Common.workflow.processing')}</p>
-          </div>
-          <Progress value={progress} className="h-2" data-testid="progress-bar" />
-        </div>
-      )}
+      <StagedLoadingOverlay
+        stage={stagedProcessing.stage}
+        progress={stagedProcessing.progress}
+        stageProgress={stagedProcessing.stageProgress}
+        message={stagedProcessing.message}
+        error={stagedProcessing.error}
+      />
 
       {status === 'success' && resultBlob && mode === 'merge' && (
         <div className="flex flex-col items-center gap-6 py-8">
