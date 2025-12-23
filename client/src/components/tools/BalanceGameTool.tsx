@@ -3,15 +3,14 @@ import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { Textarea } from '@/components/ui/textarea';
 import { FullscreenWrapper } from './FullscreenWrapper';
 import { 
-  RotateCcw, Plus, Trash2,
-  ThumbsUp, Sparkles, ChevronLeft, ChevronRight, Play
+  RotateCcw, Trash2,
+  ThumbsUp, Sparkles, ChevronLeft, ChevronRight, Play, Zap
 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface Question {
   optionA: string;
@@ -20,16 +19,30 @@ interface Question {
   votesB: number;
 }
 
+const EXAMPLE_QUESTIONS_KO: Question[] = [
+  { optionA: '평생 여름만', optionB: '평생 겨울만', votesA: 0, votesB: 0 },
+  { optionA: '투명인간 능력', optionB: '순간이동 능력', votesA: 0, votesB: 0 },
+  { optionA: '과거로 시간여행', optionB: '미래로 시간여행', votesA: 0, votesB: 0 },
+  { optionA: '10억 받고 10년 감옥', optionB: '지금 그대로 살기', votesA: 0, votesB: 0 },
+];
+
+const EXAMPLE_QUESTIONS_EN: Question[] = [
+  { optionA: 'Summer forever', optionB: 'Winter forever', votesA: 0, votesB: 0 },
+  { optionA: 'Invisibility', optionB: 'Teleportation', votesA: 0, votesB: 0 },
+  { optionA: 'Travel to past', optionB: 'Travel to future', votesA: 0, votesB: 0 },
+  { optionA: '$1M but 10 years jail', optionB: 'Stay as you are', votesA: 0, votesB: 0 },
+];
+
 export default function BalanceGameTool() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [hasVoted, setHasVoted] = useState(false);
-  const [newOptionA, setNewOptionA] = useState('');
-  const [newOptionB, setNewOptionB] = useState('');
-  const [bulkInput, setBulkInput] = useState('');
+  const [inputA, setInputA] = useState('');
+  const [inputB, setInputB] = useState('');
   const [isPlaying, setIsPlaying] = useState(false);
+  const [selectedOption, setSelectedOption] = useState<'A' | 'B' | null>(null);
 
   const currentQuestion = questions[currentIndex];
   const totalVotes = currentQuestion ? currentQuestion.votesA + currentQuestion.votesB : 0;
@@ -44,6 +57,7 @@ export default function BalanceGameTool() {
       updated[currentIndex].votesB++;
     }
     setQuestions(updated);
+    setSelectedOption(option);
     setHasVoted(true);
   };
 
@@ -51,6 +65,7 @@ export default function BalanceGameTool() {
     if (currentIndex < questions.length - 1) {
       setCurrentIndex(currentIndex + 1);
       setHasVoted(false);
+      setSelectedOption(null);
     }
   };
 
@@ -58,42 +73,26 @@ export default function BalanceGameTool() {
     if (currentIndex > 0) {
       setCurrentIndex(currentIndex - 1);
       setHasVoted(false);
+      setSelectedOption(null);
     }
   };
 
   const addQuestion = () => {
-    if (newOptionA.trim() && newOptionB.trim()) {
+    if (inputA.trim() && inputB.trim()) {
       setQuestions([...questions, {
-        optionA: newOptionA.trim(),
-        optionB: newOptionB.trim(),
+        optionA: inputA.trim(),
+        optionB: inputB.trim(),
         votesA: 0,
         votesB: 0
       }]);
-      setNewOptionA('');
-      setNewOptionB('');
+      setInputA('');
+      setInputB('');
     }
   };
 
-  const parseBulkInput = () => {
-    const lines = bulkInput.split('\n').filter(l => l.trim());
-    const newQuestions: Question[] = [];
-    
-    for (const line of lines) {
-      const parts = line.split(/\s*(?:vs|VS|,|\|)\s*/);
-      if (parts.length >= 2 && parts[0].trim() && parts[1].trim()) {
-        newQuestions.push({
-          optionA: parts[0].trim(),
-          optionB: parts[1].trim(),
-          votesA: 0,
-          votesB: 0
-        });
-      }
-    }
-    
-    if (newQuestions.length > 0) {
-      setQuestions([...questions, ...newQuestions]);
-      setBulkInput('');
-    }
+  const loadExamples = () => {
+    const examples = i18n.language === 'ko' ? EXAMPLE_QUESTIONS_KO : EXAMPLE_QUESTIONS_EN;
+    setQuestions([...examples]);
   };
 
   const deleteQuestion = (index: number) => {
@@ -113,6 +112,7 @@ export default function BalanceGameTool() {
   const resetVotes = () => {
     setQuestions(questions.map(q => ({ ...q, votesA: 0, votesB: 0 })));
     setHasVoted(false);
+    setSelectedOption(null);
   };
 
   const startGame = () => {
@@ -120,6 +120,7 @@ export default function BalanceGameTool() {
       setIsPlaying(true);
       setCurrentIndex(0);
       setHasVoted(false);
+      setSelectedOption(null);
     }
   };
 
@@ -127,252 +128,276 @@ export default function BalanceGameTool() {
     setIsPlaying(false);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, isB: boolean) => {
+    if (e.key === 'Enter') {
+      if (isB && inputA.trim() && inputB.trim()) {
+        addQuestion();
+      }
+    }
+  };
+
   return (
     <FullscreenWrapper>
       <div className="space-y-6">
-        {!isPlaying ? (
-          <div className="space-y-6">
-            <div className="text-center space-y-2">
-              <Sparkles className="w-12 h-12 mx-auto text-primary" />
-              <h2 className="text-2xl font-bold">
-                {t('Tools.balance-game.title', '밸런스 게임')}
-              </h2>
-              <p className="text-muted-foreground">
-                {t('Tools.balance-game.setupDesc', '질문을 추가하고 게임을 시작하세요!')}
-              </p>
-            </div>
+        <AnimatePresence mode="wait">
+          {!isPlaying ? (
+            <motion.div 
+              key="setup"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="space-y-6"
+            >
+              <div className="text-center space-y-2">
+                <Sparkles className="w-12 h-12 mx-auto text-primary" />
+                <h2 className="text-2xl font-bold">
+                  {t('Tools.balance-game.title', '밸런스 게임')}
+                </h2>
+                <p className="text-muted-foreground">
+                  {t('Tools.balance-game.setupDesc', '질문을 추가하고 게임을 시작하세요!')}
+                </p>
+              </div>
 
-            <Card>
-              <CardContent className="p-4 space-y-4">
-                <h3 className="font-semibold">{t('Tools.balance-game.addSingle', '개별 추가')}</h3>
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label>{t('Tools.balance-game.optionA', '선택지 A')}</Label>
-                    <Input
-                      value={newOptionA}
-                      onChange={(e) => setNewOptionA(e.target.value)}
-                      placeholder={t('Tools.balance-game.optionAPlaceholder', '예: 평생 여름만')}
-                      data-testid="input-option-a"
-                    />
+              <Card>
+                <CardContent className="p-4 space-y-4">
+                  <div className="grid grid-cols-[1fr_auto_1fr] gap-2 items-end">
+                    <div className="space-y-1">
+                      <span className="text-xs text-muted-foreground">A</span>
+                      <Input
+                        value={inputA}
+                        onChange={(e) => setInputA(e.target.value)}
+                        onKeyDown={(e) => handleKeyDown(e, false)}
+                        placeholder={t('Tools.balance-game.optionAPlaceholder', '평생 여름만')}
+                        data-testid="input-option-a"
+                      />
+                    </div>
+                    <span className="text-muted-foreground font-bold pb-2">VS</span>
+                    <div className="space-y-1">
+                      <span className="text-xs text-muted-foreground">B</span>
+                      <Input
+                        value={inputB}
+                        onChange={(e) => setInputB(e.target.value)}
+                        onKeyDown={(e) => handleKeyDown(e, true)}
+                        placeholder={t('Tools.balance-game.optionBPlaceholder', '평생 겨울만')}
+                        data-testid="input-option-b"
+                      />
+                    </div>
                   </div>
-                  <div className="space-y-2">
-                    <Label>{t('Tools.balance-game.optionB', '선택지 B')}</Label>
-                    <Input
-                      value={newOptionB}
-                      onChange={(e) => setNewOptionB(e.target.value)}
-                      placeholder={t('Tools.balance-game.optionBPlaceholder', '예: 평생 겨울만')}
-                      onKeyDown={(e) => e.key === 'Enter' && addQuestion()}
-                      data-testid="input-option-b"
-                    />
+                  <div className="flex gap-2">
+                    <Button 
+                      onClick={addQuestion}
+                      disabled={!inputA.trim() || !inputB.trim()}
+                      className="flex-1"
+                      data-testid="button-add-question"
+                    >
+                      {t('Tools.balance-game.addQuestion', '질문 추가')}
+                    </Button>
+                    <Button 
+                      variant="outline"
+                      onClick={loadExamples}
+                      className="gap-1"
+                      data-testid="button-examples"
+                    >
+                      <Zap className="w-4 h-4" />
+                      {t('Tools.balance-game.loadExamples', '예시')}
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {questions.length > 0 && (
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <h3 className="font-semibold">
+                      {t('Tools.balance-game.questionList', '질문 목록')} ({questions.length})
+                    </h3>
+                    <Button 
+                      onClick={startGame}
+                      className="gap-2"
+                      data-testid="button-start"
+                    >
+                      <Play className="w-4 h-4" />
+                      {t('Tools.balance-game.start', '게임 시작')}
+                    </Button>
+                  </div>
+                  <div className="space-y-2 max-h-[300px] overflow-y-auto">
+                    {questions.map((q, i) => (
+                      <div 
+                        key={i} 
+                        className="flex items-center justify-between p-3 bg-muted rounded-md gap-2"
+                      >
+                        <span className="text-sm truncate flex-1">
+                          {q.optionA} <span className="text-primary font-bold">vs</span> {q.optionB}
+                        </span>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => deleteQuestion(i)}
+                          data-testid={`button-delete-${i}`}
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    ))}
                   </div>
                 </div>
-                <Button 
-                  onClick={addQuestion}
-                  disabled={!newOptionA.trim() || !newOptionB.trim()}
-                  className="w-full gap-2"
-                  data-testid="button-add-question"
-                >
-                  <Plus className="w-4 h-4" />
-                  {t('Tools.balance-game.addQuestion', '질문 추가')}
-                </Button>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardContent className="p-4 space-y-4">
-                <h3 className="font-semibold">{t('Tools.balance-game.bulkAdd', '한번에 추가')}</h3>
-                <p className="text-sm text-muted-foreground">
-                  {t('Tools.balance-game.bulkHint', '한 줄에 하나씩, 쉼표(,) 또는 vs로 구분')}
-                </p>
-                <Textarea
-                  value={bulkInput}
-                  onChange={(e) => setBulkInput(e.target.value)}
-                  placeholder={t('Tools.balance-game.bulkPlaceholder', '평생 여름만, 평생 겨울만\n투명인간 능력 vs 순간이동 능력\n과거로 시간여행, 미래로 시간여행')}
-                  className="min-h-[120px] font-mono"
-                  data-testid="textarea-bulk"
-                />
-                <Button 
-                  onClick={parseBulkInput}
-                  disabled={!bulkInput.trim()}
-                  variant="outline"
-                  className="w-full gap-2"
-                  data-testid="button-parse-bulk"
-                >
-                  <Plus className="w-4 h-4" />
-                  {t('Tools.balance-game.parseBulk', '일괄 추가')}
-                </Button>
-              </CardContent>
-            </Card>
-
-            {questions.length > 0 && (
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-semibold">
-                    {t('Tools.balance-game.questionList', '질문 목록')} ({questions.length})
-                  </h3>
+              )}
+            </motion.div>
+          ) : (
+            <motion.div
+              key="playing"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="space-y-6"
+            >
+              <div className="flex items-center justify-between flex-wrap gap-2">
+                <Badge variant="outline" className="text-base px-3 py-1">
+                  {currentIndex + 1} / {questions.length}
+                </Badge>
+                <div className="flex gap-2">
                   <Button 
-                    onClick={startGame}
-                    className="gap-2"
-                    data-testid="button-start"
+                    variant="outline" 
+                    size="sm" 
+                    onClick={goBack}
+                    data-testid="button-back"
                   >
-                    <Play className="w-4 h-4" />
-                    {t('Tools.balance-game.start', '게임 시작')}
+                    {t('Tools.balance-game.back', '목록으로')}
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    onClick={resetVotes}
+                    data-testid="button-reset"
+                  >
+                    <RotateCcw className="w-4 h-4" />
                   </Button>
                 </div>
-                <div className="space-y-2 max-h-[300px] overflow-y-auto">
-                  {questions.map((q, i) => (
-                    <div 
-                      key={i} 
-                      className="flex items-center justify-between p-3 bg-muted rounded-md gap-2"
-                    >
-                      <span className="text-sm truncate flex-1">
-                        {q.optionA} <span className="text-muted-foreground">vs</span> {q.optionB}
-                      </span>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => deleteQuestion(i)}
-                        data-testid={`button-delete-${i}`}
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
-                    </div>
-                  ))}
-                </div>
               </div>
-            )}
-          </div>
-        ) : (
-          <>
-            <div className="flex items-center justify-between flex-wrap gap-2">
-              <Badge variant="outline" className="text-base px-3 py-1">
-                {currentIndex + 1} / {questions.length}
-              </Badge>
-              <div className="flex gap-2">
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={goBack}
-                  className="gap-1"
-                  data-testid="button-back"
-                >
-                  {t('Tools.balance-game.back', '목록으로')}
-                </Button>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={resetVotes}
-                  className="gap-1"
-                  data-testid="button-reset"
-                >
-                  <RotateCcw className="w-4 h-4" />
-                </Button>
+
+              <div className="text-center">
+                <h2 className="text-xl font-semibold text-muted-foreground">
+                  {t('Tools.balance-game.whichWouldYouChoose', '둘 중에 뭘 선택하시겠습니까?')}
+                </h2>
               </div>
-            </div>
 
-            <div className="text-center space-y-2">
-              <Sparkles className="w-8 h-8 mx-auto text-primary" />
-              <h2 className="text-xl font-semibold text-muted-foreground">
-                {t('Tools.balance-game.whichWouldYouChoose', '둘 중에 뭘 선택하시겠습니까?')}
-              </h2>
-            </div>
+              <div className="grid md:grid-cols-2 gap-4">
+                <motion.div
+                  whileTap={{ scale: hasVoted ? 1 : 0.98 }}
+                >
+                  <Button
+                    variant={hasVoted ? "secondary" : "outline"}
+                    className={`w-full h-auto min-h-[150px] p-6 text-xl font-bold flex flex-col gap-4 relative overflow-visible ${
+                      hasVoted && selectedOption === 'A' ? 'ring-2 ring-primary' : ''
+                    }`}
+                    onClick={() => !hasVoted && handleVote('A')}
+                    disabled={hasVoted}
+                    data-testid="button-option-a"
+                  >
+                    <span className="text-2xl md:text-3xl leading-tight break-keep">
+                      {currentQuestion.optionA}
+                    </span>
+                    <AnimatePresence>
+                      {hasVoted && (
+                        <motion.div 
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className="w-full space-y-2"
+                        >
+                          <Progress value={percentA} className="h-3" />
+                          <div className="flex items-center justify-center gap-2">
+                            <ThumbsUp className="w-4 h-4" />
+                            <span className="text-lg">{percentA}%</span>
+                            <span className="text-sm text-muted-foreground">
+                              ({currentQuestion.votesA}{t('Tools.balance-game.votes', '표')})
+                            </span>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </Button>
+                </motion.div>
 
-            <div className="grid md:grid-cols-2 gap-4">
-              <Button
-                variant={hasVoted ? "secondary" : "outline"}
-                className={`h-auto min-h-[150px] p-6 text-xl font-bold flex flex-col gap-4 relative overflow-visible ${
-                  hasVoted ? 'cursor-default' : ''
-                }`}
-                onClick={() => !hasVoted && handleVote('A')}
-                disabled={hasVoted}
-                data-testid="button-option-a"
-              >
-                <span className="text-2xl md:text-3xl leading-tight break-keep">
-                  {currentQuestion.optionA}
-                </span>
-                {hasVoted && (
-                  <div className="w-full space-y-2">
-                    <Progress value={percentA} className="h-3" />
-                    <div className="flex items-center justify-center gap-2">
-                      <ThumbsUp className="w-4 h-4" />
-                      <span className="text-lg">{percentA}%</span>
-                      <span className="text-sm text-muted-foreground">
-                        ({currentQuestion.votesA}{t('Tools.balance-game.votes', '표')})
-                      </span>
-                    </div>
-                  </div>
-                )}
-              </Button>
+                <motion.div
+                  whileTap={{ scale: hasVoted ? 1 : 0.98 }}
+                >
+                  <Button
+                    variant={hasVoted ? "secondary" : "outline"}
+                    className={`w-full h-auto min-h-[150px] p-6 text-xl font-bold flex flex-col gap-4 relative overflow-visible ${
+                      hasVoted && selectedOption === 'B' ? 'ring-2 ring-primary' : ''
+                    }`}
+                    onClick={() => !hasVoted && handleVote('B')}
+                    disabled={hasVoted}
+                    data-testid="button-option-b"
+                  >
+                    <span className="text-2xl md:text-3xl leading-tight break-keep">
+                      {currentQuestion.optionB}
+                    </span>
+                    <AnimatePresence>
+                      {hasVoted && (
+                        <motion.div 
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className="w-full space-y-2"
+                        >
+                          <Progress value={percentB} className="h-3" />
+                          <div className="flex items-center justify-center gap-2">
+                            <ThumbsUp className="w-4 h-4" />
+                            <span className="text-lg">{percentB}%</span>
+                            <span className="text-sm text-muted-foreground">
+                              ({currentQuestion.votesB}{t('Tools.balance-game.votes', '표')})
+                            </span>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </Button>
+                </motion.div>
+              </div>
 
-              <Button
-                variant={hasVoted ? "secondary" : "outline"}
-                className={`h-auto min-h-[150px] p-6 text-xl font-bold flex flex-col gap-4 relative overflow-visible ${
-                  hasVoted ? 'cursor-default' : ''
-                }`}
-                onClick={() => !hasVoted && handleVote('B')}
-                disabled={hasVoted}
-                data-testid="button-option-b"
-              >
-                <span className="text-2xl md:text-3xl leading-tight break-keep">
-                  {currentQuestion.optionB}
-                </span>
-                {hasVoted && (
-                  <div className="w-full space-y-2">
-                    <Progress value={percentB} className="h-3" />
-                    <div className="flex items-center justify-center gap-2">
-                      <ThumbsUp className="w-4 h-4" />
-                      <span className="text-lg">{percentB}%</span>
-                      <span className="text-sm text-muted-foreground">
-                        ({currentQuestion.votesB}{t('Tools.balance-game.votes', '표')})
-                      </span>
-                    </div>
-                  </div>
-                )}
-              </Button>
-            </div>
-
-            <div className="flex items-center justify-between">
-              <Button
-                variant="outline"
-                onClick={prevQuestion}
-                disabled={currentIndex === 0}
-                className="gap-2"
-                data-testid="button-prev"
-              >
-                <ChevronLeft className="w-4 h-4" />
-                {t('Tools.balance-game.prev', '이전')}
-              </Button>
-
-              {hasVoted && (
+              <div className="flex items-center justify-between">
                 <Button
-                  onClick={() => setHasVoted(false)}
-                  variant="ghost"
-                  size="sm"
-                  data-testid="button-vote-again"
+                  variant="outline"
+                  onClick={prevQuestion}
+                  disabled={currentIndex === 0}
+                  className="gap-2"
+                  data-testid="button-prev"
                 >
-                  {t('Tools.balance-game.voteAgain', '다시 투표')}
+                  <ChevronLeft className="w-4 h-4" />
+                  {t('Tools.balance-game.prev', '이전')}
                 </Button>
+
+                {hasVoted && (
+                  <Button
+                    onClick={() => { setHasVoted(false); setSelectedOption(null); }}
+                    variant="ghost"
+                    size="sm"
+                    data-testid="button-vote-again"
+                  >
+                    {t('Tools.balance-game.voteAgain', '다시 투표')}
+                  </Button>
+                )}
+
+                <Button
+                  variant="outline"
+                  onClick={nextQuestion}
+                  disabled={currentIndex === questions.length - 1}
+                  className="gap-2"
+                  data-testid="button-next"
+                >
+                  {t('Tools.balance-game.next', '다음')}
+                  <ChevronRight className="w-4 h-4" />
+                </Button>
+              </div>
+
+              {totalVotes > 0 && (
+                <p className="text-center text-sm text-muted-foreground">
+                  {t('Tools.balance-game.totalVotes', '총 {{count}}명 투표', { count: totalVotes })}
+                </p>
               )}
-
-              <Button
-                variant="outline"
-                onClick={nextQuestion}
-                disabled={currentIndex === questions.length - 1}
-                className="gap-2"
-                data-testid="button-next"
-              >
-                {t('Tools.balance-game.next', '다음')}
-                <ChevronRight className="w-4 h-4" />
-              </Button>
-            </div>
-
-            {totalVotes > 0 && (
-              <p className="text-center text-sm text-muted-foreground">
-                {t('Tools.balance-game.totalVotes', '총 {{count}}명 투표', { count: totalVotes })}
-              </p>
-            )}
-          </>
-        )}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </FullscreenWrapper>
   );

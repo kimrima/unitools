@@ -2,13 +2,11 @@ import { useState, useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { FullscreenWrapper, useFullscreenContext } from './FullscreenWrapper';
 import { playDrumroll, playFanfare, playClick } from '@/lib/sounds';
-import { RotateCw, Plus, Trash2, Sparkles } from 'lucide-react';
+import { RotateCw, Plus, X, Sparkles, Zap } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const COLORS = [
@@ -17,14 +15,17 @@ const COLORS = [
   '#A855F7', '#14B8A6', '#F43F5E', '#22C55E', '#0EA5E9',
 ];
 
+const EXAMPLE_ITEMS_KO = ['피자', '치킨', '햄버거', '짜장면', '초밥', '떡볶이'];
+const EXAMPLE_ITEMS_EN = ['Pizza', 'Chicken', 'Burger', 'Sushi', 'Tacos', 'Pasta'];
+
 interface WheelItem {
   text: string;
   color: string;
 }
 
 function WheelContent() {
-  const { t } = useTranslation();
-  const { isFullscreen, scale } = useFullscreenContext();
+  const { t, i18n } = useTranslation();
+  const { isFullscreen } = useFullscreenContext();
   
   const [items, setItems] = useState<WheelItem[]>([]);
   const [inputText, setInputText] = useState('');
@@ -34,30 +35,39 @@ function WheelContent() {
   const [showConfetti, setShowConfetti] = useState(false);
   const wheelRef = useRef<HTMLDivElement>(null);
 
-  const addItem = useCallback(() => {
-    if (!inputText.trim()) return;
-    const newItem: WheelItem = {
-      text: inputText.trim(),
-      color: COLORS[items.length % COLORS.length]
-    };
-    setItems([...items, newItem]);
+  const addItems = useCallback((text: string) => {
+    const parts = text.split(/[,\n]+/).map(s => s.trim()).filter(s => s);
+    if (parts.length === 0) return;
+    
+    const newItems: WheelItem[] = parts.map((p, i) => ({
+      text: p,
+      color: COLORS[(items.length + i) % COLORS.length]
+    }));
+    setItems([...items, ...newItems]);
     setInputText('');
     playClick();
-  }, [inputText, items]);
+  }, [items]);
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && inputText.trim()) {
+      addItems(inputText);
+    }
+  };
 
   const removeItem = useCallback((index: number) => {
     setItems(items.filter((_, i) => i !== index));
     playClick();
   }, [items]);
 
-  const parseBulk = useCallback((text: string) => {
-    const lines = text.split('\n').map(l => l.trim()).filter(l => l);
-    const newItems: WheelItem[] = lines.map((line, i) => ({
-      text: line,
-      color: COLORS[(items.length + i) % COLORS.length]
+  const loadExamples = () => {
+    const examples = i18n.language === 'ko' ? EXAMPLE_ITEMS_KO : EXAMPLE_ITEMS_EN;
+    const newItems: WheelItem[] = examples.map((text, i) => ({
+      text,
+      color: COLORS[i % COLORS.length]
     }));
-    setItems([...items, ...newItems]);
-  }, [items]);
+    setItems(newItems);
+    playClick();
+  };
 
   const spin = useCallback(() => {
     if (isSpinning || items.length < 2) return;
@@ -68,7 +78,8 @@ function WheelContent() {
     playDrumroll();
     
     const spins = 8 + Math.random() * 7;
-    const targetRotation = rotation + spins * 360 + Math.random() * 360;
+    const extraRotation = Math.random() * 360;
+    const targetRotation = rotation + spins * 360 + extraRotation;
     
     const duration = 5000;
     const startTime = Date.now();
@@ -86,12 +97,9 @@ function WheelContent() {
         requestAnimationFrame(animate);
       } else {
         setIsSpinning(false);
-        const normalizedRotation = ((currentRotation % 360) + 360) % 360;
+        const finalRotation = currentRotation % 360;
         const sliceAngle = 360 / items.length;
-        const pointerAngle = 270;
-        const pointerOnWheel = (pointerAngle - normalizedRotation + 360) % 360;
-        const shiftedAngle = (pointerOnWheel + 90) % 360;
-        const winnerIndex = Math.min(Math.floor((shiftedAngle + 0.0001) / sliceAngle), items.length - 1);
+        const winnerIndex = Math.floor(((360 - finalRotation + sliceAngle / 2) % 360) / sliceAngle) % items.length;
         setWinner(items[winnerIndex].text);
         setShowConfetti(true);
         playFanfare();
@@ -107,12 +115,12 @@ function WheelContent() {
 
   if (items.length === 0) {
     return (
-      <div className="space-y-6 max-w-2xl mx-auto">
+      <div className="space-y-6 max-w-lg mx-auto">
         <div className="text-center space-y-4">
           <Sparkles className="w-16 h-16 mx-auto text-primary opacity-50" />
-          <h3 className="text-xl font-semibold">{t('Tools.big-wheel.setupTitle', 'Setup Your Wheel')}</h3>
+          <h3 className="text-xl font-semibold">{t('Tools.big-wheel.setupTitle', '룰렛 설정')}</h3>
           <p className="text-muted-foreground">
-            {t('Tools.big-wheel.setupDesc', 'Add items to spin the wheel!')}
+            {t('Tools.big-wheel.setupDesc', '항목을 입력하고 룰렛을 돌리세요!')}
           </p>
         </div>
 
@@ -122,28 +130,20 @@ function WheelContent() {
               <Input
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
-                placeholder={t('Tools.big-wheel.itemPlaceholder', 'Enter item name')}
-                onKeyDown={(e) => e.key === 'Enter' && addItem()}
+                onKeyDown={handleKeyDown}
+                placeholder={t('Tools.big-wheel.inputPlaceholder', '쉼표로 구분하거나 Enter로 추가')}
                 data-testid="input-item"
               />
-              <Button onClick={addItem} data-testid="button-add">
+              <Button onClick={() => addItems(inputText)} disabled={!inputText.trim()} data-testid="button-add">
                 <Plus className="w-4 h-4" />
               </Button>
             </div>
-
-            <div className="space-y-2">
-              <Label>{t('Tools.big-wheel.bulkAdd', 'Bulk Add (one per line)')}</Label>
-              <Textarea
-                placeholder={t('Tools.big-wheel.bulkPlaceholder', 'Pizza\nBurger\nSushi\nTacos')}
-                rows={4}
-                onBlur={(e) => {
-                  if (e.target.value) {
-                    parseBulk(e.target.value);
-                    e.target.value = '';
-                  }
-                }}
-                data-testid="input-bulk"
-              />
+            
+            <div className="flex justify-center">
+              <Button variant="outline" onClick={loadExamples} className="gap-2" data-testid="button-examples">
+                <Zap className="w-4 h-4" />
+                {t('Tools.big-wheel.loadExamples', '예시 불러오기')}
+              </Button>
             </div>
           </CardContent>
         </Card>
@@ -161,11 +161,11 @@ function WheelContent() {
                 <Input
                   value={inputText}
                   onChange={(e) => setInputText(e.target.value)}
-                  placeholder={t('Tools.big-wheel.itemPlaceholder', 'Add item')}
-                  onKeyDown={(e) => e.key === 'Enter' && addItem()}
+                  onKeyDown={handleKeyDown}
+                  placeholder={t('Tools.big-wheel.inputPlaceholder', '쉼표로 구분하거나 Enter로 추가')}
                   data-testid="input-item"
                 />
-                <Button size="icon" onClick={addItem}>
+                <Button size="icon" onClick={() => addItems(inputText)} disabled={!inputText.trim()}>
                   <Plus className="w-4 h-4" />
                 </Button>
               </div>
@@ -175,11 +175,11 @@ function WheelContent() {
                   <Badge 
                     key={i} 
                     style={{ backgroundColor: item.color }}
-                    className="text-white gap-1 cursor-pointer"
+                    className="text-white gap-1 cursor-pointer pr-1"
                     onClick={() => removeItem(i)}
                   >
                     {item.text}
-                    <Trash2 className="w-3 h-3" />
+                    <X className="w-3 h-3" />
                   </Badge>
                 ))}
               </div>
@@ -228,7 +228,7 @@ function WheelContent() {
                   const midRad = (midAngle * Math.PI) / 180;
                   const textX = 50 + 35 * Math.cos(midRad);
                   const textY = 50 + 35 * Math.sin(midRad);
-                  const displayText = item.text.length > 10 ? item.text.substring(0, 10) + '..' : item.text;
+                  const displayText = item.text.length > 8 ? item.text.substring(0, 8) + '..' : item.text;
                   
                   return (
                     <g key={i}>
@@ -275,8 +275,8 @@ function WheelContent() {
           >
             <RotateCw className={`w-5 h-5 ${isSpinning ? 'animate-spin' : ''}`} />
             {isSpinning 
-              ? t('Tools.big-wheel.spinning', 'Spinning...') 
-              : t('Tools.big-wheel.spin', 'SPIN!')}
+              ? t('Tools.big-wheel.spinning', '돌리는 중...') 
+              : t('Tools.big-wheel.spin', '돌리기!')}
           </Button>
 
           <AnimatePresence>
@@ -288,7 +288,7 @@ function WheelContent() {
                 className="text-center p-6 bg-primary/10 rounded-xl border-2 border-primary"
               >
                 <div className="text-sm text-muted-foreground mb-2">
-                  {t('Tools.big-wheel.winner', 'Winner!')}
+                  {t('Tools.big-wheel.winner', '당첨!')}
                 </div>
                 <div className="text-3xl font-bold text-primary" data-testid="text-winner">
                   {winner}

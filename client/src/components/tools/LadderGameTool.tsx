@@ -2,13 +2,14 @@ import { useState, useCallback, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { FullscreenWrapper } from './FullscreenWrapper';
 import { 
-  Play, RotateCcw, Eye, Users, Gift
+  Play, RotateCcw, Eye, Users, Gift, X, Zap
 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface LadderPath {
   column: number;
@@ -21,11 +22,18 @@ interface LadderResult {
   path: { x: number; y: number }[];
 }
 
+const EXAMPLE_PARTICIPANTS_KO = ['철수', '영희', '민수', '지현'];
+const EXAMPLE_RESULTS_KO = ['당첨', '꽝', '커피', '청소'];
+const EXAMPLE_PARTICIPANTS_EN = ['Alice', 'Bob', 'Charlie', 'Diana'];
+const EXAMPLE_RESULTS_EN = ['Winner', 'Loser', 'Coffee', 'Clean'];
+
 export default function LadderGameTool() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   
-  const [participants, setParticipants] = useState('');
-  const [results, setResults] = useState('');
+  const [participantInput, setParticipantInput] = useState('');
+  const [resultInput, setResultInput] = useState('');
+  const [participants, setParticipants] = useState<string[]>([]);
+  const [results, setResults] = useState<string[]>([]);
   const [ladderPaths, setLadderPaths] = useState<LadderPath[]>([]);
   const [numRows, setNumRows] = useState(0);
   const [isGenerated, setIsGenerated] = useState(false);
@@ -37,13 +45,44 @@ export default function LadderGameTool() {
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const participantList = participants.split('\n').map(p => p.trim()).filter(p => p);
-  const resultList = results.split('\n').map(r => r.trim()).filter(r => r);
+  const addParticipants = (text: string) => {
+    const parts = text.split(/[,\n]+/).map(s => s.trim()).filter(s => s && !participants.includes(s));
+    if (parts.length > 0) {
+      setParticipants([...participants, ...parts]);
+      setParticipantInput('');
+    }
+  };
+
+  const addResults = (text: string) => {
+    const parts = text.split(/[,\n]+/).map(s => s.trim()).filter(s => s && !results.includes(s));
+    if (parts.length > 0) {
+      setResults([...results, ...parts]);
+      setResultInput('');
+    }
+  };
+
+  const removeParticipant = (index: number) => {
+    setParticipants(participants.filter((_, i) => i !== index));
+  };
+
+  const removeResult = (index: number) => {
+    setResults(results.filter((_, i) => i !== index));
+  };
+
+  const loadExamples = () => {
+    if (i18n.language === 'ko') {
+      setParticipants(EXAMPLE_PARTICIPANTS_KO);
+      setResults(EXAMPLE_RESULTS_KO);
+    } else {
+      setParticipants(EXAMPLE_PARTICIPANTS_EN);
+      setResults(EXAMPLE_RESULTS_EN);
+    }
+  };
 
   const generateLadder = useCallback(() => {
-    if (participantList.length < 2) return;
+    if (participants.length < 2) return;
 
-    const numColumns = participantList.length;
+    const numColumns = participants.length;
     const rows = 10 + Math.floor(Math.random() * 5);
     const paths: LadderPath[] = [];
 
@@ -67,7 +106,7 @@ export default function LadderGameTool() {
     setAllRevealed(false);
     setAnimatingIndex(null);
     setAnimationPath([]);
-  }, [participantList.length]);
+  }, [participants.length]);
 
   const calculatePath = useCallback((startIndex: number): LadderResult => {
     const path: { x: number; y: number }[] = [];
@@ -116,7 +155,7 @@ export default function LadderGameTool() {
   };
 
   const revealAll = () => {
-    const allIndices = new Set(participantList.map((_, i) => i));
+    const allIndices = new Set(participants.map((_, i) => i));
     setRevealedResults(allIndices);
     setAllRevealed(true);
   };
@@ -124,8 +163,8 @@ export default function LadderGameTool() {
   const getResultForParticipant = (index: number): string => {
     if (!isGenerated) return '';
     const result = calculatePath(index);
-    if (resultList.length > 0 && result.endIndex < resultList.length) {
-      return resultList[result.endIndex];
+    if (results.length > 0 && result.endIndex < results.length) {
+      return results[result.endIndex];
     }
     return `#${result.endIndex + 1}`;
   };
@@ -149,7 +188,7 @@ export default function LadderGameTool() {
 
     const width = canvas.width;
     const height = canvas.height;
-    const numColumns = participantList.length;
+    const numColumns = participants.length;
     const columnWidth = width / numColumns;
     const rowHeight = height / (numRows + 1);
 
@@ -208,157 +247,234 @@ export default function LadderGameTool() {
       ctx.fill();
     }
 
-  }, [isGenerated, ladderPaths, participantList.length, animationPath, numRows]);
+  }, [isGenerated, ladderPaths, participants.length, animationPath, numRows]);
 
   return (
     <FullscreenWrapper>
       <div className="space-y-6">
-        {!isGenerated ? (
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <Label className="flex items-center gap-2">
-                  <Users className="w-4 h-4" />
-                  {t('Tools.ladder-game.participants', '참가자 (한 줄에 한 명, 2~20명)')}
-                </Label>
-                <Textarea
-                  value={participants}
-                  onChange={(e) => setParticipants(e.target.value)}
-                  placeholder={t('Tools.ladder-game.participantsPlaceholder', '홍길동\n김철수\n이영희\n박민수')}
-                  className="min-h-[150px] font-mono"
-                  data-testid="input-participants"
-                />
-                <p className="text-xs text-muted-foreground">
-                  {participantList.length}{t('Tools.ladder-game.people', '명')}
+        <AnimatePresence mode="wait">
+          {!isGenerated ? (
+            <motion.div 
+              key="setup"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="space-y-6"
+            >
+              <div className="text-center space-y-2">
+                <Gift className="w-12 h-12 mx-auto text-primary" />
+                <h2 className="text-2xl font-bold">
+                  {t('Tools.ladder-game.title', '사다리 타기')}
+                </h2>
+                <p className="text-muted-foreground">
+                  {t('Tools.ladder-game.setupDesc', '참가자와 결과를 입력하세요!')}
                 </p>
               </div>
-              
-              <div className="space-y-2">
-                <Label className="flex items-center gap-2">
-                  <Gift className="w-4 h-4" />
-                  {t('Tools.ladder-game.results', '결과 (한 줄에 하나, 선택사항)')}
-                </Label>
-                <Textarea
-                  value={results}
-                  onChange={(e) => setResults(e.target.value)}
-                  placeholder={t('Tools.ladder-game.resultsPlaceholder', '당첨\n꽝\n커피\n청소')}
-                  className="min-h-[100px] font-mono"
-                  data-testid="input-results"
-                />
-              </div>
 
-              <Button 
-                onClick={generateLadder}
-                className="w-full gap-2"
-                disabled={participantList.length < 2 || participantList.length > 20}
-                data-testid="button-generate"
-              >
-                <Play className="w-4 h-4" />
-                {t('Tools.ladder-game.generate', '사다리 생성')}
-              </Button>
-            </div>
-
-            <div className="space-y-4">
-              <h3 className="font-semibold">{t('Tools.ladder-game.howToPlay', '게임 방법')}</h3>
-              <ol className="space-y-2 text-sm text-muted-foreground list-decimal list-inside">
-                <li>{t('Tools.ladder-game.rule1', '참가자 이름을 한 줄에 하나씩 입력합니다.')}</li>
-                <li>{t('Tools.ladder-game.rule2', '결과를 입력하면 각 참가자가 도착하는 결과를 알 수 있습니다.')}</li>
-                <li>{t('Tools.ladder-game.rule3', '사다리 생성 후 참가자 이름을 클릭하면 경로가 표시됩니다.')}</li>
-                <li>{t('Tools.ladder-game.rule4', '모두 공개를 눌러 전체 결과를 확인할 수 있습니다.')}</li>
-              </ol>
-            </div>
-          </div>
-        ) : (
-          <div className="space-y-4">
-            <div className="flex items-center justify-between flex-wrap gap-2">
-              <Badge variant="outline" className="text-base px-3 py-1">
-                {participantList.length}{t('Tools.ladder-game.people', '명')}
-              </Badge>
-              <div className="flex gap-2">
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={revealAll}
-                  disabled={allRevealed || isAnimating}
-                  className="gap-1"
-                  data-testid="button-reveal-all"
-                >
-                  <Eye className="w-4 h-4" />
-                  {t('Tools.ladder-game.revealAll', '모두 공개')}
-                </Button>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={reset}
-                  className="gap-1"
-                  data-testid="button-reset"
-                >
-                  <RotateCcw className="w-4 h-4" />
-                  {t('Tools.ladder-game.reset', '다시')}
-                </Button>
-              </div>
-            </div>
-
-            <div className="flex justify-around mb-2 flex-wrap gap-1">
-              {participantList.map((name, index) => (
-                <Button
-                  key={index}
-                  variant={animatingIndex === index ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => animatePath(index)}
-                  disabled={isAnimating}
-                  className="text-xs px-2"
-                  data-testid={`button-participant-${index}`}
-                >
-                  {name}
-                </Button>
-              ))}
-            </div>
-
-            <Card>
-              <CardContent className="p-4">
-                <canvas
-                  ref={canvasRef}
-                  width={Math.min(600, participantList.length * 80)}
-                  height={350}
-                  className="w-full"
-                />
-              </CardContent>
-            </Card>
-
-            <div className="flex justify-around flex-wrap gap-1">
-              {participantList.map((_, positionIndex) => {
-                let isRevealed = false;
-                for (const pIndex of Array.from(revealedResults)) {
-                  const result = calculatePath(pIndex);
-                  if (result.endIndex === positionIndex) {
-                    isRevealed = true;
-                    break;
-                  }
-                }
-                
-                return (
-                  <div
-                    key={positionIndex}
-                    className={`text-center p-2 rounded-md min-w-[60px] ${
-                      isRevealed 
-                        ? 'bg-primary/10 border border-primary' 
-                        : 'bg-muted'
-                    }`}
-                  >
-                    {isRevealed ? (
-                      <span className="font-semibold text-primary text-sm">
-                        {resultList[positionIndex] || `#${positionIndex + 1}`}
-                      </span>
-                    ) : (
-                      <span className="text-muted-foreground text-sm">?</span>
+              <div className="grid md:grid-cols-2 gap-4">
+                <Card>
+                  <CardContent className="p-4 space-y-3">
+                    <Label className="flex items-center gap-2">
+                      <Users className="w-4 h-4" />
+                      {t('Tools.ladder-game.participants', '참가자')}
+                    </Label>
+                    <div className="flex gap-2">
+                      <Input
+                        value={participantInput}
+                        onChange={(e) => setParticipantInput(e.target.value)}
+                        onKeyDown={(e) => e.key === 'Enter' && addParticipants(participantInput)}
+                        placeholder={t('Tools.ladder-game.participantPlaceholder', '쉼표로 구분하거나 Enter')}
+                        data-testid="input-participant"
+                      />
+                      <Button onClick={() => addParticipants(participantInput)} disabled={!participantInput.trim()} size="icon">
+                        <Users className="w-4 h-4" />
+                      </Button>
+                    </div>
+                    {participants.length > 0 && (
+                      <div className="flex flex-wrap gap-1">
+                        {participants.map((p, i) => (
+                          <Badge 
+                            key={i} 
+                            variant="secondary"
+                            className="gap-1 cursor-pointer pr-1"
+                            onClick={() => removeParticipant(i)}
+                          >
+                            {p}
+                            <X className="w-3 h-3" />
+                          </Badge>
+                        ))}
+                      </div>
                     )}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
+                    <p className="text-xs text-muted-foreground">
+                      {participants.length}{t('Tools.ladder-game.people', '명')} (2~20명)
+                    </p>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardContent className="p-4 space-y-3">
+                    <Label className="flex items-center gap-2">
+                      <Gift className="w-4 h-4" />
+                      {t('Tools.ladder-game.results', '결과 (선택)')}
+                    </Label>
+                    <div className="flex gap-2">
+                      <Input
+                        value={resultInput}
+                        onChange={(e) => setResultInput(e.target.value)}
+                        onKeyDown={(e) => e.key === 'Enter' && addResults(resultInput)}
+                        placeholder={t('Tools.ladder-game.resultPlaceholder', '쉼표로 구분하거나 Enter')}
+                        data-testid="input-result"
+                      />
+                      <Button onClick={() => addResults(resultInput)} disabled={!resultInput.trim()} size="icon">
+                        <Gift className="w-4 h-4" />
+                      </Button>
+                    </div>
+                    {results.length > 0 && (
+                      <div className="flex flex-wrap gap-1">
+                        {results.map((r, i) => (
+                          <Badge 
+                            key={i} 
+                            variant="outline"
+                            className="gap-1 cursor-pointer pr-1"
+                            onClick={() => removeResult(i)}
+                          >
+                            {r}
+                            <X className="w-3 h-3" />
+                          </Badge>
+                        ))}
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </div>
+
+              <div className="flex gap-2 justify-center">
+                <Button 
+                  variant="outline"
+                  onClick={loadExamples}
+                  className="gap-1"
+                  data-testid="button-examples"
+                >
+                  <Zap className="w-4 h-4" />
+                  {t('Tools.ladder-game.loadExamples', '예시 불러오기')}
+                </Button>
+                <Button 
+                  onClick={generateLadder}
+                  className="gap-2"
+                  disabled={participants.length < 2 || participants.length > 20}
+                  data-testid="button-generate"
+                >
+                  <Play className="w-4 h-4" />
+                  {t('Tools.ladder-game.generate', '사다리 생성')}
+                </Button>
+              </div>
+            </motion.div>
+          ) : (
+            <motion.div 
+              key="playing"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="space-y-4"
+            >
+              <div className="flex items-center justify-between flex-wrap gap-2">
+                <Badge variant="outline" className="text-base px-3 py-1">
+                  {participants.length}{t('Tools.ladder-game.people', '명')}
+                </Badge>
+                <div className="flex gap-2">
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    onClick={revealAll}
+                    disabled={allRevealed || isAnimating}
+                    className="gap-1"
+                    data-testid="button-reveal-all"
+                  >
+                    <Eye className="w-4 h-4" />
+                    {t('Tools.ladder-game.revealAll', '모두 공개')}
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    onClick={reset}
+                    className="gap-1"
+                    data-testid="button-reset"
+                  >
+                    <RotateCcw className="w-4 h-4" />
+                    {t('Tools.ladder-game.reset', '다시')}
+                  </Button>
+                </div>
+              </div>
+
+              <div className="flex justify-around mb-2 flex-wrap gap-1">
+                {participants.map((name, index) => (
+                  <Button
+                    key={index}
+                    variant={animatingIndex === index ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => animatePath(index)}
+                    disabled={isAnimating}
+                    className="text-xs px-2"
+                    data-testid={`button-participant-${index}`}
+                  >
+                    {name}
+                  </Button>
+                ))}
+              </div>
+
+              <Card>
+                <CardContent className="p-4">
+                  <canvas
+                    ref={canvasRef}
+                    width={Math.min(600, participants.length * 80)}
+                    height={350}
+                    className="w-full"
+                  />
+                </CardContent>
+              </Card>
+
+              <div className="flex justify-around flex-wrap gap-1">
+                {participants.map((_, positionIndex) => {
+                  let matchedParticipantIndex = -1;
+                  for (const pIndex of Array.from(revealedResults)) {
+                    const result = calculatePath(pIndex);
+                    if (result.endIndex === positionIndex) {
+                      matchedParticipantIndex = pIndex;
+                      break;
+                    }
+                  }
+                  const isRevealed = matchedParticipantIndex >= 0;
+                  
+                  return (
+                    <motion.div
+                      key={positionIndex}
+                      initial={false}
+                      animate={isRevealed ? { scale: [1, 1.1, 1] } : {}}
+                      className={`text-center p-2 rounded-md min-w-[60px] ${
+                        isRevealed 
+                          ? 'bg-primary/10 border border-primary' 
+                          : 'bg-muted'
+                      }`}
+                    >
+                      {isRevealed ? (
+                        <div>
+                          <div className="text-xs text-muted-foreground">
+                            {participants[matchedParticipantIndex]}
+                          </div>
+                          <div className="font-semibold text-primary text-sm">
+                            {results[positionIndex] || `#${positionIndex + 1}`}
+                          </div>
+                        </div>
+                      ) : (
+                        <span className="text-muted-foreground text-sm">?</span>
+                      )}
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </FullscreenWrapper>
   );
