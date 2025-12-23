@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFileHandler } from '@/hooks/useFileHandler';
 import { useStagedProcessing } from '@/hooks/useStagedProcessing';
-import { pdfToImages, pdfToZip, type ImageFormat } from '@/lib/engines/pdfToImage';
+import { pdfToImages, imagesToZip, type ImageFormat } from '@/lib/engines/pdfToImage';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
@@ -61,7 +61,7 @@ export default function PdfToImageTool() {
         setResultImages(images);
 
         if (images.length > 1) {
-          const zip = await pdfToZip(files[0].arrayBuffer!, options, baseName);
+          const zip = await imagesToZip(images, format, baseName);
           setZipBlob(zip);
         }
 

@@ -1,6 +1,7 @@
 import * as pdfjsLib from 'pdfjs-dist';
+import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 
-pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@5.4.449/build/pdf.worker.min.mjs`;
+pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
 export interface PdfToImageProgress {
   percentage: number;
@@ -83,9 +84,27 @@ export async function pdfToImages(
 
     return images;
   } catch (error) {
+    console.error('PDF to Image conversion error:', error);
     if (error instanceof PdfToImageError) throw error;
     throw new PdfToImageError('CONVERSION_FAILED', 'Failed to convert PDF to images');
   }
+}
+
+export async function imagesToZip(
+  images: Blob[],
+  format: ImageFormat,
+  baseName: string
+): Promise<Blob> {
+  const JSZip = (await import('jszip')).default;
+  
+  const zip = new JSZip();
+  const ext = format === 'png' ? 'png' : 'jpg';
+  
+  images.forEach((blob, index) => {
+    zip.file(`${baseName}_page_${index + 1}.${ext}`, blob);
+  });
+
+  return await zip.generateAsync({ type: 'blob' });
 }
 
 export async function pdfToZip(
@@ -94,15 +113,6 @@ export async function pdfToZip(
   baseName: string,
   onProgress?: (progress: PdfToImageProgress) => void
 ): Promise<Blob> {
-  const JSZip = (await import('jszip')).default;
   const images = await pdfToImages(pdfBuffer, options, onProgress);
-  
-  const zip = new JSZip();
-  const ext = options.format === 'png' ? 'png' : 'jpg';
-  
-  images.forEach((blob, index) => {
-    zip.file(`${baseName}_page_${index + 1}.${ext}`, blob);
-  });
-
-  return await zip.generateAsync({ type: 'blob' });
+  return imagesToZip(images, options.format, baseName);
 }
