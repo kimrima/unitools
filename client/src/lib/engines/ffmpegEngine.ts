@@ -1,7 +1,7 @@
 declare global {
   interface Window {
     FFmpeg: {
-      createFFmpeg: (options?: { log?: boolean; corePath?: string }) => FFmpegInstance;
+      createFFmpeg: (options?: { log?: boolean; corePath?: string; mainName?: string }) => FFmpegInstance;
       fetchFile: (file: File | Blob | string) => Promise<Uint8Array>;
     };
   }
@@ -189,17 +189,28 @@ export async function trimVideo(
   const outputFileName = 'output.mp4';
 
   try {
-    ff.FS('writeFile', inputFileName, await fetchFile(file));
+    console.log(`[FFmpeg] Trim: file=${file.name}, size=${(file.size/1024/1024).toFixed(2)}MB, start=${startTime}, end=${endTime}, duration=${duration}`);
+    
+    const fileData = await fetchFile(file);
+    console.log(`[FFmpeg] File loaded into memory: ${(fileData.length/1024/1024).toFixed(2)}MB`);
+    
+    ff.FS('writeFile', inputFileName, fileData);
+    console.log('[FFmpeg] File written to virtual FS');
 
+    console.log('[FFmpeg] Running trim command...');
     await ff.run(
-      '-i', inputFileName,
       '-ss', startTime.toString(),
+      '-i', inputFileName,
       '-t', duration.toString(),
       '-c', 'copy',
+      '-avoid_negative_ts', 'make_zero',
       outputFileName
     );
+    console.log('[FFmpeg] Trim command completed');
 
     const data = ff.FS('readFile', outputFileName);
+    console.log(`[FFmpeg] Output size: ${(data.length/1024/1024).toFixed(2)}MB`);
+    
     const outputBlob = new Blob([data.buffer], { type: 'video/mp4' });
 
     ff.FS('unlink', inputFileName);
@@ -212,6 +223,7 @@ export async function trimVideo(
       outputSize: outputBlob.size,
     };
   } catch (e) {
+    console.error('[FFmpeg] Trim error:', e);
     if (e instanceof FFmpegError) throw e;
     throw new FFmpegError('PROCESSING_FAILED', file.name);
   }
