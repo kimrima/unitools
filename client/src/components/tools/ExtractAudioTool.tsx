@@ -7,14 +7,16 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { FileUploadZone } from '@/components/tool-ui';
-import { Video, Download, Loader2, Music, AlertTriangle } from 'lucide-react';
+import { Video, Download, Loader2, Music, AlertTriangle, Check } from 'lucide-react';
 import { downloadBlob } from '@/hooks/useToolEngine';
+
+type LoadingStage = 'idle' | 'loading-ffmpeg' | 'processing' | 'complete';
 
 export default function ExtractAudioTool() {
   const { t } = useTranslation();
   
   const [result, setResult] = useState<ExtractAudioResult | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [loadingStage, setLoadingStage] = useState<LoadingStage>('idle');
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
   
   const {
@@ -72,18 +74,22 @@ export default function ExtractAudioTool() {
     setProgress(0);
     setError(null);
     setResult(null);
-    setIsLoading(true);
+    setLoadingStage('loading-ffmpeg');
 
     try {
       const extractResult = await extractAudio(
         files[0].file,
         (prog) => {
+          if (prog > 0) {
+            setLoadingStage('processing');
+          }
           setProgress(prog);
         }
       );
 
       setResult(extractResult);
       setStatus('success');
+      setLoadingStage('complete');
     } catch (err) {
       if (err instanceof FFmpegError) {
         setError({ code: err.code });
@@ -91,8 +97,7 @@ export default function ExtractAudioTool() {
         setError({ code: 'PROCESSING_FAILED' });
       }
       setStatus('error');
-    } finally {
-      setIsLoading(false);
+      setLoadingStage('idle');
     }
   }, [files, setStatus, setProgress, setError]);
 
@@ -106,6 +111,7 @@ export default function ExtractAudioTool() {
     resetHandler();
     setResult(null);
     setVideoUrl(null);
+    setLoadingStage('idle');
   }, [resetHandler]);
 
   const ffmpegSupported = isFFmpegSupported();
@@ -188,13 +194,42 @@ export default function ExtractAudioTool() {
       )}
 
       {status === 'processing' && (
-        <div className="space-y-2" data-testid="section-processing">
-          <div className="flex items-center gap-2 text-sm">
-            <Loader2 className="w-4 h-4 animate-spin" />
-            <span>{isLoading && progress === 0 ? t('Common.messages.loadingFFmpeg') : t('Common.messages.extractingAudio')}</span>
-          </div>
-          <Progress value={progress} className="h-2" data-testid="progress-bar" />
-        </div>
+        <Card>
+          <CardContent className="p-4 space-y-4">
+            <div className="space-y-3">
+              <div className="flex items-center gap-3">
+                <div className={`w-6 h-6 rounded-full flex items-center justify-center ${loadingStage === 'loading-ffmpeg' ? 'bg-primary text-primary-foreground animate-pulse' : loadingStage === 'processing' || loadingStage === 'complete' ? 'bg-green-500 text-white' : 'bg-muted'}`}>
+                  {loadingStage === 'loading-ffmpeg' ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
+                </div>
+                <span className={loadingStage === 'loading-ffmpeg' ? 'font-medium' : 'text-muted-foreground'}>
+                  1단계: FFmpeg 엔진 로딩
+                </span>
+              </div>
+              
+              <div className="flex items-center gap-3">
+                <div className={`w-6 h-6 rounded-full flex items-center justify-center ${loadingStage === 'processing' ? 'bg-primary text-primary-foreground animate-pulse' : loadingStage === 'complete' ? 'bg-green-500 text-white' : 'bg-muted'}`}>
+                  {loadingStage === 'processing' ? <Loader2 className="w-4 h-4 animate-spin" /> : loadingStage === 'complete' ? <Check className="w-4 h-4" /> : <span className="text-xs">2</span>}
+                </div>
+                <span className={loadingStage === 'processing' ? 'font-medium' : 'text-muted-foreground'}>
+                  2단계: 오디오 추출 중
+                </span>
+              </div>
+              
+              <div className="flex items-center gap-3">
+                <div className={`w-6 h-6 rounded-full flex items-center justify-center ${loadingStage === 'complete' ? 'bg-green-500 text-white' : 'bg-muted'}`}>
+                  {loadingStage === 'complete' ? <Check className="w-4 h-4" /> : <span className="text-xs">3</span>}
+                </div>
+                <span className={loadingStage === 'complete' ? 'font-medium' : 'text-muted-foreground'}>
+                  3단계: 완료
+                </span>
+              </div>
+            </div>
+            
+            {loadingStage === 'processing' && (
+              <Progress value={progress} className="h-2" data-testid="progress-bar" />
+            )}
+          </CardContent>
+        </Card>
       )}
 
       {result && (

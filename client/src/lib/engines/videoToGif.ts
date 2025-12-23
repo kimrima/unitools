@@ -149,5 +149,5 @@ function getFileExtension(filename: string): string {
 }
 
 export function isFFmpegSupported(): boolean {
-  return typeof SharedArrayBuffer !== 'undefined';
+  return true;
 }
