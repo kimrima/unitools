@@ -1,5 +1,30 @@
 import { useState, useCallback, useRef } from 'react';
 
+function getToolIdFromUrl(): string | null {
+  const parts = window.location.pathname.split('/').filter(Boolean);
+  if (parts.length >= 2) {
+    return parts[1];
+  }
+  return null;
+}
+
+async function trackToolUsage(toolId?: string) {
+  const id = toolId || getToolIdFromUrl();
+  if (!id) return;
+  
+  try {
+    const locale = window.location.pathname.split('/')[1] || 'en';
+    await fetch('/api/tool-usage', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ toolId: id, locale }),
+      credentials: 'include',
+    });
+  } catch (error) {
+    console.error('Failed to track tool usage:', error);
+  }
+}
+
 export type ProcessingStage = 'idle' | 'queued' | 'analyzing' | 'processing' | 'optimizing' | 'complete' | 'error';
 
 export interface StagedProcessingState {
@@ -11,6 +36,7 @@ export interface StagedProcessingState {
 }
 
 export interface StagedProcessingConfig {
+  toolId?: string;
   minDuration?: number;
   stages?: { name: ProcessingStage; duration: number; message: string }[];
 }
@@ -22,7 +48,7 @@ const defaultStages = [
 ];
 
 export function useStagedProcessing(config: StagedProcessingConfig = {}) {
-  const { minDuration = 4500, stages = defaultStages } = config;
+  const { toolId, minDuration = 4500, stages = defaultStages } = config;
   
   const [state, setState] = useState<StagedProcessingState>({
     stage: 'idle',
@@ -122,13 +148,17 @@ export function useStagedProcessing(config: StagedProcessingConfig = {}) {
       message: 'Complete!',
     }));
     
+    if (toolId) {
+      trackToolUsage(toolId);
+    }
+    
     if (onComplete && processingResult !== null) {
       onComplete(processingResult);
     }
     
     resultRef.current = processingResult;
     return processingResult;
-  }, [stages, minDuration, animateProgress]);
+  }, [stages, minDuration, animateProgress, toolId]);
   
   const reset = useCallback(() => {
     abortRef.current = true;
