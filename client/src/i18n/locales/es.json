@@ -3,6 +3,9 @@
     "siteName": "UniTools",
     "siteTitle": "UniTools - Herramientas en Linea Todo en Uno",
     "siteDescription": "Mas de 200 herramientas gratuitas en linea. Todo el procesamiento ocurre directamente en tu navegador.",
+    "success": "Exito!",
+    "download": "Descargar",
+    "processAnother": "Procesar Otro",
     "nav": {
       "home": "Inicio",
       "pdf": "Herramientas PDF",

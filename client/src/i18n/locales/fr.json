@@ -3,6 +3,9 @@
     "siteName": "UniTools",
     "siteTitle": "UniTools - Outils en Ligne Tout-en-Un",
     "siteDescription": "Plus de 200 outils en ligne gratuits. Tout le traitement se fait directement dans votre navigateur.",
+    "success": "Succes!",
+    "download": "Telecharger",
+    "processAnother": "Traiter un Autre",
     "nav": {
       "home": "Accueil",
       "pdf": "Outils PDF",

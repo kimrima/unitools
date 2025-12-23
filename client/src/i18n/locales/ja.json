@@ -3,6 +3,9 @@
     "siteName": "UniTools",
     "siteTitle": "UniTools - オールインワン オンラインツール",
     "siteDescription": "200以上の無料オンラインツール。すべての処理はブラウザで直接行われます。",
+    "success": "成功!",
+    "download": "ダウンロード",
+    "processAnother": "別のファイルを処理",
     "nav": {
       "home": "ホーム",
       "pdf": "PDFツール",

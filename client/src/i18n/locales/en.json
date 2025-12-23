@@ -3,6 +3,9 @@
     "siteName": "UniTools",
     "siteTitle": "UniTools - All-in-One Online Tools",
     "siteDescription": "200+ free online tools. All processing happens directly in your browser.",
+    "success": "Success!",
+    "download": "Download",
+    "processAnother": "Process Another",
     "nav": {
       "home": "Home",
       "pdf": "PDF Tools",

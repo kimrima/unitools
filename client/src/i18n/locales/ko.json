@@ -3,6 +3,9 @@
     "siteName": "UniTools",
     "siteTitle": "UniTools - 통합 온라인 도구",
     "siteDescription": "200개 이상의 무료 온라인 도구. 모든 처리는 브라우저에서 직접 수행됩니다.",
+    "success": "성공!",
+    "download": "다운로드",
+    "processAnother": "다른 파일 처리",
     "nav": {
       "home": "홈",
       "pdf": "PDF 도구",
