@@ -269,8 +269,6 @@ const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element
   'trim-video': TrimVideoTool,
   'mute-video': MuteVideoTool,
   'extract-audio': ExtractAudioTool,
-  'convert-video': CompressVideoTool,
-  'resize-video': CompressVideoTool,
   'compress-video': CompressVideoTool,
   'trim-audio': TrimAudioTool,
   'join-audio': TrimAudioTool,

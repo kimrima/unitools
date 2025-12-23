@@ -9,15 +9,17 @@ import { Progress } from '@/components/ui/progress';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { FileUploadZone } from '@/components/tool-ui';
-import { Video, Download, Loader2, Minimize2, AlertTriangle, Info } from 'lucide-react';
+import { Video, Download, Loader2, Minimize2, AlertTriangle, Info, Check } from 'lucide-react';
 import { downloadBlob } from '@/hooks/useToolEngine';
+
+type LoadingStage = 'idle' | 'loading-ffmpeg' | 'processing' | 'complete';
 
 export default function CompressVideoTool() {
   const { t } = useTranslation();
   
   const [quality, setQuality] = useState<'low' | 'medium' | 'high'>('medium');
   const [result, setResult] = useState<CompressVideoResult | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [loadingStage, setLoadingStage] = useState<LoadingStage>('idle');
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
   
   const {
@@ -31,7 +33,7 @@ export default function CompressVideoTool() {
     setError,
     setProgress,
     reset: resetHandler,
-  } = useFileHandler({ accept: 'video/*', multiple: false, maxSizeBytes: 50 * 1024 * 1024 });
+  } = useFileHandler({ accept: 'video/*', multiple: false, maxSizeBytes: 30 * 1024 * 1024 });
 
   const formatFileSize = useCallback((bytes: number): string => {
     const data = getFileSizeData(bytes);
@@ -75,19 +77,23 @@ export default function CompressVideoTool() {
     setProgress(0);
     setError(null);
     setResult(null);
-    setIsLoading(true);
+    setLoadingStage('loading-ffmpeg');
 
     try {
       const compressResult = await compressVideo(
         files[0].file,
         { quality },
         (prog) => {
+          if (prog > 0) {
+            setLoadingStage('processing');
+          }
           setProgress(prog);
         }
       );
 
       setResult(compressResult);
       setStatus('success');
+      setLoadingStage('complete');
     } catch (err) {
       if (err instanceof FFmpegError) {
         setError({ code: err.code });
@@ -95,8 +101,7 @@ export default function CompressVideoTool() {
         setError({ code: 'PROCESSING_FAILED' });
       }
       setStatus('error');
-    } finally {
-      setIsLoading(false);
+      setLoadingStage('idle');
     }
   }, [files, quality, setStatus, setProgress, setError]);
 
@@ -110,6 +115,7 @@ export default function CompressVideoTool() {
     resetHandler();
     setResult(null);
     setVideoUrl(null);
+    setLoadingStage('idle');
   }, [resetHandler]);
 
   const ffmpegSupported = isFFmpegSupported();
@@ -142,19 +148,16 @@ export default function CompressVideoTool() {
         {t('Tools.compress-video.instructions')}
       </div>
 
-      <Card className="border-blue-200 bg-blue-50/50 dark:bg-blue-950/20 dark:border-blue-800">
+      <Card className="border-red-200 bg-red-50/50 dark:bg-red-950/20 dark:border-red-800">
         <CardContent className="p-4">
           <div className="flex items-start gap-3">
-            <Info className="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
+            <AlertTriangle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
             <div className="text-sm">
-              <p className="font-medium text-blue-800 dark:text-blue-200">
-                {t('Common.messages.videoFileSizeLimit')}
+              <p className="font-medium text-red-800 dark:text-red-200">
+                비디오 압축은 매우 오래 걸립니다 (30MB 이하, 30초 이하 권장)
               </p>
-              <p className="text-blue-700 dark:text-blue-300 mt-1">
-                {t('Common.messages.fileSizeLimitNotice')} {t('Common.messages.recommendedVideoLength')}
-              </p>
-              <p className="text-amber-600 dark:text-amber-400 mt-1">
-                {t('Common.messages.qualityDegradationNotice')}
+              <p className="text-red-700 dark:text-red-300 mt-1">
+                {t('Common.messages.qualityDegradationNotice')} 브라우저 처리 특성상 긴 영상은 처리가 실패할 수 있습니다.
               </p>
             </div>
           </div>
@@ -172,7 +175,7 @@ export default function CompressVideoTool() {
           >
             <div className="flex items-center space-x-2">
               <RadioGroupItem value="low" id="low" />
-              <Label htmlFor="low">{t('Common.messages.qualityLow')}</Label>
+              <Label htmlFor="low">{t('Common.messages.qualityLow')} (가장 빠름)</Label>
             </div>
             <div className="flex items-center space-x-2">
               <RadioGroupItem value="medium" id="medium" />
@@ -180,7 +183,7 @@ export default function CompressVideoTool() {
             </div>
             <div className="flex items-center space-x-2">
               <RadioGroupItem value="high" id="high" />
-              <Label htmlFor="high">{t('Common.messages.qualityHigh')}</Label>
+              <Label htmlFor="high">{t('Common.messages.qualityHigh')} (가장 느림)</Label>
             </div>
           </RadioGroup>
         </CardContent>
@@ -191,7 +194,7 @@ export default function CompressVideoTool() {
         accept="video/*"
       />
 
-      {videoUrl && !result && (
+      {videoUrl && !result && status !== 'processing' && (
         <Card>
           <CardContent className="p-4">
             <div className="flex items-center gap-3">
@@ -211,13 +214,47 @@ export default function CompressVideoTool() {
       )}
 
       {status === 'processing' && (
-        <div className="space-y-2" data-testid="section-processing">
-          <div className="flex items-center gap-2 text-sm">
-            <Loader2 className="w-4 h-4 animate-spin" />
-            <span>{isLoading && progress === 0 ? t('Common.messages.loadingFFmpeg') : t('Common.messages.compressingVideo')}</span>
-          </div>
-          <Progress value={progress} className="h-2" data-testid="progress-bar" />
-        </div>
+        <Card>
+          <CardContent className="p-4 space-y-4">
+            <div className="space-y-3">
+              <div className="flex items-center gap-3">
+                <div className={`w-6 h-6 rounded-full flex items-center justify-center ${loadingStage === 'loading-ffmpeg' ? 'bg-primary text-primary-foreground animate-pulse' : loadingStage === 'processing' || loadingStage === 'complete' ? 'bg-green-500 text-white' : 'bg-muted'}`}>
+                  {loadingStage === 'loading-ffmpeg' ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
+                </div>
+                <span className={loadingStage === 'loading-ffmpeg' ? 'font-medium' : 'text-muted-foreground'}>
+                  1단계: FFmpeg 엔진 로딩
+                </span>
+              </div>
+              
+              <div className="flex items-center gap-3">
+                <div className={`w-6 h-6 rounded-full flex items-center justify-center ${loadingStage === 'processing' ? 'bg-primary text-primary-foreground animate-pulse' : loadingStage === 'complete' ? 'bg-green-500 text-white' : 'bg-muted'}`}>
+                  {loadingStage === 'processing' ? <Loader2 className="w-4 h-4 animate-spin" /> : loadingStage === 'complete' ? <Check className="w-4 h-4" /> : <span className="text-xs">2</span>}
+                </div>
+                <span className={loadingStage === 'processing' ? 'font-medium' : 'text-muted-foreground'}>
+                  2단계: 비디오 압축 중 (오래 걸릴 수 있습니다)
+                </span>
+              </div>
+              
+              <div className="flex items-center gap-3">
+                <div className={`w-6 h-6 rounded-full flex items-center justify-center ${loadingStage === 'complete' ? 'bg-green-500 text-white' : 'bg-muted'}`}>
+                  {loadingStage === 'complete' ? <Check className="w-4 h-4" /> : <span className="text-xs">3</span>}
+                </div>
+                <span className={loadingStage === 'complete' ? 'font-medium' : 'text-muted-foreground'}>
+                  3단계: 완료
+                </span>
+              </div>
+            </div>
+            
+            {loadingStage === 'processing' && (
+              <>
+                <Progress value={progress} className="h-2" data-testid="progress-bar" />
+                <p className="text-xs text-muted-foreground text-center">
+                  처리 중... 브라우저 탭을 닫지 마세요
+                </p>
+              </>
+            )}
+          </CardContent>
+        </Card>
       )}
 
       {result && (
@@ -229,7 +266,12 @@ export default function CompressVideoTool() {
                   {t('Common.messages.complete')}
                 </p>
                 <p className="text-sm text-green-600 dark:text-green-400">
-                  {formatFileSize(result.originalSize)} → {formatFileSize(result.outputSize)} ({result.compressionRatio}% {t('Common.messages.reduced')})
+                  {formatFileSize(result.originalSize)} → {formatFileSize(result.outputSize)}
+                  {result.originalSize > result.outputSize && (
+                    <span className="ml-2">
+                      ({Math.round((1 - result.outputSize / result.originalSize) * 100)}% 감소)
+                    </span>
+                  )}
                 </p>
               </div>
               <Button onClick={handleDownload} data-testid="button-download">
