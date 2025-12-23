@@ -1,14 +1,20 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PDFDocument } from 'pdf-lib';
+import * as pdfjsLib from 'pdfjs-dist';
+import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
-import { FileText, Download, Loader2, CheckCircle, Pen, Type, Trash2 } from 'lucide-react';
+import { useStagedProcessing } from '@/hooks/useStagedProcessing';
+import { StagedLoadingOverlay } from '@/components/StagedLoadingOverlay';
+import { FileText, Download, CheckCircle, Pen, Type, Trash2 } from 'lucide-react';
 import { FileUploadZone } from '@/components/tool-ui';
+
+pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
 type ToolStatus = 'idle' | 'processing' | 'success' | 'error';
 type SignatureType = 'draw' | 'type';
@@ -16,19 +22,93 @@ type SignatureType = 'draw' | 'type';
 export default function SignPdfTool() {
   const { t } = useTranslation();
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const previewCanvasRef = useRef<HTMLCanvasElement>(null);
   const [file, setFile] = useState<File | null>(null);
   const [status, setStatus] = useState<ToolStatus>('idle');
-  const [progress, setProgress] = useState(0);
   const [error, setError] = useState<{ code: string } | null>(null);
   const [resultBlob, setResultBlob] = useState<Blob | null>(null);
   const [signatureType, setSignatureType] = useState<SignatureType>('draw');
   const [typedSignature, setTypedSignature] = useState('');
   const [signatureSize, setSignatureSize] = useState(100);
   const [pageNumber, setPageNumber] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const [posX, setPosX] = useState(50);
   const [posY, setPosY] = useState(90);
   const [isDrawing, setIsDrawing] = useState(false);
   const [hasSignature, setHasSignature] = useState(false);
+  const [pdfPageImage, setPdfPageImage] = useState<string | null>(null);
+  const [signaturePreview, setSignaturePreview] = useState<string | null>(null);
+
+  const stagedProcessing = useStagedProcessing({
+    minDuration: 2500,
+    stages: [
+      { name: 'analyzing', duration: 600, message: t('Common.stages.loadingDocument', { defaultValue: 'Loading document...' }) },
+      { name: 'processing', duration: 1200, message: t('Common.stages.applyingSignature', { defaultValue: 'Applying signature...' }) },
+      { name: 'optimizing', duration: 700, message: t('Common.stages.finalizingDocument', { defaultValue: 'Finalizing document...' }) },
+    ],
+  });
+
+  const renderPdfPage = useCallback(async (pdfFile: File, pageNum: number) => {
+    try {
+      const arrayBuffer = await pdfFile.arrayBuffer();
+      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+      setTotalPages(pdf.numPages);
+      const page = await pdf.getPage(Math.min(pageNum, pdf.numPages));
+      const scale = 1.5;
+      const viewport = page.getViewport({ scale });
+      
+      const canvas = document.createElement('canvas');
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+      
+      await page.render({ canvasContext: ctx, viewport, canvas } as any).promise;
+      setPdfPageImage(canvas.toDataURL('image/png'));
+    } catch {
+      console.error('Failed to render PDF page');
+    }
+  }, []);
+
+  const updateSignaturePreview = useCallback(async () => {
+    if (signatureType === 'draw') {
+      const canvas = canvasRef.current;
+      if (canvas && hasSignature) {
+        setSignaturePreview(canvas.toDataURL('image/png'));
+      } else {
+        setSignaturePreview(null);
+      }
+    } else {
+      if (!typedSignature.trim()) {
+        setSignaturePreview(null);
+        return;
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width = 300;
+      canvas.height = 100;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+      
+      ctx.fillStyle = 'transparent';
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = 'black';
+      ctx.font = 'italic 36px "Brush Script MT", cursive, serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(typedSignature, canvas.width / 2, canvas.height / 2);
+      setSignaturePreview(canvas.toDataURL('image/png'));
+    }
+  }, [signatureType, typedSignature, hasSignature]);
+
+  useEffect(() => {
+    if (file) {
+      renderPdfPage(file, pageNumber);
+    }
+  }, [file, pageNumber, renderPdfPage]);
+
+  useEffect(() => {
+    updateSignaturePreview();
+  }, [updateSignaturePreview, hasSignature, typedSignature]);
 
   const handleFilesFromDropzone = useCallback((fileList: FileList) => {
     const selectedFile = fileList[0];
@@ -37,6 +117,7 @@ export default function SignPdfTool() {
       setStatus('idle');
       setError(null);
       setResultBlob(null);
+      setPdfPageImage(null);
     }
   }, []);
 
@@ -139,41 +220,35 @@ export default function SignPdfTool() {
     }
 
     setStatus('processing');
-    setProgress(10);
     setError(null);
 
     try {
-      const arrayBuffer = await file.arrayBuffer();
-      setProgress(30);
+      await stagedProcessing.runStagedProcessing(async () => {
+        const arrayBuffer = await file.arrayBuffer();
+        const pdfDoc = await PDFDocument.load(arrayBuffer);
+        const pages = pdfDoc.getPages();
+        const targetPage = pages[Math.min(pageNumber - 1, pages.length - 1)];
 
-      const pdfDoc = await PDFDocument.load(arrayBuffer);
-      const pages = pdfDoc.getPages();
-      const targetPage = pages[Math.min(pageNumber - 1, pages.length - 1)];
-      
-      setProgress(50);
+        const signatureImage = await pdfDoc.embedPng(signatureData);
+        const { width, height } = targetPage.getSize();
+        
+        const sigWidth = (signatureSize / 100) * 150;
+        const sigHeight = (signatureSize / 100) * 50;
+        const x = (posX / 100) * (width - sigWidth);
+        const y = height - ((posY / 100) * height) - sigHeight;
 
-      const signatureImage = await pdfDoc.embedPng(signatureData);
-      const { width, height } = targetPage.getSize();
-      
-      const sigWidth = (signatureSize / 100) * 150;
-      const sigHeight = (signatureSize / 100) * 50;
-      const x = (posX / 100) * (width - sigWidth);
-      const y = height - ((posY / 100) * height) - sigHeight;
+        targetPage.drawImage(signatureImage, {
+          x,
+          y,
+          width: sigWidth,
+          height: sigHeight,
+        });
 
-      targetPage.drawImage(signatureImage, {
-        x,
-        y,
-        width: sigWidth,
-        height: sigHeight,
+        const pdfBytes = await pdfDoc.save();
+        return new Blob([pdfBytes], { type: 'application/pdf' });
       });
-
-      setProgress(80);
-
-      const pdfBytes = await pdfDoc.save();
-      const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-      setResultBlob(blob);
+      setResultBlob(stagedProcessing.result as Blob);
       setStatus('success');
-      setProgress(100);
     } catch {
       setError({ code: 'SIGNING_FAILED' });
       setStatus('error');
@@ -315,6 +390,39 @@ export default function SignPdfTool() {
             </div>
           </div>
 
+          {pdfPageImage && (
+            <div className="space-y-2">
+              <Label>{t('Tools.sign-pdf.preview', 'Preview')} ({t('Tools.sign-pdf.page', 'Page')} {pageNumber}/{totalPages})</Label>
+              <div className="relative border rounded-lg overflow-hidden bg-muted/20 aspect-[3/4] max-h-80">
+                <img 
+                  src={pdfPageImage} 
+                  alt="PDF Preview" 
+                  className="w-full h-full object-contain"
+                  data-testid="img-pdf-preview"
+                />
+                {signaturePreview && (
+                  <div
+                    className="absolute pointer-events-none border-2 border-dashed border-primary/50 bg-white/80 rounded"
+                    style={{
+                      left: `${posX}%`,
+                      top: `${posY}%`,
+                      transform: 'translate(-50%, -50%)',
+                      width: `${signatureSize * 0.5}px`,
+                      maxWidth: '40%',
+                    }}
+                    data-testid="signature-preview-overlay"
+                  >
+                    <img 
+                      src={signaturePreview} 
+                      alt="Signature" 
+                      className="w-full h-auto"
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
           {error && (
             <p className="text-sm text-destructive">{t(`Errors.${error.code}`)}</p>
           )}
@@ -325,20 +433,19 @@ export default function SignPdfTool() {
             disabled={status === 'processing'}
             data-testid="button-sign"
           >
-            {status === 'processing' ? (
-              <>
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                {t('Common.processing')} {progress}%
-              </>
-            ) : (
-              <>
-                <Pen className="w-4 h-4 mr-2" />
-                {t('Tools.sign-pdf.signButton')}
-              </>
-            )}
+            <Pen className="w-4 h-4 mr-2" />
+            {t('Tools.sign-pdf.signButton')}
           </Button>
         </Card>
       )}
+
+      <StagedLoadingOverlay
+        stage={stagedProcessing.stage}
+        progress={stagedProcessing.progress}
+        stageProgress={stagedProcessing.stageProgress}
+        message={stagedProcessing.message}
+        error={stagedProcessing.error}
+      />
 
       {status === 'success' && resultBlob && (
         <Card className="p-6 space-y-4">
