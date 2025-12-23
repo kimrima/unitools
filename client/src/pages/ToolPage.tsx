@@ -206,6 +206,15 @@ const EmojiSearchTool = lazy(() => import('@/components/tools/EmojiSearchTool'))
 const YesNoGeneratorTool = lazy(() => import('@/components/tools/YesNoGeneratorTool'));
 const EliminationWheelTool = lazy(() => import('@/components/tools/EliminationWheelTool'));
 const TeamPickerTool = lazy(() => import('@/components/tools/TeamPickerTool'));
+const LiarGameTool = lazy(() => import('@/components/tools/LiarGameTool'));
+const BalanceGameTool = lazy(() => import('@/components/tools/BalanceGameTool'));
+const ChosungQuizTool = lazy(() => import('@/components/tools/ChosungQuizTool'));
+const LadderGameTool = lazy(() => import('@/components/tools/LadderGameTool'));
+const CpsTestTool = lazy(() => import('@/components/tools/CpsTestTool'));
+const BingoGeneratorTool = lazy(() => import('@/components/tools/BingoGeneratorTool'));
+const StopwatchChallengeTool = lazy(() => import('@/components/tools/StopwatchChallengeTool'));
+const MemoryGameTool = lazy(() => import('@/components/tools/MemoryGameTool'));
+const SilentShoutTool = lazy(() => import('@/components/tools/SilentShoutTool'));
 
 const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element>> = {
   'merge-pdf': MergePdfTool,
@@ -387,6 +396,15 @@ const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element
   'yes-no-generator': YesNoGeneratorTool,
   'elimination-wheel': EliminationWheelTool,
   'team-picker': TeamPickerTool,
+  'liar-game': LiarGameTool,
+  'balance-game': BalanceGameTool,
+  'chosung-quiz': ChosungQuizTool,
+  'ladder-game': LadderGameTool,
+  'cps-test': CpsTestTool,
+  'bingo-generator': BingoGeneratorTool,
+  'stopwatch-challenge': StopwatchChallengeTool,
+  'memory-game': MemoryGameTool,
+  'silent-shout': SilentShoutTool,
 };
 
 function ToolLoading() {
