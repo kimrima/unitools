@@ -35,7 +35,12 @@ export async function pdfToImages(
   const { format, quality = 0.92, scale = 2 } = options;
 
   try {
-    const pdf = await pdfjsLib.getDocument({ data: pdfBuffer }).promise;
+    // Disable offscreen canvas to force synchronous image processing in main thread
+    // This helps with PDFs containing images that fail to decode asynchronously
+    const pdf = await pdfjsLib.getDocument({ 
+      data: pdfBuffer,
+      isOffscreenCanvasSupported: false,
+    }).promise;
     const totalPages = pdf.numPages;
     const images: Blob[] = [];
 
