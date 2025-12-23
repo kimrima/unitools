@@ -1,13 +1,18 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PDFDocument } from 'pdf-lib';
+import * as pdfjsLib from 'pdfjs-dist';
+import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import { Progress } from '@/components/ui/progress';
-import { FileText, Download, Loader2, CheckCircle, Crop, Trash2 } from 'lucide-react';
+import { useStagedProcessing } from '@/hooks/useStagedProcessing';
+import { StagedLoadingOverlay } from '@/components/StagedLoadingOverlay';
+import { FileText, Download, CheckCircle, Crop, Trash2 } from 'lucide-react';
 import { FileUploadZone } from '@/components/tool-ui';
+
+pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
 type ToolStatus = 'idle' | 'processing' | 'success' | 'error';
 
@@ -15,10 +20,49 @@ export default function CropPdfTool() {
   const { t } = useTranslation();
   const [file, setFile] = useState<File | null>(null);
   const [status, setStatus] = useState<ToolStatus>('idle');
-  const [progress, setProgress] = useState(0);
   const [error, setError] = useState<{ code: string } | null>(null);
   const [resultBlob, setResultBlob] = useState<Blob | null>(null);
   const [margins, setMargins] = useState({ top: 0, right: 0, bottom: 0, left: 0 });
+  const [pdfPageImage, setPdfPageImage] = useState<string | null>(null);
+  const [pageDimensions, setPageDimensions] = useState({ width: 0, height: 0 });
+
+  const stagedProcessing = useStagedProcessing({
+    minDuration: 2500,
+    stages: [
+      { name: 'analyzing', duration: 600, message: t('Common.stages.loadingDocument', { defaultValue: 'Loading document...' }) },
+      { name: 'processing', duration: 1200, message: t('Common.stages.croppingPages', { defaultValue: 'Cropping pages...' }) },
+      { name: 'optimizing', duration: 700, message: t('Common.stages.finalizingDocument', { defaultValue: 'Finalizing document...' }) },
+    ],
+  });
+
+  const renderPdfPage = useCallback(async (pdfFile: File) => {
+    try {
+      const arrayBuffer = await pdfFile.arrayBuffer();
+      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+      const page = await pdf.getPage(1);
+      const scale = 1.5;
+      const viewport = page.getViewport({ scale });
+      
+      setPageDimensions({ width: viewport.width / scale, height: viewport.height / scale });
+      
+      const canvas = document.createElement('canvas');
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+      
+      await page.render({ canvasContext: ctx, viewport, canvas } as any).promise;
+      setPdfPageImage(canvas.toDataURL('image/png'));
+    } catch {
+      console.error('Failed to render PDF page');
+    }
+  }, []);
+
+  useEffect(() => {
+    if (file) {
+      renderPdfPage(file);
+    }
+  }, [file, renderPdfPage]);
 
   const handleFilesFromDropzone = useCallback((fileList: FileList) => {
     const selectedFile = fileList[0];
@@ -27,6 +71,7 @@ export default function CropPdfTool() {
       setStatus('idle');
       setError(null);
       setResultBlob(null);
+      setPdfPageImage(null);
     }
   }, []);
 
@@ -34,37 +79,33 @@ export default function CropPdfTool() {
     if (!file) return;
 
     setStatus('processing');
-    setProgress(10);
     setError(null);
 
     try {
-      const arrayBuffer = await file.arrayBuffer();
-      setProgress(30);
+      await stagedProcessing.runStagedProcessing(async () => {
+        const arrayBuffer = await file.arrayBuffer();
+        const pdfDoc = await PDFDocument.load(arrayBuffer);
+        const pages = pdfDoc.getPages();
 
-      const pdfDoc = await PDFDocument.load(arrayBuffer);
-      const pages = pdfDoc.getPages();
+        for (let i = 0; i < pages.length; i++) {
+          const page = pages[i];
+          const { width, height } = page.getSize();
+          
+          const newX = margins.left;
+          const newY = margins.bottom;
+          const newWidth = width - margins.left - margins.right;
+          const newHeight = height - margins.top - margins.bottom;
 
-      for (let i = 0; i < pages.length; i++) {
-        const page = pages[i];
-        const { width, height } = page.getSize();
-        
-        const newX = margins.left;
-        const newY = margins.bottom;
-        const newWidth = width - margins.left - margins.right;
-        const newHeight = height - margins.top - margins.bottom;
-
-        if (newWidth > 0 && newHeight > 0) {
-          page.setCropBox(newX, newY, newWidth, newHeight);
+          if (newWidth > 0 && newHeight > 0) {
+            page.setCropBox(newX, newY, newWidth, newHeight);
+          }
         }
-        
-        setProgress(30 + (50 * (i + 1) / pages.length));
-      }
 
-      const pdfBytes = await pdfDoc.save();
-      const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-      setResultBlob(blob);
+        const pdfBytes = await pdfDoc.save();
+        return new Blob([pdfBytes], { type: 'application/pdf' });
+      });
+      setResultBlob(stagedProcessing.result as Blob);
       setStatus('success');
-      setProgress(100);
     } catch {
       setError({ code: 'CROP_FAILED' });
       setStatus('error');
@@ -157,11 +198,77 @@ export default function CropPdfTool() {
             </div>
           </div>
 
-          {status === 'processing' && (
+          {pdfPageImage && pageDimensions.width > 0 && (
             <div className="space-y-2">
-              <Progress value={progress} />
-              <p className="text-sm text-center text-muted-foreground">
-                {t('Common.processing')} {Math.round(progress)}%
+              <Label>{t('Tools.crop-pdf.preview', 'Preview')}</Label>
+              <div className="relative border rounded-lg overflow-hidden bg-muted/20 max-h-80 flex items-center justify-center">
+                <div className="relative">
+                  <img 
+                    src={pdfPageImage} 
+                    alt="PDF Preview" 
+                    className="max-h-72 object-contain"
+                    data-testid="img-pdf-preview"
+                  />
+                  <div 
+                    className="absolute inset-0 pointer-events-none"
+                    style={{
+                      borderTop: `${(margins.top / pageDimensions.height) * 100}%`,
+                      borderBottom: `${(margins.bottom / pageDimensions.height) * 100}%`,
+                      borderLeft: `${(margins.left / pageDimensions.width) * 100}%`,
+                      borderRight: `${(margins.right / pageDimensions.width) * 100}%`,
+                    }}
+                  >
+                    <div 
+                      className="absolute border-2 border-dashed border-primary bg-primary/10"
+                      style={{
+                        top: `${(margins.top / pageDimensions.height) * 100}%`,
+                        left: `${(margins.left / pageDimensions.width) * 100}%`,
+                        right: `${(margins.right / pageDimensions.width) * 100}%`,
+                        bottom: `${(margins.bottom / pageDimensions.height) * 100}%`,
+                      }}
+                      data-testid="crop-preview-overlay"
+                    />
+                    <div 
+                      className="absolute bg-red-500/30"
+                      style={{
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        height: `${(margins.top / pageDimensions.height) * 100}%`,
+                      }}
+                    />
+                    <div 
+                      className="absolute bg-red-500/30"
+                      style={{
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        height: `${(margins.bottom / pageDimensions.height) * 100}%`,
+                      }}
+                    />
+                    <div 
+                      className="absolute bg-red-500/30"
+                      style={{
+                        top: `${(margins.top / pageDimensions.height) * 100}%`,
+                        left: 0,
+                        bottom: `${(margins.bottom / pageDimensions.height) * 100}%`,
+                        width: `${(margins.left / pageDimensions.width) * 100}%`,
+                      }}
+                    />
+                    <div 
+                      className="absolute bg-red-500/30"
+                      style={{
+                        top: `${(margins.top / pageDimensions.height) * 100}%`,
+                        right: 0,
+                        bottom: `${(margins.bottom / pageDimensions.height) * 100}%`,
+                        width: `${(margins.right / pageDimensions.width) * 100}%`,
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+              <p className="text-xs text-muted-foreground text-center">
+                {t('Tools.crop-pdf.previewHint', 'Red areas will be cropped')}
               </p>
             </div>
           )}
@@ -176,20 +283,19 @@ export default function CropPdfTool() {
             disabled={status === 'processing'}
             data-testid="button-crop"
           >
-            {status === 'processing' ? (
-              <>
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                {t('Common.processing')}
-              </>
-            ) : (
-              <>
-                <Crop className="w-4 h-4 mr-2" />
-                {t('Tools.crop-pdf.cropButton')}
-              </>
-            )}
+            <Crop className="w-4 h-4 mr-2" />
+            {t('Tools.crop-pdf.cropButton')}
           </Button>
         </Card>
       )}
+
+      <StagedLoadingOverlay
+        stage={stagedProcessing.stage}
+        progress={stagedProcessing.progress}
+        stageProgress={stagedProcessing.stageProgress}
+        message={stagedProcessing.message}
+        error={stagedProcessing.error}
+      />
 
       {status === 'success' && resultBlob && (
         <Card className="p-6 space-y-4">
