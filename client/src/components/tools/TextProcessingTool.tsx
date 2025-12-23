@@ -56,9 +56,9 @@ export default function TextProcessingTool() {
       case 'text-sort':
         const sortLines = input.split('\n').filter(l => l.trim());
         if (sortOrder === 'asc') {
-          sortLines.sort((a, b) => a.localeCompare(b));
+          sortLines.sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
         } else if (sortOrder === 'desc') {
-          sortLines.sort((a, b) => b.localeCompare(a));
+          sortLines.sort((a, b) => b.localeCompare(a, undefined, { numeric: true, sensitivity: 'base' }));
         } else {
           sortLines.sort((a, b) => a.length - b.length);
         }
