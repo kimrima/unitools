@@ -492,536 +492,363 @@
     },
     "png-to-jpg": {
       "title": "PNGからJPG",
-      "description": "Convert PNG images to JPG format.",
-      "shortDesc": "Convert PNG to JPG"
+      "description": "PNG画像をJPG形式に変換します。",
+      "shortDesc": "PNGをJPGに変換"
     },
     "jpg-to-png": {
       "title": "JPGからPNG",
-      "description": "Convert JPG images to PNG format.",
-      "shortDesc": "Convert JPG to PNG"
+      "description": "JPG画像をPNG形式に変換します。",
+      "shortDesc": "JPGをPNGに変換"
     },
     "webp-to-jpg": {
       "title": "WebPからJPG",
-      "description": "Convert WebP images to JPG format.",
-      "shortDesc": "Convert WebP to JPG"
+      "description": "WebP画像をJPG形式に変換します。",
+      "shortDesc": "WebPをJPGに変換"
     },
     "resize-image": {
       "title": "画像サイズ変更",
-      "description": "Adjust the width and height of your images to any size.",
-      "shortDesc": "Change image dimensions"
+      "description": "画像の幅と高さを任意のサイズに調整します。",
+      "shortDesc": "画像の寸法を変更"
     },
     "crop-image": {
       "title": "画像を切り抜き",
-      "description": "Cut out the desired area from your images.",
-      "shortDesc": "Crop image area"
+      "description": "画像から希望のエリアを切り取ります。",
+      "shortDesc": "画像エリアを切り抜き"
     },
     "compress-image": {
       "title": "画像を圧縮",
-      "description": "Reduce image file size for web optimization.",
-      "shortDesc": "Reduce image file size",
-      "instructions": "Select image files to compress. You can adjust quality and max dimensions."
+      "description": "Web最適化のために画像ファイルサイズを縮小します。",
+      "shortDesc": "画像サイズを縮小"
     },
     "convert-image": {
-      "title": "Convert Image Format",
-      "description": "Convert images to different formats (JPG, PNG, WebP).",
-      "shortDesc": "Convert image format",
-      "instructions": "Select image files to convert and choose the desired output format."
+      "title": "画像形式変換",
+      "description": "画像を異なる形式（JPG、PNG、WebP）に変換します。",
+      "shortDesc": "画像形式を変換"
     },
     "video-to-gif": {
-      "title": "Video to GIF",
-      "description": "Convert video files to animated GIF.",
-      "shortDesc": "Convert video to GIF",
-      "instructions": "Select a video file to convert to GIF. You can adjust FPS, size, start time and duration."
+      "title": "動画からGIF",
+      "description": "動画ファイルをアニメーションGIFに変換します。",
+      "shortDesc": "動画をGIFに変換"
     },
     "heic-to-jpg": {
-      "title": "HEIC to JPG",
-      "description": "Convert iPhone HEIC photos to JPG format for Windows compatibility.",
-      "shortDesc": "Convert iPhone photos"
+      "title": "HEICからJPG",
+      "description": "iPhoneのHEIC写真をJPG形式に変換します。",
+      "shortDesc": "iPhone写真を変換"
     },
     "webp-converter": {
-      "title": "WebP Converter",
-      "description": "Convert images to Google's WebP format for optimized web performance.",
-      "shortDesc": "Convert to WebP"
+      "title": "WebPコンバーター",
+      "description": "画像をGoogleのWebP形式に変換します。",
+      "shortDesc": "WebPに変換"
     },
     "svg-to-png": {
-      "title": "SVG to PNG",
-      "description": "Convert vector SVG graphics to PNG images.",
-      "shortDesc": "Convert SVG to PNG"
+      "title": "SVGからPNG",
+      "description": "ベクターSVGグラフィックをPNG画像に変換します。",
+      "shortDesc": "SVGをPNGに変換"
     },
     "bulk-convert-image": {
-      "title": "Bulk Image Convert",
-      "description": "Convert multiple images to a different format at once.",
-      "shortDesc": "Batch convert images"
+      "title": "一括画像変換",
+      "description": "複数の画像を一度に異なる形式に変換します。",
+      "shortDesc": "バッチ変換"
     },
     "webp-to-png": {
-      "title": "WebP to PNG",
-      "description": "Convert WebP images to PNG format.",
-      "shortDesc": "Convert WebP to PNG"
+      "title": "WebPからPNG",
+      "description": "WebP画像をPNG形式に変換します。",
+      "shortDesc": "WebPをPNGに変換"
     },
     "gif-to-png": {
-      "title": "GIF to PNG",
-      "description": "Extract the first frame of GIF as PNG image.",
-      "shortDesc": "Convert GIF to PNG"
+      "title": "GIFからPNG",
+      "description": "GIFの最初のフレームをPNG画像として抽出します。",
+      "shortDesc": "GIFをPNGに変換"
     },
     "rotate-image": {
-      "title": "Rotate Image",
-      "description": "Rotate images by 90, 180, or 270 degrees.",
-      "shortDesc": "Rotate image"
+      "title": "画像を回転",
+      "description": "画像を90、180、または270度回転します。",
+      "shortDesc": "画像を回転"
     },
     "flip-image": {
-      "title": "Flip Image",
-      "description": "Flip images horizontally or vertically.",
-      "shortDesc": "Flip/mirror image"
+      "title": "画像を反転",
+      "description": "画像を水平または垂直に反転します。",
+      "shortDesc": "画像を反転/ミラー"
     },
     "image-upscaler": {
-      "title": "Image Upscaler",
-      "description": "Enhance and upscale low-resolution images using AI.",
-      "shortDesc": "Upscale image quality"
+      "title": "画像アップスケーラー",
+      "description": "AIを使用して低解像度画像を強化およびアップスケールします。",
+      "shortDesc": "画像品質を向上"
     },
     "canvas-size": {
-      "title": "Change Canvas Size",
-      "description": "Extend the canvas area around your image without resizing.",
-      "shortDesc": "Extend image canvas"
+      "title": "キャンバスサイズ変更",
+      "description": "画像の周りのキャンバスエリアを拡張します。",
+      "shortDesc": "画像キャンバスを拡張"
     },
     "remove-background": {
-      "title": "Remove Background",
-      "description": "Automatically remove background from photos with one click.",
-      "shortDesc": "Remove image background"
+      "title": "背景を削除",
+      "description": "ワンクリックで写真から背景を自動的に削除します。",
+      "shortDesc": "画像の背景を削除"
     },
     "image-mosaic": {
-      "title": "Image Mosaic",
-      "description": "Blur or pixelate specific areas of your image.",
-      "shortDesc": "Add mosaic effect"
+      "title": "画像モザイク",
+      "description": "画像の特定のエリアをぼかしまたはピクセル化します。",
+      "shortDesc": "モザイク効果を追加"
     },
     "image-watermark": {
-      "title": "Add Watermark",
-      "description": "Add text or image watermarks to protect your images.",
-      "shortDesc": "Add watermark to image"
+      "title": "透かしを追加",
+      "description": "画像を保護するためにテキストまたは画像の透かしを追加します。",
+      "shortDesc": "透かしを追加"
     },
     "image-brightness": {
-      "title": "Brightness Adjustment",
-      "description": "Adjust the brightness and contrast of your images.",
-      "shortDesc": "Adjust brightness"
+      "title": "明るさ調整",
+      "description": "画像の明るさとコントラストを調整します。",
+      "shortDesc": "明るさを調整"
     },
     "grayscale-filter": {
-      "title": "Grayscale Filter",
-      "description": "Convert color images to black and white.",
-      "shortDesc": "Convert to grayscale"
+      "title": "グレースケールフィルター",
+      "description": "カラー画像を白黒に変換します。",
+      "shortDesc": "グレースケールに変換"
     },
     "image-text": {
-      "title": "Add Text to Image",
-      "description": "Add custom text with various fonts to your images.",
-      "shortDesc": "Add text overlay"
+      "title": "画像にテキストを追加",
+      "description": "さまざまなフォントでカスタムテキストを追加します。",
+      "shortDesc": "テキストオーバーレイを追加"
     },
     "remove-exif": {
-      "title": "Remove EXIF Data",
-      "description": "Remove metadata and location info from your photos.",
-      "shortDesc": "Remove photo metadata"
+      "title": "EXIFデータを削除",
+      "description": "写真からメタデータと位置情報を削除します。",
+      "shortDesc": "写真のメタデータを削除"
     },
     "round-corners": {
-      "title": "Round Corners",
-      "description": "Add rounded corners to your images.",
-      "shortDesc": "Round image corners"
+      "title": "角を丸める",
+      "description": "画像に丸い角を追加します。",
+      "shortDesc": "画像の角を丸める"
     },
     "image-shadow": {
-      "title": "Add Shadow",
-      "description": "Add a drop shadow effect to your images.",
-      "shortDesc": "Add shadow effect"
+      "title": "影を追加",
+      "description": "画像にドロップシャドウ効果を追加します。",
+      "shortDesc": "影効果を追加"
     },
     "color-picker": {
-      "title": "Color Picker",
-      "description": "Extract dominant colors and color palette from images.",
-      "shortDesc": "Extract colors"
+      "title": "カラーピッカー",
+      "description": "画像から主要な色とカラーパレットを抽出します。",
+      "shortDesc": "色を抽出"
     },
     "image-joiner": {
-      "title": "Join Images",
-      "description": "Combine multiple images horizontally or vertically.",
-      "shortDesc": "Merge images together"
+      "title": "画像を結合",
+      "description": "複数の画像を水平または垂直に結合します。",
+      "shortDesc": "画像を一緒にマージ"
     },
     "create-gif": {
       "title": "GIFを作成",
-      "description": "Create animated GIF from multiple images.",
-      "shortDesc": "Make animated GIF",
-      "addImages": "Add Images",
-      "dragHint": "Drag images or click to browse",
-      "imageOrder": "Image Order",
-      "images": "images",
-      "frameDelay": "Frame Delay",
-      "quality": "Quality",
-      "width": "Width",
-      "createButton": "GIFを作成",
-      "successMessage": "GIF created successfully."
+      "description": "複数の画像からアニメーションGIFを作成します。",
+      "shortDesc": "アニメーションGIFを作成"
     },
     "image-border": {
-      "title": "Add Border",
-      "description": "Add custom colored borders to your images.",
-      "shortDesc": "Add image border"
+      "title": "枠線を追加",
+      "description": "画像にカスタムカラーの枠線を追加します。",
+      "shortDesc": "画像に枠線を追加"
     },
     "image-opacity": {
-      "title": "Adjust Opacity",
-      "description": "Change the transparency level of your images.",
-      "shortDesc": "Adjust transparency"
+      "title": "不透明度を調整",
+      "description": "画像の透明度レベルを変更します。",
+      "shortDesc": "透明度を調整"
     },
     "image-ratio": {
-      "title": "Change Aspect Ratio",
-      "description": "Adjust images to specific aspect ratios (1:1, 4:3, 16:9).",
-      "shortDesc": "Change aspect ratio"
+      "title": "アスペクト比を変更",
+      "description": "画像を特定のアスペクト比（1:1、4:3、16:9）に調整します。",
+      "shortDesc": "アスペクト比を変更"
     },
     "favicon-generator": {
-      "title": "Favicon Generator",
-      "description": "Create favicon icons for websites from any image.",
-      "shortDesc": "Generate favicon"
+      "title": "ファビコン生成",
+      "description": "任意の画像からウェブサイト用のファビコンアイコンを作成します。",
+      "shortDesc": "ファビコンを生成"
     },
     "trim-video": {
-      "title": "Trim Video",
-      "description": "Cut video clips to desired length by setting start and end points.",
-      "shortDesc": "Cut video segments",
-      "instructions": "Upload a video and set start/end times to trim."
+      "title": "動画をトリミング",
+      "description": "開始点と終了点を設定して動画クリップを希望の長さにカットします。",
+      "shortDesc": "動画セグメントをカット"
     },
     "mute-video": {
-      "title": "Mute Video",
-      "description": "Remove audio track from video files to create silent videos.",
-      "shortDesc": "Remove video audio",
-      "instructions": "Upload a video to remove its audio track."
+      "title": "動画をミュート",
+      "description": "動画ファイルからオーディオトラックを削除します。",
+      "shortDesc": "動画のオーディオを削除"
     },
     "extract-audio": {
       "title": "オーディオを抽出",
-      "description": "Extract audio from video files and save as MP3.",
-      "shortDesc": "Video to MP3",
-      "instructions": "Upload a video to extract its audio as MP3."
+      "description": "動画ファイルからオーディオを抽出してMP3として保存します。",
+      "shortDesc": "動画からMP3"
     },
     "video-speed": {
-      "title": "Video Speed",
-      "description": "Change video playback speed (slow motion or fast forward).",
-      "shortDesc": "Adjust video speed",
-      "instructions": "Upload a video and select playback speed."
+      "title": "動画速度",
+      "description": "動画の再生速度を変更します（スローモーションまたは早送り）。",
+      "shortDesc": "動画速度を調整"
     },
     "video-capture": {
-      "title": "Video Capture",
-      "description": "Capture specific frames from video as high-quality images.",
-      "shortDesc": "Extract video frames",
-      "instructions": "Upload a video and select timestamp to capture."
+      "title": "動画キャプチャ",
+      "description": "動画から特定のフレームを高品質画像としてキャプチャします。",
+      "shortDesc": "動画フレームを抽出"
     },
     "convert-video": {
-      "title": "Convert Video",
-      "description": "Convert videos between formats (MP4, WebM, MOV, AVI).",
-      "shortDesc": "Change video format",
-      "instructions": "Upload a video and select output format."
+      "title": "動画を変換",
+      "description": "動画を異なる形式（MP4、WebM、MOV、AVI）に変換します。",
+      "shortDesc": "動画形式を変更"
     },
     "resize-video": {
-      "title": "Resize Video",
-      "description": "Change video dimensions for different platforms (TikTok, Instagram, YouTube).",
-      "shortDesc": "Change video size",
-      "instructions": "Upload a video and select new dimensions."
+      "title": "動画サイズ変更",
+      "description": "異なるプラットフォーム（TikTok、Instagram、YouTube）向けに動画のサイズを変更します。",
+      "shortDesc": "動画サイズを変更"
     },
     "compress-video": {
-      "title": "Compress Video",
-      "description": "Reduce video file size while maintaining quality.",
-      "shortDesc": "Reduce video size",
-      "instructions": "Upload a video and select compression quality."
+      "title": "動画を圧縮",
+      "description": "品質を維持しながら動画ファイルサイズを縮小します。",
+      "shortDesc": "動画サイズを縮小"
     },
     "flip-video": {
-      "title": "Flip Video",
-      "description": "Flip videos horizontally or vertically (mirror effect).",
-      "shortDesc": "Mirror video",
-      "instructions": "Upload a video and select flip direction."
+      "title": "動画を反転",
+      "description": "動画を水平または垂直に反転します（ミラー効果）。",
+      "shortDesc": "動画をミラー"
     },
     "trim-audio": {
-      "title": "Trim Audio",
-      "description": "Cut audio files to create ringtones or clips.",
-      "shortDesc": "Cut audio segments",
-      "instructions": "Upload an audio file and set start/end times to trim."
+      "title": "オーディオをトリミング",
+      "description": "オーディオファイルをカットして着信音やクリップを作成します。",
+      "shortDesc": "オーディオセグメントをカット"
     },
     "join-audio": {
-      "title": "Join Audio",
-      "description": "Merge multiple audio files into one.",
-      "shortDesc": "Merge audio files",
-      "instructions": "Upload audio files to merge in order."
+      "title": "オーディオを結合",
+      "description": "複数のオーディオファイルを1つにマージします。",
+      "shortDesc": "オーディオファイルをマージ"
     },
     "convert-audio": {
-      "title": "Convert Audio",
-      "description": "Convert audio files between formats (MP3, WAV, OGG).",
-      "shortDesc": "Change audio format",
-      "instructions": "Upload an audio file and select output format."
+      "title": "オーディオを変換",
+      "description": "オーディオファイルを異なる形式（MP3、WAV、OGG）に変換します。",
+      "shortDesc": "オーディオ形式を変更"
     },
     "boost-audio": {
-      "title": "Boost Audio Volume",
-      "description": "Increase volume of quiet audio recordings.",
-      "shortDesc": "Increase volume",
-      "instructions": "Upload an audio file and adjust volume level."
+      "title": "オーディオ音量アップ",
+      "description": "静かなオーディオ録音の音量を上げます。",
+      "shortDesc": "音量を上げる"
     },
     "reverse-audio": {
-      "title": "Reverse Audio",
-      "description": "Play audio backwards for creative effects.",
-      "shortDesc": "Play audio backwards",
-      "instructions": "Upload an audio file to reverse."
+      "title": "オーディオを逆再生",
+      "description": "クリエイティブな効果のためにオーディオを逆方向に再生します。",
+      "shortDesc": "オーディオを逆再生"
     },
     "audio-bitrate": {
-      "title": "Audio Bitrate",
-      "description": "Change audio quality and file size by adjusting bitrate.",
-      "shortDesc": "Adjust audio quality",
-      "instructions": "Upload an audio file and select bitrate."
+      "title": "オーディオビットレート",
+      "description": "ビットレートを調整してオーディオの品質とファイルサイズを変更します。",
+      "shortDesc": "オーディオ品質を調整"
     },
     "audio-visualizer": {
-      "title": "Audio Visualizer",
-      "description": "Create waveform visualization video from audio.",
-      "shortDesc": "Create audio video",
-      "instructions": "Upload an audio file to create a visualizer video."
+      "title": "オーディオビジュアライザー",
+      "description": "オーディオから波形ビジュアライゼーション動画を作成します。",
+      "shortDesc": "オーディオ動画を作成"
     },
     "video-metadata": {
-      "title": "Video Metadata",
-      "description": "View detailed information about video files (codec, resolution, duration).",
-      "shortDesc": "View video info",
-      "instructions": "Upload a video to view its metadata."
+      "title": "動画メタデータ",
+      "description": "動画ファイルの詳細情報（コーデック、解像度、長さ）を表示します。",
+      "shortDesc": "動画情報を表示"
     },
     "voice-recorder": {
-      "title": "Voice Recorder",
-      "description": "Record audio using your microphone directly in browser.",
-      "shortDesc": "Record voice",
-      "instructions": "Click the button to start recording from your microphone."
+      "title": "ボイスレコーダー",
+      "description": "ブラウザで直接マイクを使用してオーディオを録音します。",
+      "shortDesc": "音声を録音"
     },
     "screen-recorder": {
-      "title": "Screen Recorder",
-      "description": "Record your screen directly in the browser.",
-      "shortDesc": "Record screen",
-      "instructions": "Click start to record your screen. You can include microphone audio."
+      "title": "画面録画",
+      "description": "ブラウザで直接画面を録画します。",
+      "shortDesc": "画面を録画"
     },
     "image-ocr": {
-      "title": "Image Text Extraction (OCR)",
-      "description": "Extract text from images using OCR technology. Supports Korean, English, Japanese, and Chinese.",
-      "shortDesc": "Extract text from images",
-      "instructions": "Upload an image to extract text. Select the language for better accuracy.",
-      "imageLabel": "画像",
-      "textLabel": "Extracted Text",
-      "textPlaceholder": "Extracted text will appear here...",
-      "extractText": "Extract Text",
-      "extractComplete": "Text extraction complete!",
-      "initializing": "Initializing OCR engine...",
-      "recognizing": "Recognizing text...",
-      "loadingLanguage": "Loading language data..."
+      "title": "画像テキスト抽出（OCR）",
+      "description": "OCR技術を使用して画像からテキストを抽出します。",
+      "shortDesc": "画像からテキストを抽出"
     },
     "pdf-text-extract": {
-      "title": "PDF Text Extraction",
-      "description": "Extract selectable text from PDF documents. Works with PDFs created from Word, web pages, or text documents.",
-      "shortDesc": "Extract PDF text",
-      "instructions": "Upload a PDF file to extract its text content.",
-      "explanation": "This tool extracts selectable text that is embedded in PDF files. It works for PDFs created from text documents, Word files, or web pages.",
-      "ocrHint": "For scanned documents or image-based PDFs where text cannot be selected, use the OCR PDF tool instead.",
-      "extractButton": "Extract Text",
-      "successMessage": "Text extracted successfully.",
-      "copiedMessage": "Text copied to clipboard.",
-      "resultLabel": "Extracted Text"
+      "title": "PDFテキスト抽出",
+      "description": "PDFドキュメントから選択可能なテキストを抽出します。",
+      "shortDesc": "PDFテキストを抽出"
     },
     "character-count": {
-      "title": "Character Counter",
-      "description": "Count characters, words, sentences, and paragraphs in real-time.",
-      "shortDesc": "Count characters and words",
-      "instructions": "Paste or type text to see character and word statistics.",
-      "inputLabel": "Input Text",
-      "statsLabel": "Statistics",
-      "placeholder": "Paste or type your text here...",
-      "characters": "Characters",
-      "charactersNoSpaces": "Characters (no spaces)",
-      "words": "Words",
-      "lines": "Lines",
-      "paragraphs": "Paragraphs",
-      "sentences": "Sentences",
-      "bytes": "Bytes",
-      "statsCopied": "Statistics copied to clipboard"
+      "title": "文字数カウンター",
+      "description": "文字、単語、文、段落をリアルタイムでカウントします。",
+      "shortDesc": "文字と単語をカウント"
     },
     "phrase-saver": {
-      "title": "Phrase Saver",
-      "description": "Save frequently used phrases and copy them with a single click.",
-      "shortDesc": "Save common phrases",
-      "instructions": "Add phrases you use often for quick copying.",
-      "storageNotice": "Saved phrases are stored in this browser only. They won't be accessible from other devices or browsers, and will be deleted if you clear browser data.",
-      "inputPlaceholder": "Enter a new phrase...",
-      "phraseAdded": "Phrase added",
-      "phraseDeleted": "Phrase deleted",
-      "suggestedPhrases": "Suggested Phrases",
-      "example1": "Have a great day!",
-      "example2": "Thank you.",
-      "example3": "Confirmed.",
-      "example4": "Please contact me if you have any questions.",
-      "totalPhrases": "{{count}} phrase(s) saved"
+      "title": "フレーズ保存",
+      "description": "よく使うフレーズを保存してワンクリックでコピーします。",
+      "shortDesc": "よく使うフレーズを保存"
     },
     "dictionary": {
-      "title": "Dictionary",
-      "description": "Look up word definitions. Powered by Wikipedia with multi-language support.",
-      "shortDesc": "Search word definitions",
-      "instructions": "Enter a word and select a language to search.",
-      "inputPlaceholder": "Enter a word to search...",
-      "notFound": "No results found",
-      "notFoundHint": "Try a different keyword or change the language.",
-      "searchError": "An error occurred while searching",
-      "enterWord": "Enter a word to search",
-      "poweredBy": "Powered by Wikipedia API. Free to use.",
-      "disambiguationNote": "This word has multiple meanings. Check Wikipedia for more details."
+      "title": "辞書",
+      "description": "単語の定義を検索します。Wikipediaで提供。",
+      "shortDesc": "単語の定義を検索"
     },
     "text-to-speech": {
-      "title": "Text to Speech",
-      "description": "Convert text to speech. Supports multiple languages and voices.",
-      "shortDesc": "Convert text to audio",
-      "instructions": "Enter text, adjust voice, speed, and pitch, then play.",
-      "textLabel": "Text to Read",
-      "placeholder": "Enter text to read aloud...",
-      "characters": "characters",
-      "voiceLabel": "Voice Selection",
-      "selectVoice": "Select a voice",
-      "loadingVoices": "Loading voices...",
-      "speed": "Speed",
-      "pitch": "Pitch",
-      "play": "Play",
-      "pause": "一時停止",
-      "resume": "再開",
-      "stop": "停止",
-      "speaking": "Speaking...",
-      "paused": "Paused",
-      "notSupported": "Your browser does not support speech synthesis. Please use a modern browser like Chrome, Firefox, or Safari.",
-      "speakError": "An error occurred while playing audio",
-      "browserNote": "Uses browser's built-in speech engine. Available voices may vary by device and browser."
+      "title": "テキスト読み上げ",
+      "description": "テキストを音声に変換します。複数の言語と音声をサポート。",
+      "shortDesc": "テキストを音声に変換"
     },
     "case-converter": {
-      "title": "Case Converter",
-      "description": "Convert text between uppercase, lowercase, title case, and more.",
-      "shortDesc": "Change text case",
-      "instructions": "Enter text and choose a case conversion option.",
-      "inputLabel": "Input Text",
-      "outputLabel": "Output Text",
-      "placeholder": "Enter text to convert...",
-      "uppercase": "UPPERCASE",
-      "lowercase": "lowercase",
-      "titlecase": "Title Case",
-      "sentencecase": "Sentence case",
-      "camelcase": "camelCase",
-      "pascalcase": "PascalCase",
-      "snakecase": "snake_case",
-      "kebabcase": "kebab-case"
+      "title": "大文字小文字変換",
+      "description": "テキストを大文字、小文字、タイトルケースなどに変換します。",
+      "shortDesc": "テキストのケースを変更"
     },
     "line-break-remover": {
-      "title": "Line Break Remover",
-      "description": "Remove unnecessary line breaks and merge text into a single line.",
-      "shortDesc": "Remove line breaks",
-      "instructions": "Paste text with unwanted line breaks to merge into one line.",
-      "inputLabel": "Input Text",
-      "outputLabel": "Output Text",
-      "placeholder": "Paste text with line breaks..."
+      "title": "改行削除",
+      "description": "不要な改行を削除してテキストを1行にマージします。",
+      "shortDesc": "改行を削除"
     },
     "remove-duplicates": {
-      "title": "Remove Duplicate Lines",
-      "description": "Remove duplicate lines from your text, keeping only unique entries.",
-      "shortDesc": "Remove duplicates",
-      "instructions": "Paste text with duplicate lines to remove them.",
-      "inputLabel": "Input Text",
-      "outputLabel": "Unique Lines",
-      "placeholder": "Paste text with duplicate lines..."
+      "title": "重複行を削除",
+      "description": "テキストから重複行を削除します。",
+      "shortDesc": "重複を削除"
     },
     "text-sort": {
-      "title": "Text Sorter",
-      "description": "Sort text lines alphabetically, reverse, or by length.",
-      "shortDesc": "Sort text lines",
-      "instructions": "Paste lines of text and choose a sorting order.",
-      "inputLabel": "Input Text",
-      "outputLabel": "Sorted Text",
-      "placeholder": "Enter lines to sort...",
-      "orderLabel": "Sort Order",
-      "ascending": "A to Z",
-      "descending": "Z to A",
-      "byLength": "By Length"
+      "title": "テキストソーター",
+      "description": "テキスト行をアルファベット順、逆順、または長さ順にソートします。",
+      "shortDesc": "テキスト行をソート"
     },
     "find-replace": {
-      "title": "Find and Replace",
-      "description": "Find specific text and replace it with something else.",
-      "shortDesc": "Find and replace text",
-      "instructions": "Enter the text to find and what to replace it with.",
-      "inputLabel": "Input Text",
-      "outputLabel": "Result",
-      "placeholder": "Enter text to search in...",
-      "findLabel": "Find",
-      "findPlaceholder": "Text to find",
-      "replaceLabel": "Replace with",
-      "replacePlaceholder": "Replacement text"
+      "title": "検索と置換",
+      "description": "特定のテキストを見つけて別のものに置き換えます。",
+      "shortDesc": "テキストを検索して置換"
     },
     "blank-line-remover": {
-      "title": "Blank Line Remover",
-      "description": "Remove empty lines from your text.",
-      "shortDesc": "Remove blank lines",
-      "instructions": "Paste text to remove all blank lines.",
-      "inputLabel": "Input Text",
-      "outputLabel": "Output Text",
-      "placeholder": "Paste text with blank lines..."
+      "title": "空行削除",
+      "description": "テキストから空行を削除します。",
+      "shortDesc": "空行を削除"
     },
     "prefix-suffix": {
-      "title": "Add Prefix/Suffix",
-      "description": "Add text before or after each line.",
-      "shortDesc": "Add prefix or suffix",
-      "instructions": "Enter prefix and/or suffix to add to each line.",
-      "inputLabel": "Input Text",
-      "outputLabel": "Output Text",
-      "placeholder": "Enter lines of text...",
-      "prefixLabel": "Prefix",
-      "prefixPlaceholder": "Add before",
-      "suffixLabel": "Suffix",
-      "suffixPlaceholder": "Add after"
+      "title": "接頭辞/接尾辞を追加",
+      "description": "各行の前後にテキストを追加します。",
+      "shortDesc": "接頭辞または接尾辞を追加"
     },
     "csv-to-json": {
-      "title": "CSV to JSON",
-      "description": "Convert CSV data to JSON format for developers.",
-      "shortDesc": "Convert CSV to JSON",
-      "instructions": "Paste CSV data to convert to JSON."
+      "title": "CSVからJSON",
+      "description": "CSVデータを開発者向けJSON形式に変換します。",
+      "shortDesc": "CSVをJSONに変換"
     },
     "json-to-csv": {
-      "title": "JSON to CSV",
-      "description": "Convert JSON data to CSV format for Excel.",
-      "shortDesc": "Convert JSON to CSV",
-      "instructions": "Paste JSON array to convert to CSV."
+      "title": "JSONからCSV",
+      "description": "JSONデータをExcel用CSV形式に変換します。",
+      "shortDesc": "JSONをCSVに変換"
     },
     "xml-to-json": {
-      "title": "XML to JSON",
-      "description": "Convert XML data to JSON format.",
-      "shortDesc": "Convert XML to JSON",
-      "instructions": "Paste XML data to convert to JSON."
+      "title": "XMLからJSON",
+      "description": "XMLデータをJSON形式に変換します。",
+      "shortDesc": "XMLをJSONに変換"
     },
     "yaml-to-json": {
-      "title": "YAML to JSON",
-      "description": "Convert YAML configuration to JSON format.",
-      "shortDesc": "Convert YAML to JSON",
-      "instructions": "Paste YAML data to convert to JSON."
+      "title": "YAMLからJSON",
+      "description": "YAML設定をJSON形式に変換します。",
+      "shortDesc": "YAMLをJSONに変換"
     },
     "text-to-list": {
-      "title": "Text to List",
-      "description": "Convert comma-separated or delimited text into a numbered list.",
-      "shortDesc": "Convert to list",
-      "instructions": "Enter delimited text to convert to a numbered list.",
-      "inputLabel": "Input Text",
-      "outputLabel": "Numbered List",
-      "placeholder": "Enter delimited text...",
-      "delimiterLabel": "Delimiter",
-      "comma": "Comma (,)",
-      "semicolon": "Semicolon (;)",
-      "pipe": "Pipe (|)",
-      "tab": "Tab",
-      "space": "Space"
+      "title": "テキストからリスト",
+      "description": "区切り文字付きテキストを番号付きリストに変換します。",
+      "shortDesc": "リストに変換"
     },
     "dummy-generator": {
-      "title": "Dummy Data Generator",
-      "description": "Generate fake names, emails, addresses, and phone numbers for testing.",
-      "shortDesc": "Generate test data",
-      "instructions": "Select the fields and amount of dummy data to generate.",
-      "countLabel": "Records",
-      "fieldsLabel": "Fields to Generate",
-      "generate": "Generate Data",
-      "outputLabel": "Generated Data",
-      "textFormat": "Text",
-      "selectField": "Please select at least one field",
-      "fieldName": "Full Name",
-      "fieldEmail": "Email",
-      "fieldPhone": "Phone",
-      "fieldAddress": "Address",
-      "fieldCompany": "Company",
-      "fieldJob": "Job Title",
-      "fieldDate": "Birth Date",
-      "fieldId": "ID Number"
+      "title": "ダミーデータ生成",
+      "description": "テスト用の偽の名前、メール、住所、電話番号を生成します。",
+      "shortDesc": "テストデータを生成"
     },
     "lorem-ipsum": {
       "title": "Lorem Ipsum Generator",
@@ -1037,24 +864,14 @@
       "placeholder": "Click Generate to create placeholder text..."
     },
     "markdown-preview": {
-      "title": "Markdown Preview",
-      "description": "Preview Markdown text as rendered HTML in real-time.",
-      "shortDesc": "Preview Markdown",
-      "instructions": "Write Markdown on the left to see the rendered preview on the right."
+      "title": "Markdownプレビュー",
+      "description": "Markdownを書いてレンダリングされたプレビューを見ます。",
+      "shortDesc": "Markdownプレビュー"
     },
     "regex-tester": {
-      "title": "Regex Tester",
-      "description": "Test and debug regular expressions with real-time matching.",
-      "shortDesc": "Test regex patterns",
-      "patternLabel": "Pattern",
-      "patternPlaceholder": "Enter regex pattern...",
-      "flagsLabel": "Flags",
-      "testLabel": "Test String",
-      "testPlaceholder": "Enter text to test against...",
-      "highlightLabel": "Highlighted Matches",
-      "matchesLabel": "Match Details",
-      "matches": "matches",
-      "noMatches": "No matches found"
+      "title": "正規表現テスター",
+      "description": "正規表現をテストしてデバッグします。",
+      "shortDesc": "正規表現をテスト"
     },
     "url-encode": {
       "title": "URL Encoder/Decoder",
@@ -1171,20 +988,9 @@
       "noTextFound": "No text content found in the provided HTML."
     },
     "json-formatter": {
-      "title": "JSON Formatter",
-      "description": "Format and validate JSON data beautifully.",
-      "shortDesc": "Format and validate JSON",
-      "instructions": "Paste JSON to format or validate.",
-      "inputLabel": "Input JSON",
-      "outputLabel": "Formatted JSON",
-      "placeholder": "Paste your JSON here...",
-      "indent2": "2 Spaces",
-      "indent4": "4 Spaces",
-      "indent8": "8 Spaces",
-      "format": "Format",
-      "minify": "Minify",
-      "valid": "Valid JSON",
-      "invalid": "Invalid JSON"
+      "title": "JSONフォーマッター",
+      "description": "JSONデータをフォーマットして整形します。",
+      "shortDesc": "JSONをフォーマット"
     },
     "base64-encode": {
       "title": "Base64 Encoder",
@@ -1197,14 +1003,14 @@
       "shortDesc": "Generate hash values"
     },
     "unit-converter": {
-      "title": "Unit Converter",
-      "description": "Convert various units like length, weight, temperature.",
-      "shortDesc": "Convert units"
+      "title": "単位変換",
+      "description": "異なる測定単位間で変換します。",
+      "shortDesc": "単位を変換"
     },
     "percentage-calculator": {
-      "title": "パーセント計算",
+      "title": "パーセント計算機",
       "description": "パーセンテージを簡単に計算します。",
-      "shortDesc": "パーセント計算"
+      "shortDesc": "パーセントを計算"
     },
     "pdf-to-png": {
       "title": "PDF to PNG",
@@ -1521,33 +1327,14 @@
       "legendDanger": "Too long, will be cut off"
     },
     "qr-code-generator": {
-      "title": "QR Code Generator",
-      "description": "Create custom QR codes for URLs, text, Wi-Fi, and more.",
-      "shortDesc": "Generate QR codes",
-      "textTab": "Text",
-      "urlLabel": "URL",
-      "urlPlaceholder": "https://example.com",
-      "textLabel": "Text",
-      "textPlaceholder": "Enter text to encode...",
-      "wifiSsid": "Network Name (SSID)",
-      "wifiSsidPlaceholder": "Enter WiFi network name",
-      "wifiPassword": "Password",
-      "wifiPasswordPlaceholder": "Enter WiFi password",
-      "wifiEncryption": "Security Type",
-      "wifiNoPassword": "No Password",
-      "wifiHidden": "Hidden Network",
-      "sizeLabel": "Size",
-      "fgColorLabel": "Foreground Color",
-      "bgColorLabel": "Background Color",
-      "downloaded": "QR code downloaded!"
+      "title": "QRコード生成",
+      "description": "URL、テキスト、またはデータ用のQRコードを作成します。",
+      "shortDesc": "QRコードを作成"
     },
     "barcode-generator": {
-      "title": "Barcode Generator",
-      "description": "Generate various barcode formats like Code 128, EAN-13, and UPC.",
-      "shortDesc": "Generate barcodes",
-      "formatLabel": "Barcode Format",
-      "textLabel": "Content",
-      "textPlaceholder": "Enter barcode content..."
+      "title": "バーコード生成",
+      "description": "製品用のバーコードを作成します。",
+      "shortDesc": "バーコードを作成"
     },
     "url-shortener": {
       "title": "URL Shortener",
@@ -1656,34 +1443,19 @@
       "copied": "Kaomoji copied!"
     },
     "timezone-converter": {
-      "title": "Timezone Converter",
-      "description": "Convert time across different timezones for global scheduling.",
-      "shortDesc": "Convert timezones",
-      "dateLabel": "Date",
-      "timeLabel": "Time",
-      "fromLabel": "From Timezone",
-      "now": "Now"
+      "title": "タイムゾーン変換",
+      "description": "異なるタイムゾーン間で時刻を変換します。",
+      "shortDesc": "タイムゾーンを変換"
     },
     "sha256-hash": {
-      "title": "SHA-256 Hash Generator",
-      "description": "Generate SHA-256 hash values for text or files with secure cryptographic hashing.",
-      "shortDesc": "Generate SHA-256 hash",
-      "inputLabel": "Text to Hash",
-      "placeholder": "Enter text to generate hash...",
-      "hashLabel": "SHA-256 Hash",
-      "generate": "Generate Hash",
-      "copied": "Hash copied!"
+      "title": "SHA-256ハッシュ生成",
+      "description": "テキストからSHA-256ハッシュを生成します。",
+      "shortDesc": "SHA-256ハッシュを生成"
     },
     "md5-hash": {
-      "title": "MD5 Hash Generator",
-      "description": "Generate MD5 hash values for text or files. Note: MD5 is not secure for cryptographic use.",
-      "shortDesc": "Generate MD5 hash",
-      "inputLabel": "Text to Hash",
-      "placeholder": "Enter text to generate hash...",
-      "hashLabel": "MD5 Hash",
-      "generate": "Generate Hash",
-      "copied": "Hash copied!",
-      "warning": "MD5 is not secure for passwords. Use SHA-256 or BCrypt for security purposes."
+      "title": "MD5ハッシュ生成",
+      "description": "テキストからMD5ハッシュを生成します。",
+      "shortDesc": "MD5ハッシュを生成"
     },
     "aes-encryption": {
       "title": "AES Encryption/Decryption",
@@ -1730,24 +1502,14 @@
       "removeEmptyAttr": "Remove Empty Attributes"
     },
     "css-minifier": {
-      "title": "CSS Minifier",
-      "description": "Minify and beautify CSS code for production optimization.",
-      "shortDesc": "Minify CSS code",
-      "inputLabel": "CSS Code",
-      "placeholder": "Paste your CSS code here...",
-      "outputLabel": "Output",
-      "minify": "Minify",
-      "beautify": "Beautify"
+      "title": "CSS圧縮",
+      "description": "CSSコードを圧縮してサイズを縮小します。",
+      "shortDesc": "CSSを圧縮"
     },
     "js-minifier": {
-      "title": "JavaScript Minifier",
-      "description": "Minify JavaScript code by removing whitespace and comments.",
-      "shortDesc": "Minify JS code",
-      "inputLabel": "JavaScript Code",
-      "placeholder": "Paste your JavaScript code here...",
-      "outputLabel": "Minified JavaScript",
-      "minify": "Minify",
-      "notice": "This is a basic minifier. For production, use dedicated tools like Terser or UglifyJS."
+      "title": "JavaScript圧縮",
+      "description": "JavaScriptコードを圧縮してサイズを縮小します。",
+      "shortDesc": "JavaScriptを圧縮"
     },
     "sql-formatter": {
       "title": "SQL Formatter",
@@ -1883,43 +1645,19 @@
       "copied": "Color value copied!"
     },
     "tip-calculator": {
-      "title": "Tip Calculator",
-      "description": "Calculate tips for restaurants and split the bill between people.",
-      "shortDesc": "Calculate tips and split bills",
-      "billAmount": "Bill Amount",
-      "tipPercent": "Tip Percentage",
-      "numPeople": "Number of People",
-      "tipAmount": "Tip Amount",
-      "total": "Total",
-      "tipPerPerson": "Tip per Person",
-      "perPerson": "Total per Person"
+      "title": "チップ計算機",
+      "description": "チップを計算して請求書を分割します。",
+      "shortDesc": "チップを計算"
     },
     "discount-calculator": {
-      "title": "Discount Calculator",
-      "description": "Calculate sale prices and savings from discounts.",
-      "shortDesc": "Calculate discounts and savings",
-      "originalPrice": "Original Price",
-      "discountPercent": "Discount",
-      "youSave": "You Save",
-      "finalPrice": "Final Price"
+      "title": "割引計算機",
+      "description": "割引後の最終価格を計算します。",
+      "shortDesc": "割引を計算"
     },
     "compound-interest": {
-      "title": "Compound Interest Calculator",
-      "description": "Calculate compound interest and future value of investments.",
-      "shortDesc": "Calculate investment growth",
-      "principal": "Initial Investment",
-      "rate": "Annual Interest Rate",
-      "years": "Years",
-      "frequency": "Compound Frequency",
-      "monthlyContribution": "Monthly Contribution",
-      "annually": "Annually",
-      "semiAnnually": "Semi-Annually",
-      "quarterly": "Quarterly",
-      "monthly": "Monthly",
-      "daily": "Daily",
-      "futureValue": "Future Value",
-      "totalContributions": "Total Contributions",
-      "totalInterest": "Interest Earned"
+      "title": "複利計算機",
+      "description": "投資の複利を計算します。",
+      "shortDesc": "複利を計算"
     },
     "salary-converter": {
       "title": "Salary Converter",
@@ -1937,31 +1675,14 @@
       "hourly": "Hourly"
     },
     "sales-tax-calculator": {
-      "title": "Sales Tax Calculator",
-      "description": "Calculate sales tax for US states and EU VAT rates.",
-      "shortDesc": "Calculate sales tax",
-      "amount": "Amount",
-      "region": "Region",
-      "usStates": "US States",
-      "euCountries": "EU Countries (VAT)",
-      "customRate": "Custom Rate",
-      "state": "State",
-      "country": "Country",
-      "taxRate": "Tax Rate",
-      "subtotal": "Subtotal",
-      "tax": "Tax",
-      "total": "Total"
+      "title": "消費税計算機",
+      "description": "消費税を計算します。",
+      "shortDesc": "税金を計算"
     },
     "currency-converter": {
-      "title": "Currency Converter",
-      "description": "Convert between 150+ world currencies with live exchange rates.",
-      "shortDesc": "Convert currencies",
-      "amount": "Amount",
-      "from": "From",
-      "to": "To",
-      "updated": "Last Updated",
-      "usingFallback": "Using offline rates",
-      "refresh": "Refresh Rates"
+      "title": "通貨変換",
+      "description": "異なる通貨間で変換します。",
+      "shortDesc": "通貨を変換"
     },
     "metric-imperial": {
       "title": "Metric ↔ Imperial Converter",
@@ -2012,18 +1733,9 @@
       "knots": "Knots"
     },
     "bmi-calculator": {
-      "title": "BMI Calculator",
-      "description": "Calculate your Body Mass Index and health category.",
-      "shortDesc": "Calculate body mass index",
-      "metric": "Metric",
-      "imperial": "Imperial",
-      "height": "Height",
-      "weight": "Weight",
-      "yourBmi": "Your BMI",
-      "underweight": "Underweight",
-      "normal": "Normal weight",
-      "overweight": "Overweight",
-      "obese": "Obese"
+      "title": "BMI計算機",
+      "description": "ボディマス指数を計算します。",
+      "shortDesc": "BMIを計算"
     },
     "bmr-calculator": {
       "title": "BMR & TDEE Calculator",
@@ -2048,18 +1760,9 @@
       "calDay": "cal/day"
     },
     "age-calculator": {
-      "title": "Age Calculator",
-      "description": "Calculate your exact age in years, months, days, and more.",
-      "shortDesc": "Calculate your age",
-      "birthDate": "Date of Birth",
-      "targetDate": "Calculate age on",
-      "yourAge": "Your Age",
-      "years": "years",
-      "months": "months",
-      "days": "days",
-      "totalDays": "Total Days",
-      "totalWeeks": "Total Weeks",
-      "totalMonths": "Total Months"
+      "title": "年齢計算機",
+      "description": "生年月日から正確な年齢を計算します。",
+      "shortDesc": "年齢を計算"
     },
     "pregnancy-calculator": {
       "title": "Pregnancy Due Date Calculator",
@@ -2158,17 +1861,9 @@
       "impliedProbability": "Implied Probability"
     },
     "gpa-calculator": {
-      "title": "GPA Calculator",
-      "description": "Calculate your Grade Point Average from course grades.",
-      "shortDesc": "Calculate GPA",
-      "course": "Course",
-      "courseName": "Course name (optional)",
-      "grade": "Grade",
-      "credits": "Credits",
-      "addCourse": "Add Course",
-      "gpa": "GPA",
-      "outOf": "out of",
-      "totalCredits": "Total Credits"
+      "title": "GPA計算機",
+      "description": "成績平均を計算します。",
+      "shortDesc": "GPAを計算"
     },
     "scientific-calculator": {
       "title": "Scientific Calculator",
@@ -2672,7 +2367,7 @@
       "show": "Show"
     },
     "big-wheel": {
-      "title": "大きなルーレット",
+      "title": "ビッグホイール",
       "description": "放送用のルーレットホイール。",
       "shortDesc": "放送用ルーレット"
     },
@@ -2705,6 +2400,91 @@
       "title": "サイコロを振る",
       "description": "バーチャルサイコロ。",
       "shortDesc": "バーチャルサイコロ"
+    },
+    "korean-initial-quiz": {
+      "title": "韓国語初声クイズ",
+      "description": "韓国語の初声から単語を当てます。",
+      "shortDesc": "初声から推測"
+    },
+    "random-color-generator": {
+      "title": "ランダムカラー生成",
+      "description": "16進コードでランダムな色を生成します。",
+      "shortDesc": "ランダムな色を生成"
+    },
+    "lorem-ipsum-generator": {
+      "title": "Lorem Ipsum生成",
+      "description": "デザイン用のプレースホルダーテキストを生成します。",
+      "shortDesc": "プレースホルダーテキストを生成"
+    },
+    "aes-encrypt": {
+      "title": "AES暗号化/復号化",
+      "description": "AESを使用してテキストを暗号化および復号化します。",
+      "shortDesc": "テキストを暗号化/復号化"
+    },
+    "base64-encoder": {
+      "title": "Base64エンコーダー",
+      "description": "テキストをBase64でエンコードおよびデコードします。",
+      "shortDesc": "Base64をエンコード/デコード"
+    },
+    "bcrypt-hash": {
+      "title": "BCryptハッシュ生成",
+      "description": "パスワード用のBCryptハッシュを生成します。",
+      "shortDesc": "BCryptハッシュを生成"
+    },
+    "html-beautifier": {
+      "title": "HTML整形",
+      "description": "HTMLコードをフォーマットして整形します。",
+      "shortDesc": "HTMLを整形"
+    },
+    "url-encoder": {
+      "title": "URLエンコーダー/デコーダー",
+      "description": "URLをエンコードおよびデコードします。",
+      "shortDesc": "URLをエンコード/デコード"
+    },
+    "date-difference": {
+      "title": "日付差計算機",
+      "description": "2つの日付間の日数を計算します。",
+      "shortDesc": "日付差を計算"
+    },
+    "sqrt-calculator": {
+      "title": "平方根計算機",
+      "description": "任意の数の平方根を計算します。",
+      "shortDesc": "平方根を計算"
+    },
+    "loan-calculator": {
+      "title": "ローン計算機",
+      "description": "ローンの月々の支払いを計算します。",
+      "shortDesc": "ローンを計算"
+    },
+    "calorie-calculator": {
+      "title": "カロリー計算機",
+      "description": "1日のカロリー必要量を計算します。",
+      "shortDesc": "カロリーを計算"
+    },
+    "grade-calculator": {
+      "title": "成績計算機",
+      "description": "スコアに基づいて成績を計算します。",
+      "shortDesc": "成績を計算"
+    },
+    "word-count": {
+      "title": "単語カウント",
+      "description": "テキスト内の単語をカウントします。",
+      "shortDesc": "単語をカウント"
+    },
+    "text-reverse": {
+      "title": "テキスト反転",
+      "description": "テキスト内の文字の順序を反転します。",
+      "shortDesc": "テキストを反転"
+    },
+    "text-to-binary": {
+      "title": "テキストからバイナリ",
+      "description": "テキストをバイナリコードに変換します。",
+      "shortDesc": "バイナリに変換"
+    },
+    "binary-to-text": {
+      "title": "バイナリからテキスト",
+      "description": "バイナリコードをテキストに変換します。",
+      "shortDesc": "バイナリから変換"
     }
   }
 }

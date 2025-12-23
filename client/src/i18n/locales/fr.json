@@ -492,536 +492,363 @@
     },
     "png-to-jpg": {
       "title": "PNG en JPG",
-      "description": "Convert PNG images to JPG format.",
-      "shortDesc": "Convert PNG to JPG"
+      "description": "Convertissez des images PNG en format JPG.",
+      "shortDesc": "Convertir PNG en JPG"
     },
     "jpg-to-png": {
       "title": "JPG en PNG",
-      "description": "Convert JPG images to PNG format.",
-      "shortDesc": "Convert JPG to PNG"
+      "description": "Convertissez des images JPG en format PNG.",
+      "shortDesc": "Convertir JPG en PNG"
     },
     "webp-to-jpg": {
       "title": "WebP en JPG",
-      "description": "Convert WebP images to JPG format.",
-      "shortDesc": "Convert WebP to JPG"
+      "description": "Convertissez des images WebP en format JPG.",
+      "shortDesc": "Convertir WebP en JPG"
     },
     "resize-image": {
-      "title": "Redimensionner image",
-      "description": "Adjust the width and height of your images to any size.",
-      "shortDesc": "Change image dimensions"
+      "title": "Redimensionner Image",
+      "description": "Ajustez la largeur et la hauteur de vos images.",
+      "shortDesc": "Changer les dimensions"
     },
     "crop-image": {
-      "title": "Recadrer image",
-      "description": "Cut out the desired area from your images.",
-      "shortDesc": "Crop image area"
+      "title": "Recadrer Image",
+      "description": "Recadrez la zone souhaitée de vos images.",
+      "shortDesc": "Recadrer zone d'image"
     },
     "compress-image": {
-      "title": "Compresser image",
-      "description": "Reduce image file size for web optimization.",
-      "shortDesc": "Reduce image file size",
-      "instructions": "Select image files to compress. You can adjust quality and max dimensions."
+      "title": "Compresser Image",
+      "description": "Réduisez la taille du fichier image pour l'optimisation web.",
+      "shortDesc": "Réduire la taille d'image"
     },
     "convert-image": {
-      "title": "Convert Image Format",
-      "description": "Convert images to different formats (JPG, PNG, WebP).",
-      "shortDesc": "Convert image format",
-      "instructions": "Select image files to convert and choose the desired output format."
+      "title": "Convertir Format d'Image",
+      "description": "Convertissez des images en différents formats (JPG, PNG, WebP).",
+      "shortDesc": "Convertir format d'image"
     },
     "video-to-gif": {
-      "title": "Video to GIF",
-      "description": "Convert video files to animated GIF.",
-      "shortDesc": "Convert video to GIF",
-      "instructions": "Select a video file to convert to GIF. You can adjust FPS, size, start time and duration."
+      "title": "Vidéo en GIF",
+      "description": "Convertissez des fichiers vidéo en GIF animé.",
+      "shortDesc": "Convertir vidéo en GIF"
     },
     "heic-to-jpg": {
-      "title": "HEIC to JPG",
-      "description": "Convert iPhone HEIC photos to JPG format for Windows compatibility.",
-      "shortDesc": "Convert iPhone photos"
+      "title": "HEIC en JPG",
+      "description": "Convertissez les photos HEIC d'iPhone en format JPG.",
+      "shortDesc": "Convertir photos iPhone"
     },
     "webp-converter": {
-      "title": "WebP Converter",
-      "description": "Convert images to Google's WebP format for optimized web performance.",
-      "shortDesc": "Convert to WebP"
+      "title": "Convertisseur WebP",
+      "description": "Convertissez des images au format WebP de Google.",
+      "shortDesc": "Convertir en WebP"
     },
     "svg-to-png": {
-      "title": "SVG to PNG",
-      "description": "Convert vector SVG graphics to PNG images.",
-      "shortDesc": "Convert SVG to PNG"
+      "title": "SVG en PNG",
+      "description": "Convertissez des graphiques vectoriels SVG en images PNG.",
+      "shortDesc": "Convertir SVG en PNG"
     },
     "bulk-convert-image": {
-      "title": "Bulk Image Convert",
-      "description": "Convert multiple images to a different format at once.",
-      "shortDesc": "Batch convert images"
+      "title": "Conversion Groupée d'Images",
+      "description": "Convertissez plusieurs images en un format différent à la fois.",
+      "shortDesc": "Conversion par lots"
     },
     "webp-to-png": {
-      "title": "WebP to PNG",
-      "description": "Convert WebP images to PNG format.",
-      "shortDesc": "Convert WebP to PNG"
+      "title": "WebP en PNG",
+      "description": "Convertissez des images WebP en format PNG.",
+      "shortDesc": "Convertir WebP en PNG"
     },
     "gif-to-png": {
-      "title": "GIF to PNG",
-      "description": "Extract the first frame of GIF as PNG image.",
-      "shortDesc": "Convert GIF to PNG"
+      "title": "GIF en PNG",
+      "description": "Extrayez la première image de GIF en PNG.",
+      "shortDesc": "Convertir GIF en PNG"
     },
     "rotate-image": {
-      "title": "Rotate Image",
-      "description": "Rotate images by 90, 180, or 270 degrees.",
-      "shortDesc": "Rotate image"
+      "title": "Faire Pivoter Image",
+      "description": "Faites pivoter les images de 90, 180 ou 270 degrés.",
+      "shortDesc": "Faire pivoter image"
     },
     "flip-image": {
-      "title": "Flip Image",
-      "description": "Flip images horizontally or vertically.",
-      "shortDesc": "Flip/mirror image"
+      "title": "Retourner Image",
+      "description": "Retournez les images horizontalement ou verticalement.",
+      "shortDesc": "Retourner/miroir image"
     },
     "image-upscaler": {
-      "title": "Image Upscaler",
-      "description": "Enhance and upscale low-resolution images using AI.",
-      "shortDesc": "Upscale image quality"
+      "title": "Agrandisseur d'Image",
+      "description": "Améliorez et agrandissez les images basse résolution avec l'IA.",
+      "shortDesc": "Améliorer qualité d'image"
     },
     "canvas-size": {
-      "title": "Change Canvas Size",
-      "description": "Extend the canvas area around your image without resizing.",
-      "shortDesc": "Extend image canvas"
+      "title": "Changer Taille du Canevas",
+      "description": "Étendez la zone du canevas autour de votre image.",
+      "shortDesc": "Étendre canevas d'image"
     },
     "remove-background": {
-      "title": "Remove Background",
-      "description": "Automatically remove background from photos with one click.",
-      "shortDesc": "Remove image background"
+      "title": "Supprimer Arrière-plan",
+      "description": "Supprimez automatiquement l'arrière-plan des photos en un clic.",
+      "shortDesc": "Supprimer arrière-plan"
     },
     "image-mosaic": {
-      "title": "Image Mosaic",
-      "description": "Blur or pixelate specific areas of your image.",
-      "shortDesc": "Add mosaic effect"
+      "title": "Mosaïque d'Image",
+      "description": "Floutez ou pixélisez des zones spécifiques de votre image.",
+      "shortDesc": "Ajouter effet mosaïque"
     },
     "image-watermark": {
-      "title": "Add Watermark",
-      "description": "Add text or image watermarks to protect your images.",
-      "shortDesc": "Add watermark to image"
+      "title": "Ajouter Filigrane",
+      "description": "Ajoutez des filigranes texte ou image pour protéger vos images.",
+      "shortDesc": "Ajouter filigrane"
     },
     "image-brightness": {
-      "title": "Brightness Adjustment",
-      "description": "Adjust the brightness and contrast of your images.",
-      "shortDesc": "Adjust brightness"
+      "title": "Ajustement de Luminosité",
+      "description": "Ajustez la luminosité et le contraste de vos images.",
+      "shortDesc": "Ajuster luminosité"
     },
     "grayscale-filter": {
-      "title": "Grayscale Filter",
-      "description": "Convert color images to black and white.",
-      "shortDesc": "Convert to grayscale"
+      "title": "Filtre Niveaux de Gris",
+      "description": "Convertissez les images couleur en noir et blanc.",
+      "shortDesc": "Convertir en niveaux de gris"
     },
     "image-text": {
-      "title": "Add Text to Image",
-      "description": "Add custom text with various fonts to your images.",
-      "shortDesc": "Add text overlay"
+      "title": "Ajouter Texte à Image",
+      "description": "Ajoutez du texte personnalisé avec diverses polices.",
+      "shortDesc": "Ajouter superposition de texte"
     },
     "remove-exif": {
-      "title": "Remove EXIF Data",
-      "description": "Remove metadata and location info from your photos.",
-      "shortDesc": "Remove photo metadata"
+      "title": "Supprimer Données EXIF",
+      "description": "Supprimez les métadonnées et infos de localisation.",
+      "shortDesc": "Supprimer métadonnées photo"
     },
     "round-corners": {
-      "title": "Round Corners",
-      "description": "Add rounded corners to your images.",
-      "shortDesc": "Round image corners"
+      "title": "Coins Arrondis",
+      "description": "Ajoutez des coins arrondis à vos images.",
+      "shortDesc": "Arrondir coins d'image"
     },
     "image-shadow": {
-      "title": "Add Shadow",
-      "description": "Add a drop shadow effect to your images.",
-      "shortDesc": "Add shadow effect"
+      "title": "Ajouter Ombre",
+      "description": "Ajoutez un effet d'ombre portée à vos images.",
+      "shortDesc": "Ajouter effet d'ombre"
     },
     "color-picker": {
-      "title": "Color Picker",
-      "description": "Extract dominant colors and color palette from images.",
-      "shortDesc": "Extract colors"
+      "title": "Sélecteur de Couleur",
+      "description": "Extrayez les couleurs dominantes des images.",
+      "shortDesc": "Extraire couleurs"
     },
     "image-joiner": {
-      "title": "Join Images",
-      "description": "Combine multiple images horizontally or vertically.",
-      "shortDesc": "Merge images together"
+      "title": "Joindre Images",
+      "description": "Combinez plusieurs images horizontalement ou verticalement.",
+      "shortDesc": "Fusionner images ensemble"
     },
     "create-gif": {
       "title": "Créer GIF",
-      "description": "Create animated GIF from multiple images.",
-      "shortDesc": "Make animated GIF",
-      "addImages": "Add Images",
-      "dragHint": "Drag images or click to browse",
-      "imageOrder": "Image Order",
-      "images": "images",
-      "frameDelay": "Frame Delay",
-      "quality": "Quality",
-      "width": "Width",
-      "createButton": "Créer GIF",
-      "successMessage": "GIF created successfully."
+      "description": "Créez un GIF animé à partir de plusieurs images.",
+      "shortDesc": "Faire GIF animé"
     },
     "image-border": {
-      "title": "Add Border",
-      "description": "Add custom colored borders to your images.",
-      "shortDesc": "Add image border"
+      "title": "Ajouter Bordure",
+      "description": "Ajoutez des bordures colorées personnalisées à vos images.",
+      "shortDesc": "Ajouter bordure à image"
     },
     "image-opacity": {
-      "title": "Adjust Opacity",
-      "description": "Change the transparency level of your images.",
-      "shortDesc": "Adjust transparency"
+      "title": "Ajuster Opacité",
+      "description": "Changez le niveau de transparence de vos images.",
+      "shortDesc": "Ajuster transparence"
     },
     "image-ratio": {
-      "title": "Change Aspect Ratio",
-      "description": "Adjust images to specific aspect ratios (1:1, 4:3, 16:9).",
-      "shortDesc": "Change aspect ratio"
+      "title": "Changer Ratio d'Aspect",
+      "description": "Ajustez les images à des ratios d'aspect spécifiques.",
+      "shortDesc": "Changer ratio d'aspect"
     },
     "favicon-generator": {
-      "title": "Favicon Generator",
-      "description": "Create favicon icons for websites from any image.",
-      "shortDesc": "Generate favicon"
+      "title": "Générateur de Favicon",
+      "description": "Créez des icônes favicon pour sites web.",
+      "shortDesc": "Générer favicon"
     },
     "trim-video": {
-      "title": "Trim Video",
-      "description": "Cut video clips to desired length by setting start and end points.",
-      "shortDesc": "Cut video segments",
-      "instructions": "Upload a video and set start/end times to trim."
+      "title": "Découper Vidéo",
+      "description": "Coupez des clips vidéo à la durée souhaitée.",
+      "shortDesc": "Couper segments vidéo"
     },
     "mute-video": {
-      "title": "Mute Video",
-      "description": "Remove audio track from video files to create silent videos.",
-      "shortDesc": "Remove video audio",
-      "instructions": "Upload a video to remove its audio track."
+      "title": "Couper Son Vidéo",
+      "description": "Supprimez la piste audio des fichiers vidéo.",
+      "shortDesc": "Supprimer audio vidéo"
     },
     "extract-audio": {
-      "title": "Extraire audio",
-      "description": "Extract audio from video files and save as MP3.",
-      "shortDesc": "Video to MP3",
-      "instructions": "Upload a video to extract its audio as MP3."
+      "title": "Extraire Audio",
+      "description": "Extrayez l'audio des fichiers vidéo et enregistrez en MP3.",
+      "shortDesc": "Vidéo en MP3"
     },
     "video-speed": {
-      "title": "Video Speed",
-      "description": "Change video playback speed (slow motion or fast forward).",
-      "shortDesc": "Adjust video speed",
-      "instructions": "Upload a video and select playback speed."
+      "title": "Vitesse Vidéo",
+      "description": "Changez la vitesse de lecture de la vidéo.",
+      "shortDesc": "Ajuster vitesse vidéo"
     },
     "video-capture": {
-      "title": "Video Capture",
-      "description": "Capture specific frames from video as high-quality images.",
-      "shortDesc": "Extract video frames",
-      "instructions": "Upload a video and select timestamp to capture."
+      "title": "Capture Vidéo",
+      "description": "Capturez des images spécifiques de la vidéo.",
+      "shortDesc": "Extraire images vidéo"
     },
     "convert-video": {
-      "title": "Convert Video",
-      "description": "Convert videos between formats (MP4, WebM, MOV, AVI).",
-      "shortDesc": "Change video format",
-      "instructions": "Upload a video and select output format."
+      "title": "Convertir Vidéo",
+      "description": "Convertissez des vidéos entre formats (MP4, WebM, MOV, AVI).",
+      "shortDesc": "Changer format vidéo"
     },
     "resize-video": {
-      "title": "Resize Video",
-      "description": "Change video dimensions for different platforms (TikTok, Instagram, YouTube).",
-      "shortDesc": "Change video size",
-      "instructions": "Upload a video and select new dimensions."
+      "title": "Redimensionner Vidéo",
+      "description": "Changez les dimensions vidéo pour différentes plateformes.",
+      "shortDesc": "Changer taille vidéo"
     },
     "compress-video": {
-      "title": "Compress Video",
-      "description": "Reduce video file size while maintaining quality.",
-      "shortDesc": "Reduce video size",
-      "instructions": "Upload a video and select compression quality."
+      "title": "Compresser Vidéo",
+      "description": "Réduisez la taille du fichier vidéo en maintenant la qualité.",
+      "shortDesc": "Réduire taille vidéo"
     },
     "flip-video": {
-      "title": "Flip Video",
-      "description": "Flip videos horizontally or vertically (mirror effect).",
-      "shortDesc": "Mirror video",
-      "instructions": "Upload a video and select flip direction."
+      "title": "Retourner Vidéo",
+      "description": "Retournez les vidéos horizontalement ou verticalement.",
+      "shortDesc": "Miroir vidéo"
     },
     "trim-audio": {
-      "title": "Trim Audio",
-      "description": "Cut audio files to create ringtones or clips.",
-      "shortDesc": "Cut audio segments",
-      "instructions": "Upload an audio file and set start/end times to trim."
+      "title": "Découper Audio",
+      "description": "Coupez des fichiers audio pour créer des sonneries ou clips.",
+      "shortDesc": "Couper segments audio"
     },
     "join-audio": {
-      "title": "Join Audio",
-      "description": "Merge multiple audio files into one.",
-      "shortDesc": "Merge audio files",
-      "instructions": "Upload audio files to merge in order."
+      "title": "Joindre Audio",
+      "description": "Fusionnez plusieurs fichiers audio en un seul.",
+      "shortDesc": "Fusionner fichiers audio"
     },
     "convert-audio": {
-      "title": "Convert Audio",
-      "description": "Convert audio files between formats (MP3, WAV, OGG).",
-      "shortDesc": "Change audio format",
-      "instructions": "Upload an audio file and select output format."
+      "title": "Convertir Audio",
+      "description": "Convertissez des fichiers audio entre formats (MP3, WAV, OGG).",
+      "shortDesc": "Changer format audio"
     },
     "boost-audio": {
-      "title": "Boost Audio Volume",
-      "description": "Increase volume of quiet audio recordings.",
-      "shortDesc": "Increase volume",
-      "instructions": "Upload an audio file and adjust volume level."
+      "title": "Augmenter Volume Audio",
+      "description": "Augmentez le volume des enregistrements audio.",
+      "shortDesc": "Augmenter volume"
     },
     "reverse-audio": {
-      "title": "Reverse Audio",
-      "description": "Play audio backwards for creative effects.",
-      "shortDesc": "Play audio backwards",
-      "instructions": "Upload an audio file to reverse."
+      "title": "Inverser Audio",
+      "description": "Lisez l'audio à l'envers pour des effets créatifs.",
+      "shortDesc": "Lire audio à l'envers"
     },
     "audio-bitrate": {
-      "title": "Audio Bitrate",
-      "description": "Change audio quality and file size by adjusting bitrate.",
-      "shortDesc": "Adjust audio quality",
-      "instructions": "Upload an audio file and select bitrate."
+      "title": "Débit Audio",
+      "description": "Changez la qualité et la taille du fichier en ajustant le débit.",
+      "shortDesc": "Ajuster qualité audio"
     },
     "audio-visualizer": {
-      "title": "Audio Visualizer",
-      "description": "Create waveform visualization video from audio.",
-      "shortDesc": "Create audio video",
-      "instructions": "Upload an audio file to create a visualizer video."
+      "title": "Visualiseur Audio",
+      "description": "Créez une vidéo de visualisation de forme d'onde.",
+      "shortDesc": "Créer vidéo audio"
     },
     "video-metadata": {
-      "title": "Video Metadata",
-      "description": "View detailed information about video files (codec, resolution, duration).",
-      "shortDesc": "View video info",
-      "instructions": "Upload a video to view its metadata."
+      "title": "Métadonnées Vidéo",
+      "description": "Voir les informations détaillées sur les fichiers vidéo.",
+      "shortDesc": "Voir info vidéo"
     },
     "voice-recorder": {
-      "title": "Voice Recorder",
-      "description": "Record audio using your microphone directly in browser.",
-      "shortDesc": "Record voice",
-      "instructions": "Click the button to start recording from your microphone."
+      "title": "Enregistreur Vocal",
+      "description": "Enregistrez l'audio avec votre microphone directement.",
+      "shortDesc": "Enregistrer voix"
     },
     "screen-recorder": {
-      "title": "Screen Recorder",
-      "description": "Record your screen directly in the browser.",
-      "shortDesc": "Record screen",
-      "instructions": "Click start to record your screen. You can include microphone audio."
+      "title": "Enregistreur d'Écran",
+      "description": "Enregistrez votre écran directement dans le navigateur.",
+      "shortDesc": "Enregistrer écran"
     },
     "image-ocr": {
-      "title": "Image Text Extraction (OCR)",
-      "description": "Extract text from images using OCR technology. Supports Korean, English, Japanese, and Chinese.",
-      "shortDesc": "Extract text from images",
-      "instructions": "Upload an image to extract text. Select the language for better accuracy.",
-      "imageLabel": "Image",
-      "textLabel": "Extracted Text",
-      "textPlaceholder": "Extracted text will appear here...",
-      "extractText": "Extract Text",
-      "extractComplete": "Text extraction complete!",
-      "initializing": "Initializing OCR engine...",
-      "recognizing": "Recognizing text...",
-      "loadingLanguage": "Loading language data..."
+      "title": "Extraction de Texte d'Image (OCR)",
+      "description": "Extrayez le texte des images avec la technologie OCR.",
+      "shortDesc": "Extraire texte des images"
     },
     "pdf-text-extract": {
-      "title": "PDF Text Extraction",
-      "description": "Extract selectable text from PDF documents. Works with PDFs created from Word, web pages, or text documents.",
-      "shortDesc": "Extract PDF text",
-      "instructions": "Upload a PDF file to extract its text content.",
-      "explanation": "This tool extracts selectable text that is embedded in PDF files. It works for PDFs created from text documents, Word files, or web pages.",
-      "ocrHint": "For scanned documents or image-based PDFs where text cannot be selected, use the OCR PDF tool instead.",
-      "extractButton": "Extract Text",
-      "successMessage": "Text extracted successfully.",
-      "copiedMessage": "Text copied to clipboard.",
-      "resultLabel": "Extracted Text"
+      "title": "Extraction de Texte PDF",
+      "description": "Extrayez le texte sélectionnable des documents PDF.",
+      "shortDesc": "Extraire texte PDF"
     },
     "character-count": {
-      "title": "Character Counter",
-      "description": "Count characters, words, sentences, and paragraphs in real-time.",
-      "shortDesc": "Count characters and words",
-      "instructions": "Paste or type text to see character and word statistics.",
-      "inputLabel": "Input Text",
-      "statsLabel": "Statistics",
-      "placeholder": "Paste or type your text here...",
-      "characters": "Characters",
-      "charactersNoSpaces": "Characters (no spaces)",
-      "words": "Words",
-      "lines": "Lines",
-      "paragraphs": "Paragraphs",
-      "sentences": "Sentences",
-      "bytes": "Bytes",
-      "statsCopied": "Statistics copied to clipboard"
+      "title": "Compteur de Caractères",
+      "description": "Comptez caractères, mots, phrases et paragraphes en temps réel.",
+      "shortDesc": "Compter caractères et mots"
     },
     "phrase-saver": {
-      "title": "Phrase Saver",
-      "description": "Save frequently used phrases and copy them with a single click.",
-      "shortDesc": "Save common phrases",
-      "instructions": "Add phrases you use often for quick copying.",
-      "storageNotice": "Saved phrases are stored in this browser only. They won't be accessible from other devices or browsers, and will be deleted if you clear browser data.",
-      "inputPlaceholder": "Enter a new phrase...",
-      "phraseAdded": "Phrase added",
-      "phraseDeleted": "Phrase deleted",
-      "suggestedPhrases": "Suggested Phrases",
-      "example1": "Have a great day!",
-      "example2": "Thank you.",
-      "example3": "Confirmed.",
-      "example4": "Please contact me if you have any questions.",
-      "totalPhrases": "{{count}} phrase(s) saved"
+      "title": "Sauvegardeur de Phrases",
+      "description": "Sauvegardez les phrases fréquentes et copiez-les en un clic.",
+      "shortDesc": "Sauvegarder phrases courantes"
     },
     "dictionary": {
-      "title": "Dictionary",
-      "description": "Look up word definitions. Powered by Wikipedia with multi-language support.",
-      "shortDesc": "Search word definitions",
-      "instructions": "Enter a word and select a language to search.",
-      "inputPlaceholder": "Enter a word to search...",
-      "notFound": "No results found",
-      "notFoundHint": "Try a different keyword or change the language.",
-      "searchError": "An error occurred while searching",
-      "enterWord": "Enter a word to search",
-      "poweredBy": "Powered by Wikipedia API. Free to use.",
-      "disambiguationNote": "This word has multiple meanings. Check Wikipedia for more details."
+      "title": "Dictionnaire",
+      "description": "Recherchez les définitions de mots. Propulsé par Wikipedia.",
+      "shortDesc": "Rechercher définitions de mots"
     },
     "text-to-speech": {
-      "title": "Text to Speech",
-      "description": "Convert text to speech. Supports multiple languages and voices.",
-      "shortDesc": "Convert text to audio",
-      "instructions": "Enter text, adjust voice, speed, and pitch, then play.",
-      "textLabel": "Text to Read",
-      "placeholder": "Enter text to read aloud...",
-      "characters": "characters",
-      "voiceLabel": "Voice Selection",
-      "selectVoice": "Select a voice",
-      "loadingVoices": "Loading voices...",
-      "speed": "Speed",
-      "pitch": "Pitch",
-      "play": "Play",
-      "pause": "Pause",
-      "resume": "Reprendre",
-      "stop": "Arrêter",
-      "speaking": "Speaking...",
-      "paused": "Paused",
-      "notSupported": "Your browser does not support speech synthesis. Please use a modern browser like Chrome, Firefox, or Safari.",
-      "speakError": "An error occurred while playing audio",
-      "browserNote": "Uses browser's built-in speech engine. Available voices may vary by device and browser."
+      "title": "Texte en Parole",
+      "description": "Convertissez le texte en parole. Supporte plusieurs langues.",
+      "shortDesc": "Convertir texte en audio"
     },
     "case-converter": {
-      "title": "Case Converter",
-      "description": "Convert text between uppercase, lowercase, title case, and more.",
-      "shortDesc": "Change text case",
-      "instructions": "Enter text and choose a case conversion option.",
-      "inputLabel": "Input Text",
-      "outputLabel": "Output Text",
-      "placeholder": "Enter text to convert...",
-      "uppercase": "UPPERCASE",
-      "lowercase": "lowercase",
-      "titlecase": "Title Case",
-      "sentencecase": "Sentence case",
-      "camelcase": "camelCase",
-      "pascalcase": "PascalCase",
-      "snakecase": "snake_case",
-      "kebabcase": "kebab-case"
+      "title": "Convertisseur de Casse",
+      "description": "Convertissez le texte entre majuscules, minuscules, titre et plus.",
+      "shortDesc": "Changer casse de texte"
     },
     "line-break-remover": {
-      "title": "Line Break Remover",
-      "description": "Remove unnecessary line breaks and merge text into a single line.",
-      "shortDesc": "Remove line breaks",
-      "instructions": "Paste text with unwanted line breaks to merge into one line.",
-      "inputLabel": "Input Text",
-      "outputLabel": "Output Text",
-      "placeholder": "Paste text with line breaks..."
+      "title": "Suppresseur de Sauts de Ligne",
+      "description": "Supprimez les sauts de ligne inutiles.",
+      "shortDesc": "Supprimer sauts de ligne"
     },
     "remove-duplicates": {
-      "title": "Remove Duplicate Lines",
-      "description": "Remove duplicate lines from your text, keeping only unique entries.",
-      "shortDesc": "Remove duplicates",
-      "instructions": "Paste text with duplicate lines to remove them.",
-      "inputLabel": "Input Text",
-      "outputLabel": "Unique Lines",
-      "placeholder": "Paste text with duplicate lines..."
+      "title": "Supprimer Lignes Doubles",
+      "description": "Supprimez les lignes en double de votre texte.",
+      "shortDesc": "Supprimer doublons"
     },
     "text-sort": {
-      "title": "Text Sorter",
-      "description": "Sort text lines alphabetically, reverse, or by length.",
-      "shortDesc": "Sort text lines",
-      "instructions": "Paste lines of text and choose a sorting order.",
-      "inputLabel": "Input Text",
-      "outputLabel": "Sorted Text",
-      "placeholder": "Enter lines to sort...",
-      "orderLabel": "Sort Order",
-      "ascending": "A to Z",
-      "descending": "Z to A",
-      "byLength": "By Length"
+      "title": "Trieur de Texte",
+      "description": "Triez les lignes de texte alphabétiquement, inversé ou par longueur.",
+      "shortDesc": "Trier lignes de texte"
     },
     "find-replace": {
-      "title": "Find and Replace",
-      "description": "Find specific text and replace it with something else.",
-      "shortDesc": "Find and replace text",
-      "instructions": "Enter the text to find and what to replace it with.",
-      "inputLabel": "Input Text",
-      "outputLabel": "Result",
-      "placeholder": "Enter text to search in...",
-      "findLabel": "Find",
-      "findPlaceholder": "Text to find",
-      "replaceLabel": "Replace with",
-      "replacePlaceholder": "Replacement text"
+      "title": "Rechercher et Remplacer",
+      "description": "Trouvez du texte spécifique et remplacez-le.",
+      "shortDesc": "Rechercher et remplacer texte"
     },
     "blank-line-remover": {
-      "title": "Blank Line Remover",
-      "description": "Remove empty lines from your text.",
-      "shortDesc": "Remove blank lines",
-      "instructions": "Paste text to remove all blank lines.",
-      "inputLabel": "Input Text",
-      "outputLabel": "Output Text",
-      "placeholder": "Paste text with blank lines..."
+      "title": "Suppresseur de Lignes Vides",
+      "description": "Supprimez les lignes vides de votre texte.",
+      "shortDesc": "Supprimer lignes vides"
     },
     "prefix-suffix": {
-      "title": "Add Prefix/Suffix",
-      "description": "Add text before or after each line.",
-      "shortDesc": "Add prefix or suffix",
-      "instructions": "Enter prefix and/or suffix to add to each line.",
-      "inputLabel": "Input Text",
-      "outputLabel": "Output Text",
-      "placeholder": "Enter lines of text...",
-      "prefixLabel": "Prefix",
-      "prefixPlaceholder": "Add before",
-      "suffixLabel": "Suffix",
-      "suffixPlaceholder": "Add after"
+      "title": "Ajouter Préfixe/Suffixe",
+      "description": "Ajoutez du texte avant ou après chaque ligne.",
+      "shortDesc": "Ajouter préfixe ou suffixe"
     },
     "csv-to-json": {
-      "title": "CSV to JSON",
-      "description": "Convert CSV data to JSON format for developers.",
-      "shortDesc": "Convert CSV to JSON",
-      "instructions": "Paste CSV data to convert to JSON."
+      "title": "CSV en JSON",
+      "description": "Convertissez les données CSV en format JSON.",
+      "shortDesc": "Convertir CSV en JSON"
     },
     "json-to-csv": {
-      "title": "JSON to CSV",
-      "description": "Convert JSON data to CSV format for Excel.",
-      "shortDesc": "Convert JSON to CSV",
-      "instructions": "Paste JSON array to convert to CSV."
+      "title": "JSON en CSV",
+      "description": "Convertissez les données JSON en format CSV pour Excel.",
+      "shortDesc": "Convertir JSON en CSV"
     },
     "xml-to-json": {
-      "title": "XML to JSON",
-      "description": "Convert XML data to JSON format.",
-      "shortDesc": "Convert XML to JSON",
-      "instructions": "Paste XML data to convert to JSON."
+      "title": "XML en JSON",
+      "description": "Convertissez les données XML en format JSON.",
+      "shortDesc": "Convertir XML en JSON"
     },
     "yaml-to-json": {
-      "title": "YAML to JSON",
-      "description": "Convert YAML configuration to JSON format.",
-      "shortDesc": "Convert YAML to JSON",
-      "instructions": "Paste YAML data to convert to JSON."
+      "title": "YAML en JSON",
+      "description": "Convertissez la configuration YAML en format JSON.",
+      "shortDesc": "Convertir YAML en JSON"
     },
     "text-to-list": {
-      "title": "Text to List",
-      "description": "Convert comma-separated or delimited text into a numbered list.",
-      "shortDesc": "Convert to list",
-      "instructions": "Enter delimited text to convert to a numbered list.",
-      "inputLabel": "Input Text",
-      "outputLabel": "Numbered List",
-      "placeholder": "Enter delimited text...",
-      "delimiterLabel": "Delimiter",
-      "comma": "Comma (,)",
-      "semicolon": "Semicolon (;)",
-      "pipe": "Pipe (|)",
-      "tab": "Tab",
-      "space": "Space"
+      "title": "Texte en Liste",
+      "description": "Convertissez le texte délimité en une liste numérotée.",
+      "shortDesc": "Convertir en liste"
     },
     "dummy-generator": {
-      "title": "Dummy Data Generator",
-      "description": "Generate fake names, emails, addresses, and phone numbers for testing.",
-      "shortDesc": "Generate test data",
-      "instructions": "Select the fields and amount of dummy data to generate.",
-      "countLabel": "Records",
-      "fieldsLabel": "Fields to Generate",
-      "generate": "Generate Data",
-      "outputLabel": "Generated Data",
-      "textFormat": "Text",
-      "selectField": "Please select at least one field",
-      "fieldName": "Full Name",
-      "fieldEmail": "Email",
-      "fieldPhone": "Phone",
-      "fieldAddress": "Address",
-      "fieldCompany": "Company",
-      "fieldJob": "Job Title",
-      "fieldDate": "Birth Date",
-      "fieldId": "ID Number"
+      "title": "Générateur de Données Fictives",
+      "description": "Générez des noms, emails, adresses et téléphones fictifs.",
+      "shortDesc": "Générer données de test"
     },
     "lorem-ipsum": {
       "title": "Lorem Ipsum Generator",
@@ -1037,24 +864,14 @@
       "placeholder": "Click Generate to create placeholder text..."
     },
     "markdown-preview": {
-      "title": "Markdown Preview",
-      "description": "Preview Markdown text as rendered HTML in real-time.",
-      "shortDesc": "Preview Markdown",
-      "instructions": "Write Markdown on the left to see the rendered preview on the right."
+      "title": "Aperçu Markdown",
+      "description": "Écrivez du Markdown et voyez l'aperçu rendu.",
+      "shortDesc": "Aperçu Markdown"
     },
     "regex-tester": {
-      "title": "Regex Tester",
-      "description": "Test and debug regular expressions with real-time matching.",
-      "shortDesc": "Test regex patterns",
-      "patternLabel": "Pattern",
-      "patternPlaceholder": "Enter regex pattern...",
-      "flagsLabel": "Flags",
-      "testLabel": "Test String",
-      "testPlaceholder": "Enter text to test against...",
-      "highlightLabel": "Highlighted Matches",
-      "matchesLabel": "Match Details",
-      "matches": "matches",
-      "noMatches": "No matches found"
+      "title": "Testeur de Regex",
+      "description": "Testez et déboguez les expressions régulières.",
+      "shortDesc": "Tester expressions régulières"
     },
     "url-encode": {
       "title": "URL Encoder/Decoder",
@@ -1171,20 +988,9 @@
       "noTextFound": "No text content found in the provided HTML."
     },
     "json-formatter": {
-      "title": "JSON Formatter",
-      "description": "Format and validate JSON data beautifully.",
-      "shortDesc": "Format and validate JSON",
-      "instructions": "Paste JSON to format or validate.",
-      "inputLabel": "Input JSON",
-      "outputLabel": "Formatted JSON",
-      "placeholder": "Paste your JSON here...",
-      "indent2": "2 Spaces",
-      "indent4": "4 Spaces",
-      "indent8": "8 Spaces",
-      "format": "Format",
-      "minify": "Minify",
-      "valid": "Valid JSON",
-      "invalid": "Invalid JSON"
+      "title": "Formateur JSON",
+      "description": "Formatez et embellissez les données JSON.",
+      "shortDesc": "Formater JSON"
     },
     "base64-encode": {
       "title": "Base64 Encoder",
@@ -1197,14 +1003,14 @@
       "shortDesc": "Generate hash values"
     },
     "unit-converter": {
-      "title": "Unit Converter",
-      "description": "Convert various units like length, weight, temperature.",
-      "shortDesc": "Convert units"
+      "title": "Convertisseur d'Unités",
+      "description": "Convertissez entre différentes unités de mesure.",
+      "shortDesc": "Convertir unités"
     },
     "percentage-calculator": {
-      "title": "Calculatrice de pourcentage",
-      "description": "Calculez facilement les pourcentages.",
-      "shortDesc": "Calculer les pourcentages"
+      "title": "Calculatrice de Pourcentage",
+      "description": "Calculez les pourcentages facilement.",
+      "shortDesc": "Calculer pourcentages"
     },
     "pdf-to-png": {
       "title": "PDF to PNG",
@@ -1521,33 +1327,14 @@
       "legendDanger": "Too long, will be cut off"
     },
     "qr-code-generator": {
-      "title": "QR Code Generator",
-      "description": "Create custom QR codes for URLs, text, Wi-Fi, and more.",
-      "shortDesc": "Generate QR codes",
-      "textTab": "Text",
-      "urlLabel": "URL",
-      "urlPlaceholder": "https://example.com",
-      "textLabel": "Text",
-      "textPlaceholder": "Enter text to encode...",
-      "wifiSsid": "Network Name (SSID)",
-      "wifiSsidPlaceholder": "Enter WiFi network name",
-      "wifiPassword": "Password",
-      "wifiPasswordPlaceholder": "Enter WiFi password",
-      "wifiEncryption": "Security Type",
-      "wifiNoPassword": "No Password",
-      "wifiHidden": "Hidden Network",
-      "sizeLabel": "Size",
-      "fgColorLabel": "Foreground Color",
-      "bgColorLabel": "Background Color",
-      "downloaded": "QR code downloaded!"
+      "title": "Générateur de Code QR",
+      "description": "Créez des codes QR pour URLs, texte ou données.",
+      "shortDesc": "Créer code QR"
     },
     "barcode-generator": {
-      "title": "Barcode Generator",
-      "description": "Generate various barcode formats like Code 128, EAN-13, and UPC.",
-      "shortDesc": "Generate barcodes",
-      "formatLabel": "Barcode Format",
-      "textLabel": "Content",
-      "textPlaceholder": "Enter barcode content..."
+      "title": "Générateur de Code-Barres",
+      "description": "Créez des codes-barres pour produits.",
+      "shortDesc": "Créer code-barres"
     },
     "url-shortener": {
       "title": "URL Shortener",
@@ -1656,34 +1443,19 @@
       "copied": "Kaomoji copied!"
     },
     "timezone-converter": {
-      "title": "Timezone Converter",
-      "description": "Convert time across different timezones for global scheduling.",
-      "shortDesc": "Convert timezones",
-      "dateLabel": "Date",
-      "timeLabel": "Time",
-      "fromLabel": "From Timezone",
-      "now": "Now"
+      "title": "Convertisseur de Fuseau Horaire",
+      "description": "Convertissez les heures entre différents fuseaux horaires.",
+      "shortDesc": "Convertir fuseau horaire"
     },
     "sha256-hash": {
-      "title": "SHA-256 Hash Generator",
-      "description": "Generate SHA-256 hash values for text or files with secure cryptographic hashing.",
-      "shortDesc": "Generate SHA-256 hash",
-      "inputLabel": "Text to Hash",
-      "placeholder": "Enter text to generate hash...",
-      "hashLabel": "SHA-256 Hash",
-      "generate": "Generate Hash",
-      "copied": "Hash copied!"
+      "title": "Générateur Hash SHA-256",
+      "description": "Générez un hash SHA-256 à partir de texte.",
+      "shortDesc": "Générer hash SHA-256"
     },
     "md5-hash": {
-      "title": "MD5 Hash Generator",
-      "description": "Generate MD5 hash values for text or files. Note: MD5 is not secure for cryptographic use.",
-      "shortDesc": "Generate MD5 hash",
-      "inputLabel": "Text to Hash",
-      "placeholder": "Enter text to generate hash...",
-      "hashLabel": "MD5 Hash",
-      "generate": "Generate Hash",
-      "copied": "Hash copied!",
-      "warning": "MD5 is not secure for passwords. Use SHA-256 or BCrypt for security purposes."
+      "title": "Générateur Hash MD5",
+      "description": "Générez un hash MD5 à partir de texte.",
+      "shortDesc": "Générer hash MD5"
     },
     "aes-encryption": {
       "title": "AES Encryption/Decryption",
@@ -1730,24 +1502,14 @@
       "removeEmptyAttr": "Remove Empty Attributes"
     },
     "css-minifier": {
-      "title": "CSS Minifier",
-      "description": "Minify and beautify CSS code for production optimization.",
-      "shortDesc": "Minify CSS code",
-      "inputLabel": "CSS Code",
-      "placeholder": "Paste your CSS code here...",
-      "outputLabel": "Output",
-      "minify": "Minify",
-      "beautify": "Beautify"
+      "title": "Minifieur CSS",
+      "description": "Minifiez le code CSS pour réduire la taille.",
+      "shortDesc": "Minifier CSS"
     },
     "js-minifier": {
-      "title": "JavaScript Minifier",
-      "description": "Minify JavaScript code by removing whitespace and comments.",
-      "shortDesc": "Minify JS code",
-      "inputLabel": "JavaScript Code",
-      "placeholder": "Paste your JavaScript code here...",
-      "outputLabel": "Minified JavaScript",
-      "minify": "Minify",
-      "notice": "This is a basic minifier. For production, use dedicated tools like Terser or UglifyJS."
+      "title": "Minifieur JavaScript",
+      "description": "Minifiez le code JavaScript pour réduire la taille.",
+      "shortDesc": "Minifier JavaScript"
     },
     "sql-formatter": {
       "title": "SQL Formatter",
@@ -1763,7 +1525,7 @@
       "empty": "Enter SQL query to format"
     },
     "password-generator": {
-      "title": "Générateur de mot de passe",
+      "title": "Générateur de Mot de Passe",
       "description": "Générez des mots de passe aléatoires sécurisés et forts.",
       "shortDesc": "Générateur de mot de passe sécurisé"
     },
@@ -1883,43 +1645,19 @@
       "copied": "Color value copied!"
     },
     "tip-calculator": {
-      "title": "Tip Calculator",
-      "description": "Calculate tips for restaurants and split the bill between people.",
-      "shortDesc": "Calculate tips and split bills",
-      "billAmount": "Bill Amount",
-      "tipPercent": "Tip Percentage",
-      "numPeople": "Number of People",
-      "tipAmount": "Tip Amount",
-      "total": "Total",
-      "tipPerPerson": "Tip per Person",
-      "perPerson": "Total per Person"
+      "title": "Calculatrice de Pourboire",
+      "description": "Calculez les pourboires et divisez l'addition.",
+      "shortDesc": "Calculer pourboires"
     },
     "discount-calculator": {
-      "title": "Discount Calculator",
-      "description": "Calculate sale prices and savings from discounts.",
-      "shortDesc": "Calculate discounts and savings",
-      "originalPrice": "Original Price",
-      "discountPercent": "Discount",
-      "youSave": "You Save",
-      "finalPrice": "Final Price"
+      "title": "Calculatrice de Remise",
+      "description": "Calculez le prix final après remise.",
+      "shortDesc": "Calculer remise"
     },
     "compound-interest": {
-      "title": "Compound Interest Calculator",
-      "description": "Calculate compound interest and future value of investments.",
-      "shortDesc": "Calculate investment growth",
-      "principal": "Initial Investment",
-      "rate": "Annual Interest Rate",
-      "years": "Years",
-      "frequency": "Compound Frequency",
-      "monthlyContribution": "Monthly Contribution",
-      "annually": "Annually",
-      "semiAnnually": "Semi-Annually",
-      "quarterly": "Quarterly",
-      "monthly": "Monthly",
-      "daily": "Daily",
-      "futureValue": "Future Value",
-      "totalContributions": "Total Contributions",
-      "totalInterest": "Interest Earned"
+      "title": "Calculatrice d'Intérêt Composé",
+      "description": "Calculez l'intérêt composé sur les investissements.",
+      "shortDesc": "Calculer intérêt composé"
     },
     "salary-converter": {
       "title": "Salary Converter",
@@ -1937,31 +1675,14 @@
       "hourly": "Hourly"
     },
     "sales-tax-calculator": {
-      "title": "Sales Tax Calculator",
-      "description": "Calculate sales tax for US states and EU VAT rates.",
-      "shortDesc": "Calculate sales tax",
-      "amount": "Amount",
-      "region": "Region",
-      "usStates": "US States",
-      "euCountries": "EU Countries (VAT)",
-      "customRate": "Custom Rate",
-      "state": "State",
-      "country": "Country",
-      "taxRate": "Tax Rate",
-      "subtotal": "Subtotal",
-      "tax": "Tax",
-      "total": "Total"
+      "title": "Calculatrice de Taxes",
+      "description": "Calculez les taxes sur les ventes.",
+      "shortDesc": "Calculer taxes"
     },
     "currency-converter": {
-      "title": "Currency Converter",
-      "description": "Convert between 150+ world currencies with live exchange rates.",
-      "shortDesc": "Convert currencies",
-      "amount": "Amount",
-      "from": "From",
-      "to": "To",
-      "updated": "Last Updated",
-      "usingFallback": "Using offline rates",
-      "refresh": "Refresh Rates"
+      "title": "Convertisseur de Devises",
+      "description": "Convertissez entre différentes devises.",
+      "shortDesc": "Convertir devises"
     },
     "metric-imperial": {
       "title": "Metric ↔ Imperial Converter",
@@ -2012,18 +1733,9 @@
       "knots": "Knots"
     },
     "bmi-calculator": {
-      "title": "BMI Calculator",
-      "description": "Calculate your Body Mass Index and health category.",
-      "shortDesc": "Calculate body mass index",
-      "metric": "Metric",
-      "imperial": "Imperial",
-      "height": "Height",
-      "weight": "Weight",
-      "yourBmi": "Your BMI",
-      "underweight": "Underweight",
-      "normal": "Normal weight",
-      "overweight": "Overweight",
-      "obese": "Obese"
+      "title": "Calculatrice d'IMC",
+      "description": "Calculez votre Indice de Masse Corporelle.",
+      "shortDesc": "Calculer IMC"
     },
     "bmr-calculator": {
       "title": "BMR & TDEE Calculator",
@@ -2048,18 +1760,9 @@
       "calDay": "cal/day"
     },
     "age-calculator": {
-      "title": "Age Calculator",
-      "description": "Calculate your exact age in years, months, days, and more.",
-      "shortDesc": "Calculate your age",
-      "birthDate": "Date of Birth",
-      "targetDate": "Calculate age on",
-      "yourAge": "Your Age",
-      "years": "years",
-      "months": "months",
-      "days": "days",
-      "totalDays": "Total Days",
-      "totalWeeks": "Total Weeks",
-      "totalMonths": "Total Months"
+      "title": "Calculatrice d'Âge",
+      "description": "Calculez votre âge exact à partir de la date de naissance.",
+      "shortDesc": "Calculer âge"
     },
     "pregnancy-calculator": {
       "title": "Pregnancy Due Date Calculator",
@@ -2158,17 +1861,9 @@
       "impliedProbability": "Implied Probability"
     },
     "gpa-calculator": {
-      "title": "GPA Calculator",
-      "description": "Calculate your Grade Point Average from course grades.",
-      "shortDesc": "Calculate GPA",
-      "course": "Course",
-      "courseName": "Course name (optional)",
-      "grade": "Grade",
-      "credits": "Credits",
-      "addCourse": "Add Course",
-      "gpa": "GPA",
-      "outOf": "out of",
-      "totalCredits": "Total Credits"
+      "title": "Calculatrice de GPA",
+      "description": "Calculez votre moyenne de notes.",
+      "shortDesc": "Calculer GPA"
     },
     "scientific-calculator": {
       "title": "Scientific Calculator",
@@ -2197,7 +1892,7 @@
       "generate10": "Generate 10"
     },
     "countdown-timer": {
-      "title": "Minuteur de compte à rebours",
+      "title": "Minuteur de Compte à Rebours",
       "description": "Minuteur de compte à rebours.",
       "shortDesc": "Compte à rebours"
     },
@@ -2207,12 +1902,12 @@
       "shortDesc": "Mesure du temps"
     },
     "wheel-spinner": {
-      "title": "Roulette tournante",
+      "title": "Roulette Tournante",
       "description": "Roue de sélection aléatoire.",
       "shortDesc": "Sélection aléatoire"
     },
     "typing-test": {
-      "title": "Test de frappe",
+      "title": "Test de Frappe",
       "description": "Testez votre vitesse de frappe.",
       "shortDesc": "Test de vitesse de frappe"
     },
@@ -2329,7 +2024,7 @@
       "shortDesc": "Glitch text creator"
     },
     "magic-8-ball": {
-      "title": "Boule magique 8",
+      "title": "Boule Magique 8",
       "description": "Divination.",
       "shortDesc": "Divination"
     },
@@ -2535,12 +2230,12 @@
       "newGame": "New Game"
     },
     "balance-game": {
-      "title": "Jeu d'équilibre",
+      "title": "Jeu d'Équilibre",
       "description": "Ceci vs Cela - Lequel choisissez-vous?",
       "shortDesc": "Ceci vs Cela"
     },
     "tournament-game": {
-      "title": "Jeu de tournoi",
+      "title": "Jeu de Tournoi",
       "description": "Sélecteur de bracket de tournoi.",
       "shortDesc": "Sélecteur de bracket"
     },
@@ -2672,7 +2367,7 @@
       "show": "Show"
     },
     "big-wheel": {
-      "title": "Grande roue",
+      "title": "Grande Roue",
       "description": "Roue de la fortune pour les diffusions.",
       "shortDesc": "Roue pour diffusion"
     },
@@ -2692,19 +2387,104 @@
       "retry": "Try Again"
     },
     "random-number-generator": {
-      "title": "Générateur de nombres aléatoires",
+      "title": "Générateur de Nombres Aléatoires",
       "description": "Générez des nombres aléatoires.",
-      "shortDesc": "Générer des nombres aléatoires"
+      "shortDesc": "Générer nombres aléatoires"
     },
     "flip-coin": {
-      "title": "Lancer une pièce",
+      "title": "Lancer une Pièce",
       "description": "Lancer de pièce virtuel.",
       "shortDesc": "Pièce virtuelle"
     },
     "roll-dice": {
-      "title": "Lancer les dés",
+      "title": "Lancer les Dés",
       "description": "Dés virtuels.",
       "shortDesc": "Dés virtuels"
+    },
+    "korean-initial-quiz": {
+      "title": "Quiz d'Initiales Coréennes",
+      "description": "Devinez le mot par les initiales coréennes.",
+      "shortDesc": "Deviner par initiales"
+    },
+    "random-color-generator": {
+      "title": "Générateur de Couleur Aléatoire",
+      "description": "Générez des couleurs aléatoires avec codes hex.",
+      "shortDesc": "Générer couleur aléatoire"
+    },
+    "lorem-ipsum-generator": {
+      "title": "Générateur Lorem Ipsum",
+      "description": "Générez du texte de remplissage pour le design.",
+      "shortDesc": "Générer texte de remplissage"
+    },
+    "aes-encrypt": {
+      "title": "Chiffrement/Déchiffrement AES",
+      "description": "Chiffrez et déchiffrez du texte avec AES.",
+      "shortDesc": "Chiffrer/Déchiffrer texte"
+    },
+    "base64-encoder": {
+      "title": "Encodeur Base64",
+      "description": "Encodez et décodez du texte en Base64.",
+      "shortDesc": "Encoder/Décoder Base64"
+    },
+    "bcrypt-hash": {
+      "title": "Générateur Hash BCrypt",
+      "description": "Générez des hashes BCrypt pour mots de passe.",
+      "shortDesc": "Générer hash BCrypt"
+    },
+    "html-beautifier": {
+      "title": "Embellisseur HTML",
+      "description": "Formatez et embellissez le code HTML.",
+      "shortDesc": "Embellir HTML"
+    },
+    "url-encoder": {
+      "title": "Encodeur/Décodeur URL",
+      "description": "Encodez et décodez les URLs.",
+      "shortDesc": "Encoder/Décoder URL"
+    },
+    "date-difference": {
+      "title": "Calculatrice de Différence de Dates",
+      "description": "Calculez les jours entre deux dates.",
+      "shortDesc": "Calculer différence de dates"
+    },
+    "sqrt-calculator": {
+      "title": "Calculatrice de Racine Carrée",
+      "description": "Calculez la racine carrée de n'importe quel nombre.",
+      "shortDesc": "Calculer racine carrée"
+    },
+    "loan-calculator": {
+      "title": "Calculatrice de Prêt",
+      "description": "Calculez les paiements mensuels du prêt.",
+      "shortDesc": "Calculer prêt"
+    },
+    "calorie-calculator": {
+      "title": "Calculatrice de Calories",
+      "description": "Calculez vos besoins caloriques quotidiens.",
+      "shortDesc": "Calculer calories"
+    },
+    "grade-calculator": {
+      "title": "Calculatrice de Notes",
+      "description": "Calculez votre note basée sur les scores.",
+      "shortDesc": "Calculer note"
+    },
+    "word-count": {
+      "title": "Compteur de Mots",
+      "description": "Comptez les mots dans votre texte.",
+      "shortDesc": "Compter mots"
+    },
+    "text-reverse": {
+      "title": "Inverser Texte",
+      "description": "Inversez l'ordre des caractères dans le texte.",
+      "shortDesc": "Inverser texte"
+    },
+    "text-to-binary": {
+      "title": "Texte en Binaire",
+      "description": "Convertissez le texte en code binaire.",
+      "shortDesc": "Convertir en binaire"
+    },
+    "binary-to-text": {
+      "title": "Binaire en Texte",
+      "description": "Convertissez le code binaire en texte.",
+      "shortDesc": "Convertir du binaire"
     }
   }
 }
