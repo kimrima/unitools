@@ -29,7 +29,6 @@ import {
 } from 'lucide-react';
 import { useState } from 'react';
 import { getToolsByCategory } from '@/data/tools';
-import HeaderSearchBar from './HeaderSearchBar';
 
 const categories = [
   { id: 'pdf', icon: FileText, label: 'PDF Tools' },
@@ -66,11 +65,10 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 bg-card border-b shadow-sm">
       <div className="max-w-7xl mx-auto px-4">
-        {/* Row 1: Logo + Search + Language */}
-        <div className="flex items-center justify-between h-12 gap-4">
+        <div className="flex items-center justify-between h-14 gap-4">
           <Link 
             href={localizedPath('/')} 
-            className="flex items-center gap-2 flex-shrink-0"
+            className="flex items-center gap-2"
             onClick={() => window.scrollTo({ top: 0, behavior: 'auto' })}
           >
             <span className="font-extrabold text-xl" data-testid="text-logo">
@@ -79,48 +77,7 @@ export default function Header() {
             </span>
           </Link>
 
-          <div className="flex-1 flex justify-center max-w-md">
-            <HeaderSearchBar />
-          </div>
-
-          <div className="flex items-center gap-2 flex-shrink-0">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="gap-1.5 font-semibold" data-testid="button-language">
-                  <Globe className="w-4 h-4" />
-                  <span className="hidden sm:inline">{locale.toUpperCase()}</span>
-                  <ChevronDown className="w-3 h-3" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                {languages.map((lang) => (
-                  <DropdownMenuItem
-                    key={lang.code}
-                    onClick={() => handleLanguageChange(lang.code)}
-                    className="font-medium"
-                    data-testid={`menu-item-lang-${lang.code}`}
-                  >
-                    {lang.label}
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-
-            <Button
-              variant="ghost"
-              size="icon"
-              className="lg:hidden"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              data-testid="button-mobile-menu"
-            >
-              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </Button>
-          </div>
-        </div>
-
-        {/* Row 2: Category Navigation - Desktop */}
-        <nav className="hidden lg:flex items-center justify-center h-10 -mx-2 overflow-x-auto scrollbar-hide">
-          <div className="flex items-center gap-1">
+          <nav className="hidden lg:flex items-center gap-0">
             {categories.map((cat) => {
               const categoryTools = getToolsByCategory(cat.id).filter(tool => tool.implemented);
               const Icon = cat.icon;
@@ -130,10 +87,9 @@ export default function Header() {
                   <HoverCardTrigger asChild>
                     <Link
                       href={localizedPath(`/category/${cat.id}`)}
-                      className="px-3 py-1.5 text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1 whitespace-nowrap rounded-md hover:bg-muted/50"
+                      className="px-3 py-2 text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1"
                       data-testid={`link-category-${cat.id}`}
                     >
-                      <Icon className="w-3.5 h-3.5" />
                       {t(`Common.nav.${cat.id}`)}
                       <ChevronDown className="w-3 h-3" />
                     </Link>
@@ -172,10 +128,43 @@ export default function Header() {
                 </HoverCard>
               );
             })}
-          </div>
-        </nav>
+          </nav>
 
-        {/* Mobile Menu */}
+          <div className="flex items-center gap-3">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm" className="gap-1.5 font-semibold" data-testid="button-language">
+                  <Globe className="w-4 h-4" />
+                  <span className="hidden sm:inline">{locale.toUpperCase()}</span>
+                  <ChevronDown className="w-3 h-3" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                {languages.map((lang) => (
+                  <DropdownMenuItem
+                    key={lang.code}
+                    onClick={() => handleLanguageChange(lang.code)}
+                    className="font-medium"
+                    data-testid={`menu-item-lang-${lang.code}`}
+                  >
+                    {lang.label}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            <Button
+              variant="ghost"
+              size="icon"
+              className="lg:hidden"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              data-testid="button-mobile-menu"
+            >
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </Button>
+          </div>
+        </div>
+
         {mobileMenuOpen && (
           <nav className="lg:hidden pb-4 border-t pt-4">
             <div className="grid grid-cols-2 gap-2">
