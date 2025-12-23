@@ -111,7 +111,6 @@ const LoremIpsumTool = lazy(() => import('@/components/tools/LoremIpsumTool'));
 const DiffCheckerTool = lazy(() => import('@/components/tools/DiffCheckerTool'));
 const QrCodeTool = lazy(() => import('@/components/tools/QrCodeTool'));
 const InstagramLineBreakTool = lazy(() => import('@/components/tools/InstagramLineBreakTool'));
-const InstagramFontTool = lazy(() => import('@/components/tools/InstagramFontTool'));
 const RandomPickerTool = lazy(() => import('@/components/tools/RandomPickerTool'));
 const KaomojiTool = lazy(() => import('@/components/tools/KaomojiTool'));
 const UtmBuilderTool = lazy(() => import('@/components/tools/UtmBuilderTool'));
@@ -281,7 +280,6 @@ const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element
   'json-formatter': JsonFormatterTool,
   'instagram-line-break': InstagramLineBreakTool,
   'hashtag-generator': HashtagGeneratorTool,
-  'instagram-font': InstagramFontTool,
   'tiktok-safe-zone': TiktokSafeZoneTool,
   'instagram-grid': InstagramGridTool,
   'youtube-thumbnail': YoutubeThumbnailTool,
@@ -347,7 +345,7 @@ const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element
   'calculator': CalculatorTool,
   'wheel-of-fortune': RandomPickerTool,
   'random-choice': RandomPickerTool,
-  'fancy-text': InstagramFontTool,
+  'fancy-text': CaseConverterTool,
   'zalgo-text': CaseConverterTool,
   'binary-text': Base64Tool,
   'screen-resolution': WhatIsMyIpTool,
