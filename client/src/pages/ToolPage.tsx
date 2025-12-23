@@ -123,6 +123,7 @@ const TimezoneConverterTool = lazy(() => import('@/components/tools/TimezoneConv
 const HashtagGeneratorTool = lazy(() => import('@/components/tools/HashtagGeneratorTool'));
 const TiktokSafeZoneTool = lazy(() => import('@/components/tools/TiktokSafeZoneTool'));
 const InstagramGridTool = lazy(() => import('@/components/tools/InstagramGridTool'));
+const CanvasSizeTool = lazy(() => import('@/components/tools/CanvasSizeTool'));
 const YoutubeThumbnailTool = lazy(() => import('@/components/tools/YoutubeThumbnailTool'));
 const TwitterCharCountTool = lazy(() => import('@/components/tools/TwitterCharCountTool'));
 const YoutubeChannelIdTool = lazy(() => import('@/components/tools/YoutubeChannelIdTool'));
@@ -233,7 +234,7 @@ const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element
   'image-opacity': GrayscaleFilterTool,
   'image-ratio': ResizeImageTool,
   'favicon-generator': ResizeImageTool,
-  'canvas-size': CropImageTool,
+  'canvas-size': CanvasSizeTool,
   'video-to-gif': VideoToGifTool,
   'trim-video': TrimVideoTool,
   'mute-video': MuteVideoTool,

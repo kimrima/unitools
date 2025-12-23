@@ -1,61 +1,88 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFileHandler } from '@/hooks/useFileHandler';
+import { useStagedProcessing } from '@/hooks/useStagedProcessing';
 import { rotateImage } from '@/lib/engines/imageEngine';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
+import { StagedLoadingOverlay } from '@/components/StagedLoadingOverlay';
 import { FileUploadZone } from '@/components/tool-ui';
-import { Download, Loader2, CheckCircle, RotateCw, RotateCcw } from 'lucide-react';
+import { Download, CheckCircle, RotateCw, RotateCcw } from 'lucide-react';
+import { ShareActions } from '@/components/ShareActions';
 
 export default function RotateImageTool() {
   const { t } = useTranslation();
   const [rotation, setRotation] = useState(90);
+  const [showResults, setShowResults] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   
   const {
     files,
-    status,
     error,
-    progress,
     resultBlob,
     addFiles,
-    setStatus,
     setError,
     setResult,
-    setProgress,
     downloadResult,
-    reset,
+    reset: resetHandler,
   } = useFileHandler({ accept: 'image/*', multiple: false });
 
-  const handleFilesFromDropzone = useCallback((files: FileList) => {
-    addFiles(files);
+  const stagedProcessing = useStagedProcessing({
+    minDuration: 3000,
+    stages: [
+      { name: 'analyzing', duration: 800, message: t('Common.stages.analyzingFiles', { defaultValue: 'Analyzing files...' }) },
+      { name: 'processing', duration: 1400, message: t('Common.stages.rotatingImage', { defaultValue: 'Rotating image...' }) },
+      { name: 'optimizing', duration: 800, message: t('Common.stages.optimizingOutput', { defaultValue: 'Optimizing output...' }) },
+    ],
+  });
+
+  useEffect(() => {
+    if (resultBlob) {
+      const url = URL.createObjectURL(resultBlob);
+      setPreviewUrl(url);
+      return () => URL.revokeObjectURL(url);
+    }
+    return undefined;
+  }, [resultBlob]);
+
+  const handleFilesFromDropzone = useCallback((fileList: FileList) => {
+    addFiles(fileList);
+    setShowResults(false);
   }, [addFiles]);
 
   const handleRotate = useCallback(async () => {
     if (!files[0]?.previewUrl) return;
 
-    setStatus('processing');
-    setProgress(0);
     setError(null);
+    setShowResults(false);
 
     try {
-      const blob = await rotateImage(
-        files[0].previewUrl,
-        rotation,
-        files[0].file.type.includes('png') ? 'png' : 'jpg',
-        (prog) => setProgress(prog.percentage)
-      );
-      setResult(blob);
+      await stagedProcessing.runStagedProcessing(async () => {
+        const blob = await rotateImage(
+          files[0].previewUrl!,
+          rotation,
+          files[0].file.type.includes('png') ? 'png' : 'jpg'
+        );
+        setResult(blob);
+        return blob;
+      });
+      setShowResults(true);
     } catch {
       setError({ code: 'ROTATE_FAILED' });
-      setStatus('error');
     }
-  }, [files, rotation, setStatus, setProgress, setError, setResult]);
+  }, [files, rotation, setError, setResult, stagedProcessing]);
 
   const handleDownload = useCallback(() => {
     const ext = files[0]?.file.type.includes('png') ? 'png' : 'jpg';
     downloadResult(`unitools_rotated_${rotation}deg.${ext}`);
   }, [files, rotation, downloadResult]);
+
+  const reset = useCallback(() => {
+    resetHandler();
+    stagedProcessing.reset();
+    setShowResults(false);
+    setPreviewUrl(null);
+  }, [resetHandler, stagedProcessing]);
 
   return (
     <div className="space-y-6">
@@ -63,23 +90,25 @@ export default function RotateImageTool() {
         {t('Tools.rotate-image.description')}
       </div>
 
-      {status === 'idle' && files.length === 0 && (
+      {!stagedProcessing.isProcessing && !showResults && files.length === 0 && (
         <FileUploadZone
           onFileSelect={handleFilesFromDropzone}
           accept="image/*"
         />
       )}
 
-      {status === 'idle' && files.length > 0 && (
+      {!stagedProcessing.isProcessing && !showResults && files.length > 0 && (
         <div className="space-y-4">
           <Card className="p-4">
             {files[0].previewUrl && (
-              <img 
-                src={files[0].previewUrl} 
-                alt="Preview"
-                className="w-full max-h-64 object-contain bg-muted rounded"
-                style={{ transform: `rotate(${rotation}deg)` }}
-              />
+              <div className="flex justify-center bg-muted rounded p-4">
+                <img 
+                  src={files[0].previewUrl} 
+                  alt="Preview"
+                  className="max-w-full max-h-64 object-contain transition-transform duration-300"
+                  style={{ transform: `rotate(${rotation}deg)` }}
+                />
+              </div>
             )}
           </Card>
 
@@ -112,6 +141,7 @@ export default function RotateImageTool() {
 
           <div className="flex gap-3">
             <Button onClick={handleRotate} className="flex-1" data-testid="button-rotate">
+              <RotateCw className="w-4 h-4 mr-2" />
               {t('Tools.rotate-image.title')}
             </Button>
             <Button variant="outline" onClick={reset} data-testid="button-reset">
@@ -121,33 +151,46 @@ export default function RotateImageTool() {
         </div>
       )}
 
-      {status === 'processing' && (
-        <div className="space-y-6 py-8">
-          <div className="flex flex-col items-center gap-4">
-            <Loader2 className="w-12 h-12 animate-spin text-primary" />
-            <p className="font-medium">{t('Common.workflow.processing')}</p>
-          </div>
-          <Progress value={progress} className="h-2" data-testid="progress-bar" />
-        </div>
+      {stagedProcessing.isProcessing && (
+        <StagedLoadingOverlay
+          stage={stagedProcessing.stage}
+          progress={stagedProcessing.progress}
+          stageProgress={stagedProcessing.stageProgress}
+          message={stagedProcessing.message}
+          error={stagedProcessing.error}
+          onCancel={stagedProcessing.abort}
+        />
       )}
 
-      {status === 'success' && resultBlob && (
-        <div className="flex flex-col items-center gap-6 py-8">
-          <div className="w-20 h-20 rounded-full bg-green-500/10 flex items-center justify-center">
-            <CheckCircle className="w-10 h-10 text-green-500" />
-          </div>
-          <div className="text-center">
-            <h3 className="text-xl font-semibold mb-2">{t('Common.workflow.processingComplete')}</h3>
-          </div>
-          <div className="flex gap-3">
-            <Button size="lg" onClick={handleDownload} data-testid="button-download">
-              <Download className="w-5 h-5 mr-2" />
-              {t('Common.workflow.download')}
-            </Button>
-            <Button variant="outline" size="lg" onClick={reset} data-testid="button-start-over">
-              {t('Common.workflow.startOver')}
-            </Button>
-          </div>
+      {showResults && resultBlob && (
+        <div className="space-y-4">
+          <Card className="p-4">
+            <div className="flex flex-col items-center gap-4">
+              <div className="flex items-center gap-2 text-green-600">
+                <CheckCircle className="w-5 h-5" />
+                <span className="font-medium">{t('Common.workflow.processingComplete')}</span>
+              </div>
+              {previewUrl && (
+                <div className="w-full flex justify-center p-4 bg-muted rounded">
+                  <img 
+                    src={previewUrl} 
+                    alt="Result" 
+                    className="max-w-full max-h-80 object-contain"
+                  />
+                </div>
+              )}
+              <div className="flex gap-3">
+                <Button onClick={handleDownload} data-testid="button-download">
+                  <Download className="w-4 h-4 mr-2" />
+                  {t('Common.workflow.download')}
+                </Button>
+                <Button variant="outline" onClick={reset} data-testid="button-start-over">
+                  {t('Common.workflow.startOver')}
+                </Button>
+              </div>
+            </div>
+          </Card>
+          <ShareActions />
         </div>
       )}
 

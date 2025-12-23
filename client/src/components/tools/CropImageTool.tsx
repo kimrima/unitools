@@ -17,6 +17,14 @@ interface CropArea {
   height: number;
 }
 
+interface DisplayInfo {
+  scale: number;
+  offsetX: number;
+  offsetY: number;
+  containerWidth: number;
+  containerHeight: number;
+}
+
 const ASPECT_PRESETS = [
   { label: 'Free', value: null },
   { label: '1:1', value: 1 },
@@ -29,18 +37,17 @@ const ASPECT_PRESETS = [
 export default function CropImageTool() {
   const { t } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null);
-  const imageRef = useRef<HTMLImageElement>(null);
   const [originalDimensions, setOriginalDimensions] = useState({ width: 0, height: 0 });
-  const [displayDimensions, setDisplayDimensions] = useState({ width: 0, height: 0 });
-  const [displayScale, setDisplayScale] = useState(1);
+  const [displayInfo, setDisplayInfo] = useState<DisplayInfo>({ scale: 1, offsetX: 0, offsetY: 0, containerWidth: 0, containerHeight: 0 });
   const [cropArea, setCropArea] = useState<CropArea>({ x: 0, y: 0, width: 0, height: 0 });
   const [isDragging, setIsDragging] = useState(false);
-  const [dragOrigin, setDragOrigin] = useState({ x: 0, y: 0 });
-  const [initialCropArea, setInitialCropArea] = useState<CropArea>({ x: 0, y: 0, width: 0, height: 0 });
-  const [dragMode, setDragMode] = useState<'move' | 'resize' | null>(null);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const [initialCrop, setInitialCrop] = useState<CropArea>({ x: 0, y: 0, width: 0, height: 0 });
+  const [dragMode, setDragMode] = useState<'move' | 'resize' | 'create' | null>(null);
   const [resizeHandle, setResizeHandle] = useState<string | null>(null);
   const [aspectRatio, setAspectRatio] = useState<number | null>(null);
   const [showResults, setShowResults] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
   
   const {
     files,
@@ -73,125 +80,161 @@ export default function CropImageTool() {
     return undefined;
   }, [resultBlob]);
 
-  const realCropArea = {
-    x: Math.max(0, Math.round(cropArea.x / displayScale)),
-    y: Math.max(0, Math.round(cropArea.y / displayScale)),
-    width: Math.max(1, Math.round(cropArea.width / displayScale)),
-    height: Math.max(1, Math.round(cropArea.height / displayScale)),
-  };
-
-  const clampCropArea = useCallback((area: CropArea, maxWidth: number, maxHeight: number): CropArea => {
-    let { x, y, width, height } = area;
+  const clampCropArea = useCallback((area: CropArea): CropArea => {
+    const maxW = originalDimensions.width;
+    const maxH = originalDimensions.height;
+    if (maxW === 0 || maxH === 0) return area;
     
-    width = Math.max(50, Math.min(maxWidth, width));
-    height = Math.max(50, Math.min(maxHeight, height));
-    x = Math.max(0, Math.min(maxWidth - width, x));
-    y = Math.max(0, Math.min(maxHeight - height, y));
+    let { x, y, width, height } = area;
+    width = Math.max(20, Math.min(maxW, width));
+    height = Math.max(20, Math.min(maxH, height));
+    x = Math.max(0, Math.min(maxW - width, x));
+    y = Math.max(0, Math.min(maxH - height, y));
     
     return { x, y, width, height };
-  }, []);
+  }, [originalDimensions]);
 
-  const initializeCropArea = useCallback((imgWidth: number, imgHeight: number) => {
-    const padding = Math.min(40, imgWidth * 0.1, imgHeight * 0.1);
-    setCropArea({
-      x: padding,
-      y: padding,
-      width: imgWidth - padding * 2,
-      height: imgHeight - padding * 2,
-    });
-  }, []);
+  const initializeCropArea = useCallback(() => {
+    if (originalDimensions.width > 0 && originalDimensions.height > 0) {
+      const padding = Math.min(originalDimensions.width, originalDimensions.height) * 0.1;
+      setCropArea({
+        x: padding,
+        y: padding,
+        width: originalDimensions.width - padding * 2,
+        height: originalDimensions.height - padding * 2,
+      });
+    }
+  }, [originalDimensions]);
+
+  const updateDisplayInfo = useCallback(() => {
+    const container = containerRef.current;
+    if (!container || originalDimensions.width === 0) return;
+    
+    const rect = container.getBoundingClientRect();
+    const containerWidth = rect.width;
+    const containerHeight = rect.height;
+    
+    const scale = Math.min(
+      containerWidth / originalDimensions.width,
+      containerHeight / originalDimensions.height
+    );
+    
+    const scaledWidth = originalDimensions.width * scale;
+    const scaledHeight = originalDimensions.height * scale;
+    const offsetX = (containerWidth - scaledWidth) / 2;
+    const offsetY = (containerHeight - scaledHeight) / 2;
+    
+    setDisplayInfo({ scale, offsetX, offsetY, containerWidth, containerHeight });
+  }, [originalDimensions]);
 
   useEffect(() => {
     if (files.length > 0 && files[0].previewUrl) {
+      setImageLoaded(false);
       const img = new window.Image();
       img.onload = () => {
         setOriginalDimensions({ width: img.width, height: img.height });
+        setImageLoaded(true);
       };
       img.src = files[0].previewUrl;
     }
   }, [files]);
 
   useEffect(() => {
-    if (imageRef.current && originalDimensions.width > 0) {
-      const updateDimensions = () => {
-        const img = imageRef.current;
-        if (img) {
-          const rect = img.getBoundingClientRect();
-          const scale = rect.width / originalDimensions.width;
-          setDisplayScale(scale);
-          setDisplayDimensions({ width: rect.width, height: rect.height });
-          initializeCropArea(rect.width, rect.height);
-        }
-      };
-      
-      const timer = setTimeout(updateDimensions, 100);
-      window.addEventListener('resize', updateDimensions);
-      
+    if (imageLoaded && originalDimensions.width > 0) {
+      initializeCropArea();
+      const timer = setTimeout(updateDisplayInfo, 50);
+      window.addEventListener('resize', updateDisplayInfo);
       return () => {
         clearTimeout(timer);
-        window.removeEventListener('resize', updateDimensions);
+        window.removeEventListener('resize', updateDisplayInfo);
       };
     }
-  }, [originalDimensions, initializeCropArea]);
+  }, [imageLoaded, originalDimensions, initializeCropArea, updateDisplayInfo]);
 
-  const handleFilesFromDropzone = useCallback((files: FileList) => {
-    addFiles(files);
+  const handleFilesFromDropzone = useCallback((fileList: FileList) => {
+    addFiles(fileList);
     setShowResults(false);
   }, [addFiles]);
 
-  const getMousePosition = (e: MouseEvent<HTMLDivElement>) => {
-    const rect = containerRef.current?.getBoundingClientRect();
-    if (!rect) return { x: 0, y: 0 };
+  const screenToOriginal = useCallback((screenX: number, screenY: number): { x: number; y: number } => {
+    const container = containerRef.current;
+    if (!container || displayInfo.scale === 0) return { x: 0, y: 0 };
+    
+    const rect = container.getBoundingClientRect();
+    const relX = screenX - rect.left - displayInfo.offsetX;
+    const relY = screenY - rect.top - displayInfo.offsetY;
+    
     return {
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
+      x: Math.max(0, Math.min(originalDimensions.width, relX / displayInfo.scale)),
+      y: Math.max(0, Math.min(originalDimensions.height, relY / displayInfo.scale)),
     };
-  };
+  }, [displayInfo, originalDimensions]);
 
-  const handleMouseDown = (e: MouseEvent<HTMLDivElement>, mode: 'move' | 'resize', handle?: string) => {
+  const handleMouseDown = useCallback((e: MouseEvent<HTMLDivElement>, mode: 'move' | 'resize', handle?: string) => {
     e.preventDefault();
     e.stopPropagation();
     setIsDragging(true);
     setDragMode(mode);
     setResizeHandle(handle || null);
-    const pos = getMousePosition(e);
-    setDragOrigin(pos);
-    setInitialCropArea({ ...cropArea });
-  };
+    setDragStart(screenToOriginal(e.clientX, e.clientY));
+    setInitialCrop({ ...cropArea });
+  }, [screenToOriginal, cropArea]);
+
+  const handleContainerMouseDown = useCallback((e: MouseEvent<HTMLDivElement>) => {
+    const pos = screenToOriginal(e.clientX, e.clientY);
+    if (pos.x >= cropArea.x && pos.x <= cropArea.x + cropArea.width &&
+        pos.y >= cropArea.y && pos.y <= cropArea.y + cropArea.height) {
+      return;
+    }
+    e.preventDefault();
+    setIsDragging(true);
+    setDragMode('create');
+    setDragStart(pos);
+    setInitialCrop({ x: pos.x, y: pos.y, width: 0, height: 0 });
+    setCropArea({ x: pos.x, y: pos.y, width: 0, height: 0 });
+  }, [screenToOriginal, cropArea]);
 
   const handleMouseMove = useCallback((e: MouseEvent<HTMLDivElement>) => {
     if (!isDragging || !dragMode) return;
-
-    const pos = getMousePosition(e);
-    const deltaX = pos.x - dragOrigin.x;
-    const deltaY = pos.y - dragOrigin.y;
     
-    const maxWidth = displayDimensions.width;
-    const maxHeight = displayDimensions.height;
-
-    let newArea = { ...initialCropArea };
-
-    if (dragMode === 'move') {
-      newArea.x = initialCropArea.x + deltaX;
-      newArea.y = initialCropArea.y + deltaY;
+    const pos = screenToOriginal(e.clientX, e.clientY);
+    const deltaX = pos.x - dragStart.x;
+    const deltaY = pos.y - dragStart.y;
+    
+    let newArea = { ...initialCrop };
+    
+    if (dragMode === 'create') {
+      const startX = Math.min(dragStart.x, pos.x);
+      const startY = Math.min(dragStart.y, pos.y);
+      let width = Math.abs(pos.x - dragStart.x);
+      let height = Math.abs(pos.y - dragStart.y);
+      
+      if (aspectRatio !== null && width > 0) {
+        height = width / aspectRatio;
+      }
+      
+      newArea = { x: startX, y: startY, width, height };
+    } else if (dragMode === 'move') {
+      newArea.x = initialCrop.x + deltaX;
+      newArea.y = initialCrop.y + deltaY;
     } else if (dragMode === 'resize' && resizeHandle) {
       if (resizeHandle.includes('e')) {
-        newArea.width = initialCropArea.width + deltaX;
+        newArea.width = initialCrop.width + deltaX;
       }
       if (resizeHandle.includes('w')) {
-        const newWidth = initialCropArea.width - deltaX;
-        if (newWidth >= 50) {
-          newArea.x = initialCropArea.x + deltaX;
+        const newWidth = initialCrop.width - deltaX;
+        if (newWidth >= 20) {
+          newArea.x = initialCrop.x + deltaX;
           newArea.width = newWidth;
         }
       }
       if (resizeHandle.includes('s')) {
-        newArea.height = initialCropArea.height + deltaY;
+        newArea.height = initialCrop.height + deltaY;
       }
       if (resizeHandle.includes('n')) {
-        const newHeight = initialCropArea.height - deltaY;
-        if (newHeight >= 50) {
-          newArea.y = initialCropArea.y + deltaY;
+        const newHeight = initialCrop.height - deltaY;
+        if (newHeight >= 20) {
+          newArea.y = initialCrop.y + deltaY;
           newArea.height = newHeight;
         }
       }
@@ -205,8 +248,8 @@ export default function CropImageTool() {
       }
     }
     
-    setCropArea(clampCropArea(newArea, maxWidth, maxHeight));
-  }, [isDragging, dragMode, dragOrigin, initialCropArea, resizeHandle, aspectRatio, displayDimensions, clampCropArea]);
+    setCropArea(clampCropArea(newArea));
+  }, [isDragging, dragMode, dragStart, initialCrop, resizeHandle, aspectRatio, clampCropArea, screenToOriginal]);
 
   const handleMouseUp = useCallback(() => {
     setIsDragging(false);
@@ -215,12 +258,27 @@ export default function CropImageTool() {
   }, []);
 
   const resetCropArea = useCallback(() => {
-    initializeCropArea(displayDimensions.width, displayDimensions.height);
+    initializeCropArea();
     setAspectRatio(null);
-  }, [displayDimensions, initializeCropArea]);
+  }, [initializeCropArea]);
+
+  const handleAspectRatioChange = useCallback((value: number | null) => {
+    setAspectRatio(value);
+    if (value !== null && cropArea.width > 0) {
+      const newHeight = cropArea.width / value;
+      setCropArea(prev => clampCropArea({ ...prev, height: newHeight }));
+    }
+  }, [cropArea.width, clampCropArea]);
 
   const handleCrop = useCallback(async () => {
-    if (!files[0]?.previewUrl || realCropArea.width <= 0 || realCropArea.height <= 0) return;
+    if (!files[0]?.previewUrl || cropArea.width <= 0 || cropArea.height <= 0) return;
+
+    const finalCrop = {
+      x: Math.round(Math.max(0, cropArea.x)),
+      y: Math.round(Math.max(0, cropArea.y)),
+      width: Math.round(Math.max(1, cropArea.width)),
+      height: Math.round(Math.max(1, cropArea.height)),
+    };
 
     setError(null);
     setShowResults(false);
@@ -229,10 +287,10 @@ export default function CropImageTool() {
       await stagedProcessing.runStagedProcessing(async () => {
         const blob = await cropImage(
           files[0].previewUrl!,
-          realCropArea.x,
-          realCropArea.y,
-          realCropArea.width,
-          realCropArea.height,
+          finalCrop.x,
+          finalCrop.y,
+          finalCrop.width,
+          finalCrop.height,
           files[0].file.type.includes('png') ? 'png' : 'jpg'
         );
         setResult(blob);
@@ -242,7 +300,7 @@ export default function CropImageTool() {
     } catch {
       setError({ code: 'CROP_FAILED' });
     }
-  }, [files, realCropArea, setError, setResult, stagedProcessing]);
+  }, [files, cropArea, setError, setResult, stagedProcessing]);
 
   const handleDownload = useCallback(() => {
     const ext = files[0]?.file.type.includes('png') ? 'png' : 'jpg';
@@ -255,8 +313,15 @@ export default function CropImageTool() {
     setShowResults(false);
     setCropArea({ x: 0, y: 0, width: 0, height: 0 });
     setOriginalDimensions({ width: 0, height: 0 });
-    setDisplayDimensions({ width: 0, height: 0 });
+    setImageLoaded(false);
   }, [resetHandler, stagedProcessing]);
+
+  const displayCrop = {
+    x: displayInfo.offsetX + cropArea.x * displayInfo.scale,
+    y: displayInfo.offsetY + cropArea.y * displayInfo.scale,
+    width: cropArea.width * displayInfo.scale,
+    height: cropArea.height * displayInfo.scale,
+  };
 
   return (
     <div className="space-y-6">
@@ -271,7 +336,7 @@ export default function CropImageTool() {
         />
       )}
 
-      {!stagedProcessing.isProcessing && !showResults && files.length > 0 && (
+      {!stagedProcessing.isProcessing && !showResults && files.length > 0 && imageLoaded && (
         <div className="space-y-4">
           <Card className="p-4">
             <div className="flex items-center justify-between gap-2 mb-4 flex-wrap">
@@ -281,14 +346,14 @@ export default function CropImageTool() {
                     key={preset.label}
                     variant={aspectRatio === preset.value ? 'default' : 'outline'}
                     size="sm"
-                    onClick={() => setAspectRatio(preset.value)}
+                    onClick={() => handleAspectRatioChange(preset.value)}
                     data-testid={`button-aspect-${preset.label}`}
                   >
                     {preset.label}
                   </Button>
                 ))}
               </div>
-              <Button variant="ghost" size="sm" onClick={resetCropArea}>
+              <Button variant="ghost" size="sm" onClick={resetCropArea} data-testid="button-reset-crop">
                 <RotateCcw className="w-4 h-4 mr-2" />
                 {t('Common.actions.reset')}
               </Button>
@@ -296,33 +361,39 @@ export default function CropImageTool() {
             
             <div 
               ref={containerRef}
-              className="relative select-none bg-muted rounded overflow-hidden inline-block w-full"
+              className="relative select-none bg-muted rounded overflow-hidden cursor-crosshair"
+              style={{ height: 400 }}
+              onMouseDown={handleContainerMouseDown}
               onMouseMove={handleMouseMove}
               onMouseUp={handleMouseUp}
               onMouseLeave={handleMouseUp}
             >
               {files[0].previewUrl && (
                 <img 
-                  ref={imageRef}
                   src={files[0].previewUrl} 
                   alt="Original"
-                  className="w-full h-auto max-h-96 object-contain pointer-events-none"
+                  className="absolute inset-0 w-full h-full object-contain pointer-events-none"
                   draggable={false}
+                  onLoad={updateDisplayInfo}
                 />
               )}
               
-              {displayDimensions.width > 0 && (
+              {cropArea.width > 0 && cropArea.height > 0 && displayInfo.scale > 0 && (
                 <>
                   <div 
-                    className="absolute inset-0 bg-black/50 pointer-events-none"
+                    className="absolute bg-black/50 pointer-events-none"
                     style={{
+                      left: displayInfo.offsetX,
+                      top: displayInfo.offsetY,
+                      width: originalDimensions.width * displayInfo.scale,
+                      height: originalDimensions.height * displayInfo.scale,
                       clipPath: `polygon(
                         0 0, 100% 0, 100% 100%, 0 100%, 0 0,
-                        ${cropArea.x}px ${cropArea.y}px,
-                        ${cropArea.x}px ${cropArea.y + cropArea.height}px,
-                        ${cropArea.x + cropArea.width}px ${cropArea.y + cropArea.height}px,
-                        ${cropArea.x + cropArea.width}px ${cropArea.y}px,
-                        ${cropArea.x}px ${cropArea.y}px
+                        ${cropArea.x * displayInfo.scale}px ${cropArea.y * displayInfo.scale}px,
+                        ${cropArea.x * displayInfo.scale}px ${(cropArea.y + cropArea.height) * displayInfo.scale}px,
+                        ${(cropArea.x + cropArea.width) * displayInfo.scale}px ${(cropArea.y + cropArea.height) * displayInfo.scale}px,
+                        ${(cropArea.x + cropArea.width) * displayInfo.scale}px ${cropArea.y * displayInfo.scale}px,
+                        ${cropArea.x * displayInfo.scale}px ${cropArea.y * displayInfo.scale}px
                       )`,
                     }}
                   />
@@ -330,10 +401,10 @@ export default function CropImageTool() {
                   <div
                     className="absolute border-2 border-primary cursor-move"
                     style={{
-                      left: cropArea.x,
-                      top: cropArea.y,
-                      width: cropArea.width,
-                      height: cropArea.height,
+                      left: displayCrop.x,
+                      top: displayCrop.y,
+                      width: displayCrop.width,
+                      height: displayCrop.height,
                     }}
                     onMouseDown={(e) => handleMouseDown(e, 'move')}
                   >
@@ -370,8 +441,8 @@ export default function CropImageTool() {
                       />
                     ))}
                     
-                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black/70 text-white text-xs px-2 py-1 rounded pointer-events-none">
-                      {realCropArea.width} x {realCropArea.height}
+                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black/70 text-white text-xs px-2 py-1 rounded pointer-events-none whitespace-nowrap">
+                      {Math.round(cropArea.width)} x {Math.round(cropArea.height)}
                     </div>
                   </div>
                 </>
@@ -415,11 +486,11 @@ export default function CropImageTool() {
                   <img 
                     src={previewUrl} 
                     alt="Result" 
-                    className="max-w-full h-auto object-contain"
+                    className="max-w-full max-h-80 object-contain"
                   />
                 </div>
               )}
-              <p className="text-sm text-muted-foreground">{realCropArea.width} x {realCropArea.height} px</p>
+              <p className="text-sm text-muted-foreground">{Math.round(cropArea.width)} x {Math.round(cropArea.height)} px</p>
               <div className="flex gap-3">
                 <Button onClick={handleDownload} data-testid="button-download">
                   <Download className="w-4 h-4 mr-2" />
