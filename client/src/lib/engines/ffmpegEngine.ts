@@ -16,12 +16,11 @@ interface FFmpegInstance {
   exit: () => void;
 }
 
-let ffmpeg: FFmpegInstance | null = null;
 let isLoading = false;
-let loadPromise: Promise<FFmpegInstance> | null = null;
 let loadFailed = false;
 let failReason = '';
 let scriptLoaded = false;
+let useCount = 0;
 
 export type FFmpegErrorCode = 
   | 'NO_FILE_PROVIDED'
@@ -73,61 +72,44 @@ async function loadScript(): Promise<void> {
 }
 
 async function loadFFmpeg(): Promise<FFmpegInstance> {
-  if (ffmpeg && ffmpeg.isLoaded()) {
-    return ffmpeg;
-  }
-
   if (loadFailed) {
     throw new FFmpegError('FFMPEG_LOAD_FAILED');
   }
 
-  if (isLoading && loadPromise) {
-    return loadPromise;
-  }
-
-  isLoading = true;
-
-  loadPromise = (async () => {
-    try {
-      console.log('[FFmpeg] Loading script...');
-      await loadScript();
-      
-      if (!window.FFmpeg) {
-        throw new Error('FFmpeg global not found after script load');
-      }
-
-      const { createFFmpeg } = window.FFmpeg;
-      
-      console.log('[FFmpeg] Creating instance...');
-      const instance = createFFmpeg({
-        log: true,
-        mainName: 'main',
-        corePath: 'https://unpkg.com/@ffmpeg/core-st@0.11.1/dist/ffmpeg-core.js'
-      });
-
-      console.log('[FFmpeg] Loading WASM...');
-      
-      const timeoutPromise = new Promise<never>((_, reject) => {
-        setTimeout(() => reject(new Error('FFmpeg load timeout (180s)')), 180000);
-      });
-
-      await Promise.race([instance.load(), timeoutPromise]);
-      
-      ffmpeg = instance;
-      isLoading = false;
-      console.log('[FFmpeg] Loaded successfully');
-      return instance;
-    } catch (e) {
-      isLoading = false;
-      loadFailed = true;
-      failReason = e instanceof Error ? e.message : 'Unknown error loading FFmpeg';
-      console.error('[FFmpeg] Load failed:', failReason);
-      loadPromise = null;
-      throw new FFmpegError('FFMPEG_LOAD_FAILED');
+  try {
+    console.log('[FFmpeg] Loading script...');
+    await loadScript();
+    
+    if (!window.FFmpeg) {
+      throw new Error('FFmpeg global not found after script load');
     }
-  })();
 
-  return loadPromise;
+    const { createFFmpeg } = window.FFmpeg;
+    
+    useCount++;
+    console.log(`[FFmpeg] Creating new instance #${useCount}...`);
+    const instance = createFFmpeg({
+      log: true,
+      mainName: 'main',
+      corePath: 'https://unpkg.com/@ffmpeg/core-st@0.11.1/dist/ffmpeg-core.js'
+    });
+
+    console.log('[FFmpeg] Loading WASM...');
+    
+    const timeoutPromise = new Promise<never>((_, reject) => {
+      setTimeout(() => reject(new Error('FFmpeg load timeout (180s)')), 180000);
+    });
+
+    await Promise.race([instance.load(), timeoutPromise]);
+    
+    console.log('[FFmpeg] Loaded successfully');
+    return instance;
+  } catch (e) {
+    loadFailed = true;
+    failReason = e instanceof Error ? e.message : 'Unknown error loading FFmpeg';
+    console.error('[FFmpeg] Load failed:', failReason);
+    throw new FFmpegError('FFMPEG_LOAD_FAILED');
+  }
 }
 
 async function fetchFile(file: File): Promise<Uint8Array> {
@@ -213,8 +195,9 @@ export async function trimVideo(
     
     const outputBlob = new Blob([data.buffer], { type: 'video/mp4' });
 
-    ff.FS('unlink', inputFileName);
-    ff.FS('unlink', outputFileName);
+    try { ff.FS('unlink', inputFileName); } catch {}
+    try { ff.FS('unlink', outputFileName); } catch {}
+    try { ff.exit(); } catch {}
 
     return {
       originalFile: file,
@@ -224,6 +207,7 @@ export async function trimVideo(
     };
   } catch (e) {
     console.error('[FFmpeg] Trim error:', e);
+    try { ff.exit(); } catch {}
     if (e instanceof FFmpegError) throw e;
     throw new FFmpegError('PROCESSING_FAILED', file.name);
   }
@@ -274,8 +258,9 @@ export async function muteVideo(
     const data = ff.FS('readFile', outputFileName);
     const outputBlob = new Blob([data.buffer], { type: 'video/mp4' });
 
-    ff.FS('unlink', inputFileName);
-    ff.FS('unlink', outputFileName);
+    try { ff.FS('unlink', inputFileName); } catch {}
+    try { ff.FS('unlink', outputFileName); } catch {}
+    try { ff.exit(); } catch {}
 
     return {
       originalFile: file,
@@ -284,6 +269,7 @@ export async function muteVideo(
       outputSize: outputBlob.size,
     };
   } catch (e) {
+    try { ff.exit(); } catch {}
     if (e instanceof FFmpegError) throw e;
     throw new FFmpegError('PROCESSING_FAILED', file.name);
   }
@@ -335,8 +321,9 @@ export async function extractAudio(
     const data = ff.FS('readFile', outputFileName);
     const outputBlob = new Blob([data.buffer], { type: 'audio/mp3' });
 
-    ff.FS('unlink', inputFileName);
-    ff.FS('unlink', outputFileName);
+    try { ff.FS('unlink', inputFileName); } catch {}
+    try { ff.FS('unlink', outputFileName); } catch {}
+    try { ff.exit(); } catch {}
 
     return {
       originalFile: file,
@@ -345,6 +332,7 @@ export async function extractAudio(
       outputSize: outputBlob.size,
     };
   } catch (e) {
+    try { ff.exit(); } catch {}
     if (e instanceof FFmpegError) throw e;
     throw new FFmpegError('PROCESSING_FAILED', file.name);
   }
@@ -410,8 +398,9 @@ export async function compressVideo(
     const data = ff.FS('readFile', outputFileName);
     const outputBlob = new Blob([data.buffer], { type: 'video/mp4' });
 
-    ff.FS('unlink', inputFileName);
-    ff.FS('unlink', outputFileName);
+    try { ff.FS('unlink', inputFileName); } catch {}
+    try { ff.FS('unlink', outputFileName); } catch {}
+    try { ff.exit(); } catch {}
 
     return {
       originalFile: file,
@@ -421,6 +410,7 @@ export async function compressVideo(
       compressionRatio: file.size / outputBlob.size,
     };
   } catch (e) {
+    try { ff.exit(); } catch {}
     if (e instanceof FFmpegError) throw e;
     throw new FFmpegError('PROCESSING_FAILED', file.name);
   }
@@ -485,8 +475,9 @@ export async function convertVideo(
     const data = ff.FS('readFile', outputFileName);
     const outputBlob = new Blob([data.buffer], { type: settings.mime });
 
-    ff.FS('unlink', inputFileName);
-    ff.FS('unlink', outputFileName);
+    try { ff.FS('unlink', inputFileName); } catch {}
+    try { ff.FS('unlink', outputFileName); } catch {}
+    try { ff.exit(); } catch {}
 
     return {
       originalFile: file,
@@ -496,6 +487,7 @@ export async function convertVideo(
       format: options.format,
     };
   } catch (e) {
+    try { ff.exit(); } catch {}
     if (e instanceof FFmpegError) throw e;
     throw new FFmpegError('PROCESSING_FAILED', file.name);
   }
@@ -558,8 +550,9 @@ export async function videoToGif(
     const data = ff.FS('readFile', outputFileName);
     const outputBlob = new Blob([data.buffer], { type: 'image/gif' });
 
-    ff.FS('unlink', inputFileName);
-    ff.FS('unlink', outputFileName);
+    try { ff.FS('unlink', inputFileName); } catch {}
+    try { ff.FS('unlink', outputFileName); } catch {}
+    try { ff.exit(); } catch {}
 
     return {
       originalFile: file,
@@ -568,6 +561,7 @@ export async function videoToGif(
       outputSize: outputBlob.size,
     };
   } catch (e) {
+    try { ff.exit(); } catch {}
     if (e instanceof FFmpegError) throw e;
     throw new FFmpegError('PROCESSING_FAILED', file.name);
   }
@@ -629,8 +623,9 @@ export async function rotateVideo(
     const data = ff.FS('readFile', outputFileName);
     const outputBlob = new Blob([data.buffer], { type: 'video/mp4' });
 
-    ff.FS('unlink', inputFileName);
-    ff.FS('unlink', outputFileName);
+    try { ff.FS('unlink', inputFileName); } catch {}
+    try { ff.FS('unlink', outputFileName); } catch {}
+    try { ff.exit(); } catch {}
 
     return {
       originalFile: file,
@@ -639,6 +634,7 @@ export async function rotateVideo(
       outputSize: outputBlob.size,
     };
   } catch (e) {
+    try { ff.exit(); } catch {}
     if (e instanceof FFmpegError) throw e;
     throw new FFmpegError('PROCESSING_FAILED', file.name);
   }
@@ -695,8 +691,9 @@ export async function flipVideo(
     const data = ff.FS('readFile', outputFileName);
     const outputBlob = new Blob([data.buffer], { type: 'video/mp4' });
 
-    ff.FS('unlink', inputFileName);
-    ff.FS('unlink', outputFileName);
+    try { ff.FS('unlink', inputFileName); } catch {}
+    try { ff.FS('unlink', outputFileName); } catch {}
+    try { ff.exit(); } catch {}
 
     return {
       originalFile: file,
@@ -705,6 +702,7 @@ export async function flipVideo(
       outputSize: outputBlob.size,
     };
   } catch (e) {
+    try { ff.exit(); } catch {}
     if (e instanceof FFmpegError) throw e;
     throw new FFmpegError('PROCESSING_FAILED', file.name);
   }
@@ -776,8 +774,9 @@ export async function addWatermark(
     const data = ff.FS('readFile', outputFileName);
     const outputBlob = new Blob([data.buffer], { type: 'video/mp4' });
 
-    ff.FS('unlink', inputFileName);
-    ff.FS('unlink', outputFileName);
+    try { ff.FS('unlink', inputFileName); } catch {}
+    try { ff.FS('unlink', outputFileName); } catch {}
+    try { ff.exit(); } catch {}
 
     return {
       originalFile: file,
@@ -786,6 +785,7 @@ export async function addWatermark(
       outputSize: outputBlob.size,
     };
   } catch (e) {
+    try { ff.exit(); } catch {}
     if (e instanceof FFmpegError) throw e;
     throw new FFmpegError('PROCESSING_FAILED', file.name);
   }
@@ -848,8 +848,9 @@ export async function resizeVideo(
     const data = ff.FS('readFile', outputFileName);
     const outputBlob = new Blob([data.buffer], { type: 'video/mp4' });
 
-    ff.FS('unlink', inputFileName);
-    ff.FS('unlink', outputFileName);
+    try { ff.FS('unlink', inputFileName); } catch {}
+    try { ff.FS('unlink', outputFileName); } catch {}
+    try { ff.exit(); } catch {}
 
     return {
       originalFile: file,
@@ -858,6 +859,7 @@ export async function resizeVideo(
       outputSize: outputBlob.size,
     };
   } catch (e) {
+    try { ff.exit(); } catch {}
     if (e instanceof FFmpegError) throw e;
     throw new FFmpegError('PROCESSING_FAILED', file.name);
   }
@@ -917,8 +919,9 @@ export async function changeSpeed(
     const data = ff.FS('readFile', outputFileName);
     const outputBlob = new Blob([data.buffer], { type: 'video/mp4' });
 
-    ff.FS('unlink', inputFileName);
-    ff.FS('unlink', outputFileName);
+    try { ff.FS('unlink', inputFileName); } catch {}
+    try { ff.FS('unlink', outputFileName); } catch {}
+    try { ff.exit(); } catch {}
 
     return {
       originalFile: file,
@@ -927,6 +930,7 @@ export async function changeSpeed(
       outputSize: outputBlob.size,
     };
   } catch (e) {
+    try { ff.exit(); } catch {}
     if (e instanceof FFmpegError) throw e;
     throw new FFmpegError('PROCESSING_FAILED', file.name);
   }
@@ -994,8 +998,9 @@ export async function convertAudio(
     const data = ff.FS('readFile', outputFileName);
     const outputBlob = new Blob([data.buffer], { type: settings.mime });
 
-    ff.FS('unlink', inputFileName);
-    ff.FS('unlink', outputFileName);
+    try { ff.FS('unlink', inputFileName); } catch {}
+    try { ff.FS('unlink', outputFileName); } catch {}
+    try { ff.exit(); } catch {}
 
     return {
       originalFile: file,
@@ -1005,6 +1010,7 @@ export async function convertAudio(
       format: options.format,
     };
   } catch (e) {
+    try { ff.exit(); } catch {}
     if (e instanceof FFmpegError) throw e;
     throw new FFmpegError('PROCESSING_FAILED', file.name);
   }
@@ -1066,8 +1072,9 @@ export async function trimAudio(
     const data = ff.FS('readFile', outputFileName);
     const outputBlob = new Blob([data.buffer], { type: file.type });
 
-    ff.FS('unlink', inputFileName);
-    ff.FS('unlink', outputFileName);
+    try { ff.FS('unlink', inputFileName); } catch {}
+    try { ff.FS('unlink', outputFileName); } catch {}
+    try { ff.exit(); } catch {}
 
     return {
       originalFile: file,
@@ -1076,6 +1083,7 @@ export async function trimAudio(
       outputSize: outputBlob.size,
     };
   } catch (e) {
+    try { ff.exit(); } catch {}
     if (e instanceof FFmpegError) throw e;
     throw new FFmpegError('PROCESSING_FAILED', file.name);
   }
@@ -1138,16 +1146,18 @@ export async function mergeAudio(
 
     for (let i = 0; i < files.length; i++) {
       const inputName = `input${i}${getFileExtension(files[i].name)}`;
-      ff.FS('unlink', inputName);
+      try { ff.FS('unlink', inputName); } catch {}
     }
-    ff.FS('unlink', 'concat.txt');
-    ff.FS('unlink', outputFileName);
+    try { ff.FS('unlink', 'concat.txt'); } catch {}
+    try { ff.FS('unlink', outputFileName); } catch {}
+    try { ff.exit(); } catch {}
 
     return {
       outputBlob,
       outputSize: outputBlob.size,
     };
   } catch (e) {
+    try { ff.exit(); } catch {}
     if (e instanceof FFmpegError) throw e;
     throw new FFmpegError('PROCESSING_FAILED');
   }
@@ -1204,8 +1214,9 @@ export async function adjustVolume(
     const data = ff.FS('readFile', outputFileName);
     const outputBlob = new Blob([data.buffer], { type: file.type });
 
-    ff.FS('unlink', inputFileName);
-    ff.FS('unlink', outputFileName);
+    try { ff.FS('unlink', inputFileName); } catch {}
+    try { ff.FS('unlink', outputFileName); } catch {}
+    try { ff.exit(); } catch {}
 
     return {
       originalFile: file,
@@ -1214,6 +1225,7 @@ export async function adjustVolume(
       outputSize: outputBlob.size,
     };
   } catch (e) {
+    try { ff.exit(); } catch {}
     if (e instanceof FFmpegError) throw e;
     throw new FFmpegError('PROCESSING_FAILED', file.name);
   }
@@ -1275,16 +1287,18 @@ export async function mergeVideo(
 
     for (let i = 0; i < files.length; i++) {
       const inputName = `input${i}${getFileExtension(files[i].name)}`;
-      ff.FS('unlink', inputName);
+      try { ff.FS('unlink', inputName); } catch {}
     }
-    ff.FS('unlink', 'concat.txt');
-    ff.FS('unlink', outputFileName);
+    try { ff.FS('unlink', 'concat.txt'); } catch {}
+    try { ff.FS('unlink', outputFileName); } catch {}
+    try { ff.exit(); } catch {}
 
     return {
       outputBlob,
       outputSize: outputBlob.size,
     };
   } catch (e) {
+    try { ff.exit(); } catch {}
     if (e instanceof FFmpegError) throw e;
     throw new FFmpegError('PROCESSING_FAILED');
   }
@@ -1360,15 +1374,17 @@ export async function addAudioToVideo(
     const data = ff.FS('readFile', outputFileName);
     const outputBlob = new Blob([data.buffer], { type: 'video/mp4' });
 
-    ff.FS('unlink', videoFileName);
-    ff.FS('unlink', audioFileName);
-    ff.FS('unlink', outputFileName);
+    try { ff.FS('unlink', videoFileName); } catch {}
+    try { ff.FS('unlink', audioFileName); } catch {}
+    try { ff.FS('unlink', outputFileName); } catch {}
+    try { ff.exit(); } catch {}
 
     return {
       outputBlob,
       outputSize: outputBlob.size,
     };
   } catch (e) {
+    try { ff.exit(); } catch {}
     if (e instanceof FFmpegError) throw e;
     throw new FFmpegError('PROCESSING_FAILED');
   }
