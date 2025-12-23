@@ -46,12 +46,12 @@ export default function AdminDashboard() {
       const res = await fetch('/api/admin/check', { credentials: 'include' });
       const data = await res.json();
       if (!data.authenticated) {
-        setLocation('/자리관');
+        setLocation('/admin');
         return;
       }
       loadData();
     } catch {
-      setLocation('/자리관');
+      setLocation('/admin');
     }
   };
 
@@ -84,7 +84,7 @@ export default function AdminDashboard() {
 
   const handleLogout = async () => {
     await fetch('/api/admin/logout', { method: 'POST', credentials: 'include' });
-    setLocation('/자리관');
+    setLocation('/admin');
   };
 
   const toggleToolActive = async (toolId: string, isActive: boolean) => {

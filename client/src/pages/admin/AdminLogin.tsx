@@ -30,7 +30,7 @@ export default function AdminLogin() {
 
       if (response.ok) {
         toast({ title: 'Welcome!', description: `Logged in as ${data.username}` });
-        setLocation('/자리관/dashboard');
+        setLocation('/admin/dashboard');
       } else {
         toast({ title: 'Login failed', description: data.error, variant: 'destructive' });
       }
