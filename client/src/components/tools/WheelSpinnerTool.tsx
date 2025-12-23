@@ -75,7 +75,7 @@ export default function WheelSpinnerTool() {
                 <Textarea
                   value={inputText}
                   onChange={(e) => updateItems(e.target.value)}
-                  placeholder="Enter options, one per line"
+                  placeholder={t('Tools.wheel-spinner.itemsPlaceholder', 'Enter options, one per line')}
                   rows={8}
                   data-testid="input-items"
                 />

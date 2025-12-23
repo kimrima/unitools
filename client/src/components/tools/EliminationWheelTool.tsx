@@ -108,7 +108,7 @@ export default function EliminationWheelTool() {
                 <Textarea
                   value={inputText}
                   onChange={(e) => updateItems(e.target.value)}
-                  placeholder="Enter names, one per line"
+                  placeholder={t('Tools.elimination-wheel.participantsPlaceholder', 'Enter names, one per line')}
                   rows={8}
                   data-testid="input-participants"
                 />

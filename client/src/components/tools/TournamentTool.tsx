@@ -60,12 +60,12 @@ export default function TournamentTool() {
   const [matchHistory, setMatchHistory] = useState<Match[]>([]);
 
   const getRoundName = (remaining: number): string => {
-    if (remaining === 2) return '결승';
-    if (remaining === 4) return '4강';
-    if (remaining === 8) return '8강';
-    if (remaining === 16) return '16강';
-    if (remaining === 32) return '32강';
-    return `${remaining}강`;
+    if (remaining === 2) return t('Tools.tournament-game.final');
+    if (remaining === 4) return t('Tools.tournament-game.semiFinal');
+    if (remaining === 8) return t('Tools.tournament-game.quarterFinal');
+    if (remaining === 16) return t('Tools.tournament-game.round16Final');
+    if (remaining === 32) return t('Tools.tournament-game.round32Final');
+    return t('Tools.tournament-game.roundN', { n: remaining });
   };
 
   const addItem = useCallback(() => {
@@ -159,16 +159,16 @@ export default function TournamentTool() {
             >
               <div className="text-center space-y-2">
                 <Trophy className="w-12 h-12 mx-auto text-yellow-500" />
-                <h2 className="text-2xl font-bold">이상형 월드컵</h2>
+                <h2 className="text-2xl font-bold">{t('Tools.tournament-game.title')}</h2>
                 <p className="text-muted-foreground">
-                  항목을 입력하고 토너먼트를 시작하세요!
+                  {t('Tools.tournament-game.setupTitle')}
                 </p>
               </div>
 
               <Card>
                 <CardContent className="p-4 space-y-4">
                   <div className="space-y-2">
-                    <Label>토너먼트 규모</Label>
+                    <Label>{t('Tools.tournament-game.roundSizeLabel')}</Label>
                     <Select 
                       value={String(roundSize)} 
                       onValueChange={(v) => setRoundSize(Number(v) as RoundSize)}
@@ -177,22 +177,22 @@ export default function TournamentTool() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="4">4강 (4개 항목)</SelectItem>
-                        <SelectItem value="8">8강 (8개 항목)</SelectItem>
-                        <SelectItem value="16">16강 (16개 항목)</SelectItem>
-                        <SelectItem value="32">32강 (32개 항목)</SelectItem>
+                        <SelectItem value="4">{t('Tools.tournament-game.round4')}</SelectItem>
+                        <SelectItem value="8">{t('Tools.tournament-game.round8')}</SelectItem>
+                        <SelectItem value="16">{t('Tools.tournament-game.round16')}</SelectItem>
+                        <SelectItem value="32">{t('Tools.tournament-game.round32')}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
 
                   <div className="space-y-2">
-                    <Label>항목 추가 ({items.length}/{roundSize})</Label>
+                    <Label>{t('Tools.tournament-game.addItemLabel')} ({items.length}/{roundSize})</Label>
                     <div className="flex gap-2">
                       <Input
                         value={inputItem}
                         onChange={(e) => setInputItem(e.target.value)}
                         onKeyDown={handleKeyDown}
-                        placeholder="항목 입력 후 Enter"
+                        placeholder={t('Tools.tournament-game.itemPlaceholder')}
                         disabled={items.length >= roundSize}
                         data-testid="input-item"
                       />
@@ -201,7 +201,7 @@ export default function TournamentTool() {
                         disabled={!inputItem.trim() || items.length >= roundSize}
                         data-testid="button-add-item"
                       >
-                        추가
+                        {t('Tools.tournament-game.add')}
                       </Button>
                     </div>
                   </div>
@@ -213,7 +213,7 @@ export default function TournamentTool() {
                     data-testid="button-examples"
                   >
                     <Zap className="w-4 h-4" />
-                    음식 예시로 채우기
+                    {t('Tools.tournament-game.loadExamples')}
                   </Button>
                 </CardContent>
               </Card>
@@ -221,7 +221,7 @@ export default function TournamentTool() {
               {items.length > 0 && (
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <h3 className="font-semibold">항목 목록</h3>
+                    <h3 className="font-semibold">{t('Tools.tournament-game.itemsList')}</h3>
                     {items.length >= roundSize && (
                       <Button 
                         onClick={startGame}
@@ -229,7 +229,7 @@ export default function TournamentTool() {
                         data-testid="button-start"
                       >
                         <Play className="w-4 h-4" />
-                        게임 시작
+                        {t('Tools.tournament-game.startGame')}
                       </Button>
                     )}
                   </div>
@@ -254,7 +254,9 @@ export default function TournamentTool() {
                   </div>
                   {items.length < roundSize && (
                     <p className="text-center text-sm text-muted-foreground">
-                      {roundSize - items.length}개 더 필요합니다
+                      {i18n.language === 'ko' 
+                        ? `${roundSize - items.length}개 더 필요합니다`
+                        : `Need ${roundSize - items.length} more items`}
                     </p>
                   )}
                 </div>
@@ -286,14 +288,14 @@ export default function TournamentTool() {
                   data-testid="button-reset"
                 >
                   <RotateCcw className="w-4 h-4 mr-1" />
-                  처음으로
+                  {t('Common.actions.reset')}
                 </Button>
               </div>
 
               <div className="text-center">
                 <Swords className="w-8 h-8 mx-auto text-muted-foreground mb-2" />
                 <h2 className="text-xl font-semibold text-muted-foreground">
-                  둘 중 하나를 선택하세요!
+                  {t('Tools.balance-game.whichWouldYouChoose')}
                 </h2>
               </div>
 
@@ -355,7 +357,7 @@ export default function TournamentTool() {
                 >
                   <Crown className="w-20 h-20 mx-auto text-yellow-500" />
                 </motion.div>
-                <h2 className="text-2xl font-bold">최종 우승!</h2>
+                <h2 className="text-2xl font-bold">{t('Tools.tournament-game.champion')}</h2>
                 <motion.div
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
@@ -370,7 +372,7 @@ export default function TournamentTool() {
 
               <Card>
                 <CardContent className="p-4 space-y-3">
-                  <h3 className="font-semibold text-lg mb-4">대진 기록</h3>
+                  <h3 className="font-semibold text-lg mb-4">{t('Tools.tournament-game.matchHistory')}</h3>
                   <div className="space-y-2 max-h-[200px] overflow-y-auto">
                     {matchHistory.map((match, index) => (
                       <div key={index} className="flex items-center gap-2 p-2 bg-muted rounded-md text-sm">
@@ -401,10 +403,10 @@ export default function TournamentTool() {
                   setGamePhase('playing');
                 }} className="flex-1 gap-2">
                   <RotateCcw className="w-4 h-4" />
-                  다시 하기
+                  {t('Tools.tournament-game.playAgain')}
                 </Button>
                 <Button variant="outline" onClick={resetGame} className="flex-1">
-                  새 게임
+                  {t('Common.actions.reset')}
                 </Button>
               </div>
             </motion.div>
