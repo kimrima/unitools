@@ -1,4 +1,4 @@
-import { useCallback, useState, useMemo } from 'react';
+import { useCallback, useState, useMemo, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'wouter';
 import { useFileHandler, type FileHandlerError } from '@/hooks/useFileHandler';
@@ -11,11 +11,12 @@ import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { FileUploadZone } from '@/components/tool-ui';
-import { Music, Download, Loader2, AlertTriangle, Volume2, RotateCcw, Gauge } from 'lucide-react';
+import { Music, Download, Loader2, AlertTriangle, Volume2, RotateCcw, Gauge, Check } from 'lucide-react';
 import { downloadBlob } from '@/hooks/useToolEngine';
 
 type ToolMode = 'convert-audio' | 'boost-audio' | 'reverse-audio' | 'audio-bitrate';
 type AudioResult = ConvertAudioResult | BoostAudioResult | ReverseAudioResult | AudioBitrateResult;
+type LoadingStage = 'idle' | 'loading-ffmpeg' | 'processing' | 'complete';
 
 interface ConvertAudioToolProps {
   toolId?: string;
@@ -35,34 +36,39 @@ export default function ConvertAudioTool({ toolId: propToolId }: ConvertAudioToo
   const [boostLevel, setBoostLevel] = useState(200);
   const [bitrate, setBitrate] = useState<'64k' | '128k' | '192k' | '256k' | '320k'>('192k');
   const [result, setResult] = useState<AudioResult | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [loadingStage, setLoadingStage] = useState<LoadingStage>('idle');
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   
   const toolConfig = useMemo(() => {
     switch (toolId) {
       case 'boost-audio':
-        return { icon: Volume2, titleKey: 'boost-audio', actionKey: 'boost' };
+        return { icon: Volume2, titleKey: 'boost-audio', actionKey: 'boost', actionLabel: '볼륨 증폭' };
       case 'reverse-audio':
-        return { icon: RotateCcw, titleKey: 'reverse-audio', actionKey: 'reverse' };
+        return { icon: RotateCcw, titleKey: 'reverse-audio', actionKey: 'reverse', actionLabel: '역재생' };
       case 'audio-bitrate':
-        return { icon: Gauge, titleKey: 'audio-bitrate', actionKey: 'change' };
+        return { icon: Gauge, titleKey: 'audio-bitrate', actionKey: 'change', actionLabel: '비트레이트 변경' };
       default:
-        return { icon: Music, titleKey: 'convert-audio', actionKey: 'convert' };
+        return { icon: Music, titleKey: 'convert-audio', actionKey: 'convert', actionLabel: '포맷 변환' };
     }
   }, [toolId]);
   
   const {
-    files,
     status,
     error,
     progress,
-    addFiles,
-    clearFiles,
     setStatus,
     setError,
     setProgress,
     reset: resetHandler,
   } = useFileHandler({ accept: 'audio/*', multiple: false, maxSizeBytes: 300 * 1024 * 1024 });
+
+  useEffect(() => {
+    setResult(null);
+    setUploadedFile(null);
+    setAudioUrl(null);
+    setLoadingStage('idle');
+  }, [toolId]);
 
   const formatFileSize = useCallback((bytes: number): string => {
     const data = getFileSizeData(bytes);
@@ -79,14 +85,15 @@ export default function ConvertAudioTool({ toolId: propToolId }: ConvertAudioToo
   const handleFilesFromDropzone = useCallback((fileList: FileList) => {
     const audioFiles = Array.from(fileList).filter(f => f.type.startsWith('audio/'));
     if (audioFiles.length > 0) {
-      addFiles([audioFiles[0]]);
+      const file = audioFiles[0];
+      setUploadedFile(file);
       setResult(null);
-      setAudioUrl(URL.createObjectURL(audioFiles[0]));
+      setAudioUrl(URL.createObjectURL(file));
     }
-  }, [addFiles]);
+  }, []);
 
   const handleProcess = useCallback(async () => {
-    if (files.length === 0) {
+    if (!uploadedFile) {
       setError({ code: 'NO_FILES_PROVIDED' });
       return;
     }
@@ -94,34 +101,42 @@ export default function ConvertAudioTool({ toolId: propToolId }: ConvertAudioToo
     setProgress(0);
     setError(null);
     setResult(null);
-    setIsLoading(true);
+    setLoadingStage('loading-ffmpeg');
 
     try {
       let processResult: AudioResult;
       
+      const progressCallback = (prog: number) => {
+        if (prog > 0) {
+          setLoadingStage('processing');
+        }
+        setProgress(prog);
+      };
+      
       switch (toolId) {
         case 'boost-audio':
-          processResult = await boostAudio(files[0].file, { volume: boostLevel / 100 }, (prog) => setProgress(prog));
+          processResult = await boostAudio(uploadedFile, { volume: boostLevel / 100 }, progressCallback);
           break;
         case 'reverse-audio':
-          processResult = await reverseAudio(files[0].file, (prog) => setProgress(prog));
+          processResult = await reverseAudio(uploadedFile, progressCallback);
           break;
         case 'audio-bitrate':
-          processResult = await changeAudioBitrate(files[0].file, { bitrate }, (prog) => setProgress(prog));
+          processResult = await changeAudioBitrate(uploadedFile, { bitrate }, progressCallback);
           break;
         default:
-          processResult = await convertAudio(files[0].file, { outputFormat }, (prog) => setProgress(prog));
+          processResult = await convertAudio(uploadedFile, { outputFormat }, progressCallback);
       }
       
       setResult(processResult);
       setStatus('success');
+      setLoadingStage('complete');
     } catch (err) {
+      console.error('Audio processing error:', err);
       setError({ code: err instanceof FFmpegError ? err.code : 'PROCESSING_FAILED' });
       setStatus('error');
-    } finally {
-      setIsLoading(false);
+      setLoadingStage('idle');
     }
-  }, [files, toolId, outputFormat, boostLevel, bitrate, setStatus, setProgress, setError]);
+  }, [uploadedFile, toolId, outputFormat, boostLevel, bitrate, setStatus, setProgress, setError]);
 
   const handleDownload = useCallback(() => {
     if (!result) return;
@@ -150,6 +165,8 @@ export default function ConvertAudioTool({ toolId: propToolId }: ConvertAudioToo
     resetHandler();
     setResult(null);
     setAudioUrl(null);
+    setUploadedFile(null);
+    setLoadingStage('idle');
   }, [resetHandler]);
 
   if (!isFFmpegSupported()) {
@@ -167,6 +184,8 @@ export default function ConvertAudioTool({ toolId: propToolId }: ConvertAudioToo
       </Card>
     );
   }
+
+  const ToolIcon = toolConfig.icon;
 
   return (
     <div className="space-y-6">
@@ -205,7 +224,7 @@ export default function ConvertAudioTool({ toolId: propToolId }: ConvertAudioToo
           
           {toolId === 'boost-audio' && (
             <div className="space-y-2">
-              <Label>{t('Common.messages.volume', { defaultValue: 'Volume Level' })}: {boostLevel}%</Label>
+              <Label>볼륨 레벨: {boostLevel}%</Label>
               <Slider
                 value={[boostLevel]}
                 onValueChange={([v]) => setBoostLevel(v)}
@@ -214,30 +233,30 @@ export default function ConvertAudioTool({ toolId: propToolId }: ConvertAudioToo
                 step={10}
                 className="w-full"
               />
-              <p className="text-xs text-muted-foreground">{t('Common.messages.volumeHint', { defaultValue: '100% = original, 200% = 2x louder' })}</p>
+              <p className="text-xs text-muted-foreground">100% = 원본, 200% = 2배 크게</p>
             </div>
           )}
           
           {toolId === 'audio-bitrate' && (
             <div className="space-y-2">
-              <Label>{t('Common.messages.bitrate', { defaultValue: 'Bitrate' })}</Label>
+              <Label>비트레이트</Label>
               <Select value={bitrate} onValueChange={(v) => setBitrate(v as '64k' | '128k' | '192k' | '256k' | '320k')}>
                 <SelectTrigger data-testid="select-bitrate">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="64k">64 kbps</SelectItem>
-                  <SelectItem value="128k">128 kbps</SelectItem>
-                  <SelectItem value="192k">192 kbps</SelectItem>
-                  <SelectItem value="256k">256 kbps</SelectItem>
-                  <SelectItem value="320k">320 kbps</SelectItem>
+                  <SelectItem value="64k">64 kbps (저용량)</SelectItem>
+                  <SelectItem value="128k">128 kbps (표준)</SelectItem>
+                  <SelectItem value="192k">192 kbps (고음질)</SelectItem>
+                  <SelectItem value="256k">256 kbps (고음질)</SelectItem>
+                  <SelectItem value="320k">320 kbps (최고음질)</SelectItem>
                 </SelectContent>
               </Select>
             </div>
           )}
           
           {toolId === 'reverse-audio' && (
-            <p className="text-sm text-muted-foreground">{t('Tools.reverse-audio.hint', { defaultValue: 'Your audio will be reversed' })}</p>
+            <p className="text-sm text-muted-foreground">오디오가 역방향으로 재생됩니다</p>
           )}
         </CardContent>
       </Card>
@@ -247,16 +266,16 @@ export default function ConvertAudioTool({ toolId: propToolId }: ConvertAudioToo
         accept="audio/*"
       />
 
-      {audioUrl && !result && (
+      {audioUrl && !result && status !== 'processing' && (
         <Card>
           <CardContent className="p-4">
             <div className="flex items-center gap-3">
               <Music className="w-8 h-8 text-muted-foreground" />
               <div className="flex-1">
-                <p className="font-medium">{files[0]?.file.name}</p>
-                <p className="text-sm text-muted-foreground">{files[0] && formatFileSize(files[0].file.size)}</p>
+                <p className="font-medium">{uploadedFile?.name}</p>
+                <p className="text-sm text-muted-foreground">{uploadedFile && formatFileSize(uploadedFile.size)}</p>
               </div>
-              <Button variant="ghost" size="sm" onClick={clearFiles}>{t('Common.actions.clear')}</Button>
+              <Button variant="ghost" size="sm" onClick={reset}>{t('Common.actions.clear')}</Button>
             </div>
             <audio src={audioUrl} controls className="w-full mt-4" data-testid="audio-preview" />
           </CardContent>
@@ -264,13 +283,42 @@ export default function ConvertAudioTool({ toolId: propToolId }: ConvertAudioToo
       )}
 
       {status === 'processing' && (
-        <div className="space-y-2" data-testid="section-processing">
-          <div className="flex items-center gap-2 text-sm">
-            <Loader2 className="w-4 h-4 animate-spin" />
-            <span>{isLoading && progress === 0 ? t('Common.messages.loadingFFmpeg') : t('Common.messages.processing')}</span>
-          </div>
-          <Progress value={progress} className="h-2" data-testid="progress-bar" />
-        </div>
+        <Card>
+          <CardContent className="p-4 space-y-4">
+            <div className="space-y-3">
+              <div className="flex items-center gap-3">
+                <div className={`w-6 h-6 rounded-full flex items-center justify-center ${loadingStage === 'loading-ffmpeg' ? 'bg-primary text-primary-foreground animate-pulse' : loadingStage === 'processing' || loadingStage === 'complete' ? 'bg-green-500 text-white' : 'bg-muted'}`}>
+                  {loadingStage === 'loading-ffmpeg' ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
+                </div>
+                <span className={loadingStage === 'loading-ffmpeg' ? 'font-medium' : 'text-muted-foreground'}>
+                  1단계: FFmpeg 엔진 로딩
+                </span>
+              </div>
+              
+              <div className="flex items-center gap-3">
+                <div className={`w-6 h-6 rounded-full flex items-center justify-center ${loadingStage === 'processing' ? 'bg-primary text-primary-foreground animate-pulse' : loadingStage === 'complete' ? 'bg-green-500 text-white' : 'bg-muted'}`}>
+                  {loadingStage === 'processing' ? <Loader2 className="w-4 h-4 animate-spin" /> : loadingStage === 'complete' ? <Check className="w-4 h-4" /> : <span className="text-xs">2</span>}
+                </div>
+                <span className={loadingStage === 'processing' ? 'font-medium' : 'text-muted-foreground'}>
+                  2단계: 오디오 처리 중
+                </span>
+              </div>
+              
+              <div className="flex items-center gap-3">
+                <div className={`w-6 h-6 rounded-full flex items-center justify-center ${loadingStage === 'complete' ? 'bg-green-500 text-white' : 'bg-muted'}`}>
+                  {loadingStage === 'complete' ? <Check className="w-4 h-4" /> : <span className="text-xs">3</span>}
+                </div>
+                <span className={loadingStage === 'complete' ? 'font-medium' : 'text-muted-foreground'}>
+                  3단계: 완료
+                </span>
+              </div>
+            </div>
+            
+            {loadingStage === 'processing' && (
+              <Progress value={progress} className="h-2" data-testid="progress-bar" />
+            )}
+          </CardContent>
+        </Card>
       )}
 
       {result && (
@@ -279,7 +327,7 @@ export default function ConvertAudioTool({ toolId: propToolId }: ConvertAudioToo
             <div className="flex items-center justify-between gap-2 flex-wrap">
               <div>
                 <p className="font-medium text-green-700 dark:text-green-300">{t('Common.messages.complete')}</p>
-                <p className="text-sm text-green-600 dark:text-green-400">{formatFileSize(result.originalSize)} → {formatFileSize(result.outputSize)} ({outputFormat.toUpperCase()})</p>
+                <p className="text-sm text-green-600 dark:text-green-400">{formatFileSize(result.originalSize)} → {formatFileSize(result.outputSize)}</p>
               </div>
               <Button onClick={handleDownload} data-testid="button-download">
                 <Download className="w-4 h-4 mr-2" />
@@ -294,11 +342,11 @@ export default function ConvertAudioTool({ toolId: propToolId }: ConvertAudioToo
       {error && <div className="p-4 bg-destructive/10 text-destructive rounded-lg" data-testid="section-error">{translateError(error)}</div>}
 
       <div className="flex gap-4 flex-wrap">
-        <Button onClick={handleProcess} disabled={files.length === 0 || status === 'processing'} className="flex-1" data-testid="button-process">
+        <Button onClick={handleProcess} disabled={!uploadedFile || status === 'processing'} className="flex-1" data-testid="button-process">
           {status === 'processing' ? (
             <><Loader2 className="w-4 h-4 mr-2 animate-spin" />{t('Common.messages.processing')}</>
           ) : (
-            <><toolConfig.icon className="w-4 h-4 mr-2" />{t(`Common.actions.${toolConfig.actionKey}`, { defaultValue: t('Common.actions.convert') })}</>
+            <><ToolIcon className="w-4 h-4 mr-2" />{toolConfig.actionLabel}</>
           )}
         </Button>
         {(status === 'success' || status === 'error') && <Button variant="outline" onClick={reset} data-testid="button-reset">{t('Common.actions.reset')}</Button>}

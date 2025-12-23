@@ -9,18 +9,37 @@ import { Progress } from '@/components/ui/progress';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { FileUploadZone } from '@/components/tool-ui';
-import { Music, Download, Loader2, Scissors, AlertTriangle } from 'lucide-react';
+import { Music, Download, Loader2, Scissors, AlertTriangle, Check } from 'lucide-react';
 import { downloadBlob } from '@/hooks/useToolEngine';
+
+type LoadingStage = 'idle' | 'loading-ffmpeg' | 'processing' | 'complete';
+
+function formatTimeDisplay(seconds: number): string {
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  const ms = Math.round((seconds % 1) * 10);
+  return `${mins}:${secs.toString().padStart(2, '0')}.${ms}`;
+}
+
+function parseTimeInput(value: string): number {
+  const parts = value.split(':');
+  if (parts.length === 2) {
+    const mins = parseInt(parts[0]) || 0;
+    const secs = parseFloat(parts[1]) || 0;
+    return mins * 60 + secs;
+  }
+  return parseFloat(value) || 0;
+}
 
 export default function TrimAudioTool() {
   const { t } = useTranslation();
   const audioRef = useRef<HTMLAudioElement>(null);
   
-  const [startTime, setStartTime] = useState(0);
-  const [endTime, setEndTime] = useState(30);
+  const [startTimeStr, setStartTimeStr] = useState('0:00');
+  const [endTimeStr, setEndTimeStr] = useState('0:30');
   const [audioDuration, setAudioDuration] = useState(0);
   const [result, setResult] = useState<TrimAudioResult | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [loadingStage, setLoadingStage] = useState<LoadingStage>('idle');
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   
   const {
@@ -34,6 +53,9 @@ export default function TrimAudioTool() {
     setProgress,
     reset: resetHandler,
   } = useFileHandler({ accept: 'audio/*', multiple: false, maxSizeBytes: 300 * 1024 * 1024 });
+
+  const startTime = parseTimeInput(startTimeStr);
+  const endTime = parseTimeInput(endTimeStr);
 
   const formatFileSize = useCallback((bytes: number): string => {
     const data = getFileSizeData(bytes);
@@ -60,7 +82,8 @@ export default function TrimAudioTool() {
     if (audioRef.current) {
       const duration = audioRef.current.duration;
       setAudioDuration(duration);
-      setEndTime(Math.min(30, duration));
+      const endSec = Math.min(30, duration);
+      setEndTimeStr(formatTimeDisplay(endSec));
     }
   }, []);
 
@@ -73,17 +96,22 @@ export default function TrimAudioTool() {
     setProgress(0);
     setError(null);
     setResult(null);
-    setIsLoading(true);
+    setLoadingStage('loading-ffmpeg');
 
     try {
-      const trimResult = await trimAudio(files[0].file, { startTime, endTime }, (prog) => setProgress(prog));
+      const trimResult = await trimAudio(files[0].file, { startTime, endTime }, (prog) => {
+        if (prog > 0) {
+          setLoadingStage('processing');
+        }
+        setProgress(prog);
+      });
       setResult(trimResult);
       setStatus('success');
+      setLoadingStage('complete');
     } catch (err) {
       setError({ code: err instanceof FFmpegError ? err.code : 'PROCESSING_FAILED' });
       setStatus('error');
-    } finally {
-      setIsLoading(false);
+      setLoadingStage('idle');
     }
   }, [files, startTime, endTime, setStatus, setProgress, setError]);
 
@@ -98,6 +126,7 @@ export default function TrimAudioTool() {
     setResult(null);
     setAudioUrl(null);
     setAudioDuration(0);
+    setLoadingStage('idle');
   }, [resetHandler]);
 
   if (!isFFmpegSupported()) {
@@ -138,34 +167,79 @@ export default function TrimAudioTool() {
         accept="audio/*"
       />
 
-      {audioUrl && (
+      {audioUrl && status !== 'processing' && (
         <Card>
           <CardContent className="p-4 space-y-4">
             <audio ref={audioRef} src={audioUrl} controls onLoadedMetadata={handleAudioLoaded} className="w-full" data-testid="audio-preview" />
             
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="start-time">{t('Common.messages.startTime')} ({t('Common.messages.seconds')})</Label>
-                <Input id="start-time" type="number" min={0} max={audioDuration} step={0.5} value={startTime} onChange={(e) => setStartTime(parseFloat(e.target.value) || 0)} data-testid="input-start-time" />
+                <Label htmlFor="start-time">{t('Common.messages.startTime')} (분:초)</Label>
+                <Input
+                  id="start-time"
+                  type="text"
+                  placeholder="0:00"
+                  value={startTimeStr}
+                  onChange={(e) => setStartTimeStr(e.target.value)}
+                  data-testid="input-start-time"
+                />
+                <p className="text-xs text-muted-foreground">예: 1:30 = 1분 30초</p>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="end-time">{t('Common.messages.endTime')} ({t('Common.messages.seconds')})</Label>
-                <Input id="end-time" type="number" min={0} max={audioDuration} step={0.5} value={endTime} onChange={(e) => setEndTime(parseFloat(e.target.value) || 0)} data-testid="input-end-time" />
+                <Label htmlFor="end-time">{t('Common.messages.endTime')} (분:초)</Label>
+                <Input
+                  id="end-time"
+                  type="text"
+                  placeholder="0:30"
+                  value={endTimeStr}
+                  onChange={(e) => setEndTimeStr(e.target.value)}
+                  data-testid="input-end-time"
+                />
+                <p className="text-xs text-muted-foreground">전체: {formatTimeDisplay(audioDuration)}</p>
               </div>
             </div>
-            <div className="text-sm text-muted-foreground">{t('Common.messages.duration')}: {(endTime - startTime).toFixed(1)}s / {audioDuration.toFixed(1)}s</div>
+            <div className="text-sm text-muted-foreground">{t('Common.messages.duration')}: {(endTime - startTime).toFixed(1)}초 / {audioDuration.toFixed(1)}초</div>
           </CardContent>
         </Card>
       )}
 
       {status === 'processing' && (
-        <div className="space-y-2" data-testid="section-processing">
-          <div className="flex items-center gap-2 text-sm">
-            <Loader2 className="w-4 h-4 animate-spin" />
-            <span>{isLoading && progress === 0 ? t('Common.messages.loadingFFmpeg') : t('Common.messages.processing')}</span>
-          </div>
-          <Progress value={progress} className="h-2" data-testid="progress-bar" />
-        </div>
+        <Card>
+          <CardContent className="p-4 space-y-4">
+            <div className="space-y-3">
+              <div className="flex items-center gap-3">
+                <div className={`w-6 h-6 rounded-full flex items-center justify-center ${loadingStage === 'loading-ffmpeg' ? 'bg-primary text-primary-foreground animate-pulse' : loadingStage === 'processing' || loadingStage === 'complete' ? 'bg-green-500 text-white' : 'bg-muted'}`}>
+                  {loadingStage === 'loading-ffmpeg' ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
+                </div>
+                <span className={loadingStage === 'loading-ffmpeg' ? 'font-medium' : 'text-muted-foreground'}>
+                  1단계: FFmpeg 엔진 로딩
+                </span>
+              </div>
+              
+              <div className="flex items-center gap-3">
+                <div className={`w-6 h-6 rounded-full flex items-center justify-center ${loadingStage === 'processing' ? 'bg-primary text-primary-foreground animate-pulse' : loadingStage === 'complete' ? 'bg-green-500 text-white' : 'bg-muted'}`}>
+                  {loadingStage === 'processing' ? <Loader2 className="w-4 h-4 animate-spin" /> : loadingStage === 'complete' ? <Check className="w-4 h-4" /> : <span className="text-xs">2</span>}
+                </div>
+                <span className={loadingStage === 'processing' ? 'font-medium' : 'text-muted-foreground'}>
+                  2단계: 오디오 처리 중
+                </span>
+              </div>
+              
+              <div className="flex items-center gap-3">
+                <div className={`w-6 h-6 rounded-full flex items-center justify-center ${loadingStage === 'complete' ? 'bg-green-500 text-white' : 'bg-muted'}`}>
+                  {loadingStage === 'complete' ? <Check className="w-4 h-4" /> : <span className="text-xs">3</span>}
+                </div>
+                <span className={loadingStage === 'complete' ? 'font-medium' : 'text-muted-foreground'}>
+                  3단계: 완료
+                </span>
+              </div>
+            </div>
+            
+            {loadingStage === 'processing' && (
+              <Progress value={progress} className="h-2" data-testid="progress-bar" />
+            )}
+          </CardContent>
+        </Card>
       )}
 
       {result && (
