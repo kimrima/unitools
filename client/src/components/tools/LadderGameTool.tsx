@@ -2,19 +2,17 @@ import { useState, useCallback, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { FullscreenWrapper } from './FullscreenWrapper';
 import { 
-  Play, RotateCcw, Shuffle, Eye, EyeOff, Users, Gift
+  Play, RotateCcw, Eye, Users, Gift
 } from 'lucide-react';
 
 interface LadderPath {
   column: number;
   row: number;
-  direction: 'left' | 'right';
 }
 
 interface LadderResult {
@@ -29,13 +27,13 @@ export default function LadderGameTool() {
   const [participants, setParticipants] = useState('');
   const [results, setResults] = useState('');
   const [ladderPaths, setLadderPaths] = useState<LadderPath[]>([]);
+  const [numRows, setNumRows] = useState(0);
   const [isGenerated, setIsGenerated] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const [animatingIndex, setAnimatingIndex] = useState<number | null>(null);
   const [revealedResults, setRevealedResults] = useState<Set<number>>(new Set());
   const [allRevealed, setAllRevealed] = useState(false);
   const [animationPath, setAnimationPath] = useState<{ x: number; y: number }[]>([]);
-  const [currentPathIndex, setCurrentPathIndex] = useState(0);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -46,22 +44,23 @@ export default function LadderGameTool() {
     if (participantList.length < 2) return;
 
     const numColumns = participantList.length;
-    const numRows = 10 + Math.floor(Math.random() * 5);
+    const rows = 10 + Math.floor(Math.random() * 5);
     const paths: LadderPath[] = [];
 
-    for (let row = 0; row < numRows; row++) {
+    for (let row = 0; row < rows; row++) {
+      const usedColumns = new Set<number>();
+      
       for (let col = 0; col < numColumns - 1; col++) {
+        if (usedColumns.has(col) || usedColumns.has(col - 1)) continue;
+        
         if (Math.random() > 0.5) {
-          const hasConflict = paths.some(
-            p => p.row === row && (p.column === col || p.column === col - 1 || p.column === col + 1)
-          );
-          if (!hasConflict) {
-            paths.push({ column: col, row, direction: 'right' });
-          }
+          paths.push({ column: col, row });
+          usedColumns.add(col);
         }
       }
     }
 
+    setNumRows(rows);
     setLadderPaths(paths);
     setIsGenerated(true);
     setRevealedResults(new Set());
@@ -71,7 +70,6 @@ export default function LadderGameTool() {
   }, [participantList.length]);
 
   const calculatePath = useCallback((startIndex: number): LadderResult => {
-    const numRows = 15;
     const path: { x: number; y: number }[] = [];
     let currentColumn = startIndex;
 
@@ -82,9 +80,11 @@ export default function LadderGameTool() {
       const leftPath = ladderPaths.find(p => p.column === currentColumn - 1 && p.row === row);
 
       if (rightPath) {
+        path.push({ x: currentColumn, y: row + 0.5 });
         currentColumn++;
         path.push({ x: currentColumn, y: row + 0.5 });
       } else if (leftPath) {
+        path.push({ x: currentColumn, y: row + 0.5 });
         currentColumn--;
         path.push({ x: currentColumn, y: row + 0.5 });
       }
@@ -92,7 +92,7 @@ export default function LadderGameTool() {
     }
 
     return { startIndex, endIndex: currentColumn, path };
-  }, [ladderPaths]);
+  }, [ladderPaths, numRows]);
 
   const animatePath = async (index: number) => {
     if (isAnimating) return;
@@ -104,9 +104,8 @@ export default function LadderGameTool() {
     setAnimationPath([]);
     
     for (let i = 0; i < result.path.length; i++) {
-      await new Promise(resolve => setTimeout(resolve, 100));
+      await new Promise(resolve => setTimeout(resolve, 80));
       setAnimationPath(prev => [...prev, result.path[i]]);
-      setCurrentPathIndex(i);
     }
 
     await new Promise(resolve => setTimeout(resolve, 300));
@@ -134,6 +133,7 @@ export default function LadderGameTool() {
   const reset = () => {
     setIsGenerated(false);
     setLadderPaths([]);
+    setNumRows(0);
     setRevealedResults(new Set());
     setAllRevealed(false);
     setAnimatingIndex(null);
@@ -151,12 +151,11 @@ export default function LadderGameTool() {
     const height = canvas.height;
     const numColumns = participantList.length;
     const columnWidth = width / numColumns;
-    const numRows = 15;
     const rowHeight = height / (numRows + 1);
 
     ctx.clearRect(0, 0, width, height);
 
-    ctx.strokeStyle = '#e5e7eb';
+    ctx.strokeStyle = '#d1d5db';
     ctx.lineWidth = 3;
 
     for (let col = 0; col < numColumns; col++) {
@@ -167,10 +166,13 @@ export default function LadderGameTool() {
       ctx.stroke();
     }
 
+    ctx.strokeStyle = '#d1d5db';
+    ctx.lineWidth = 3;
+
     ladderPaths.forEach(path => {
       const x1 = columnWidth * path.column + columnWidth / 2;
       const x2 = columnWidth * (path.column + 1) + columnWidth / 2;
-      const y = rowHeight * (path.row + 1);
+      const y = rowHeight * (path.row + 0.5);
       
       ctx.beginPath();
       ctx.moveTo(x1, y);
@@ -178,9 +180,9 @@ export default function LadderGameTool() {
       ctx.stroke();
     });
 
-    if (animationPath.length > 0) {
+    if (animationPath.length > 1) {
       ctx.strokeStyle = '#8b5cf6';
-      ctx.lineWidth = 5;
+      ctx.lineWidth = 6;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
 
@@ -202,11 +204,11 @@ export default function LadderGameTool() {
       
       ctx.fillStyle = '#8b5cf6';
       ctx.beginPath();
-      ctx.arc(dotX, dotY, 8, 0, Math.PI * 2);
+      ctx.arc(dotX, dotY, 10, 0, Math.PI * 2);
       ctx.fill();
     }
 
-  }, [isGenerated, ladderPaths, participantList.length, animationPath]);
+  }, [isGenerated, ladderPaths, participantList.length, animationPath, numRows]);
 
   return (
     <FullscreenWrapper>
@@ -297,7 +299,7 @@ export default function LadderGameTool() {
               </div>
             </div>
 
-            <div className="flex justify-around mb-2">
+            <div className="flex justify-around mb-2 flex-wrap gap-1">
               {participantList.map((name, index) => (
                 <Button
                   key={index}
@@ -318,13 +320,13 @@ export default function LadderGameTool() {
                 <canvas
                   ref={canvasRef}
                   width={Math.min(600, participantList.length * 80)}
-                  height={400}
+                  height={350}
                   className="w-full"
                 />
               </CardContent>
             </Card>
 
-            <div className="flex justify-around">
+            <div className="flex justify-around flex-wrap gap-1">
               {participantList.map((_, index) => (
                 <div
                   key={index}

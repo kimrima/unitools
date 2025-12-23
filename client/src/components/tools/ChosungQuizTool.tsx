@@ -1,29 +1,22 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
+import { Textarea } from '@/components/ui/textarea';
 import { FullscreenWrapper } from './FullscreenWrapper';
 import { 
   Play, RotateCcw, Eye, EyeOff, Shuffle, Trophy, 
-  Plus, Sparkles, Check, X, ChevronRight
+  Plus, Sparkles, Check, X, ChevronRight, Trash2
 } from 'lucide-react';
 
 interface Quiz {
   answer: string;
   chosung: string;
   hint?: string;
-  category?: string;
 }
-
-const CHOSUNG_MAP: Record<string, string> = {
-  'ㄱ': 'ㄱ', 'ㄲ': 'ㄲ', 'ㄴ': 'ㄴ', 'ㄷ': 'ㄷ', 'ㄸ': 'ㄸ',
-  'ㄹ': 'ㄹ', 'ㅁ': 'ㅁ', 'ㅂ': 'ㅂ', 'ㅃ': 'ㅃ', 'ㅅ': 'ㅅ',
-  'ㅆ': 'ㅆ', 'ㅇ': 'ㅇ', 'ㅈ': 'ㅈ', 'ㅉ': 'ㅉ', 'ㅊ': 'ㅊ',
-  'ㅋ': 'ㅋ', 'ㅌ': 'ㅌ', 'ㅍ': 'ㅍ', 'ㅎ': 'ㅎ'
-};
 
 const CHOSUNG_LIST = ['ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
 
@@ -34,8 +27,6 @@ function getChosung(text: string): string {
     if (code >= 0xAC00 && code <= 0xD7A3) {
       const chosungIndex = Math.floor((code - 0xAC00) / 588);
       result += CHOSUNG_LIST[chosungIndex];
-    } else if (CHOSUNG_MAP[char]) {
-      result += char;
     } else if (char === ' ') {
       result += ' ';
     } else {
@@ -45,53 +36,20 @@ function getChosung(text: string): string {
   return result;
 }
 
-const defaultQuizzes: Quiz[] = [
-  { answer: '아이스크림', category: '음식', hint: '여름에 먹는 차가운 것' },
-  { answer: '스마트폰', category: '전자기기', hint: '항상 들고 다니는 것' },
-  { answer: '대한민국', category: '나라', hint: '우리나라' },
-  { answer: '자동차', category: '교통수단', hint: '바퀴가 4개' },
-  { answer: '컴퓨터', category: '전자기기', hint: '일할 때 사용' },
-  { answer: '축구', category: '스포츠', hint: '공을 발로 차는 운동' },
-  { answer: '햄버거', category: '음식', hint: '패스트푸드' },
-  { answer: '비행기', category: '교통수단', hint: '하늘을 나는 것' },
-  { answer: '도서관', category: '장소', hint: '책이 많은 곳' },
-  { answer: '크리스마스', category: '기념일', hint: '12월 25일' },
-  { answer: '유튜브', category: '서비스', hint: '동영상 플랫폼' },
-  { answer: '피아노', category: '악기', hint: '건반 악기' },
-  { answer: '운동화', category: '의류', hint: '운동할 때 신는 것' },
-  { answer: '냉장고', category: '가전제품', hint: '음식을 차갑게 보관' },
-  { answer: '강아지', category: '동물', hint: '멍멍' },
-  { answer: '고양이', category: '동물', hint: '야옹' },
-  { answer: '선생님', category: '직업', hint: '학교에서 가르치는 분' },
-  { answer: '치킨', category: '음식', hint: '한국인이 사랑하는 야식' },
-  { answer: '지하철', category: '교통수단', hint: '도시 대중교통' },
-  { answer: '삼겹살', category: '음식', hint: '구워 먹는 고기' },
-  { answer: '노트북', category: '전자기기', hint: '들고 다니는 컴퓨터' },
-  { answer: '카카오톡', category: '서비스', hint: '한국 메신저' },
-  { answer: '편의점', category: '장소', hint: '24시간 영업' },
-  { answer: '떡볶이', category: '음식', hint: '매콤한 분식' },
-  { answer: '생일축하', category: '인사', hint: '생일에 하는 말' },
-  { answer: '대학교', category: '장소', hint: '고등학교 다음' },
-  { answer: '결혼식', category: '이벤트', hint: '부부가 되는 날' },
-  { answer: '아파트', category: '건물', hint: '층층이 사는 집' },
-  { answer: '신호등', category: '시설', hint: '빨강 노랑 초록' },
-  { answer: '미세먼지', category: '환경', hint: '마스크 써야 하는 날' },
-].map(q => ({ ...q, chosung: getChosung(q.answer) }));
-
-type GameState = 'ready' | 'playing' | 'revealed' | 'correct';
+type GameState = 'setup' | 'playing' | 'revealed' | 'correct';
 
 export default function ChosungQuizTool() {
   const { t } = useTranslation();
   
-  const [quizzes, setQuizzes] = useState<Quiz[]>(defaultQuizzes);
+  const [quizzes, setQuizzes] = useState<Quiz[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [gameState, setGameState] = useState<GameState>('ready');
+  const [gameState, setGameState] = useState<GameState>('setup');
   const [userAnswer, setUserAnswer] = useState('');
   const [score, setScore] = useState(0);
   const [showHint, setShowHint] = useState(false);
   const [customWord, setCustomWord] = useState('');
   const [customHint, setCustomHint] = useState('');
-  const [showAddForm, setShowAddForm] = useState(false);
+  const [bulkInput, setBulkInput] = useState('');
 
   const currentQuiz = quizzes[currentIndex];
 
@@ -99,14 +57,19 @@ export default function ChosungQuizTool() {
     const shuffled = [...quizzes].sort(() => Math.random() - 0.5);
     setQuizzes(shuffled);
     setCurrentIndex(0);
-    setGameState('ready');
     setUserAnswer('');
     setShowHint(false);
     setScore(0);
   }, [quizzes]);
 
   const startQuiz = () => {
-    setGameState('playing');
+    if (quizzes.length > 0) {
+      setGameState('playing');
+      setCurrentIndex(0);
+      setScore(0);
+      setUserAnswer('');
+      setShowHint(false);
+    }
   };
 
   const checkAnswer = () => {
@@ -130,7 +93,7 @@ export default function ChosungQuizTool() {
       setUserAnswer('');
       setShowHint(false);
     } else {
-      setGameState('ready');
+      setGameState('setup');
     }
   };
 
@@ -140,13 +103,43 @@ export default function ChosungQuizTool() {
         answer: customWord.trim(),
         chosung: getChosung(customWord.trim()),
         hint: customHint.trim() || undefined,
-        category: '사용자 추가'
       };
       setQuizzes([...quizzes, newQuiz]);
       setCustomWord('');
       setCustomHint('');
-      setShowAddForm(false);
     }
+  };
+
+  const parseBulkInput = () => {
+    const lines = bulkInput.split('\n').filter(l => l.trim());
+    const newQuizzes: Quiz[] = [];
+    
+    for (const line of lines) {
+      const parts = line.split(/[,|]/);
+      const word = parts[0]?.trim();
+      const hint = parts[1]?.trim();
+      
+      if (word) {
+        newQuizzes.push({
+          answer: word,
+          chosung: getChosung(word),
+          hint: hint || undefined,
+        });
+      }
+    }
+    
+    if (newQuizzes.length > 0) {
+      setQuizzes([...quizzes, ...newQuizzes]);
+      setBulkInput('');
+    }
+  };
+
+  const deleteQuiz = (index: number) => {
+    setQuizzes(quizzes.filter((_, i) => i !== index));
+  };
+
+  const goBack = () => {
+    setGameState('setup');
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -158,110 +151,160 @@ export default function ChosungQuizTool() {
   return (
     <FullscreenWrapper>
       <div className="space-y-6">
-        <div className="flex items-center justify-between flex-wrap gap-2">
-          <div className="flex items-center gap-2">
-            <Badge variant="outline" className="text-base px-3 py-1">
-              {currentIndex + 1} / {quizzes.length}
-            </Badge>
-            <Badge className="gap-1">
-              <Trophy className="w-3 h-3" />
-              {score}
-            </Badge>
-          </div>
-          <div className="flex gap-2">
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={shuffleQuizzes}
-              className="gap-1"
-              data-testid="button-shuffle"
-            >
-              <Shuffle className="w-4 h-4" />
-              <span className="hidden sm:inline">{t('Tools.chosung-quiz.shuffle', '섞기')}</span>
-            </Button>
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={() => setShowAddForm(!showAddForm)}
-              className="gap-1"
-              data-testid="button-add"
-            >
-              <Plus className="w-4 h-4" />
-              <span className="hidden sm:inline">{t('Tools.chosung-quiz.add', '추가')}</span>
-            </Button>
-          </div>
-        </div>
-
-        {showAddForm && (
-          <Card>
-            <CardContent className="p-4 space-y-4">
-              <div className="space-y-2">
-                <Label>{t('Tools.chosung-quiz.customWord', '단어')}</Label>
-                <Input
-                  value={customWord}
-                  onChange={(e) => setCustomWord(e.target.value)}
-                  placeholder={t('Tools.chosung-quiz.wordPlaceholder', '한글 단어 입력')}
-                  data-testid="input-custom-word"
-                />
-                {customWord && (
-                  <p className="text-sm text-muted-foreground">
-                    {t('Tools.chosung-quiz.preview', '초성')}: <strong>{getChosung(customWord)}</strong>
-                  </p>
-                )}
-              </div>
-              <div className="space-y-2">
-                <Label>{t('Tools.chosung-quiz.customHint', '힌트 (선택)')}</Label>
-                <Input
-                  value={customHint}
-                  onChange={(e) => setCustomHint(e.target.value)}
-                  placeholder={t('Tools.chosung-quiz.hintPlaceholder', '힌트 입력 (선택사항)')}
-                  data-testid="input-custom-hint"
-                />
-              </div>
-              <Button 
-                onClick={addCustomQuiz}
-                disabled={!customWord.trim()}
-                className="w-full"
-                data-testid="button-add-quiz"
-              >
-                {t('Tools.chosung-quiz.addQuiz', '퀴즈 추가')}
-              </Button>
-            </CardContent>
-          </Card>
-        )}
-
-        {gameState === 'ready' && (
-          <div className="flex flex-col items-center justify-center min-h-[300px] space-y-6">
-            <Sparkles className="w-16 h-16 text-primary" />
+        {gameState === 'setup' && (
+          <div className="space-y-6">
             <div className="text-center space-y-2">
+              <Sparkles className="w-12 h-12 mx-auto text-primary" />
               <h2 className="text-2xl font-bold">
                 {t('Tools.chosung-quiz.title', '초성 퀴즈')}
               </h2>
               <p className="text-muted-foreground">
-                {t('Tools.chosung-quiz.description', '초성을 보고 단어를 맞춰보세요!')}
+                {t('Tools.chosung-quiz.setupDesc', '퀴즈 단어를 추가하고 게임을 시작하세요!')}
               </p>
             </div>
-            <Button 
-              size="lg" 
-              onClick={startQuiz}
-              className="gap-2 text-lg px-8"
-              data-testid="button-start"
-            >
-              <Play className="w-5 h-5" />
-              {t('Tools.chosung-quiz.start', '시작하기')}
-            </Button>
+
+            <Card>
+              <CardContent className="p-4 space-y-4">
+                <h3 className="font-semibold">{t('Tools.chosung-quiz.addSingle', '개별 추가')}</h3>
+                <div className="space-y-2">
+                  <Label>{t('Tools.chosung-quiz.customWord', '단어')}</Label>
+                  <Input
+                    value={customWord}
+                    onChange={(e) => setCustomWord(e.target.value)}
+                    placeholder={t('Tools.chosung-quiz.wordPlaceholder', '한글 단어 입력')}
+                    data-testid="input-custom-word"
+                  />
+                  {customWord && (
+                    <p className="text-sm text-muted-foreground">
+                      {t('Tools.chosung-quiz.preview', '초성')}: <strong className="text-primary text-lg">{getChosung(customWord)}</strong>
+                    </p>
+                  )}
+                </div>
+                <div className="space-y-2">
+                  <Label>{t('Tools.chosung-quiz.customHint', '힌트 (선택)')}</Label>
+                  <Input
+                    value={customHint}
+                    onChange={(e) => setCustomHint(e.target.value)}
+                    placeholder={t('Tools.chosung-quiz.hintPlaceholder', '힌트 입력 (선택사항)')}
+                    onKeyDown={(e) => e.key === 'Enter' && addCustomQuiz()}
+                    data-testid="input-custom-hint"
+                  />
+                </div>
+                <Button 
+                  onClick={addCustomQuiz}
+                  disabled={!customWord.trim()}
+                  className="w-full gap-2"
+                  data-testid="button-add-quiz"
+                >
+                  <Plus className="w-4 h-4" />
+                  {t('Tools.chosung-quiz.addQuiz', '퀴즈 추가')}
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardContent className="p-4 space-y-4">
+                <h3 className="font-semibold">{t('Tools.chosung-quiz.bulkAdd', '한번에 추가')}</h3>
+                <p className="text-sm text-muted-foreground">
+                  {t('Tools.chosung-quiz.bulkHint', '한 줄에 하나씩, 쉼표로 힌트 구분 (선택)')}
+                </p>
+                <Textarea
+                  value={bulkInput}
+                  onChange={(e) => setBulkInput(e.target.value)}
+                  placeholder={t('Tools.chosung-quiz.bulkPlaceholder', '아이스크림, 여름에 먹는 차가운 것\n스마트폰\n컴퓨터, 일할 때 사용')}
+                  className="min-h-[120px] font-mono"
+                  data-testid="textarea-bulk"
+                />
+                <Button 
+                  onClick={parseBulkInput}
+                  disabled={!bulkInput.trim()}
+                  variant="outline"
+                  className="w-full gap-2"
+                  data-testid="button-parse-bulk"
+                >
+                  <Plus className="w-4 h-4" />
+                  {t('Tools.chosung-quiz.parseBulk', '일괄 추가')}
+                </Button>
+              </CardContent>
+            </Card>
+
+            {quizzes.length > 0 && (
+              <div className="space-y-4">
+                <div className="flex items-center justify-between flex-wrap gap-2">
+                  <h3 className="font-semibold">
+                    {t('Tools.chosung-quiz.quizList', '퀴즈 목록')} ({quizzes.length})
+                  </h3>
+                  <div className="flex gap-2">
+                    <Button 
+                      variant="outline"
+                      size="sm"
+                      onClick={shuffleQuizzes}
+                      className="gap-1"
+                      data-testid="button-shuffle"
+                    >
+                      <Shuffle className="w-4 h-4" />
+                    </Button>
+                    <Button 
+                      onClick={startQuiz}
+                      className="gap-2"
+                      data-testid="button-start"
+                    >
+                      <Play className="w-4 h-4" />
+                      {t('Tools.chosung-quiz.start', '시작하기')}
+                    </Button>
+                  </div>
+                </div>
+                <div className="space-y-2 max-h-[300px] overflow-y-auto">
+                  {quizzes.map((q, i) => (
+                    <div 
+                      key={i} 
+                      className="flex items-center justify-between p-3 bg-muted rounded-md gap-2"
+                    >
+                      <div className="flex-1 min-w-0">
+                        <span className="font-mono text-primary mr-2">{q.chosung}</span>
+                        <span className="text-sm text-muted-foreground">({q.answer})</span>
+                        {q.hint && <span className="text-xs text-muted-foreground ml-2">- {q.hint}</span>}
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => deleteQuiz(i)}
+                        data-testid={`button-delete-${i}`}
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         )}
 
         {(gameState === 'playing' || gameState === 'revealed' || gameState === 'correct') && (
           <div className="space-y-6">
-            <div className="flex flex-col items-center space-y-4">
-              {currentQuiz.category && (
-                <Badge variant="secondary">
-                  {currentQuiz.category}
+            <div className="flex items-center justify-between flex-wrap gap-2">
+              <div className="flex items-center gap-2">
+                <Badge variant="outline" className="text-base px-3 py-1">
+                  {currentIndex + 1} / {quizzes.length}
                 </Badge>
-              )}
-              
+                <Badge className="gap-1">
+                  <Trophy className="w-3 h-3" />
+                  {score}
+                </Badge>
+              </div>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={goBack}
+                className="gap-1"
+                data-testid="button-back"
+              >
+                {t('Tools.chosung-quiz.back', '목록으로')}
+              </Button>
+            </div>
+
+            <div className="flex flex-col items-center space-y-4">
               <Card className="w-full max-w-lg">
                 <CardContent className="p-8 text-center">
                   <p className="text-5xl md:text-7xl font-bold tracking-widest text-primary">

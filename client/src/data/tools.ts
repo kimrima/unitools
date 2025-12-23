@@ -159,7 +159,7 @@ export const categories: Category[] = [
   { id: 'social', icon: Share2, toolCount: 20 },
   { id: 'developer', icon: Code, toolCount: 20 },
   { id: 'calculator', icon: Calculator, toolCount: 23 },
-  { id: 'funMisc', icon: Dices, toolCount: 31 },
+  { id: 'funMisc', icon: Dices, toolCount: 29 },
 ];
 
 export const allTools: Tool[] = [
@@ -2499,18 +2499,6 @@ export const allTools: Tool[] = [
     outputFormats: ['text'],
   },
   { 
-    id: 'liar-game', 
-    category: 'funMisc', 
-    icon: Users, 
-    implemented: true,
-    usageCount: 2345678,
-    rating: 4.9,
-    ratingCount: 45600,
-    relatedTools: ['balance-game', 'chosung-quiz', 'silent-shout'],
-    acceptedFormats: ['text'],
-    outputFormats: ['text'],
-  },
-  { 
     id: 'balance-game', 
     category: 'funMisc', 
     icon: Scale, 
@@ -2579,18 +2567,6 @@ export const allTools: Tool[] = [
     rating: 4.6,
     ratingCount: 19800,
     relatedTools: ['reaction-time', 'cps-test', 'stopwatch'],
-    acceptedFormats: [],
-    outputFormats: ['text'],
-  },
-  { 
-    id: 'memory-game', 
-    category: 'funMisc', 
-    icon: Brain, 
-    implemented: true,
-    usageCount: 1543210,
-    rating: 4.8,
-    ratingCount: 35600,
-    relatedTools: ['reaction-time', 'number-guessing', 'chosung-quiz'],
     acceptedFormats: [],
     outputFormats: ['text'],
   },
