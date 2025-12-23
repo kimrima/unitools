@@ -1,68 +1,126 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Copy, Hash, RefreshCw } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Copy, Hash, Shuffle, TrendingUp, Camera, Music, Utensils, Plane, Dumbbell, Briefcase, Heart, Sparkles } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
-const HASHTAG_DATABASE: Record<string, string[]> = {
-  travel: ['travel', 'wanderlust', 'travelgram', 'instatravel', 'travelphotography', 'adventure', 'explore', 'vacation', 'trip', 'traveler', 'traveling', 'traveltheworld', 'travelblogger', 'passport', 'tourism', 'holiday', 'backpacking', 'roadtrip', 'globetrotter', 'destinations'],
-  food: ['food', 'foodie', 'foodporn', 'instafood', 'yummy', 'delicious', 'foodphotography', 'foodstagram', 'cooking', 'homemade', 'foodlover', 'dinner', 'lunch', 'breakfast', 'recipe', 'chef', 'healthy', 'tasty', 'restaurant', 'eatlocal'],
-  fitness: ['fitness', 'gym', 'workout', 'fit', 'motivation', 'training', 'health', 'exercise', 'bodybuilding', 'fitnessmotivation', 'muscle', 'healthy', 'fitfam', 'gains', 'strength', 'cardio', 'lifestyle', 'gymlife', 'fitnessjourney', 'sport'],
-  fashion: ['fashion', 'style', 'ootd', 'fashionblogger', 'instafashion', 'outfit', 'streetstyle', 'fashionista', 'trendy', 'stylish', 'clothing', 'model', 'look', 'fashionstyle', 'shopping', 'dress', 'beauty', 'accessories', 'designer', 'luxury'],
-  photography: ['photography', 'photo', 'photographer', 'photooftheday', 'instagood', 'picoftheday', 'portrait', 'nature', 'art', 'landscape', 'photoshoot', 'camera', 'instagram', 'beautiful', 'capture', 'shot', 'streetphotography', 'sunset', 'light', 'color'],
-  business: ['business', 'entrepreneur', 'marketing', 'success', 'motivation', 'startup', 'money', 'smallbusiness', 'branding', 'digital', 'socialmedia', 'growth', 'leadership', 'invest', 'networking', 'goals', 'work', 'hustle', 'mindset', 'ceo'],
-  beauty: ['beauty', 'makeup', 'skincare', 'beautiful', 'style', 'cosmetics', 'hair', 'makeupartist', 'fashion', 'lipstick', 'beautyblogger', 'glam', 'skin', 'selfcare', 'nails', 'eyeshadow', 'beautytips', 'natural', 'glow', 'mua'],
-  tech: ['tech', 'technology', 'innovation', 'coding', 'programming', 'developer', 'software', 'ai', 'startup', 'digital', 'gadgets', 'computer', 'data', 'web', 'app', 'science', 'future', 'iot', 'cloud', 'cybersecurity'],
+interface HashtagCategory {
+  icon: typeof Hash;
+  tags: string[];
+}
+
+const HASHTAG_DATABASE: Record<string, HashtagCategory> = {
+  trending: {
+    icon: TrendingUp,
+    tags: ['viral', 'trending', 'fyp', 'foryou', 'explore', 'popular', 'hot', 'trend', 'featured', 'discover', 'reels', 'shorts', 'tiktok', 'viral2024', 'trendingnow', 'viralpost', 'explorepage', 'foryoupage']
+  },
+  photography: {
+    icon: Camera,
+    tags: ['photography', 'photooftheday', 'photo', 'photographer', 'photoshoot', 'portrait', 'landscape', 'streetphotography', 'naturephotography', 'travelphotography', 'mobilephotography', 'sunset', 'sunrise', 'goldenhour', 'lightroom', 'vsco', 'aestheticphotography', 'shotoniphone']
+  },
+  music: {
+    icon: Music,
+    tags: ['music', 'musician', 'singer', 'songwriter', 'newmusic', 'musicproducer', 'hiphop', 'kpop', 'pop', 'rock', 'jazz', 'acoustic', 'guitar', 'piano', 'beats', 'studio', 'musicvideo', 'concert', 'livemusic', 'spotify']
+  },
+  food: {
+    icon: Utensils,
+    tags: ['food', 'foodie', 'foodporn', 'foodstagram', 'instafood', 'yummy', 'delicious', 'cooking', 'homemade', 'recipe', 'healthyfood', 'vegan', 'vegetarian', 'dessert', 'breakfast', 'lunch', 'dinner', 'foodphotography', 'tasty', 'chef']
+  },
+  travel: {
+    icon: Plane,
+    tags: ['travel', 'travelphotography', 'travelgram', 'traveling', 'wanderlust', 'adventure', 'explore', 'vacation', 'holiday', 'travelblogger', 'instatravel', 'roadtrip', 'nature', 'beach', 'mountains', 'cityscape', 'backpacking', 'tourist', 'destination', 'trip']
+  },
+  fitness: {
+    icon: Dumbbell,
+    tags: ['fitness', 'gym', 'workout', 'fit', 'fitnessmotivation', 'bodybuilding', 'training', 'health', 'healthy', 'exercise', 'muscle', 'strength', 'cardio', 'yoga', 'running', 'crossfit', 'personaltrainer', 'weightloss', 'gains', 'motivation']
+  },
+  business: {
+    icon: Briefcase,
+    tags: ['business', 'entrepreneur', 'startup', 'marketing', 'success', 'motivation', 'money', 'investing', 'finance', 'smallbusiness', 'branding', 'digitalmarketing', 'socialmedia', 'growth', 'hustle', 'leadership', 'innovation', 'networking', 'ceo', 'mindset']
+  },
+  lifestyle: {
+    icon: Heart,
+    tags: ['lifestyle', 'life', 'happy', 'love', 'instagood', 'beautiful', 'style', 'fashion', 'beauty', 'selfcare', 'wellness', 'mindfulness', 'positivevibes', 'motivation', 'inspiration', 'goals', 'dream', 'blessed', 'grateful', 'mood']
+  },
+  aesthetic: {
+    icon: Sparkles,
+    tags: ['aesthetic', 'aesthetics', 'vibes', 'mood', 'art', 'artsy', 'minimal', 'minimalist', 'vintage', 'retro', 'grunge', 'softaesthetic', 'darkaesthetic', 'pastel', 'tumblr', 'pinterest', 'cozy', 'dreamy', 'ethereal', 'moodboard']
+  },
 };
 
 export default function HashtagGeneratorTool() {
   const { t } = useTranslation();
   const { toast } = useToast();
-  const [keyword, setKeyword] = useState('');
-  const [category, setCategory] = useState('');
-  const [count, setCount] = useState('15');
-  const [hashtags, setHashtags] = useState<string[]>([]);
+  const [keywords, setKeywords] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<string>('trending');
+  const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set());
+  const [customTags, setCustomTags] = useState<string[]>([]);
 
-  const generateHashtags = () => {
-    let result: string[] = [];
+  const suggestedFromKeywords = useMemo(() => {
+    if (!keywords.trim()) return [];
     
-    if (keyword) {
-      result.push(keyword.toLowerCase().replace(/\s+/g, ''));
-      result.push(`${keyword.toLowerCase().replace(/\s+/g, '')}life`);
-      result.push(`${keyword.toLowerCase().replace(/\s+/g, '')}gram`);
-      result.push(`insta${keyword.toLowerCase().replace(/\s+/g, '')}`);
-      result.push(`${keyword.toLowerCase().replace(/\s+/g, '')}lover`);
-    }
+    const words = keywords.toLowerCase().split(/[\s,]+/).filter(w => w.length > 0);
+    const suggestions: string[] = [];
     
-    if (category && HASHTAG_DATABASE[category]) {
-      const categoryTags = [...HASHTAG_DATABASE[category]];
-      categoryTags.sort(() => Math.random() - 0.5);
-      result = [...result, ...categoryTags];
-    }
-    
-    const uniqueTags = Array.from(new Set(result)).slice(0, parseInt(count));
-    setHashtags(uniqueTags);
-  };
-
-  const handleCopy = async (tag: string) => {
-    await navigator.clipboard.writeText(`#${tag}`);
-    toast({
-      title: t('Common.messages.complete'),
-      description: t('Common.actions.copy'),
+    words.forEach(word => {
+      suggestions.push(word.replace(/[^a-z0-9]/g, ''));
+      
+      Object.values(HASHTAG_DATABASE).forEach(category => {
+        category.tags.forEach(tag => {
+          if (tag.includes(word) || word.includes(tag)) {
+            if (!suggestions.includes(tag)) {
+              suggestions.push(tag);
+            }
+          }
+        });
+      });
     });
+    
+    return suggestions.filter(s => s.length > 0).slice(0, 15);
+  }, [keywords]);
+
+  const toggleTag = (tag: string) => {
+    const newSelected = new Set(selectedTags);
+    if (newSelected.has(tag)) {
+      newSelected.delete(tag);
+    } else {
+      newSelected.add(tag);
+    }
+    setSelectedTags(newSelected);
   };
 
-  const handleCopyAll = async () => {
-    const text = hashtags.map(tag => `#${tag}`).join(' ');
-    await navigator.clipboard.writeText(text);
+  const addCustomTag = () => {
+    const trimmed = keywords.trim().replace(/^#/, '').replace(/[^a-zA-Z0-9_]/g, '');
+    if (trimmed && !customTags.includes(trimmed) && !selectedTags.has(trimmed)) {
+      setCustomTags([...customTags, trimmed]);
+      setSelectedTags(new Set([...selectedTags, trimmed]));
+      setKeywords('');
+    }
+  };
+
+  const selectRandomTags = (count: number = 10) => {
+    const category = HASHTAG_DATABASE[selectedCategory];
+    const shuffled = [...category.tags].sort(() => Math.random() - 0.5);
+    const selected = shuffled.slice(0, count);
+    setSelectedTags(new Set([...selectedTags, ...selected]));
+  };
+
+  const clearSelection = () => {
+    setSelectedTags(new Set());
+    setCustomTags([]);
+  };
+
+  const copyTags = async () => {
+    const allTags = Array.from(selectedTags).map(tag => '#' + tag).join(' ');
+    await navigator.clipboard.writeText(allTags);
     toast({
       title: t('Common.messages.complete'),
-      description: t('Tools.hashtag-generator.allCopied'),
+      description: selectedTags.size + ' ' + t('Tools.hashtag-generator.tagsCopied'),
     });
   };
 
@@ -71,76 +129,116 @@ export default function HashtagGeneratorTool() {
       <Card>
         <CardContent className="pt-6">
           <div className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="space-y-2">
-                <Label>{t('Tools.hashtag-generator.keywordLabel')}</Label>
+            <div className="space-y-2">
+              <Label>{t('Tools.hashtag-generator.keywordsLabel')}</Label>
+              <div className="flex gap-2">
                 <Input
-                  placeholder={t('Tools.hashtag-generator.keywordPlaceholder')}
-                  value={keyword}
-                  onChange={(e) => setKeyword(e.target.value)}
-                  data-testid="input-keyword"
+                  placeholder={t('Tools.hashtag-generator.keywordsPlaceholder')}
+                  value={keywords}
+                  onChange={(e) => setKeywords(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && addCustomTag()}
+                  data-testid="input-keywords"
                 />
-              </div>
-              
-              <div className="space-y-2">
-                <Label>{t('Tools.hashtag-generator.categoryLabel')}</Label>
-                <Select value={category} onValueChange={setCategory}>
-                  <SelectTrigger data-testid="select-category">
-                    <SelectValue placeholder={t('Tools.hashtag-generator.categoryPlaceholder')} />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {Object.keys(HASHTAG_DATABASE).map((cat) => (
-                      <SelectItem key={cat} value={cat} className="capitalize">
-                        {cat}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              
-              <div className="space-y-2">
-                <Label>{t('Tools.hashtag-generator.countLabel')}</Label>
-                <Select value={count} onValueChange={setCount}>
-                  <SelectTrigger data-testid="select-count">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="10">10</SelectItem>
-                    <SelectItem value="15">15</SelectItem>
-                    <SelectItem value="20">20</SelectItem>
-                    <SelectItem value="30">30</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-            
-            <div className="flex gap-2">
-              <Button onClick={generateHashtags} disabled={!keyword && !category} data-testid="button-generate">
-                <Hash className="h-4 w-4 mr-2" />
-                {t('Tools.hashtag-generator.generate')}
-              </Button>
-              {hashtags.length > 0 && (
-                <Button variant="outline" onClick={handleCopyAll} data-testid="button-copy-all">
-                  <Copy className="h-4 w-4 mr-2" />
-                  {t('Tools.hashtag-generator.copyAll')}
+                <Button onClick={addCustomTag} disabled={!keywords.trim()} data-testid="button-add">
+                  <Hash className="h-4 w-4 mr-2" />
+                  {t('Tools.hashtag-generator.addTag')}
                 </Button>
-              )}
+              </div>
             </div>
-            
-            {hashtags.length > 0 && (
+
+            {suggestedFromKeywords.length > 0 && (
               <div className="space-y-2">
-                <Label>{t('Tools.hashtag-generator.resultLabel')}</Label>
-                <div className="flex flex-wrap gap-2 p-4 rounded-lg bg-muted/30 border">
-                  {hashtags.map((tag, index) => (
+                <Label className="text-muted-foreground">{t('Tools.hashtag-generator.suggestions')}</Label>
+                <div className="flex flex-wrap gap-2">
+                  {suggestedFromKeywords.map((tag) => (
                     <Badge
-                      key={index}
-                      variant="secondary"
-                      className="cursor-pointer text-sm py-1 px-2"
-                      onClick={() => handleCopy(tag)}
+                      key={tag}
+                      variant={selectedTags.has(tag) ? 'default' : 'outline'}
+                      className="cursor-pointer"
+                      onClick={() => toggleTag(tag)}
+                      data-testid={'badge-suggestion-' + tag}
                     >
                       #{tag}
                     </Badge>
                   ))}
+                </div>
+              </div>
+            )}
+
+            <Tabs value={selectedCategory} onValueChange={setSelectedCategory}>
+              <TabsList className="flex flex-wrap h-auto gap-1">
+                {Object.entries(HASHTAG_DATABASE).map(([key, { icon: Icon }]) => (
+                  <TabsTrigger key={key} value={key} className="gap-1" data-testid={'tab-' + key}>
+                    <Icon className="h-4 w-4" />
+                    <span className="hidden sm:inline">{t('Tools.hashtag-generator.categories.' + key)}</span>
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+              
+              {Object.entries(HASHTAG_DATABASE).map(([key, { tags }]) => (
+                <TabsContent key={key} value={key} className="mt-4">
+                  <div className="flex flex-wrap gap-2">
+                    {tags.map((tag) => (
+                      <Badge
+                        key={tag}
+                        variant={selectedTags.has(tag) ? 'default' : 'secondary'}
+                        className="cursor-pointer"
+                        onClick={() => toggleTag(tag)}
+                        data-testid={'badge-' + key + '-' + tag}
+                      >
+                        #{tag}
+                      </Badge>
+                    ))}
+                  </div>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="mt-3"
+                    onClick={() => selectRandomTags(10)}
+                    data-testid="button-random"
+                  >
+                    <Shuffle className="h-4 w-4 mr-2" />
+                    {t('Tools.hashtag-generator.randomSelect')}
+                  </Button>
+                </TabsContent>
+              ))}
+            </Tabs>
+
+            {selectedTags.size > 0 && (
+              <div className="space-y-3 pt-4 border-t">
+                <div className="flex items-center justify-between gap-2">
+                  <Label>{t('Tools.hashtag-generator.selectedTags')} ({selectedTags.size}/30)</Label>
+                  <div className="flex gap-2">
+                    <Button variant="ghost" size="sm" onClick={clearSelection} data-testid="button-clear">
+                      {t('Common.actions.clear')}
+                    </Button>
+                    <Button size="sm" onClick={copyTags} data-testid="button-copy-all">
+                      <Copy className="h-4 w-4 mr-2" />
+                      {t('Common.actions.copy')}
+                    </Button>
+                  </div>
+                </div>
+                
+                <div className="p-4 rounded-lg bg-muted/30 border">
+                  <div className="flex flex-wrap gap-2">
+                    {Array.from(selectedTags).map((tag) => (
+                      <Badge
+                        key={tag}
+                        variant="default"
+                        className="cursor-pointer"
+                        onClick={() => toggleTag(tag)}
+                        data-testid={'badge-selected-' + tag}
+                      >
+                        #{tag} x
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+                
+                <div className="p-3 rounded-lg bg-muted/50 text-sm text-muted-foreground">
+                  <code className="text-xs break-all">
+                    {Array.from(selectedTags).map(tag => '#' + tag).join(' ')}
+                  </code>
                 </div>
               </div>
             )}

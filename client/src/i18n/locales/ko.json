@@ -1272,22 +1272,32 @@
       "title": "해시태그 생성기",
       "description": "소셜 미디어 게시물에 맞는 인기 해시태그를 생성하세요.",
       "shortDesc": "해시태그 생성",
-      "keywordLabel": "키워드",
-      "keywordPlaceholder": "주제 키워드 입력",
-      "categoryLabel": "카테고리",
-      "categoryPlaceholder": "카테고리 선택",
-      "countLabel": "해시태그 개수",
-      "generate": "해시태그 생성",
-      "copyAll": "전체 복사",
-      "resultLabel": "생성된 해시태그",
-      "allCopied": "모든 해시태그가 복사되었습니다!"
+      "keywordsLabel": "키워드",
+      "keywordsPlaceholder": "주제나 키워드를 입력하세요...",
+      "addTag": "추가",
+      "suggestions": "추천",
+      "selectedTags": "선택된 해시태그",
+      "randomSelect": "랜덤 10개",
+      "tagsCopied": "개의 해시태그가 복사되었습니다!",
+      "categories": {
+        "trending": "트렌딩",
+        "photography": "사진",
+        "music": "음악",
+        "food": "음식",
+        "travel": "여행",
+        "fitness": "피트니스",
+        "business": "비즈니스",
+        "lifestyle": "라이프스타일",
+        "aesthetic": "감성"
+      }
     },
     "instagram-font": {
       "title": "인스타그램 폰트 변환기",
       "description": "인스타그램 프로필과 캡션용 예쁜 유니코드 폰트로 변환하세요.",
       "shortDesc": "인스타용 예쁜 폰트",
       "inputLabel": "텍스트 입력",
-      "placeholder": "텍스트를 입력하세요..."
+      "placeholder": "텍스트를 입력하세요...",
+      "hint": "위에 텍스트를 입력하면 20가지 이상의 폰트 스타일로 변환됩니다"
     },
     "tiktok-safe-zone": {
       "title": "틱톡 안전 영역 체커",
@@ -1326,19 +1336,18 @@
       "invalidUrl": "잘못된 유튜브 URL 또는 영상 ID입니다",
       "noVideo": "썸네일을 받으려면 유튜브 URL을 입력하세요"
     },
-    "youtube-tags": {
-      "title": "유튜브 태그 추출기",
-      "description": "유튜브 영상에 사용된 태그를 추출하여 SEO 분석에 활용하세요.",
-      "shortDesc": "영상 태그 추출",
-      "notice": "이 도구는 샘플 태그를 보여줍니다. 유튜브 API는 더 이상 영상 태그를 공개하지 않습니다.",
-      "urlLabel": "유튜브 영상 URL",
-      "urlPlaceholder": "유튜브 영상 URL을 붙여넣기...",
-      "extract": "태그 추출",
-      "tagsLabel": "추출된 태그",
-      "copyAll": "전체 복사",
-      "allCopied": "모든 태그가 복사되었습니다!",
-      "invalidUrl": "잘못된 유튜브 URL입니다",
-      "noTags": "태그를 추출하려면 유튜브 URL을 입력하세요"
+    "twitter-char-count": {
+      "title": "트위터/X 글자수 카운터",
+      "description": "URL과 멘션 규칙을 적용한 트위터/X 게시물 글자수를 계산하세요.",
+      "shortDesc": "X 글자수 세기",
+      "placeholder": "게시물을 작성하세요...",
+      "remaining": "{{count}}자 남음",
+      "over": "{{count}}자 초과",
+      "characters": "글자수",
+      "urls": "URL",
+      "mentions": "멘션",
+      "hashtags": "해시태그",
+      "urlNote": "URL은 실제 길이와 상관없이 23자로 계산됩니다"
     },
     "youtube-channel-id": {
       "title": "유튜브 채널 ID 찾기",

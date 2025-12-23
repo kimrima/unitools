@@ -1266,22 +1266,32 @@
       "title": "Hashtag Generator",
       "description": "Generate popular and relevant hashtags for your social media posts.",
       "shortDesc": "Generate hashtags",
-      "keywordLabel": "Keyword",
-      "keywordPlaceholder": "Enter your main topic",
-      "categoryLabel": "Category",
-      "categoryPlaceholder": "Select a category",
-      "countLabel": "Number of Hashtags",
-      "generate": "Generate Hashtags",
-      "copyAll": "Copy All",
-      "resultLabel": "Generated Hashtags",
-      "allCopied": "All hashtags copied!"
+      "keywordsLabel": "Keywords",
+      "keywordsPlaceholder": "Enter topic or keyword...",
+      "addTag": "Add",
+      "suggestions": "Suggestions",
+      "selectedTags": "Selected Hashtags",
+      "randomSelect": "Random 10",
+      "tagsCopied": "hashtags copied!",
+      "categories": {
+        "trending": "Trending",
+        "photography": "Photography",
+        "music": "Music",
+        "food": "Food",
+        "travel": "Travel",
+        "fitness": "Fitness",
+        "business": "Business",
+        "lifestyle": "Lifestyle",
+        "aesthetic": "Aesthetic"
+      }
     },
     "instagram-font": {
       "title": "Instagram Font Converter",
       "description": "Convert regular text to fancy Unicode fonts for Instagram bio and captions.",
       "shortDesc": "Fancy fonts for Instagram",
       "inputLabel": "Your Text",
-      "placeholder": "Type something..."
+      "placeholder": "Type something...",
+      "hint": "Enter text above to see it converted to 20+ different font styles"
     },
     "tiktok-safe-zone": {
       "title": "TikTok Safe Zone Checker",
@@ -1320,19 +1330,18 @@
       "invalidUrl": "Invalid YouTube URL or video ID",
       "noVideo": "Enter a YouTube URL to get thumbnails"
     },
-    "youtube-tags": {
-      "title": "YouTube Tag Extractor",
-      "description": "Extract tags used in any YouTube video for SEO research.",
-      "shortDesc": "Extract video tags",
-      "notice": "This tool shows sample tags. YouTube's API no longer exposes video tags publicly.",
-      "urlLabel": "YouTube Video URL",
-      "urlPlaceholder": "Paste YouTube video URL...",
-      "extract": "Extract Tags",
-      "tagsLabel": "Extracted Tags",
-      "copyAll": "Copy All",
-      "allCopied": "All tags copied!",
-      "invalidUrl": "Invalid YouTube URL",
-      "noTags": "Enter a YouTube URL to extract tags"
+    "twitter-char-count": {
+      "title": "Twitter/X Character Counter",
+      "description": "Count characters for Twitter/X posts with proper URL and mention handling.",
+      "shortDesc": "Count X post characters",
+      "placeholder": "Write your post here...",
+      "remaining": "{{count}} characters remaining",
+      "over": "{{count}} characters over limit",
+      "characters": "Characters",
+      "urls": "URLs",
+      "mentions": "Mentions",
+      "hashtags": "Hashtags",
+      "urlNote": "URLs count as 23 characters regardless of actual length"
     },
     "youtube-channel-id": {
       "title": "YouTube Channel ID Finder",

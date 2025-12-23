@@ -120,7 +120,7 @@ const HashtagGeneratorTool = lazy(() => import('@/components/tools/HashtagGenera
 const TiktokSafeZoneTool = lazy(() => import('@/components/tools/TiktokSafeZoneTool'));
 const InstagramGridTool = lazy(() => import('@/components/tools/InstagramGridTool'));
 const YoutubeThumbnailTool = lazy(() => import('@/components/tools/YoutubeThumbnailTool'));
-const YoutubeTagsTool = lazy(() => import('@/components/tools/YoutubeTagsTool'));
+const TwitterCharCountTool = lazy(() => import('@/components/tools/TwitterCharCountTool'));
 const YoutubeChannelIdTool = lazy(() => import('@/components/tools/YoutubeChannelIdTool'));
 const VideoTitleLengthTool = lazy(() => import('@/components/tools/VideoTitleLengthTool'));
 const BarcodeGeneratorTool = lazy(() => import('@/components/tools/BarcodeGeneratorTool'));
@@ -285,7 +285,7 @@ const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element
   'tiktok-safe-zone': TiktokSafeZoneTool,
   'instagram-grid': InstagramGridTool,
   'youtube-thumbnail': YoutubeThumbnailTool,
-  'youtube-tags': YoutubeTagsTool,
+  'twitter-char-count': TwitterCharCountTool,
   'youtube-channel-id': YoutubeChannelIdTool,
   'video-title-length': VideoTitleLengthTool,
   'qr-code-generator': QrCodeTool,
