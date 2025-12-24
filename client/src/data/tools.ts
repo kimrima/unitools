@@ -1982,9 +1982,21 @@ export const allTools: Tool[] = [
     usageCount: 145230,
     rating: 4.8,
     ratingCount: 2890,
-    relatedTools: ['favicon-generator', 'simple-logo-generator', 'color-converter'],
+    relatedTools: ['favicon-generator', 'meta-tag-generator', 'color-converter'],
     acceptedFormats: ['image/jpeg', 'image/png', 'image/webp'],
     outputFormats: ['png'],
+  },
+  { 
+    id: 'meta-tag-generator', 
+    category: 'developer', 
+    icon: Code, 
+    implemented: true,
+    usageCount: 178450,
+    rating: 4.9,
+    ratingCount: 3560,
+    relatedTools: ['og-image-generator', 'json-formatter', 'html-minifier'],
+    acceptedFormats: [],
+    outputFormats: ['text'],
   },
   
   // Calculator Tools - Global Finance

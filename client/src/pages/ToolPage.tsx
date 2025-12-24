@@ -191,6 +191,7 @@ const RemoveExifTool = lazy(() => import('@/components/tools/RemoveExifTool'));
 const ImageJoinerTool = lazy(() => import('@/components/tools/ImageJoinerTool'));
 const FaviconGeneratorTool = lazy(() => import('@/components/tools/FaviconGeneratorTool'));
 const OgImageGeneratorTool = lazy(() => import('@/pages/tools/OgImageGeneratorTool'));
+const MetaTagGeneratorTool = lazy(() => import('@/pages/tools/MetaTagGeneratorTool'));
 const CoinFlipTool = lazy(() => import('@/components/tools/CoinFlipTool'));
 const RandomColorTool = lazy(() => import('@/components/tools/RandomColorTool'));
 const CountdownTimerTool = lazy(() => import('@/components/tools/CountdownTimerTool'));
@@ -270,6 +271,7 @@ const toolComponents: Record<string, React.LazyExoticComponent<() => JSX.Element
   'image-joiner': ImageJoinerTool,
   'favicon-generator': FaviconGeneratorTool,
   'og-image-generator': OgImageGeneratorTool,
+  'meta-tag-generator': MetaTagGeneratorTool,
   'canvas-size': CanvasSizeTool,
   'video-to-gif': VideoToGifTool,
   'trim-video': TrimVideoTool,
