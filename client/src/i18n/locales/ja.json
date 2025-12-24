@@ -2625,6 +2625,11 @@
       "title": "聴力年齢テスト",
       "description": "聴力周波数テスト。",
       "shortDesc": "聴力テスト"
+    },
+    "og-image-generator": {
+      "title": "OG画像ジェネレーター",
+      "description": "ソーシャルメディア共有用のOpen Graph画像を作成します。",
+      "shortDesc": "SNSプレビュー画像作成"
     }
   }
 }

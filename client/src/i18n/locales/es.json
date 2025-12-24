@@ -2255,6 +2255,11 @@
       "title": "Test de Edad Auditiva",
       "description": "Test de frecuencia auditiva.",
       "shortDesc": "Test auditivo"
+    },
+    "og-image-generator": {
+      "title": "Generador de Imagen OG",
+      "description": "Crea imágenes Open Graph para compartir en redes sociales.",
+      "shortDesc": "Crear imagen de vista previa"
     }
   }
 }

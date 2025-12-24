@@ -1043,12 +1043,17 @@
     },
     "regex-tester": {
       "title": "Regex Tester",
-      "description": "Test and validate regular expression patterns.",
+      "description": "Test and debug regular expressions with real-time matching.",
       "shortDesc": "Test regex patterns",
-      "instructions": "Enter a regex pattern and test string to see matches.",
-      "inputLabel": "Test String",
-      "outputLabel": "Matches",
-      "placeholder": "Enter text to test against the pattern..."
+      "patternLabel": "Pattern",
+      "patternPlaceholder": "Enter regex pattern...",
+      "flagsLabel": "Flags",
+      "testLabel": "Test String",
+      "testPlaceholder": "Enter text to test against...",
+      "highlightLabel": "Highlighted Matches",
+      "matchesLabel": "Match Details",
+      "matches": "matches",
+      "noMatches": "No matches found"
     },
     "url-encode": {
       "title": "URL Encoder/Decoder",
@@ -1766,22 +1771,15 @@
     },
     "password-generator": {
       "title": "Password Generator",
-      "description": "Generate strong, random passwords with customizable options.",
-      "shortDesc": "Generate passwords",
-      "lengthLabel": "Password Length",
+      "description": "Generate secure and strong random passwords.",
+      "shortDesc": "Secure password generator",
+      "length": "Length",
       "uppercase": "Uppercase (A-Z)",
       "lowercase": "Lowercase (a-z)",
       "numbers": "Numbers (0-9)",
-      "symbols": "Symbols (!@#$%)",
+      "symbols": "Symbols (!@#$...)",
       "generate": "Generate Password",
-      "regenerate": "Regenerate",
-      "passwordLabel": "Generated Password",
-      "strengthLabel": "Strength",
-      "weak": "Weak",
-      "medium": "Medium",
-      "strong": "Strong",
-      "veryStrong": "Very Strong",
-      "copied": "Password copied!"
+      "strength": "Strength"
     },
     "uuid-generator": {
       "title": "UUID/GUID Generator",
@@ -1834,20 +1832,6 @@
       "onDayX": "on day {{x}}",
       "inMonthX": "in {{x}}",
       "onDayOfWeekX": "on {{x}}"
-    },
-    "regex-tester": {
-      "title": "Regex Tester",
-      "description": "Test and debug regular expressions with real-time matching.",
-      "shortDesc": "Test regex patterns",
-      "patternLabel": "Pattern",
-      "patternPlaceholder": "Enter regex pattern...",
-      "flagsLabel": "Flags",
-      "testLabel": "Test String",
-      "testPlaceholder": "Enter text to test against...",
-      "highlightLabel": "Highlighted Matches",
-      "matchesLabel": "Match Details",
-      "matches": "matches",
-      "noMatches": "No matches found"
     },
     "ipv4-to-ipv6": {
       "title": "IPv4 to IPv6 Converter",
@@ -2249,18 +2233,6 @@
       "laps": "Lap Records",
       "lapNumber": "Lap"
     },
-    "password-generator": {
-      "title": "Password Generator",
-      "description": "Generate secure and strong random passwords.",
-      "shortDesc": "Secure password generator",
-      "length": "Length",
-      "uppercase": "Uppercase (A-Z)",
-      "lowercase": "Lowercase (a-z)",
-      "numbers": "Numbers (0-9)",
-      "symbols": "Symbols (!@#$...)",
-      "generate": "Generate Password",
-      "strength": "Strength"
-    },
     "wheel-spinner": {
       "title": "Wheel Spinner",
       "description": "Enter items and spin the wheel to randomly select.",
@@ -2373,7 +2345,7 @@
       "description": "Test your internet connection download and upload speeds.",
       "shortDesc": "Test internet speed"
     },
-        "user-agent": {
+    "user-agent": {
       "title": "User Agent Checker",
       "description": "View your browser's user agent string and device information.",
       "shortDesc": "Check browser info"
@@ -2422,13 +2394,13 @@
       "tryAgain": "Maybe Just Friends?"
     },
     "breathing-exercise": {
+      "478": "4-7-8 Technique",
       "title": "Breathing Exercise",
       "description": "Guided breathing exercises for stress relief and focus improvement.",
       "shortDesc": "Meditation breathing guide",
       "pattern": "Breathing Pattern",
       "relaxed": "Relaxed (4-4)",
       "box": "Box Breathing (4-4-4-4)",
-      "478": "4-7-8 Technique",
       "calm": "Calming (4-2-6)",
       "inhale": "Inhale",
       "hold": "Hold",
@@ -2451,19 +2423,27 @@
     },
     "reaction-time": {
       "title": "Reaction Time Test",
-      "description": "Test how fast your reaction time is.",
-      "shortDesc": "Reaction speed test",
+      "description": "Test your reaction speed and compare with F1 drivers and pro gamers!",
+      "shortDesc": "Measure reaction speed",
       "click": "Click to Start",
-      "wait": "Wait for green...",
-      "clickNow": "Click Now!",
+      "clickToStart": "Click anywhere to start",
+      "wait": "Wait for lights out...",
+      "watchLights": "Watch the lights...",
+      "clickNow": "GO!",
       "tooSoon": "Too soon! Click to try again",
-      "excellent": "Excellent!",
-      "great": "Great!",
-      "good": "Good",
+      "excellent": "F1 Driver Level!",
+      "great": "Pro Gamer!",
+      "good": "Fast!",
       "average": "Average",
-      "slow": "Needs Practice",
-      "best": "Best Time",
-      "history": "Recent Results"
+      "slow": "Keep practicing",
+      "best": "Best",
+      "history": "Recent Results",
+      "benchmarks": "Benchmarks",
+      "howItWorks": "How it works",
+      "step1": "1. Click to start - red lights will appear one by one",
+      "step2": "2. Wait for all 5 lights to turn on",
+      "step3": "3. When lights go OUT (turn off), click as fast as you can!",
+      "step4": "4. If you click too early, you get a false start"
     },
     "number-guessing": {
       "title": "Number Guessing Game",
@@ -2567,30 +2547,6 @@
       "tip1": "Enter one name per line",
       "tip2": "Shuffle multiple times for different results",
       "tip3": "Copy and share with your group"
-    },
-    "reaction-time": {
-      "title": "Reaction Time Test",
-      "description": "Test your reaction speed and compare with F1 drivers and pro gamers!",
-      "shortDesc": "Measure reaction speed",
-      "click": "Click to Start",
-      "clickToStart": "Click anywhere to start",
-      "wait": "Wait for lights out...",
-      "watchLights": "Watch the lights...",
-      "clickNow": "GO!",
-      "tooSoon": "Too soon! Click to try again",
-      "excellent": "F1 Driver Level!",
-      "great": "Pro Gamer!",
-      "good": "Fast!",
-      "average": "Average",
-      "slow": "Keep practicing",
-      "best": "Best",
-      "history": "Recent Results",
-      "benchmarks": "Benchmarks",
-      "howItWorks": "How it works",
-      "step1": "1. Click to start - red lights will appear one by one",
-      "step2": "2. Wait for all 5 lights to turn on",
-      "step3": "3. When lights go OUT (turn off), click as fast as you can!",
-      "step4": "4. If you click too early, you get a false start"
     },
     "liar-game": {
       "title": "Liar Game",
@@ -2735,11 +2691,10 @@
     },
     "cps-test": {
       "title": "CPS Test",
-      "description": "Measure your clicks per second! Challenge your speed.",
+      "description": "Click as fast as you can for {{duration}} seconds!",
       "shortDesc": "Clicks per second test",
       "best": "Best",
       "clickToStart": "Click to Start",
-      "description": "Click as fast as you can for {{duration}} seconds!",
       "time": "Time",
       "clicks": "Clicks",
       "keepClicking": "Keep clicking!",
@@ -2856,6 +2811,11 @@
       "typical": "Typically heard by ages",
       "result": "Your Hearing Age",
       "retry": "Try Again"
+    },
+    "og-image-generator": {
+      "title": "OG Image Generator",
+      "description": "Create Open Graph images for social media sharing.",
+      "shortDesc": "Create social preview images"
     }
   }
 }

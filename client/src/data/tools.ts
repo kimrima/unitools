@@ -1974,6 +1974,18 @@ export const allTools: Tool[] = [
     acceptedFormats: ['text/plain'],
     outputFormats: ['text'],
   },
+  { 
+    id: 'og-image-generator', 
+    category: 'developer', 
+    icon: Image, 
+    implemented: true,
+    usageCount: 145230,
+    rating: 4.8,
+    ratingCount: 2890,
+    relatedTools: ['favicon-generator', 'simple-logo-generator', 'color-converter'],
+    acceptedFormats: ['image/jpeg', 'image/png', 'image/webp'],
+    outputFormats: ['png'],
+  },
   
   // Calculator Tools - Global Finance
   { 
