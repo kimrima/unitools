@@ -179,6 +179,15 @@ export default function MetaTagGeneratorTool() {
     return text.substring(0, maxLen) + '...';
   };
 
+  const getHostname = (url: string): string => {
+    if (!url) return 'example.com';
+    try {
+      return new URL(url).hostname;
+    } catch {
+      return 'example.com';
+    }
+  };
+
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -521,7 +530,7 @@ export default function MetaTagGeneratorTool() {
                   )}
                   <div className="p-3">
                     <p className="text-xs text-muted-foreground uppercase">
-                      {meta.url ? new URL(meta.url).hostname : 'example.com'}
+                      {getHostname(meta.url)}
                     </p>
                     <p className="font-semibold mt-1">
                       {truncate(meta.title || 'Page Title', 60)}
@@ -563,7 +572,7 @@ export default function MetaTagGeneratorTool() {
                       {truncate(meta.description || 'Page description...', 100)}
                     </p>
                     <p className="text-xs text-muted-foreground mt-2">
-                      {meta.url ? new URL(meta.url).hostname : 'example.com'}
+                      {getHostname(meta.url)}
                     </p>
                   </div>
                 </div>
